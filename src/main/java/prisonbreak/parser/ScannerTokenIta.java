@@ -11,16 +11,12 @@ public class ScannerTokenIta extends ScannerToken {
     private final Token adjective = new Token(TokenType.ADJECTIVE);
     private final Token junction = new Token(TokenType.JUNCTION);
 
-    private String tokenizedString;
+    public ScannerTokenIta() {
+        super();
+    }
 
     public ScannerTokenIta(String string) {
         super(string);
-
-        try {
-            tokenizedString = createTokenizedString();
-        } catch (SkipCharactersEmptyException e) {
-            tokenizedString = null;
-        }
     }
 
     public void setArticles(Set<String> articles) {
@@ -38,9 +34,12 @@ public class ScannerTokenIta extends ScannerToken {
     @Override
     public Iterable<TokenType> getPhrase() throws Exception {
         List<TokenType> phrase = new ArrayList<>();
+        String tokenizedString;
 
-        if (tokenizedString == null) {
-            throw new IllegalArgumentException();
+        try {
+            tokenizedString = createTokenizedString();
+        } catch (SkipCharactersEmptyException e) {
+            throw new IllegalAccessException();
         }
 
         for (String token : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {

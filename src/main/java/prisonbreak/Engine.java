@@ -6,8 +6,8 @@
 package prisonbreak;
 
 import prisonbreak.games.FireHouseGame;
-import prisonbreak.parser.Parser;
 import prisonbreak.parser.ParserOutput;
+import prisonbreak.parser.ParserTemp;
 import prisonbreak.type.CommandType;
 
 import java.util.Scanner;
@@ -23,7 +23,7 @@ public class Engine {
 
     private final GameDescription game;
 
-    private final Parser parser;
+    private final ParserTemp parser;
 
     public Engine(GameDescription game) {
         this.game = game;
@@ -32,7 +32,7 @@ public class Engine {
         } catch (Exception ex) {
             System.err.println(ex);
         }
-        parser = new Parser();
+        parser = new ParserTemp();
     }
 
     /**

@@ -11,6 +11,9 @@ public abstract class ScannerToken {
     private final Token object = new Token(TokenType.OBJECT);
     private String stringToTokenize;
 
+    public ScannerToken() {
+    }
+
     public ScannerToken(String string) {
         stringToTokenize = string;
     }
