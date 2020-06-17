@@ -3,7 +3,6 @@ package prisonbreak.parser;
 import java.util.*;
 
 public class ParserIta extends Parser {
-    private List<List<TokenType>> phrases;
 
     public ParserIta() {
         super(initValidPhrases());
@@ -24,13 +23,23 @@ public class ParserIta extends Parser {
         return validPhrases;
     }
 
-    private void separatePhrases(Iterable<TokenType> iterator) {
-        //TODO COMPLETE
-        phrases = new ArrayList<>();
+    private List<List<TokenType>> separatePhrases(Iterator<TokenType> iterator) {
+        List<List<TokenType>> phrases = new ArrayList<>();
 
-        for (Iterator i = phrases.iterator(); i.hasNext(); i.next()) {
+        List<TokenType> phrase = new ArrayList<>();
 
+        while (iterator.hasNext()) {
+            TokenType token = iterator.next();
+
+            if (token.equals(TokenType.JUNCTION)) {
+                phrases.add(phrase);
+                phrase = new ArrayList<>();
+            } else {
+                phrase.add(token);
+            }
         }
+
+        return phrases;
     }
 
     @Override
@@ -49,15 +58,18 @@ public class ParserIta extends Parser {
 
     @Override
     public boolean parse(String stringToParse) throws Exception {
-        // TODO COMPLETE
+        List<List<TokenType>> phrases;
+        boolean validPhrase = true;
 
         getScanner().setPhrase(stringToParse);
+        phrases = separatePhrases(getScanner().tokenize());
 
-        // TODO EXCEPTION
-        separatePhrases(getScanner().tokenize());
+        Iterator<List<TokenType>> iterator = phrases.iterator();
+        while (validPhrase && iterator.hasNext()) {
+            validPhrase = isValidPhrase(iterator.next());
+        }
 
-
-        return false;
+        return validPhrase;
     }
 
 }

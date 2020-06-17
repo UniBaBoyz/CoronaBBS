@@ -2,6 +2,7 @@ package prisonbreak.parser;
 
 import prisonbreak.utils.SkipCharactersEmptyException;
 
+import java.util.Iterator;
 import java.util.Set;
 
 public abstract class ScannerToken {
@@ -57,7 +58,7 @@ public abstract class ScannerToken {
         return tokenizedString.toString();
     }
 
-    public abstract Iterable<TokenType> tokenize() throws Exception;
+    public abstract Iterator<TokenType> tokenize() throws Exception;
 
     public void setPhrase(String string) {
         stringToTokenize = string;

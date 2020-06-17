@@ -1,8 +1,9 @@
 package prisonbreak.parser;
 
-import prisonbreak.utils.SkipCharactersEmptyException;
+import prisonbreak.utils.LexicalErrorException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -31,16 +32,16 @@ public class ScannerTokenIta extends ScannerToken {
         junction.addAliasToken(junctions);
     }
 
+    public Token getJunction() {
+        return junction;
+    }
+
     @Override
-    public Iterable<TokenType> tokenize() throws Exception {
+    public Iterator<TokenType> tokenize() throws Exception {
         List<TokenType> phrase = new ArrayList<>();
         String tokenizedString;
 
-        try {
-            tokenizedString = createTokenizedString();
-        } catch (SkipCharactersEmptyException e) {
-            throw new IllegalAccessException();
-        }
+        tokenizedString = createTokenizedString();
 
         for (String token : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
             //TODO
@@ -58,12 +59,11 @@ public class ScannerTokenIta extends ScannerToken {
             } else if (junction.isToken(token)) {
                 phrase.add(TokenType.JUNCTION);
             } else {
-                // TODO CREATE NEW EXCEPTION
-                throw new Exception("Lexical Exception");
+                throw new LexicalErrorException();
             }
         }
 
-        return phrase;
+        return phrase.iterator();
     }
 
 }
