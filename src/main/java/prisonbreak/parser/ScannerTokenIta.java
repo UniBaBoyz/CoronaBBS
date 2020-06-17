@@ -32,7 +32,7 @@ public class ScannerTokenIta extends ScannerToken {
     }
 
     @Override
-    public Iterable<TokenType> getPhrase() throws Exception {
+    public Iterable<TokenType> tokenize() throws Exception {
         List<TokenType> phrase = new ArrayList<>();
         String tokenizedString;
 

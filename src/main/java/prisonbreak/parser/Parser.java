@@ -12,8 +12,12 @@ public abstract class Parser {
         this.validPhrases = new ArrayList<>(validPhrases);
     }
 
+    public ScannerToken getScanner() {
+        return scanner;
+    }
+
     public abstract ScannerToken initScanner();
 
-    public abstract boolean parse();
+    public abstract boolean parse(String stringToParse) throws Exception;
 
 }

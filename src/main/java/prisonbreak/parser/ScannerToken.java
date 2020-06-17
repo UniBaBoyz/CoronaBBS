@@ -57,7 +57,7 @@ public abstract class ScannerToken {
         return tokenizedString.toString();
     }
 
-    public abstract Iterable<TokenType> getPhrase() throws Exception;
+    public abstract Iterable<TokenType> tokenize() throws Exception;
 
     public void setPhrase(String string) {
         stringToTokenize = string;
