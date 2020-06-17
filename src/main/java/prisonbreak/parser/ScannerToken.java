@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 public abstract class ScannerToken {
-    private static final char SEPARATOR_CHARACTER = '|';
+    private static final char SEPARATOR_CHARACTER = ';';
     private final Token skip = new Token(TokenType.SKIP);
     private final Token verb = new Token(TokenType.VERB);
     private final Token object = new Token(TokenType.OBJECT);

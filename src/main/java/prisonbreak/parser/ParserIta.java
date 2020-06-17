@@ -46,7 +46,7 @@ public class ParserIta extends Parser {
     public ScannerToken initScanner() {
         ScannerTokenIta scanner = new ScannerTokenIta();
 
-        scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", "", " ")));
+        scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", " ")));
         scanner.setVerbs(new HashSet<>(Arrays.asList("accendi", "prendi")));
         scanner.setObjects(new HashSet<>(Arrays.asList("computer", "mouse")));
         scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una", "un'", "del", "dello", "della", "dei", "degli", "delle")));
