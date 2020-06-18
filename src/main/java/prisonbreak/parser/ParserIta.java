@@ -1,5 +1,7 @@
 package prisonbreak.parser;
 
+import prisonbreak.utils.SyntaxErrorException;
+
 import java.util.*;
 
 public class ParserIta extends Parser {
@@ -39,6 +41,10 @@ public class ParserIta extends Parser {
             }
         }
 
+        if (!phrase.isEmpty()) {
+            phrases.add(phrase);
+        }
+
         return phrases;
     }
 
@@ -46,12 +52,12 @@ public class ParserIta extends Parser {
     public ScannerToken initScanner() {
         ScannerTokenIta scanner = new ScannerTokenIta();
 
-        scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", " ")));
+        scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", "\r", " ")));
         scanner.setVerbs(new HashSet<>(Arrays.asList("accendi", "prendi")));
         scanner.setObjects(new HashSet<>(Arrays.asList("computer", "mouse")));
         scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una", "un'", "del", "dello", "della", "dei", "degli", "delle")));
         scanner.setAdjective(new HashSet<>(Arrays.asList("rotto", "bianco")));
-        scanner.setJunctions(new HashSet<>(Arrays.asList(",", "e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè", "successivamente", "poi")));
+        scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè", "successivamente", "poi")));
 
         return scanner;
     }
@@ -69,7 +75,11 @@ public class ParserIta extends Parser {
             validPhrase = isValidPhrase(iterator.next());
         }
 
-        return validPhrase;
+        if (!validPhrase) {
+            throw new SyntaxErrorException();
+        }
+
+        return validPhrase; //TODO REMOVE RETURN BOOLEAN TEST
     }
 
 }

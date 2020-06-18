@@ -44,9 +44,6 @@ public class ScannerTokenIta extends ScannerToken {
         tokenizedString = createTokenizedString();
 
         for (String token : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
-            //TODO
-            //CHECK IF A token IS A TOKEN
-
             // TODO IMPROVEMENT REQUIRED
             if (getVerbToken().isToken(token)) {
                 phrase.add(TokenType.VERB);
@@ -59,7 +56,10 @@ public class ScannerTokenIta extends ScannerToken {
             } else if (junction.isToken(token)) {
                 phrase.add(TokenType.JUNCTION);
             } else {
-                throw new LexicalErrorException();
+                // If the token is empty, the user has entered several skip characters TODo di fila
+                if (!token.isEmpty()) {
+                    throw new LexicalErrorException();
+                }
             }
         }
 
