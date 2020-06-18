@@ -20,10 +20,18 @@ public class AdvObject {
     private Set<String> alias;
     private boolean openable = false;
     private boolean pickupable = true;
+    private boolean give = false;
+    private boolean mixable = false;
+    private boolean usable = false;
     private boolean pushable = false;
+    private boolean eatable = false;
+    private boolean given = false;
+    private boolean eat = false;
     private boolean open = false;
     private boolean push = false;
     private boolean on = false;
+    private boolean used = false;
+
 
     public AdvObject(int id) {
         this.id = id;
@@ -93,6 +101,70 @@ public class AdvObject {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public void setUsable(boolean usable) {
+        this.usable = usable;
+    }
+
+    public void setEat(boolean eat) {
+        this.eat = eat;
+    }
+
+    public void setEatable(boolean eatable) {
+        this.eatable = eatable;
+    }
+
+    public void setGive(boolean give) {
+        this.give = give;
+    }
+
+    public void setGiven(boolean given) {
+        this.given = given;
+    }
+
+    public void setMixable(boolean mixable) {
+        this.mixable = mixable;
+    }
+
+    public boolean isMixable() {
+        return mixable;
+    }
+
+    public boolean isEat() {
+        return eat;
+    }
+
+    public boolean isEatable() {
+        return eatable;
+    }
+
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public boolean isOn() {
+        return on;
+    }
+
+    public boolean isGive() {
+        return give;
+    }
+
+    public boolean isGiven() {
+        return given;
+    }
+
+    public void setOn(boolean on) {
+        this.on = on;
     }
 
     public boolean isPush() {
