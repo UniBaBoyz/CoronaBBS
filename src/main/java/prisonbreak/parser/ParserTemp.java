@@ -6,7 +6,7 @@
 package prisonbreak.parser;
 
 import prisonbreak.type.AdvObject;
-import prisonbreak.type.Command;
+import prisonbreak.type.TokenVerb;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import java.util.List;
  */
 public class ParserTemp {
 
-    private int checkForCommand(String token, List<Command> commands) {
-        for (int i = 0; i < commands.size(); i++) {
-            if (commands.get(i).getName().equals(token) || commands.get(i).getAlias().contains(token)) {
+    private int checkForCommand(String token, List<TokenVerb> tokenVerbs) {
+        for (int i = 0; i < tokenVerbs.size(); i++) {
+            if (tokenVerbs.get(i).getName().equals(token) || tokenVerbs.get(i).getAlias().contains(token)) {
                 return i;
             }
         }
@@ -39,11 +39,11 @@ public class ParserTemp {
      * realizzare un parser per ogni lingua, prevedendo un'iterfaccia/classe astratta Perser e diverse
      * implementazioni per ogni lingua.
      */
-    public ParserOutput parse(String command, List<Command> commands, List<AdvObject> objects, List<AdvObject> inventory) {
+    public ParserOutput parse(String command, List<TokenVerb> tokenVerbs, List<AdvObject> objects, List<AdvObject> inventory) {
         String cmd = command.toLowerCase().trim();
         String[] tokens = cmd.split("\\s+");
         if (tokens.length > 0) {
-            int ic = checkForCommand(tokens[0], commands);
+            int ic = checkForCommand(tokens[0], tokenVerbs);
             if (ic > -1) {
                 if (tokens.length > 1) {
                     int io = checkForObject(tokens[1], objects);
@@ -58,16 +58,16 @@ public class ParserTemp {
                         }
                     }
                     if (io > -1 && ioinv > -1) {
-                        return new ParserOutput(commands.get(ic), objects.get(io), inventory.get(ioinv));
+                        return new ParserOutput(tokenVerbs.get(ic), objects.get(io), inventory.get(ioinv));
                     } else if (io > -1) {
-                        return new ParserOutput(commands.get(ic), objects.get(io), null);
+                        return new ParserOutput(tokenVerbs.get(ic), objects.get(io), null);
                     } else if (ioinv > -1) {
-                        return new ParserOutput(commands.get(ic), null, inventory.get(ioinv));
+                        return new ParserOutput(tokenVerbs.get(ic), null, inventory.get(ioinv));
                     } else {
-                        return new ParserOutput(commands.get(ic), null, null);
+                        return new ParserOutput(tokenVerbs.get(ic), null, null);
                     }
                 } else {
-                    return new ParserOutput(commands.get(ic), null);
+                    return new ParserOutput(tokenVerbs.get(ic), null);
                 }
             } else {
                 return new ParserOutput(null, null);

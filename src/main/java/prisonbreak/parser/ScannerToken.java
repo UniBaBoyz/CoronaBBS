@@ -2,13 +2,14 @@ package prisonbreak.parser;
 
 import prisonbreak.utils.SkipCharactersEmptyException;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 public abstract class ScannerToken {
     private static final char SEPARATOR_CHARACTER = ';';
     private final Token skip = new Token(TokenType.SKIP);
-    private final Token verb = new Token(TokenType.VERB);
+    private Set<TokenVerb> verbs = new HashSet<>();
     private final Token object = new Token(TokenType.OBJECT);
     private String stringToTokenize;
 
@@ -27,12 +28,16 @@ public abstract class ScannerToken {
         skip.addAliasToken(skipCharacters);
     }
 
-    public void setVerbs(Set<String> verbs) {
-        verb.addAliasToken(verbs);
+    public void addVerb(TokenVerb verb) {
+        verbs.add(verb);
     }
 
-    public Token getVerbToken() {
-        return verb;
+    public Set<TokenVerb> getVerbs() {
+        return verbs;
+    }
+
+    public void setVerbs(Set<TokenVerb> verbs) {
+        this.verbs = new HashSet<>(verbs);
     }
 
     public void setObjects(Set<String> objects) {

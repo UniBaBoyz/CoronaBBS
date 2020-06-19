@@ -3,22 +3,19 @@ package prisonbreak.parser;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Parser {
-    private ScannerToken scanner;
-    private List<List<TokenType>> validPhrases;
+    private final ScannerToken scanner;
+    private final List<List<TokenType>> validPhrases;
 
-    public Parser(List<List<TokenType>> validPhrases) {
-        scanner = initScanner();
+    public Parser(List<List<TokenType>> validPhrases, Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives) {
+        scanner = initScanner(verbs, objects, adjectives);
         this.validPhrases = new ArrayList<>(validPhrases);
     }
 
     public ScannerToken getScanner() {
         return scanner;
-    }
-
-    public List<List<TokenType>> getValidPhrases() {
-        return validPhrases;
     }
 
     public boolean isValidPhrase(List<TokenType> phrase) {
@@ -32,7 +29,7 @@ public abstract class Parser {
         return validPhrase;
     }
 
-    public abstract ScannerToken initScanner();
+    public abstract ScannerToken initScanner(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives);
 
     public abstract boolean parse(String stringToParse) throws Exception;
 

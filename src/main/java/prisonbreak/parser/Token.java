@@ -1,13 +1,10 @@
 package prisonbreak.parser;
 
-import prisonbreak.type.CommandType;
-
 import java.util.HashSet;
 import java.util.Set;
 
 public class Token {
     TokenType type;
-    CommandType commandType;
     Set<String> token = new HashSet<>();
 
     public Token(TokenType type) {

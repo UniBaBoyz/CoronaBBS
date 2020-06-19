@@ -32,10 +32,6 @@ public class ScannerTokenIta extends ScannerToken {
         junction.addAliasToken(junctions);
     }
 
-    public Token getJunction() {
-        return junction;
-    }
-
     @Override
     public Iterator<TokenType> tokenize() throws Exception {
         List<TokenType> phrase = new ArrayList<>();
@@ -45,7 +41,10 @@ public class ScannerTokenIta extends ScannerToken {
 
         for (String token : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
             // TODO IMPROVEMENT REQUIRED
-            if (getVerbToken().isToken(token)) {
+            if (getVerbs()
+                    .stream()
+                    .filter(t -> t.isToken(token))
+                    .count() == 1) {
                 phrase.add(TokenType.VERB);
             } else if (getObjectToken().isToken(token)) {
                 phrase.add(TokenType.OBJECT);
@@ -56,7 +55,7 @@ public class ScannerTokenIta extends ScannerToken {
             } else if (junction.isToken(token)) {
                 phrase.add(TokenType.JUNCTION);
             } else {
-                // If the token is empty, the user has entered several skip characters TODo di fila
+                // If the token is empty, the user has entered several consecutive skip characters
                 if (!token.isEmpty()) {
                     throw new LexicalErrorException();
                 }

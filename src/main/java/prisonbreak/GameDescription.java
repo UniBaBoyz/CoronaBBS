@@ -7,8 +7,8 @@ package prisonbreak;
 
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.AdvObject;
-import prisonbreak.type.Command;
 import prisonbreak.type.Room;
+import prisonbreak.type.TokenVerb;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public abstract class GameDescription {
 
     private final List<Room> rooms = new ArrayList<>();
 
-    private final List<Command> commands = new ArrayList<>();
+    private final List<TokenVerb> tokenVerbs = new ArrayList<>();
 
     private final List<AdvObject> inventory = new ArrayList<>();
 
@@ -31,8 +31,8 @@ public abstract class GameDescription {
         return rooms;
     }
 
-    public List<Command> getCommands() {
-        return commands;
+    public List<TokenVerb> getTokenVerbs() {
+        return tokenVerbs;
     }
 
     public Room getCurrentRoom() {

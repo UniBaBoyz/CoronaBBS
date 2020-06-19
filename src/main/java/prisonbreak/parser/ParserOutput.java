@@ -6,34 +6,34 @@
 package prisonbreak.parser;
 
 import prisonbreak.type.AdvObject;
-import prisonbreak.type.Command;
+import prisonbreak.type.TokenVerb;
 
 /**
  * @author pierpaolo
  */
 public class ParserOutput {
 
-    private Command command;
+    private TokenVerb verb;
     private AdvObject object;
     private AdvObject invObject;
 
-    public ParserOutput(Command command, AdvObject object) {
-        this.command = command;
+    public ParserOutput(TokenVerb verb, AdvObject object) {
+        this.verb = verb;
         this.object = object;
     }
 
-    public ParserOutput(Command command, AdvObject object, AdvObject invObejct) {
-        this.command = command;
+    public ParserOutput(TokenVerb verb, AdvObject object, AdvObject invObejct) {
+        this.verb = verb;
         this.object = object;
         this.invObject = invObejct;
     }
 
-    public Command getCommand() {
-        return command;
+    public TokenVerb getVerb() {
+        return verb;
     }
 
-    public void setCommand(Command command) {
-        this.command = command;
+    public void setVerb(TokenVerb verb) {
+        this.verb = verb;
     }
 
     public AdvObject getObject() {

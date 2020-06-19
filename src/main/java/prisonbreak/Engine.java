@@ -8,7 +8,7 @@ package prisonbreak;
 import prisonbreak.games.FireHouseGame;
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.parser.ParserTemp;
-import prisonbreak.type.CommandType;
+import prisonbreak.type.VerbType;
 
 import java.util.Scanner;
 
@@ -40,7 +40,19 @@ public class Engine {
      */
     public static void main(String[] args) {
         Engine engine = new Engine(new FireHouseGame());
-        engine.run();
+        //engine.run();
+        /*ParserIta p =  new ParserIta();
+
+        try {
+            if(p.parse("utilizza il computer bianco dopodichè prendi il bianco mouse")) {
+                System.out.println("Tutto ok");
+            } else {
+                System.out.println("Sbagliato");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+        }*/
     }
 
     public void run() {
@@ -50,8 +62,8 @@ public class Engine {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            ParserOutput p = parser.parse(command, game.getCommands(), game.getCurrentRoom().getObjects(), game.getInventory());
-            if (p.getCommand() != null && p.getCommand().getType() == CommandType.END) {
+            ParserOutput p = parser.parse(command, game.getTokenVerbs(), game.getCurrentRoom().getObjects(), game.getInventory());
+            if (p.getVerb() != null && p.getVerb().getType() == VerbType.END) {
                 System.out.println("Addio!");
                 break;
             } else {

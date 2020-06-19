@@ -31,36 +31,36 @@ public class FireHouseGame extends GameDescription {
     @Override
     public void init() throws Exception {
         //Commands
-        Command nord = new Command(CommandType.NORD, "nord");
+        TokenVerb nord = new TokenVerb(VerbType.NORD, "nord");
         nord.setAlias(new String[]{"n", "N", "Nord", "NORD"});
-        getCommands().add(nord);
-        Command iventory = new Command(CommandType.INVENTORY, "inventario");
+        getTokenVerbs().add(nord);
+        TokenVerb iventory = new TokenVerb(VerbType.INVENTORY, "inventario");
         iventory.setAlias(new String[]{"inv", "i", "I"});
-        getCommands().add(iventory);
-        Command sud = new Command(CommandType.SOUTH, "sud");
+        getTokenVerbs().add(iventory);
+        TokenVerb sud = new TokenVerb(VerbType.SOUTH, "sud");
         sud.setAlias(new String[]{"s", "S", "Sud", "SUD"});
-        getCommands().add(sud);
-        Command est = new Command(CommandType.EAST, "est");
+        getTokenVerbs().add(sud);
+        TokenVerb est = new TokenVerb(VerbType.EAST, "est");
         est.setAlias(new String[]{"e", "E", "Est", "EST"});
-        getCommands().add(est);
-        Command ovest = new Command(CommandType.WEST, "ovest");
+        getTokenVerbs().add(est);
+        TokenVerb ovest = new TokenVerb(VerbType.WEST, "ovest");
         ovest.setAlias(new String[]{"o", "O", "Ovest", "OVEST"});
-        getCommands().add(ovest);
-        Command end = new Command(CommandType.END, "end");
+        getTokenVerbs().add(ovest);
+        TokenVerb end = new TokenVerb(VerbType.END, "end");
         end.setAlias(new String[]{"end", "fine", "esci", "muori", "ammazzati", "ucciditi", "suicidati", "exit"});
-        getCommands().add(end);
-        Command look = new Command(CommandType.LOOK_AT, "osserva");
+        getTokenVerbs().add(end);
+        TokenVerb look = new TokenVerb(VerbType.LOOK_AT, "osserva");
         look.setAlias(new String[]{"guarda", "vedi", "trova", "cerca", "descrivi"});
-        getCommands().add(look);
-        Command pickup = new Command(CommandType.PICK_UP, "raccogli");
+        getTokenVerbs().add(look);
+        TokenVerb pickup = new TokenVerb(VerbType.PICK_UP, "raccogli");
         pickup.setAlias(new String[]{"prendi"});
-        getCommands().add(pickup);
-        Command open = new Command(CommandType.OPEN, "apri");
+        getTokenVerbs().add(pickup);
+        TokenVerb open = new TokenVerb(VerbType.OPEN, "apri");
         open.setAlias(new String[]{});
-        getCommands().add(open);
-        Command push = new Command(CommandType.PUSH, "premi");
+        getTokenVerbs().add(open);
+        TokenVerb push = new TokenVerb(VerbType.PUSH, "premi");
         push.setAlias(new String[]{"spingi", "attiva"});
-        getCommands().add(push);
+        getTokenVerbs().add(push);
         //Rooms
         Room hall = new Room(0, "Corridoio", "Sei appena tornato a casa e non sai cosa fare. Ti ricordi che non hai ancora aperto quel fantastico regalo di tua zia Lina."
                 + " Sarà il caso di cercarlo e di giocarci!");
@@ -109,52 +109,52 @@ public class FireHouseGame extends GameDescription {
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
-        if (p.getCommand() == null) {
+        if (p.getVerb() == null) {
             out.println("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
             //move
             boolean noroom = false;
             boolean move = false;
-            if (p.getCommand().getType() == CommandType.NORD) {
+            if (p.getVerb().getType() == VerbType.NORD) {
                 if (getCurrentRoom().getNorth() != null) {
                     setCurrentRoom(getCurrentRoom().getNorth());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.SOUTH) {
+            } else if (p.getVerb().getType() == VerbType.SOUTH) {
                 if (getCurrentRoom().getSouth() != null) {
                     setCurrentRoom(getCurrentRoom().getSouth());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.EAST) {
+            } else if (p.getVerb().getType() == VerbType.EAST) {
                 if (getCurrentRoom().getEast() != null) {
                     setCurrentRoom(getCurrentRoom().getEast());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.WEST) {
+            } else if (p.getVerb().getType() == VerbType.WEST) {
                 if (getCurrentRoom().getWest() != null) {
                     setCurrentRoom(getCurrentRoom().getWest());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.INVENTORY) {
+            } else if (p.getVerb().getType() == VerbType.INVENTORY) {
                 out.println("Nel tuo inventario ci sono:");
                 for (AdvObject o : getInventory()) {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
-            } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
+            } else if (p.getVerb().getType() == VerbType.LOOK_AT) {
                 if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
                 }
-            } else if (p.getCommand().getType() == CommandType.PICK_UP) {
+            } else if (p.getVerb().getType() == VerbType.PICK_UP) {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
@@ -166,7 +166,7 @@ public class FireHouseGame extends GameDescription {
                 } else {
                     out.println("Non c'è niente da raccogliere qui.");
                 }
-            } else if (p.getCommand().getType() == CommandType.OPEN) {
+            } else if (p.getVerb().getType() == VerbType.OPEN) {
                 /*ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
                  * vengongo inseriti nella stanza o nell'inventario a seconda di dove si trova l'oggetto contenitore.
                  * Questa soluzione NON va bene poiché quando un oggetto contenitore viene richiuso è complicato
@@ -224,7 +224,7 @@ public class FireHouseGame extends GameDescription {
                         }
                     }
                 }
-            } else if (p.getCommand().getType() == CommandType.PUSH) {
+            } else if (p.getVerb().getType() == VerbType.PUSH) {
                 //ricerca oggetti pushabili
                 if (p.getObject() != null && p.getObject().isPushable()) {
                     out.println("Hai premuto: " + p.getObject().getName());

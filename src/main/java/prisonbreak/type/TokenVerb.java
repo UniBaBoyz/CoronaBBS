@@ -13,20 +13,20 @@ import java.util.Set;
 /**
  * @author pierpaolo
  */
-public class Command {
+public class TokenVerb {
 
-    private final CommandType type;
+    private final VerbType type;
 
     private final String name;
 
     private Set<String> alias;
 
-    public Command(CommandType type, String name) {
+    public TokenVerb(VerbType type, String name) {
         this.type = type;
         this.name = name;
     }
 
-    public Command(CommandType type, String name, Set<String> alias) {
+    public TokenVerb(VerbType type, String name, Set<String> alias) {
         this.type = type;
         this.name = name;
         this.alias = alias;
@@ -48,7 +48,7 @@ public class Command {
         this.alias = new HashSet<>(Arrays.asList(alias));
     }
 
-    public CommandType getType() {
+    public VerbType getType() {
         return type;
     }
 
@@ -70,7 +70,7 @@ public class Command {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Command other = (Command) obj;
+        final TokenVerb other = (TokenVerb) obj;
         if (this.type != other.type) {
             return false;
         }

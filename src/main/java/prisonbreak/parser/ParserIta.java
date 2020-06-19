@@ -6,8 +6,8 @@ import java.util.*;
 
 public class ParserIta extends Parser {
 
-    public ParserIta() {
-        super(initValidPhrases());
+    public ParserIta(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives) {
+        super(initValidPhrases(), verbs, objects, adjectives);
     }
 
     private static List<List<TokenType>> initValidPhrases() {
@@ -49,14 +49,14 @@ public class ParserIta extends Parser {
     }
 
     @Override
-    public ScannerToken initScanner() {
+    public ScannerToken initScanner(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives) {
         ScannerTokenIta scanner = new ScannerTokenIta();
 
         scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", "\r", " ")));
-        scanner.setVerbs(new HashSet<>(Arrays.asList("accendi", "prendi")));
-        scanner.setObjects(new HashSet<>(Arrays.asList("computer", "mouse")));
+        scanner.setVerbs(verbs);
+        scanner.setObjects(objects);
         scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una", "un'", "del", "dello", "della", "dei", "degli", "delle")));
-        scanner.setAdjective(new HashSet<>(Arrays.asList("rotto", "bianco")));
+        scanner.setAdjective(adjectives);
         scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè", "successivamente", "poi")));
 
         return scanner;
@@ -78,6 +78,7 @@ public class ParserIta extends Parser {
         if (!validPhrase) {
             throw new SyntaxErrorException();
         }
+
 
         return validPhrase; //TODO REMOVE RETURN BOOLEAN TEST
     }
