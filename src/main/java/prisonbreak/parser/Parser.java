@@ -31,6 +31,6 @@ public abstract class Parser {
 
     public abstract ScannerToken initScanner(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives);
 
-    public abstract boolean parse(String stringToParse) throws Exception;
+    public abstract List<ParserOutput> parse(String stringToParse) throws Exception;
 
 }

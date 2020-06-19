@@ -5,7 +5,7 @@
  */
 package prisonbreak.parser;
 
-import prisonbreak.type.AdvObject;
+import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public class ParserTemp {
         return -1;
     }
 
-    private int checkForObject(String token, List<AdvObject> obejcts) {
+    private int checkForObject(String token, List<TokenObject> obejcts) {
         for (int i = 0; i < obejcts.size(); i++) {
             if (obejcts.get(i).getName().equals(token) || obejcts.get(i).getAlias().contains(token)) {
                 return i;
@@ -39,7 +39,7 @@ public class ParserTemp {
      * realizzare un parser per ogni lingua, prevedendo un'iterfaccia/classe astratta Perser e diverse
      * implementazioni per ogni lingua.
      */
-    public ParserOutput parse(String command, List<TokenVerb> tokenVerbs, List<AdvObject> objects, List<AdvObject> inventory) {
+    public ParserOutput parse(String command, List<TokenVerb> tokenVerbs, List<TokenObject> objects, List<TokenObject> inventory) {
         String cmd = command.toLowerCase().trim();
         String[] tokens = cmd.split("\\s+");
         if (tokens.length > 0) {

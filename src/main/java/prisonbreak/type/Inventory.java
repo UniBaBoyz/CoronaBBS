@@ -15,21 +15,21 @@ public class Inventory {
 
     private final int MAX_ITEM = 4;
 
-    private List<AdvObject> list = new ArrayList<>();
+    private List<TokenObject> list = new ArrayList<>();
 
-    public List<AdvObject> getList() {
+    public List<TokenObject> getList() {
         return list;
     }
 
-    public void setList(List<AdvObject> list) {
+    public void setList(List<TokenObject> list) {
         this.list = list;
     }
 
-    public void add(AdvObject o) {
+    public void add(TokenObject o) {
         list.add(o);
     }
 
-    public void remove(AdvObject o) {
+    public void remove(TokenObject o) {
         list.remove(o);
     }
 }

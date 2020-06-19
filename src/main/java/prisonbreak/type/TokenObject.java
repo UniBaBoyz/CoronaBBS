@@ -5,19 +5,19 @@
  */
 package prisonbreak.type;
 
-import java.util.Arrays;
-import java.util.HashSet;
+import prisonbreak.parser.Token;
+import prisonbreak.parser.TokenType;
+
 import java.util.Set;
 
 /**
  * @author pierpaolo
  */
-public class AdvObject {
+public class TokenObject extends Token {
 
     private final int id;
     private String name;
     private String description;
-    private Set<String> alias;
     private boolean openable = false;
     private boolean pickupable = true;
     private boolean pushable = false;
@@ -25,26 +25,30 @@ public class AdvObject {
     private boolean push = false;
     private boolean on = false;
 
-    public AdvObject(int id) {
+    public TokenObject(int id) {
+        super(TokenType.OBJECT);
         this.id = id;
     }
 
-    public AdvObject(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public AdvObject(int id, String name, String description) {
+    public TokenObject(int id, String name) {
+        super(TokenType.OBJECT);
         this.id = id;
         this.name = name;
-        this.description = description;
     }
 
-    public AdvObject(int id, String name, String description, Set<String> alias) {
+    public TokenObject(int id, String name, String description) {
+        super(TokenType.OBJECT);
         this.id = id;
         this.name = name;
         this.description = description;
-        this.alias = alias;
+    }
+
+    public TokenObject(int id, String name, String description, Set<String> alias) {
+        super(TokenType.OBJECT);
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        super.addAlias(alias);
     }
 
     public String getName() {
@@ -103,18 +107,6 @@ public class AdvObject {
         this.push = push;
     }
 
-    public Set<String> getAlias() {
-        return alias;
-    }
-
-    public void setAlias(Set<String> alias) {
-        this.alias = alias;
-    }
-
-    public void setAlias(String[] alias) {
-        this.alias = new HashSet<>(Arrays.asList(alias));
-    }
-
     public int getId() {
         return id;
     }
@@ -137,7 +129,7 @@ public class AdvObject {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final AdvObject other = (AdvObject) obj;
+        final TokenObject other = (TokenObject) obj;
         if (this.id != other.id) {
             return false;
         }

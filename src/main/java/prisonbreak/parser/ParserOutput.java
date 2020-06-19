@@ -5,7 +5,7 @@
  */
 package prisonbreak.parser;
 
-import prisonbreak.type.AdvObject;
+import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
 /**
@@ -14,15 +14,15 @@ import prisonbreak.type.TokenVerb;
 public class ParserOutput {
 
     private TokenVerb verb;
-    private AdvObject object;
-    private AdvObject invObject;
+    private TokenObject object;
+    private TokenObject invObject;
 
-    public ParserOutput(TokenVerb verb, AdvObject object) {
+    public ParserOutput(TokenVerb verb, TokenObject object) {
         this.verb = verb;
         this.object = object;
     }
 
-    public ParserOutput(TokenVerb verb, AdvObject object, AdvObject invObejct) {
+    public ParserOutput(TokenVerb verb, TokenObject object, TokenObject invObejct) {
         this.verb = verb;
         this.object = object;
         this.invObject = invObejct;
@@ -36,19 +36,19 @@ public class ParserOutput {
         this.verb = verb;
     }
 
-    public AdvObject getObject() {
+    public TokenObject getObject() {
         return object;
     }
 
-    public void setObject(AdvObject object) {
+    public void setObject(TokenObject object) {
         this.object = object;
     }
 
-    public AdvObject getInvObject() {
+    public TokenObject getInvObject() {
         return invObject;
     }
 
-    public void setInvObject(AdvObject invObject) {
+    public void setInvObject(TokenObject invObject) {
         this.invObject = invObject;
     }
 

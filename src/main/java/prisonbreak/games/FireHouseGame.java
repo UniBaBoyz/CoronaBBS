@@ -89,16 +89,16 @@ public class FireHouseGame extends GameDescription {
         getRooms().add(bathroom);
         getRooms().add(yourRoom);
         //obejcts
-        AdvObject battery = new AdvObject(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
+        TokenObject battery = new TokenObject(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
         battery.setAlias(new String[]{"batterie", "pile", "pila"});
         bathroom.getObjects().add(battery);
-        AdvObjectContainer wardrobe = new AdvObjectContainer(2, "armadio", "Un semplice armadio.");
+        TokenObjectContainer wardrobe = new TokenObjectContainer(2, "armadio", "Un semplice armadio.");
         wardrobe.setAlias(new String[]{"guardaroba", "vestiario"});
         wardrobe.setOpenable(true);
         wardrobe.setPickupable(false);
         wardrobe.setOpen(false);
         yourRoom.getObjects().add(wardrobe);
-        AdvObject toy = new AdvObject(3, "giocattolo", "Il gioco che ti ha regalato zia Lina.");
+        TokenObject toy = new TokenObject(3, "giocattolo", "Il gioco che ti ha regalato zia Lina.");
         toy.setAlias(new String[]{"gioco", "robot"});
         toy.setPushable(true);
         toy.setPush(false);
@@ -145,7 +145,7 @@ public class FireHouseGame extends GameDescription {
                 }
             } else if (p.getVerb().getType() == VerbType.INVENTORY) {
                 out.println("Nel tuo inventario ci sono:");
-                for (AdvObject o : getInventory()) {
+                for (TokenObject o : getInventory()) {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
             } else if (p.getVerb().getType() == VerbType.LOOK_AT) {
@@ -178,14 +178,14 @@ public class FireHouseGame extends GameDescription {
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isOpenable() && p.getObject().isOpen() == false) {
-                            if (p.getObject() instanceof AdvObjectContainer) {
+                            if (p.getObject() instanceof TokenObjectContainer) {
                                 out.println("Hai aperto: " + p.getObject().getName());
-                                AdvObjectContainer c = (AdvObjectContainer) p.getObject();
+                                TokenObjectContainer c = (TokenObjectContainer) p.getObject();
                                 if (!c.getList().isEmpty()) {
                                     out.print(c.getName() + " contiene:");
-                                    Iterator<AdvObject> it = c.getList().iterator();
+                                    Iterator<TokenObject> it = c.getList().iterator();
                                     while (it.hasNext()) {
-                                        AdvObject next = it.next();
+                                        TokenObject next = it.next();
                                         getCurrentRoom().getObjects().add(next);
                                         out.print(" " + next.getName());
                                         it.remove();
@@ -202,13 +202,13 @@ public class FireHouseGame extends GameDescription {
                     }
                     if (p.getInvObject() != null) {
                         if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
-                            if (p.getInvObject() instanceof AdvObjectContainer) {
-                                AdvObjectContainer c = (AdvObjectContainer) p.getInvObject();
+                            if (p.getInvObject() instanceof TokenObjectContainer) {
+                                TokenObjectContainer c = (TokenObjectContainer) p.getInvObject();
                                 if (!c.getList().isEmpty()) {
                                     out.print(c.getName() + " contiene:");
-                                    Iterator<AdvObject> it = c.getList().iterator();
+                                    Iterator<TokenObject> it = c.getList().iterator();
                                     while (it.hasNext()) {
-                                        AdvObject next = it.next();
+                                        TokenObject next = it.next();
                                         getInventory().add(next);
                                         out.print(" " + next.getName());
                                         it.remove();

@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class Token {
     TokenType type;
-    Set<String> token = new HashSet<>();
+    Set<String> alias = new HashSet<>();
 
     public Token(TokenType type) {
         this.type = type;
@@ -13,24 +13,28 @@ public class Token {
 
     public Token(TokenType type, Set<String> tokens) {
         this.type = type;
-        addAliasToken(tokens);
+        addAlias(tokens);
     }
 
-    public void addAliasToken(String aliasToken) {
-        token.add(aliasToken.toLowerCase());
+    public void addAlias(String alias) {
+        this.alias.add(alias.toLowerCase());
     }
 
-    public void addAliasToken(Set<String> aliasTokens) {
+    public void addAlias(Set<String> aliasTokens) {
         for (String alias : aliasTokens) {
-            addAliasToken(alias);
+            addAlias(alias);
         }
     }
 
-    public Set<String> getTokens() {
-        return token;
+    public Set<String> getAlias() {
+        return alias;
     }
 
-    public boolean isToken(String string) {
-        return token.contains(string.toLowerCase());
+    public TokenType getType() {
+        return type;
+    }
+
+    public boolean isAlias(String alias) {
+        return this.alias.contains(alias.toLowerCase());
     }
 }

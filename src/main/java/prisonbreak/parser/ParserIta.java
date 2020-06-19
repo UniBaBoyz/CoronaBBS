@@ -63,14 +63,16 @@ public class ParserIta extends Parser {
     }
 
     @Override
-    public boolean parse(String stringToParse) throws Exception {
+    public List<ParserOutput> parse(String stringToParse) throws Exception {
         List<List<TokenType>> phrases;
+        Iterator<List<TokenType>> iterator;
+        List<ParserOutput> parserOutputs = new ArrayList<>();
         boolean validPhrase = true;
 
         getScanner().setPhrase(stringToParse);
         phrases = separatePhrases(getScanner().tokenize());
 
-        Iterator<List<TokenType>> iterator = phrases.iterator();
+        iterator = phrases.iterator();
         while (validPhrase && iterator.hasNext()) {
             validPhrase = isValidPhrase(iterator.next());
         }
@@ -79,8 +81,17 @@ public class ParserIta extends Parser {
             throw new SyntaxErrorException();
         }
 
+        iterator = phrases.iterator();
+        while (iterator.hasNext()) {
+            List<TokenType> phrase = iterator.next();
 
-        return validPhrase; //TODO REMOVE RETURN BOOLEAN TEST
+            //this.getScanner().getVerbs().stream().filter(tokenVerb -> tokenVerb.getAlias().stream())
+
+            parserOutputs.add(new ParserOutput(phrase.get(0), );
+
+        }
+
+        return parserOutputs;
     }
 
 }

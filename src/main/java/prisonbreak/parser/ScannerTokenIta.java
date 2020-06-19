@@ -21,42 +21,54 @@ public class ScannerTokenIta extends ScannerToken {
     }
 
     public void setArticles(Set<String> articles) {
-        article.addAliasToken(articles);
+        article.addAlias(articles);
     }
 
     public void setAdjective(Set<String> adjectives) {
-        adjective.addAliasToken(adjectives);
+        adjective.addAlias(adjectives);
     }
 
     public void setJunctions(Set<String> junctions) {
-        junction.addAliasToken(junctions);
+        junction.addAlias(junctions);
     }
 
     @Override
-    public Iterator<TokenType> tokenize() throws Exception {
-        List<TokenType> phrase = new ArrayList<>();
+    public Iterator<Token> tokenize() throws Exception {
+        List<Token> phrase = new ArrayList<>();
         String tokenizedString;
 
         tokenizedString = createTokenizedString();
 
-        for (String token : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
+        for (String stringToken : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
             // TODO IMPROVEMENT REQUIRED
+            Token token;
             if (getVerbs()
                     .stream()
-                    .filter(t -> t.isToken(token))
+                    .filter(t -> t.isAlias(stringToken))
                     .count() == 1) {
-                phrase.add(TokenType.VERB);
-            } else if (getObjectToken().isToken(token)) {
-                phrase.add(TokenType.OBJECT);
-            } else if (article.isToken(token)) {
-                phrase.add(TokenType.ARTICLE);
-            } else if (adjective.isToken(token)) {
-                phrase.add(TokenType.ADJECTIVE);
-            } else if (junction.isToken(token)) {
+                token = getVerbs()
+                        .stream()
+                        .filter(t -> t.isAlias(stringToken))
+                        .findFirst()
+                        .orElse(null);
+            } else if (getObjects()
+                    .stream()
+                    .filter(t -> t.isAlias(stringToken))
+                    .count() == 1) {
+                token = getObjects()
+                        .stream()
+                        .filter(t -> t.isAlias(stringToken))
+                        .findFirst()
+                        .orElse(null);
+            } else if (article.isAlias(stringToken)) {
+                token = article;
+            } else if (adjective.isAlias(stringToken)) {
+                token = adjective;
+            } else if (junction.isAlias(stringToken)) {
                 phrase.add(TokenType.JUNCTION);
             } else {
-                // If the token is empty, the user has entered several consecutive skip characters
-                if (!token.isEmpty()) {
+                // If the stringToken is empty, the user has entered several consecutive skip characters
+                if (!stringToken.isEmpty()) {
                     throw new LexicalErrorException();
                 }
             }
