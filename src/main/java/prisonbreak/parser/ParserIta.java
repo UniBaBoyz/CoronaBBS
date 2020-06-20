@@ -1,16 +1,9 @@
 package prisonbreak.parser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
-import prisonbreak.utils.SyntaxErrorException;
+
+import java.util.*;
 
 public class ParserIta extends Parser {
 
@@ -42,7 +35,14 @@ public class ParserIta extends Parser {
         while (iterator.hasNext()) {
             Token token = iterator.next();
 
+            // If there is a junction then it means that there is another phrase
             if (token.getType().equals(TokenType.JUNCTION)) {
+
+                // The phrase cannot end with a junction so i add the token to produce a SyntaxErrorException
+                if (!iterator.hasNext()) {
+                    phrase.add(token);
+                }
+
                 phrases.add(phrase);
                 phrase = new ArrayList<>();
             } else {
@@ -72,27 +72,20 @@ public class ParserIta extends Parser {
     }
 
     @Override
-    public List<ParserOutput> parse(String stringToParse, List<TokenObject> objects, List<TokenObject> inventory) throws Exception {
-        List<List<Token>> phrases; //Ogni lista di Token è una frase unita ad un'altra da TokenType.Junction
+    public List<ParserOutput> parse(String stringToParse) throws Exception {
+        List<List<Token>> phrases; //Each Token list is one sentence combined with another from TokenType.Junction
         Iterator<List<Token>> iterator;
-        List<ParserOutput> parserOutputs = new ArrayList<>(); //Ogni ParserOutput appartiene ad una frase
+        List<ParserOutput> parserOutputs = new ArrayList<>(); //For each sentence a ParserOutput is created
         List<TokenType> tokenPhrase;
-        boolean validPhrase = true;
 
+        // Check the syntax of the phrase
         getScanner().setPhrase(stringToParse);
         phrases = separatePhrases(getScanner().tokenize());
+        areValidPhrases(phrases);
 
-        iterator = phrases.iterator();
-        while (validPhrase && iterator.hasNext()) {
-            tokenPhrase = getTokenType(iterator.next());
-            validPhrase = isValidPhrase(tokenPhrase);
-        }
 
-        if (!validPhrase) {
-            throw new SyntaxErrorException();
-        }
-
-        iterator = phrases.iterator();
+        //TODO CREATE NEW METHOD
+        /*iterator = phrases.iterator();
         while (iterator.hasNext()) {
             TokenVerb verb = null;
             TokenObject object = null;
@@ -106,22 +99,14 @@ public class ParserIta extends Parser {
                 }
             }
 
-            if (objects.contains(object)) {
-                parserOutputs.add(new ParserOutput(verb, object, null);
+            if (getScanner().getObjects().contains(object)) {
+                parserOutputs.add(new ParserOutput(verb, object, null));
             }
 
-        }
+        }*/
+        // TODO END NEW METHOD
 
         return parserOutputs;
-    }
-
-    public List<TokenType> getTokenType(List<Token> phrase) {
-        List<TokenType> tokens = new ArrayList<>();
-
-        for (Token i : phrase) {
-            tokens.add(i.getType());
-        }
-        return tokens;
     }
 
 }

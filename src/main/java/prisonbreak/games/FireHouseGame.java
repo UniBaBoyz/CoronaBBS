@@ -5,13 +5,6 @@
  */
 package prisonbreak.games;
 
-import prisonbreak.GameDescription;
-import prisonbreak.parser.ParserOutput;
-import prisonbreak.type.*;
-
-import java.io.PrintStream;
-import java.util.Iterator;
-
 /**
  * ATTENZIONE: La descrizione del gioco è fatta in modo che qualsiasi gioco
  * debba estendere la classe GameDescription. L'Engine è fatto in modo che posso
@@ -26,6 +19,9 @@ import java.util.Iterator;
  *
  * @author pierpaolo
  */
+
+
+/* FIXME
 public class FireHouseGame extends GameDescription {
 
     @Override
@@ -173,6 +169,9 @@ public class FireHouseGame extends GameDescription {
                  * non rendere più disponibili gli oggetti contenuti rimuovendoli dalla stanza o dall'invetario.
                  * Trovare altra soluzione.
                  */
+
+                /* //FIXME
+
                 if (p.getObject() == null && p.getInvObject() == null) {
                     out.println("Non c'è niente da aprire qui.");
                 } else {
@@ -255,3 +254,6 @@ public class FireHouseGame extends GameDescription {
         System.exit(0);
     }
 }
+
+
+FIXME*/
