@@ -1,12 +1,21 @@
 package prisonbreak.parser;
 
-import prisonbreak.utils.SyntaxErrorException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
-import java.util.*;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
+import prisonbreak.utils.SyntaxErrorException;
 
 public class ParserIta extends Parser {
 
-    public ParserIta(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives) {
+    public ParserIta(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives) {
+
         super(initValidPhrases(), verbs, objects, adjectives);
     }
 
@@ -25,15 +34,15 @@ public class ParserIta extends Parser {
         return validPhrases;
     }
 
-    private List<List<TokenType>> separatePhrases(Iterator<TokenType> iterator) {
-        List<List<TokenType>> phrases = new ArrayList<>();
+    private List<List<Token>> separatePhrases(Iterator<Token> iterator) {
+        List<List<Token>> phrases = new ArrayList<>();
 
-        List<TokenType> phrase = new ArrayList<>();
+        List<Token> phrase = new ArrayList<>();
 
         while (iterator.hasNext()) {
-            TokenType token = iterator.next();
+            Token token = iterator.next();
 
-            if (token.equals(TokenType.JUNCTION)) {
+            if (token.getType().equals(TokenType.JUNCTION)) {
                 phrases.add(phrase);
                 phrase = new ArrayList<>();
             } else {
@@ -49,7 +58,7 @@ public class ParserIta extends Parser {
     }
 
     @Override
-    public ScannerToken initScanner(Set<TokenVerb> verbs, Set<String> objects, Set<String> adjectives) {
+    public ScannerToken initScanner(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives) {
         ScannerTokenIta scanner = new ScannerTokenIta();
 
         scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", "\r", " ")));
@@ -63,10 +72,11 @@ public class ParserIta extends Parser {
     }
 
     @Override
-    public List<ParserOutput> parse(String stringToParse) throws Exception {
-        List<List<TokenType>> phrases;
-        Iterator<List<TokenType>> iterator;
-        List<ParserOutput> parserOutputs = new ArrayList<>();
+    public List<ParserOutput> parse(String stringToParse, List<TokenObject> objects, List<TokenObject> inventory) throws Exception {
+        List<List<Token>> phrases; //Ogni lista di Token è una frase unita ad un'altra da TokenType.Junction
+        Iterator<List<Token>> iterator;
+        List<ParserOutput> parserOutputs = new ArrayList<>(); //Ogni ParserOutput appartiene ad una frase
+        List<TokenType> tokenPhrase;
         boolean validPhrase = true;
 
         getScanner().setPhrase(stringToParse);
@@ -74,7 +84,8 @@ public class ParserIta extends Parser {
 
         iterator = phrases.iterator();
         while (validPhrase && iterator.hasNext()) {
-            validPhrase = isValidPhrase(iterator.next());
+            tokenPhrase = getTokenType(iterator.next());
+            validPhrase = isValidPhrase(tokenPhrase);
         }
 
         if (!validPhrase) {
@@ -83,15 +94,34 @@ public class ParserIta extends Parser {
 
         iterator = phrases.iterator();
         while (iterator.hasNext()) {
-            List<TokenType> phrase = iterator.next();
+            TokenVerb verb = null;
+            TokenObject object = null;
+            List<Token> phrase = iterator.next();
 
-            //this.getScanner().getVerbs().stream().filter(tokenVerb -> tokenVerb.getAlias().stream())
+            for (Token i : phrase) {
+                if (i.getType().equals(TokenType.VERB)) {
+                    verb = (TokenVerb) i;
+                } else if (i.getType().equals(TokenType.OBJECT)) {
+                    object = (TokenObject) i;
+                }
+            }
 
-            parserOutputs.add(new ParserOutput(phrase.get(0), );
+            if (objects.contains(object)) {
+                parserOutputs.add(new ParserOutput(verb, object, null);
+            }
 
         }
 
         return parserOutputs;
+    }
+
+    public List<TokenType> getTokenType(List<Token> phrase) {
+        List<TokenType> tokens = new ArrayList<>();
+
+        for (Token i : phrase) {
+            tokens.add(i.getType());
+        }
+        return tokens;
     }
 
 }

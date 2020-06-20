@@ -10,26 +10,19 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import prisonbreak.parser.Token;
+import prisonbreak.parser.TokenType;
+
 /**
  * @author pierpaolo
  */
-public class TokenVerb {
-
-    private final VerbType type;
-
+public class TokenVerb extends Token {
     private final String name;
-
     private Set<String> alias;
 
-    public TokenVerb(VerbType type, String name) {
-        this.type = type;
+    public TokenVerb(String name, Set<String> alias) {
+        super(TokenType.VERB, alias);
         this.name = name;
-    }
-
-    public TokenVerb(VerbType type, String name, Set<String> alias) {
-        this.type = type;
-        this.name = name;
-        this.alias = alias;
     }
 
     public String getName() {
@@ -40,22 +33,14 @@ public class TokenVerb {
         return alias;
     }
 
-    public void setAlias(Set<String> alias) {
-        this.alias = alias;
-    }
-
     public void setAlias(String[] alias) {
         this.alias = new HashSet<>(Arrays.asList(alias));
-    }
-
-    public VerbType getType() {
-        return type;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 97 * hash + Objects.hashCode(this.type);
+        hash = 97 * hash + Objects.hashCode(this.getType());
         return hash;
     }
 
@@ -70,8 +55,11 @@ public class TokenVerb {
         if (getClass() != obj.getClass()) {
             return false;
         }
+
         final TokenVerb other = (TokenVerb) obj;
-        if (this.type != other.type) {
+        if (this.getType() != other.getType()
+                || this.getName() != other.getName()
+                || this.getAlias() != other.getAlias()) {
             return false;
         }
         return true;

@@ -1,11 +1,11 @@
 package prisonbreak.parser;
 
-import prisonbreak.utils.LexicalErrorException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import prisonbreak.utils.LexicalErrorException;
 
 public class ScannerTokenIta extends ScannerToken {
     private final Token article = new Token(TokenType.ARTICLE);
@@ -41,7 +41,7 @@ public class ScannerTokenIta extends ScannerToken {
 
         for (String stringToken : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
             // TODO IMPROVEMENT REQUIRED
-            Token token;
+            Token token = null;
             if (getVerbs()
                     .stream()
                     .filter(t -> t.isAlias(stringToken))
@@ -65,13 +65,14 @@ public class ScannerTokenIta extends ScannerToken {
             } else if (adjective.isAlias(stringToken)) {
                 token = adjective;
             } else if (junction.isAlias(stringToken)) {
-                phrase.add(TokenType.JUNCTION);
+                token = junction;
             } else {
                 // If the stringToken is empty, the user has entered several consecutive skip characters
                 if (!stringToken.isEmpty()) {
                     throw new LexicalErrorException();
                 }
             }
+            phrase.add(token);
         }
 
         return phrase.iterator();
