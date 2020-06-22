@@ -12,39 +12,39 @@ import java.util.Set;
 /**
  * @author pierpaolo
  */
-public class AdvObjectContainer extends AdvObject {
+public class TokenObjectContainer extends TokenObject {
 
-    private List<AdvObject> list = new ArrayList<>();
+    private List<TokenObject> list = new ArrayList<>();
 
-    public AdvObjectContainer(int id) {
+    public TokenObjectContainer(int id) {
         super(id);
     }
 
-    public AdvObjectContainer(int id, String name) {
+    public TokenObjectContainer(int id, String name) {
         super(id, name);
     }
 
-    public AdvObjectContainer(int id, String name, String description) {
+    public TokenObjectContainer(int id, String name, String description) {
         super(id, name, description);
     }
 
-    public AdvObjectContainer(int id, String name, String description, Set<String> alias) {
+    public TokenObjectContainer(int id, String name, String description, Set<String> alias) {
         super(id, name, description, alias);
     }
 
-    public List<AdvObject> getList() {
+    public List<TokenObject> getList() {
         return list;
     }
 
-    public void setList(List<AdvObject> list) {
+    public void setList(List<TokenObject> list) {
         this.list = list;
     }
 
-    public void add(AdvObject o) {
+    public void add(TokenObject o) {
         list.add(o);
     }
 
-    public void remove(AdvObject o) {
+    public void remove(TokenObject o) {
         list.remove(o);
     }
 
