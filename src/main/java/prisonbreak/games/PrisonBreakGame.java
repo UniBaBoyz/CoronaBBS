@@ -1,14 +1,15 @@
 package prisonbreak.games;
 
-import prisonbreak.GameDescription;
-import prisonbreak.parser.ParserOutput;
-import prisonbreak.type.Room;
-import prisonbreak.type.TokenVerb;
-import prisonbreak.type.VerbType;
-
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
+
+import prisonbreak.GameDescription;
+import prisonbreak.parser.ParserOutput;
+import prisonbreak.type.Room;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
+import prisonbreak.type.VerbType;
 
 public class PrisonBreakGame extends GameDescription {
 
@@ -60,7 +61,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(pull);
 
         TokenVerb turn_on = new TokenVerb(VerbType.TURN_ON);
-        turn_on.setAlias(new HashSet<>(Arrays.asList("Accendi", "On"));
+        turn_on.setAlias(new HashSet<>(Arrays.asList("Accendi", "On")));
         getTokenVerbs().add(turn_on);
 
         TokenVerb turn_off = new TokenVerb(VerbType.TURN_OFF);
@@ -98,41 +99,53 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(stand_up);
 
         TokenVerb sit_down = new TokenVerb(VerbType.SIT_DOWN);
-        sit_down.setAlias(new String[]{"Siediti", "Sdraiati", "Dormi", "Rilassati", "Abbassati")));
+        sit_down.setAlias(new HashSet<>(Arrays.asList("Siediti", "Sdraiati", "Dormi", "Rilassati", "Abbassati")));
         getTokenVerbs().add(sit_down);
-        
-        TokenVerb climb = new TokenVerb(VerbType.CLIMB, "arrampicati");
-        climb.setAlias(new String[]{"sali", "scendi", "buttati", "scivola", "scavalca", "salta"});
+
+        TokenVerb climb = new TokenVerb(VerbType.CLIMB);
+        climb.setAlias(new HashSet<>(Arrays.asList("Arrampicati", "Sali", "Scendi", "Buttati", "Scivola", "Scavalca", "Salta")));
         getTokenVerbs().add(climb);
-        TokenVerb use = new TokenVerb(VerbType.USE, "usa");
-        use.setAlias(new String[]{"prova", "testa"});
+
+        TokenVerb use = new TokenVerb(VerbType.USE);
+        use.setAlias(new HashSet<>(Arrays.asList("Usa", "Prova", "Testa", "Utilizza", "Adopera", "Usufruisci")));
         getTokenVerbs().add(use);
-        //si intende uscire da una stanza e non uscire dal gioco
-        TokenVerb exit = new TokenVerb(VerbType.EXIT, "esci");
-        exit.setAlias(new String[]{"indietreggia", "ritorna", "scappa",
-                "spostati", "togliti", "levati", "vai", "vai via", "fuggi"});
+
+        //Exit from a room, not from the game
+        TokenVerb exit = new TokenVerb(VerbType.EXIT);
+        exit.setAlias(new HashSet<>(Arrays.asList("Esci", "Indietreggia", "Ritorna", "Scappa",
+                "Spostati", "Togliti", "Levati", "Vai", "Fuggi")));
         getTokenVerbs().add(exit);
-        TokenVerb esci = new TokenVerb(VerbType.ENTER, "entra");
-        esci.setAlias(new String[]{"vai", "vai dentro"});
+
+        TokenVerb esci = new TokenVerb(VerbType.ENTER);
+        esci.setAlias(new HashSet<>(Arrays.asList("Entra", "Vai", "Accedi")));
         getTokenVerbs().add(esci);
-        TokenVerb accept = new TokenVerb(VerbType.ACCEPT, "accetta");
-        accept.setAlias(new String[]{"si", "ok", "okay", "conferma", "d'accordo", "va bene", "perfetto", "concedi"});
+
+        TokenVerb accept = new TokenVerb(VerbType.ACCEPT);
+        accept.setAlias(new HashSet<>(Arrays.asList("Accetta", "Sì", "Si", "Ok", "Okay", "Conferma", "D'accordo",
+                "Perfetto", "Concedi")));
         getTokenVerbs().add(accept);
-        TokenVerb decline = new TokenVerb(VerbType.DECLINE, "declina");
-        decline.setAlias(new String[]{"rifiuta", "no", "non va bene"});
+
+        TokenVerb decline = new TokenVerb(VerbType.DECLINE);
+        decline.setAlias(new HashSet<>(Arrays.asList("Declina", "Rifiuta", "No", "Respingi", "Evita", "Rinuncia")));
         getTokenVerbs().add(decline);
-        TokenVerb put_in = new TokenVerb(VerbType.PUT_IN, "immetti");
-        put_in.setAlias(new String[]{"inserisci", "togli", "introduci", "prova"});
+
+        TokenVerb put_in = new TokenVerb(VerbType.PUT_IN);
+        put_in.setAlias(new HashSet<>(Arrays.asList("Immetti", "Inserisci", "Togli", "Introduci", "Prova")));
         getTokenVerbs().add(put_in);
-        TokenVerb give = new TokenVerb(VerbType.GIVE, "dai");
-        give.setAlias(new String[]{"lascia", "cedi", "dona", "regala", "poni", "concedi"});
+
+        TokenVerb give = new TokenVerb(VerbType.GIVE);
+        give.setAlias(new HashSet<>(Arrays.asList("Dai", "Lascia", "Cedi", "Dona", "Regala", "Poni", "Concedi", "Porgi",
+                "Consegna", "Offri", "Lascia")));
         getTokenVerbs().add(give);
-        TokenVerb make = new TokenVerb(VerbType.MAKE, "fai");
-        make.setAlias(new String[]{"crea", "prepara", "inventa", "mischia", "mescola", "produci"});
+
+        TokenVerb make = new TokenVerb(VerbType.MAKE);
+        make.setAlias(new HashSet<>(Arrays.asList("Fai", "Crea", "Prepara", "Inventa", "Mischia", "Mescola", "Produci",
+                "Costruisci", "Fabbrica", "Realizza", "Genera", "Componi", "Origina")));
         getTokenVerbs().add(make);
-        TokenVerb remove = new TokenVerb(VerbType.REMOVE, "rimuovi");
-        remove.setAlias(new String[]{"togli", "corrodi", "elimina", "rompi",
-                "spezza", "distruggi", "fracassa", "frantuma", "sgretola"});
+
+        TokenVerb remove = new TokenVerb(VerbType.REMOVE);
+        remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Togli", "Corrodi", "Elimina", "Rompi",
+                "Spezza", "Distruggi", "Fracassa", "Frantuma", "Sgretola", "Sposta")));
         getTokenVerbs().add(remove);
 
         //Descrizione cella
@@ -520,63 +533,67 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(window);
         getRooms().add(out_isolation1);
 
-        AdvObject screw= new AdvObject(1, "vite", "E' una semplice vite con inciso il numero di" +
+        TokenObject screw = new TokenObject(1, "E' una semplice vite con inciso il numero di" +
                 " serie: 11121147");
-        screw.setAlias(new String[]{"viti", "cacciavite", "cacciaviti","chiodo"});
+        screw.setAlias(new HashSet<>(Arrays.asList("Vite", "Chiodo")));
         brawl1.getObjects().add(screw);
-        AdvObject scotch= new AdvObject(2, "scotch", "E' un semplice scotch, dimenticato li" +
+
+        TokenObject scotch = new TokenObject(2, "E' un semplice scotch, dimenticato li" +
                 " forse da qualche operaio!");
-        scotch.setAlias(new String[]{"nastro", "nastro adesivo"});
+        scotch.setAlias(new HashSet<>(Arrays.asList("Scotch", "Nastro")));
         air_duct_west.getObjects().add(scotch);
-        AdvObject tools= new AdvObject(3, "attrezzi", "Sono degli attrezzi da palestra, ottimi" +
+
+        TokenObject tools = new TokenObject(3, "Sono degli attrezzi da palestra, ottimi" +
                 " per allenarsi e aumentare la forza!");
-        tools.setAlias(new String[]{"manubri", "pesi"});
+        tools.setAlias(new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")));
         tools.setPickupable(false);
         tools.setUsable(true);
         gym.getObjects().add(tools);
-        AdvObject food = new AdvObject(4, "cibo", "C'è solo il tuo pranzo, puoi mangiarlo anche" +
+
+        TokenObject food = new TokenObject(4, "C'è solo il tuo pranzo, puoi mangiarlo anche" +
                 " se non servirà a nulla");
-        food.setAlias(new String[]{"pranzo", "cena","piatto","tavolo"});
+        food.setAlias(new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto", "Tavolo")));
         tools.setEatable(true);
         cell.getObjects().add(food);
         cell1.getObjects().add(food);
         cell2.getObjects().add(food);
-        AdvObject ball = new AdvObject(5, "palla da basket", "E' un semplice pallone da basket");
-        ball.setAlias(new String[]{"palla", "pallone","pallone da basket"});
+
+        TokenObject ball = new TokenObject(5, "E' un semplice pallone da basket");
+        ball.setAlias(new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")));
         ball.setUsable(true);
         basket.getObjects().add(ball);
-        AdvObject ladder = new AdvObject(6, "scala", "E' solo una scala in legno, " +
-                "sembra molto leggera e facile da spostare");
-        ladder.setAlias(new String[]{"scaletta", "scala in legno"});
         passage_south.getObjects().add(ball);
 
-        AdvObject scalpel = new AdvObject(7, "bisturi", "Sono solo tanti bisturi tutti uguali!");
-        scalpel.setAlias(new String[]{});
+        TokenObject ladder = new TokenObject(6, "E' solo una scala in legno, " +
+                "sembra molto leggera e facile da spostare");
+        ladder.setAlias(new HashSet<>(Arrays.asList("Scala", "Scaletta")));
+
+        TokenObject scalpel = new TokenObject(7, "Sono solo tanti bisturi tutti uguali!");
+        scalpel.setAlias(new HashSet<>(Arrays.asList("Bisturi", "Lama")));
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
 
-        AdvObject hacksaw = new AdvObject(8, "seghetto", "E’ un seghetto molto affilato," +
+        TokenObject hacksaw = new TokenObject(8, "E’ un seghetto molto affilato," +
                 " potresti riuscire a rompere qualcosa");
-        hacksaw.setAlias(new String[]{"sega","taglierino"});
+        hacksaw.setAlias(new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")));
         scalpel.setUsable(true);
-        //TO DO assegnare oggetto a Jonny Bello
 
-        AdvObject substances = new AdvObject(9, "sostanze", "Sul tavolo puoi vedere alcuni " +
+        //TODO assegnare oggetto a Jonny Bello
+        TokenObject substances = new TokenObject(9, "Sul tavolo puoi vedere alcuni " +
                 "strumenti di lavoro e alcune sostanze come: Cloruro di sodio, acido solforico e altre sostanze" +
                 " di cui non riesco nemmeno a leggere il nome!");
-        substances.setAlias(new String[]{"tavolo con strumenti","ingredienti","acido","sostanze chimiche"});
+        substances.setAlias(new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Acido", "Oggetti")));
         substances.setUsable(true);
         substances.setMixable(true);
         infirmary1.getObjects().add(substances);
 
-        AdvObject medicine = new AdvObject(10, "farmaco alle ortiche", "E' un medicinale per" +
+        //TODO da mettere nell'inventario nella prima fase del gioco
+        TokenObject medicine = new TokenObject(10, "E' un medicinale per" +
                 " alleviare i dolori.");
-        medicine.setAlias(new String[]{"farmaco","medicina","compresse alle ortiche","compresse","sciroppo",
-                "sciroppo alle ortiche"});
+        medicine.setAlias(new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse", "sciroppo")));
         medicine.setGive(true);
-        //TO DO mettere nell'inventario
 
-        //set starting room
+        //Set starting room
         setCurrentRoom(cell);
     }
 

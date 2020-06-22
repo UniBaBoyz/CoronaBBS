@@ -5,10 +5,10 @@
  */
 package prisonbreak.type;
 
+import java.util.Set;
+
 import prisonbreak.parser.Token;
 import prisonbreak.parser.TokenType;
-
-import java.util.Set;
 
 /**
  * @author pierpaolo
@@ -16,7 +16,6 @@ import java.util.Set;
 public class TokenObject extends Token {
 
     private final int id;
-    private String name;
     private String description;
     private boolean openable = false;
     private boolean pickupable = true;
@@ -38,33 +37,17 @@ public class TokenObject extends Token {
         this.id = id;
     }
 
-    public TokenObject(int id, String name) {
+    public TokenObject(int id, String description) {
         super(TokenType.OBJECT);
         this.id = id;
-        this.name = name;
-    }
-
-    public TokenObject(int id, String name, String description) {
-        super(TokenType.OBJECT);
-        this.id = id;
-        this.name = name;
         this.description = description;
     }
 
-    public TokenObject(int id, String name, String description, Set<String> alias) {
+    public TokenObject(int id, String description, Set<String> alias) {
         super(TokenType.OBJECT);
         this.id = id;
-        this.name = name;
         this.description = description;
-        super.addAlias(alias);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        super.setAlias(alias);
     }
 
     public String getDescription() {
