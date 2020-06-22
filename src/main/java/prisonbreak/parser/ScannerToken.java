@@ -2,7 +2,7 @@ package prisonbreak.parser;
 
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
-import prisonbreak.utils.SkipCharactersEmptyException;
+import prisonbreak.Exceptions.SkipCharactersEmptyException;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import prisonbreak.utils.LexicalErrorException;
+import prisonbreak.Exceptions.LexicalErrorException;
 
 public class ScannerTokenIta extends ScannerToken {
     private final Token article = new Token(TokenType.ARTICLE);

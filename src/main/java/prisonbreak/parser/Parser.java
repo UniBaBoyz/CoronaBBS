@@ -2,7 +2,7 @@ package prisonbreak.parser;
 
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
-import prisonbreak.utils.SyntaxErrorException;
+import prisonbreak.Exceptions.SyntaxErrorException;
 
 import java.util.ArrayList;
 import java.util.Iterator;

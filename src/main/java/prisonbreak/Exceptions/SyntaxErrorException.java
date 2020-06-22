@@ -1,4 +1,4 @@
-package prisonbreak.utils;
+package prisonbreak.Exceptions;
 
 public class SyntaxErrorException extends InputErrorException {
 
