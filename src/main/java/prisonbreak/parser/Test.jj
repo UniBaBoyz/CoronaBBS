@@ -1,0 +1,37 @@
+options {
+    IGNORE_CASE = true;
+    ERROR_REPORTING = true;
+    SANITY_CHECK = true;
+    STATIC = true;
+    GENERATE_ANNOTATIONS = true;
+}
+
+PARSER_BEGIN(Test)
+
+public class Test {}
+
+PARSER_END(Test)
+
+SKIP : {"\t" | "\r" | " "}
+
+TOKEN : {
+    <verb: "verb" > |
+    <object: "object" > |
+    <article: "article" > |
+    <adjective: "adjective" > |
+    <junction: "junction" >
+}
+
+void sentence() : {} {
+    <verb> |
+    <verb> <object> |
+    <verb> <article> <object> |
+    <verb> <object> <adjective> |
+    <verb> <adjective> <object> |
+    <verb> <article> <object> <adjective> |
+    <verb> <article> <adjective> <object>
+}
+
+void complexSentence() : {} {
+    sentence() (<junction> sentence())+
+}

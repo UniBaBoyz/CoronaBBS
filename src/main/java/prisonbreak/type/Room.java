@@ -14,7 +14,7 @@ import java.util.List;
 public class Room {
 
     private final int id;
-    private final List<AdvObject> objects = new ArrayList<>();
+    private final List<TokenObject> objects = new ArrayList<>();
     private String name;
     private String description;
     private String look;
@@ -90,7 +90,7 @@ public class Room {
         this.west = west;
     }
 
-    public List<AdvObject> getObjects() {
+    public List<TokenObject> getObjects() {
         return objects;
     }
 

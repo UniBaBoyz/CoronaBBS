@@ -5,13 +5,6 @@
  */
 package prisonbreak.games;
 
-import prisonbreak.GameDescription;
-import prisonbreak.parser.ParserOutput;
-import prisonbreak.type.*;
-
-import java.io.PrintStream;
-import java.util.Iterator;
-
 /**
  * ATTENZIONE: La descrizione del gioco è fatta in modo che qualsiasi gioco
  * debba estendere la classe GameDescription. L'Engine è fatto in modo che posso
@@ -26,41 +19,44 @@ import java.util.Iterator;
  *
  * @author pierpaolo
  */
+
+
+/* FIXME
 public class FireHouseGame extends GameDescription {
 
     @Override
     public void init() throws Exception {
         //Commands
-        Command nord = new Command(CommandType.NORD, "nord");
+        TokenVerb nord = new TokenVerb(VerbType.NORD, "nord");
         nord.setAlias(new String[]{"n", "N", "Nord", "NORD"});
-        getCommands().add(nord);
-        Command iventory = new Command(CommandType.INVENTORY, "inventario");
+        getTokenVerbs().add(nord);
+        TokenVerb iventory = new TokenVerb(VerbType.INVENTORY, "inventario");
         iventory.setAlias(new String[]{"inv", "i", "I"});
-        getCommands().add(iventory);
-        Command sud = new Command(CommandType.SOUTH, "sud");
+        getTokenVerbs().add(iventory);
+        TokenVerb sud = new TokenVerb(VerbType.SOUTH, "sud");
         sud.setAlias(new String[]{"s", "S", "Sud", "SUD"});
-        getCommands().add(sud);
-        Command est = new Command(CommandType.EAST, "est");
+        getTokenVerbs().add(sud);
+        TokenVerb est = new TokenVerb(VerbType.EAST, "est");
         est.setAlias(new String[]{"e", "E", "Est", "EST"});
-        getCommands().add(est);
-        Command ovest = new Command(CommandType.WEST, "ovest");
+        getTokenVerbs().add(est);
+        TokenVerb ovest = new TokenVerb(VerbType.WEST, "ovest");
         ovest.setAlias(new String[]{"o", "O", "Ovest", "OVEST"});
-        getCommands().add(ovest);
-        Command end = new Command(CommandType.END, "end");
+        getTokenVerbs().add(ovest);
+        TokenVerb end = new TokenVerb(VerbType.END, "end");
         end.setAlias(new String[]{"end", "fine", "esci", "muori", "ammazzati", "ucciditi", "suicidati", "exit"});
-        getCommands().add(end);
-        Command look = new Command(CommandType.LOOK_AT, "osserva");
+        getTokenVerbs().add(end);
+        TokenVerb look = new TokenVerb(VerbType.LOOK_AT, "osserva");
         look.setAlias(new String[]{"guarda", "vedi", "trova", "cerca", "descrivi"});
-        getCommands().add(look);
-        Command pickup = new Command(CommandType.PICK_UP, "raccogli");
+        getTokenVerbs().add(look);
+        TokenVerb pickup = new TokenVerb(VerbType.PICK_UP, "raccogli");
         pickup.setAlias(new String[]{"prendi"});
-        getCommands().add(pickup);
-        Command open = new Command(CommandType.OPEN, "apri");
+        getTokenVerbs().add(pickup);
+        TokenVerb open = new TokenVerb(VerbType.OPEN, "apri");
         open.setAlias(new String[]{});
-        getCommands().add(open);
-        Command push = new Command(CommandType.PUSH, "premi");
+        getTokenVerbs().add(open);
+        TokenVerb push = new TokenVerb(VerbType.PUSH, "premi");
         push.setAlias(new String[]{"spingi", "attiva"});
-        getCommands().add(push);
+        getTokenVerbs().add(push);
         //Rooms
         Room hall = new Room(0, "Corridoio", "Sei appena tornato a casa e non sai cosa fare. Ti ricordi che non hai ancora aperto quel fantastico regalo di tua zia Lina."
                 + " Sarà il caso di cercarlo e di giocarci!");
@@ -89,16 +85,16 @@ public class FireHouseGame extends GameDescription {
         getRooms().add(bathroom);
         getRooms().add(yourRoom);
         //obejcts
-        AdvObject battery = new AdvObject(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
+        TokenObject battery = new TokenObject(1, "batteria", "Un pacco di batterie, chissà se sono cariche.");
         battery.setAlias(new String[]{"batterie", "pile", "pila"});
         bathroom.getObjects().add(battery);
-        AdvObjectContainer wardrobe = new AdvObjectContainer(2, "armadio", "Un semplice armadio.");
+        TokenObjectContainer wardrobe = new TokenObjectContainer(2, "armadio", "Un semplice armadio.");
         wardrobe.setAlias(new String[]{"guardaroba", "vestiario"});
         wardrobe.setOpenable(true);
         wardrobe.setPickupable(false);
         wardrobe.setOpen(false);
         yourRoom.getObjects().add(wardrobe);
-        AdvObject toy = new AdvObject(3, "giocattolo", "Il gioco che ti ha regalato zia Lina.");
+        TokenObject toy = new TokenObject(3, "giocattolo", "Il gioco che ti ha regalato zia Lina.");
         toy.setAlias(new String[]{"gioco", "robot"});
         toy.setPushable(true);
         toy.setPush(false);
@@ -109,52 +105,52 @@ public class FireHouseGame extends GameDescription {
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
-        if (p.getCommand() == null) {
+        if (p.getVerb() == null) {
             out.println("Non ho capito cosa devo fare! Prova con un altro comando.");
         } else {
             //move
             boolean noroom = false;
             boolean move = false;
-            if (p.getCommand().getType() == CommandType.NORD) {
+            if (p.getVerb().getType() == VerbType.NORD) {
                 if (getCurrentRoom().getNorth() != null) {
                     setCurrentRoom(getCurrentRoom().getNorth());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.SOUTH) {
+            } else if (p.getVerb().getType() == VerbType.SOUTH) {
                 if (getCurrentRoom().getSouth() != null) {
                     setCurrentRoom(getCurrentRoom().getSouth());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.EAST) {
+            } else if (p.getVerb().getType() == VerbType.EAST) {
                 if (getCurrentRoom().getEast() != null) {
                     setCurrentRoom(getCurrentRoom().getEast());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.WEST) {
+            } else if (p.getVerb().getType() == VerbType.WEST) {
                 if (getCurrentRoom().getWest() != null) {
                     setCurrentRoom(getCurrentRoom().getWest());
                     move = true;
                 } else {
                     noroom = true;
                 }
-            } else if (p.getCommand().getType() == CommandType.INVENTORY) {
+            } else if (p.getVerb().getType() == VerbType.INVENTORY) {
                 out.println("Nel tuo inventario ci sono:");
-                for (AdvObject o : getInventory()) {
+                for (TokenObject o : getInventory()) {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
-            } else if (p.getCommand().getType() == CommandType.LOOK_AT) {
+            } else if (p.getVerb().getType() == VerbType.LOOK_AT) {
                 if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
                 }
-            } else if (p.getCommand().getType() == CommandType.PICK_UP) {
+            } else if (p.getVerb().getType() == VerbType.PICK_UP) {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
@@ -166,26 +162,29 @@ public class FireHouseGame extends GameDescription {
                 } else {
                     out.println("Non c'è niente da raccogliere qui.");
                 }
-            } else if (p.getCommand().getType() == CommandType.OPEN) {
+            } else if (p.getVerb().getType() == VerbType.OPEN) {
                 /*ATTENZIONE: quando un oggetto contenitore viene aperto, tutti gli oggetti contenuti
                  * vengongo inseriti nella stanza o nell'inventario a seconda di dove si trova l'oggetto contenitore.
                  * Questa soluzione NON va bene poiché quando un oggetto contenitore viene richiuso è complicato
                  * non rendere più disponibili gli oggetti contenuti rimuovendoli dalla stanza o dall'invetario.
                  * Trovare altra soluzione.
                  */
+
+                /* //FIXME
+
                 if (p.getObject() == null && p.getInvObject() == null) {
                     out.println("Non c'è niente da aprire qui.");
                 } else {
                     if (p.getObject() != null) {
                         if (p.getObject().isOpenable() && p.getObject().isOpen() == false) {
-                            if (p.getObject() instanceof AdvObjectContainer) {
+                            if (p.getObject() instanceof TokenObjectContainer) {
                                 out.println("Hai aperto: " + p.getObject().getName());
-                                AdvObjectContainer c = (AdvObjectContainer) p.getObject();
+                                TokenObjectContainer c = (TokenObjectContainer) p.getObject();
                                 if (!c.getList().isEmpty()) {
                                     out.print(c.getName() + " contiene:");
-                                    Iterator<AdvObject> it = c.getList().iterator();
+                                    Iterator<TokenObject> it = c.getList().iterator();
                                     while (it.hasNext()) {
-                                        AdvObject next = it.next();
+                                        TokenObject next = it.next();
                                         getCurrentRoom().getObjects().add(next);
                                         out.print(" " + next.getName());
                                         it.remove();
@@ -202,13 +201,13 @@ public class FireHouseGame extends GameDescription {
                     }
                     if (p.getInvObject() != null) {
                         if (p.getInvObject().isOpenable() && p.getInvObject().isOpen() == false) {
-                            if (p.getInvObject() instanceof AdvObjectContainer) {
-                                AdvObjectContainer c = (AdvObjectContainer) p.getInvObject();
+                            if (p.getInvObject() instanceof TokenObjectContainer) {
+                                TokenObjectContainer c = (TokenObjectContainer) p.getInvObject();
                                 if (!c.getList().isEmpty()) {
                                     out.print(c.getName() + " contiene:");
-                                    Iterator<AdvObject> it = c.getList().iterator();
+                                    Iterator<TokenObject> it = c.getList().iterator();
                                     while (it.hasNext()) {
-                                        AdvObject next = it.next();
+                                        TokenObject next = it.next();
                                         getInventory().add(next);
                                         out.print(" " + next.getName());
                                         it.remove();
@@ -224,7 +223,7 @@ public class FireHouseGame extends GameDescription {
                         }
                     }
                 }
-            } else if (p.getCommand().getType() == CommandType.PUSH) {
+            } else if (p.getVerb().getType() == VerbType.PUSH) {
                 //ricerca oggetti pushabili
                 if (p.getObject() != null && p.getObject().isPushable()) {
                     out.println("Hai premuto: " + p.getObject().getName());
@@ -255,3 +254,6 @@ public class FireHouseGame extends GameDescription {
         System.exit(0);
     }
 }
+
+
+FIXME*/

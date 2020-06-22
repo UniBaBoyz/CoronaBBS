@@ -5,51 +5,48 @@
  */
 package prisonbreak.parser;
 
-import prisonbreak.type.AdvObject;
-import prisonbreak.type.Command;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
 
 /**
  * @author pierpaolo
  */
 public class ParserOutput {
 
-    private Command command;
-    private AdvObject object;
-    private AdvObject invObject;
+    private TokenVerb verb;
+    private TokenObject object;
 
-    public ParserOutput(Command command, AdvObject object) {
-        this.command = command;
+    public ParserOutput(TokenVerb verb) {
+        this.verb = verb;
+        this.object = null;
+    }
+
+    public ParserOutput(TokenVerb verb, TokenObject object) {
+        this.verb = verb;
         this.object = object;
     }
 
-    public ParserOutput(Command command, AdvObject object, AdvObject invObejct) {
-        this.command = command;
-        this.object = object;
-        this.invObject = invObejct;
+    public TokenVerb getVerb() {
+        return verb;
     }
 
-    public Command getCommand() {
-        return command;
+    public void setVerb(TokenVerb verb) {
+        this.verb = verb;
     }
 
-    public void setCommand(Command command) {
-        this.command = command;
-    }
-
-    public AdvObject getObject() {
+    public TokenObject getObject() {
         return object;
     }
 
-    public void setObject(AdvObject object) {
+    public void setObject(TokenObject object) {
         this.object = object;
     }
 
-    public AdvObject getInvObject() {
-        return invObject;
+    @Override
+    public String toString() {
+        return "ParserOutput{" +
+                "verb=" + verb +
+                ", object=" + object +
+                '}';
     }
-
-    public void setInvObject(AdvObject invObject) {
-        this.invObject = invObject;
-    }
-
 }

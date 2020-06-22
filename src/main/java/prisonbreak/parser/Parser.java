@@ -1,80 +1,68 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package prisonbreak.parser;
 
-import prisonbreak.type.AdvObject;
-import prisonbreak.type.Command;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
+import prisonbreak.utils.SyntaxErrorException;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-/**
- * @author pierpaolo
- */
-public class Parser {
+public abstract class Parser {
+    private final ScannerToken scanner;
+    private final List<List<TokenType>> validPhrases;
 
-    private int checkForCommand(String token, List<Command> commands) {
-        for (int i = 0; i < commands.size(); i++) {
-            if (commands.get(i).getName().equals(token) || commands.get(i).getAlias().contains(token)) {
-                return i;
-            }
-        }
-        return -1;
+    public Parser(List<List<TokenType>> validPhrases, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives) {
+        scanner = initScanner(verbs, objects, adjectives);
+        this.validPhrases = new ArrayList<>(validPhrases);
     }
 
-    private int checkForObject(String token, List<AdvObject> obejcts) {
-        for (int i = 0; i < obejcts.size(); i++) {
-            if (obejcts.get(i).getName().equals(token) || obejcts.get(i).getAlias().contains(token)) {
-                return i;
-            }
-        }
-        return -1;
+    public ScannerToken getScanner() {
+        return scanner;
     }
 
-    /* ATTENZIONE: il parser è implementato in modo abbastanza independete dalla lingua mi riconosce solo
-     * frasi semplici del tipo <azione> <oggetto> <oggetto> non permette di utilizzare articoli o preposizioni.
-     * L'utilizzo di articoli o preporsizioni lo renderebbero dipendente dalla lingua, o meglio bisognerebbe
-     * realizzare un parser per ogni lingua, prevedendo un'iterfaccia/classe astratta Perser e diverse
-     * implementazioni per ogni lingua.
-     */
-    public ParserOutput parse(String command, List<Command> commands, List<AdvObject> objects, List<AdvObject> inventory) {
-        String cmd = command.toLowerCase().trim();
-        String[] tokens = cmd.split("\\s+");
-        if (tokens.length > 0) {
-            int ic = checkForCommand(tokens[0], commands);
-            if (ic > -1) {
-                if (tokens.length > 1) {
-                    int io = checkForObject(tokens[1], objects);
-                    int ioinv = -1;
-                    if (io < 0 && tokens.length > 2) {
-                        io = checkForObject(tokens[2], objects);
-                    }
-                    if (io < 0) {
-                        ioinv = checkForObject(tokens[1], inventory);
-                        if (ioinv < 0 && tokens.length > 2) {
-                            ioinv = checkForObject(tokens[2], inventory);
-                        }
-                    }
-                    if (io > -1 && ioinv > -1) {
-                        return new ParserOutput(commands.get(ic), objects.get(io), inventory.get(ioinv));
-                    } else if (io > -1) {
-                        return new ParserOutput(commands.get(ic), objects.get(io), null);
-                    } else if (ioinv > -1) {
-                        return new ParserOutput(commands.get(ic), null, inventory.get(ioinv));
-                    } else {
-                        return new ParserOutput(commands.get(ic), null, null);
-                    }
-                } else {
-                    return new ParserOutput(commands.get(ic), null);
-                }
-            } else {
-                return new ParserOutput(null, null);
-            }
-        } else {
-            return null;
+    public List<TokenType> getTokenType(List<Token> phrase) {
+        List<TokenType> tokens = new ArrayList<>();
+
+        for (Token i : phrase) {
+            tokens.add(i.getType());
         }
+
+        return tokens;
     }
+
+    private boolean isValidPhrase(List<TokenType> phrase) {
+        boolean validPhrase = false;
+
+        Iterator<List<TokenType>> validPhraseIterator = validPhrases.iterator();
+        while (validPhraseIterator.hasNext() && !validPhrase) {
+            validPhrase = validPhraseIterator.next().equals(phrase);
+        }
+
+        return validPhrase;
+    }
+
+    public boolean areValidPhrases(List<List<Token>> phrases) throws Exception {
+        Iterator<List<Token>> iterator;
+        List<TokenType> tokenPhrase;
+        boolean validPhrase = true;
+
+        iterator = phrases.iterator();
+        while (validPhrase && iterator.hasNext()) {
+            tokenPhrase = getTokenType(iterator.next());
+            validPhrase = isValidPhrase(tokenPhrase);
+        }
+
+        if (!validPhrase) {
+            throw new SyntaxErrorException();
+        }
+
+        return validPhrase;
+    }
+
+    public abstract ScannerToken initScanner(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives);
+
+    public abstract List<ParserOutput> parse(String stringToParse) throws Exception;
 
 }
