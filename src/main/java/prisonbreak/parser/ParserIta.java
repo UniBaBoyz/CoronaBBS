@@ -83,7 +83,6 @@ public class ParserIta extends Parser {
         List<List<Token>> phrases; //Each Token list is one sentence combined with another from TokenType.Junction
         Iterator<List<Token>> iterator;
         List<ParserOutput> parserOutputs = new ArrayList<>(); //For each sentence a ParserOutput is created
-        List<TokenType> tokenPhrase;
 
         // Check the syntax of the phrase
         getScanner().setPhrase(stringToParse);
