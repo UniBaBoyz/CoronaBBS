@@ -5,6 +5,7 @@
  */
 package prisonbreak.type;
 
+import java.util.Objects;
 import java.util.Set;
 
 import prisonbreak.parser.Token;
@@ -17,6 +18,7 @@ public class TokenObject extends Token {
 
     private final int id;
     private String description;
+    private Set<String> adjectives;
     private boolean openable = false;
     private boolean pickupable = true;
     private boolean give = false;
@@ -31,23 +33,25 @@ public class TokenObject extends Token {
     private boolean on = false;
     private boolean used = false;
 
-
-    public TokenObject(int id) {
+    public TokenObject(int id, Set<String> alias) {
         super(TokenType.OBJECT);
         this.id = id;
-    }
-
-    public TokenObject(int id, String description) {
-        super(TokenType.OBJECT);
-        this.id = id;
-        this.description = description;
-    }
-
-    public TokenObject(int id, String description, Set<String> alias) {
-        super(TokenType.OBJECT);
-        this.id = id;
-        this.description = description;
         super.setAlias(alias);
+    }
+
+    public TokenObject(int id, Set<String> alias, String description) {
+        super(TokenType.OBJECT);
+        this.id = id;
+        super.setAlias(alias);
+        this.description = description;
+    }
+
+    public TokenObject(int id, Set<String> alias, String description, Set<String> adjectives) {
+        super(TokenType.OBJECT);
+        this.id = id;
+        super.setAlias(alias);
+        this.description = description;
+        this.adjectives = adjectives;
     }
 
     public String getDescription() {
@@ -56,6 +60,18 @@ public class TokenObject extends Token {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<String> getAdjectives() {
+        return adjectives;
+    }
+
+    public void setAdjectives(Set<String> adjectives) {
+        this.adjectives = adjectives;
+    }
+
+    public void setAdjective(String adjective) {
+        this.adjectives.add(adjective);
     }
 
     public boolean isOpenable() {
@@ -90,68 +106,68 @@ public class TokenObject extends Token {
         this.open = open;
     }
 
-    public void setUsable(boolean usable) {
-        this.usable = usable;
-    }
-
-    public void setEat(boolean eat) {
-        this.eat = eat;
-    }
-
-    public void setEatable(boolean eatable) {
-        this.eatable = eatable;
-    }
-
-    public void setGive(boolean give) {
-        this.give = give;
-    }
-
-    public void setGiven(boolean given) {
-        this.given = given;
+    public boolean isMixable() {
+        return mixable;
     }
 
     public void setMixable(boolean mixable) {
         this.mixable = mixable;
     }
 
-    public boolean isMixable() {
-        return mixable;
-    }
-
     public boolean isEat() {
         return eat;
+    }
+
+    public void setEat(boolean eat) {
+        this.eat = eat;
     }
 
     public boolean isEatable() {
         return eatable;
     }
 
+    public void setEatable(boolean eatable) {
+        this.eatable = eatable;
+    }
+
     public boolean isUsable() {
         return usable;
     }
 
-    public void setUsed(boolean used) {
-        this.used = used;
+    public void setUsable(boolean usable) {
+        this.usable = usable;
     }
 
     public boolean isUsed() {
         return used;
     }
 
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
     public boolean isOn() {
         return on;
+    }
+
+    public void setOn(boolean on) {
+        this.on = on;
     }
 
     public boolean isGive() {
         return give;
     }
 
+    public void setGive(boolean give) {
+        this.give = give;
+    }
+
     public boolean isGiven() {
         return given;
     }
 
-    public void setOn(boolean on) {
-        this.on = on;
+    public void setGiven(boolean given) {
+        this.given = given;
     }
 
     public boolean isPush() {
@@ -167,28 +183,15 @@ public class TokenObject extends Token {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + this.id;
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TokenObject that = (TokenObject) o;
+        return id == that.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TokenObject other = (TokenObject) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }

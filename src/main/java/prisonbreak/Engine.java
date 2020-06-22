@@ -7,15 +7,18 @@ package prisonbreak;
 
 //fixme import prisonbreak.games.FireHouseGame;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+
+import prisonbreak.games.PrisonBreakGame;
+import prisonbreak.parser.Parser;
 import prisonbreak.parser.ParserIta;
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 import prisonbreak.type.VerbType;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 
 /**
  * ATTENZIONE: l'Engine è molto spartano, in realtà demanda la logica alla
@@ -28,7 +31,7 @@ public class Engine {
 
     private final GameDescription game;
 
-    //private final ParserTemp parser;
+    private Parser parser;
 
     public Engine(GameDescription game) {
         this.game = game;
@@ -37,17 +40,16 @@ public class Engine {
         } catch (Exception ex) {
             System.err.println(ex);
         }
-        //parser = new ParserTemp();
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //fixme Engine engine = new Engine(new FireHouseGame());
-        //engine.run();
+        Engine engine = new Engine(new PrisonBreakGame());
+        engine.run();
         ParserIta p = new ParserIta(new HashSet<>(Arrays.asList(new TokenVerb(VerbType.USE, new HashSet<>(Arrays.asList("usa", "utilizza"))), new TokenVerb(VerbType.PICK_UP, new HashSet<>(Arrays.asList("prendi", "raccogli"))))),
-                new HashSet<>(Arrays.asList(new TokenObject(0, "Computer", "Computer", new HashSet<>(Arrays.asList("computer", "calcolatore"))), new TokenObject(1, "Mouse", "Mouse", new HashSet<>(Arrays.asList("mouse", "touchpad"))))),
+                new HashSet<>(Arrays.asList(new TokenObject(0, "Computer", new HashSet<>(Arrays.asList("computer", "calcolatore"))), new TokenObject(1, "Mouse", new HashSet<>(Arrays.asList("mouse", "touchpad"))))),
                 new HashSet<>(Arrays.asList("Bianco", "Rotto")));
 
         try {
@@ -60,21 +62,26 @@ public class Engine {
     }
 
     public void run() {
-        /*System.out.println(game.getCurrentRoom().getName());
+        parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
+        System.out.println(game.getCurrentRoom().getName());
         System.out.println("================================================");
         System.out.println(game.getCurrentRoom().getDescription());
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in, "UTF-8");
         while (scanner.hasNextLine()) {
-            String command = scanner.nextLine();
-            ParserOutput p = parser.parse(command, game.getTokenVerbs(), game.getCurrentRoom().getObjects(), game.getInventory());
-            if (p.getVerb() != null && p.getVerb().getType().equals(VerbType.END)) {
-                System.out.println("Addio!");
-                break;
-            } else {
-                game.nextMove(p, System.out);
-                System.out.println("================================================");
+            String input = scanner.nextLine();
+            try {
+                ParserOutput p = parser.parse(input);
+                if (p.getVerb() != null && p.getVerb().getType().equals(VerbType.END)) {
+                    System.out.println("Addio!");
+                    break;
+                } else {
+                    game.nextMove(p, System.out);
+                    System.out.println("================================================");
+                }
+            } catch (Exception e) {
+                e.getMessage();
             }
-        }*/
+        }
     }
 
 }

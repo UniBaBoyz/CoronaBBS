@@ -5,33 +5,34 @@
  */
 package prisonbreak;
 
+import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
+
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.Inventory;
 import prisonbreak.type.Room;
+import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
-
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author pierpaolo
  */
 public abstract class GameDescription {
 
-    private final List<Room> rooms = new ArrayList<>();
+    private final Set<Room> rooms = new HashSet<>();
 
-    private final List<TokenVerb> tokenVerbs = new ArrayList<>();
+    private final Set<TokenVerb> tokenVerbs = new HashSet<>();
 
     private Inventory inventory;
 
     private Room currentRoom;
 
-    public List<Room> getRooms() {
+    public Set<Room> getRooms() {
         return rooms;
     }
 
-    public List<TokenVerb> getTokenVerbs() {
+    public Set<TokenVerb> getTokenVerbs() {
         return tokenVerbs;
     }
 
@@ -50,5 +51,26 @@ public abstract class GameDescription {
     public abstract void init() throws Exception;
 
     public abstract void nextMove(ParserOutput p, PrintStream out);
+
+    public Set<TokenObject> getObjects() {
+        Set<TokenObject> objects = new HashSet<>();
+
+        for (Room i : rooms) {
+            objects.addAll(i.getObjects());
+        }
+
+        return objects;
+    }
+
+    public Set<String> getAdjectives() {
+        Set<String> adjectives = new HashSet<>();
+        Set<TokenObject> objects = new HashSet<>(getObjects());
+
+        for (TokenObject i : objects) {
+            adjectives.addAll(i.getAdjectives());
+        }
+
+        return adjectives;
+    }
 
 }

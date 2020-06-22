@@ -533,33 +533,29 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(window);
         getRooms().add(out_isolation1);
 
-        TokenObject screw = new TokenObject(1, "E' una semplice vite con inciso il numero di" +
-                " serie: 11121147");
-        screw.setAlias(new HashSet<>(Arrays.asList("Vite", "Chiodo")));
+        TokenObject screw = new TokenObject(1, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
+                "E' una semplice vite con inciso il numero di serie: 11121147");
         brawl1.getObjects().add(screw);
 
-        TokenObject scotch = new TokenObject(2, "E' un semplice scotch, dimenticato li" +
-                " forse da qualche operaio!");
-        scotch.setAlias(new HashSet<>(Arrays.asList("Scotch", "Nastro")));
+        TokenObject scotch = new TokenObject(2, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
+                "E' un semplice scotch, dimenticato li forse da qualche operaio!");
         air_duct_west.getObjects().add(scotch);
 
-        TokenObject tools = new TokenObject(3, "Sono degli attrezzi da palestra, ottimi" +
-                " per allenarsi e aumentare la forza!");
-        tools.setAlias(new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")));
+        TokenObject tools = new TokenObject(3, new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
+                "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!");
         tools.setPickupable(false);
         tools.setUsable(true);
         gym.getObjects().add(tools);
 
-        TokenObject food = new TokenObject(4, "C'è solo il tuo pranzo, puoi mangiarlo anche" +
-                " se non servirà a nulla");
-        food.setAlias(new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto", "Tavolo")));
+        TokenObject food = new TokenObject(4, new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto", "Tavolo")),
+                "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla");
         tools.setEatable(true);
         cell.getObjects().add(food);
         cell1.getObjects().add(food);
         cell2.getObjects().add(food);
 
         TokenObject ball = new TokenObject(5, "E' un semplice pallone da basket");
-        ball.setAlias(new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")));
+        ball.setAlias();
         ball.setUsable(true);
         basket.getObjects().add(ball);
         passage_south.getObjects().add(ball);

@@ -5,8 +5,8 @@
  */
 package prisonbreak.type;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author pierpaolo
@@ -14,7 +14,7 @@ import java.util.List;
 public class Room {
 
     private final int id;
-    private final List<TokenObject> objects = new ArrayList<>();
+    private final Set<TokenObject> objects = new HashSet<>();
     private String name;
     private String description;
     private String look;
@@ -90,7 +90,7 @@ public class Room {
         this.west = west;
     }
 
-    public List<TokenObject> getObjects() {
+    public Set<TokenObject> getObjects() {
         return objects;
     }
 
