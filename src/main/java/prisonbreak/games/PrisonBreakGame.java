@@ -534,7 +534,7 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(out_isolation1);
 
         TokenObject screw = new TokenObject(1, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
-                "E' una semplice vite con inciso il numero di serie: 11121147");
+                "E' una semplice vite con inciso il numero di serie: 11121147.");
         brawl1.getObjects().add(screw);
 
         TokenObject scotch = new TokenObject(2, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
@@ -548,45 +548,41 @@ public class PrisonBreakGame extends GameDescription {
         gym.getObjects().add(tools);
 
         TokenObject food = new TokenObject(4, new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto", "Tavolo")),
-                "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla");
+                "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla.");
         tools.setEatable(true);
         cell.getObjects().add(food);
         cell1.getObjects().add(food);
         cell2.getObjects().add(food);
 
-        TokenObject ball = new TokenObject(5, "E' un semplice pallone da basket");
-        ball.setAlias();
+        TokenObject ball = new TokenObject(5, new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")),
+                "E' un semplice pallone da basket.");
         ball.setUsable(true);
         basket.getObjects().add(ball);
         passage_south.getObjects().add(ball);
 
-        TokenObject ladder = new TokenObject(6, "E' solo una scala in legno, " +
-                "sembra molto leggera e facile da spostare");
-        ladder.setAlias(new HashSet<>(Arrays.asList("Scala", "Scaletta")));
+        TokenObject ladder = new TokenObject(6, new HashSet<>(Arrays.asList("Scala", "Scaletta")),
+                "E' solo una scala in legno, sembra molto leggera e facile da spostare.");
 
-        TokenObject scalpel = new TokenObject(7, "Sono solo tanti bisturi tutti uguali!");
-        scalpel.setAlias(new HashSet<>(Arrays.asList("Bisturi", "Lama")));
+        TokenObject scalpel = new TokenObject(7, new HashSet<>(Arrays.asList("Bisturi", "Lama")),
+                "Sono solo tanti bisturi tutti uguali!");
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
 
-        TokenObject hacksaw = new TokenObject(8, "E’ un seghetto molto affilato," +
-                " potresti riuscire a rompere qualcosa");
-        hacksaw.setAlias(new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")));
+        TokenObject hacksaw = new TokenObject(8, new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
+                "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.");
         scalpel.setUsable(true);
 
         //TODO assegnare oggetto a Jonny Bello
-        TokenObject substances = new TokenObject(9, "Sul tavolo puoi vedere alcuni " +
-                "strumenti di lavoro e alcune sostanze come: Cloruro di sodio, acido solforico e altre sostanze" +
-                " di cui non riesco nemmeno a leggere il nome!");
-        substances.setAlias(new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Acido", "Oggetti")));
+        TokenObject substances = new TokenObject(9, new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Acido", "Oggetti")),
+                "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro di sodio, " +
+                        "acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
         substances.setUsable(true);
         substances.setMixable(true);
         infirmary1.getObjects().add(substances);
 
         //TODO da mettere nell'inventario nella prima fase del gioco
-        TokenObject medicine = new TokenObject(10, "E' un medicinale per" +
-                " alleviare i dolori.");
-        medicine.setAlias(new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse", "sciroppo")));
+        TokenObject medicine = new TokenObject(10, new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse", "sciroppo")),
+                "E' un medicinale per alleviare i dolori.");
         medicine.setGive(true);
 
         //Set starting room
