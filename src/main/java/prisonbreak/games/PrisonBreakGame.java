@@ -48,42 +48,43 @@ public class PrisonBreakGame extends GameDescription {
         TokenVerb pull = new TokenVerb(VerbType.PULL, "tira");
         pull.setAlias(new String[]{"trascina"});
         getTokenVerbs().add(pull);
-        TokenVerb turn_on = new TokenVerb(VerbType.TURN_ON, "accendi");
-        turn_on.setAlias(new String[]{"on"});
+        TokenVerb turn_on = new TokenVerb(VerbType.TURN_ON);
+        turn_on.setAlias(new HashSet<>(Arrays.asList("Accendi", "On"));
         getTokenVerbs().add(turn_on);
-        TokenVerb turn_off = new TokenVerb(VerbType.TURN_OFF, "spegni");
-        turn_off.setAlias(new String[]{"off"});
+        TokenVerb turn_off = new TokenVerb(VerbType.TURN_OFF);
+        turn_off.setAlias(new HashSet<>(Arrays.asList("Off", "Spegni")));
         getTokenVerbs().add(turn_off);
-        TokenVerb push = new TokenVerb(VerbType.PUSH, "premi");
-        push.setAlias(new String[]{"spingi", "attiva", "prova", "schiaccia", "pigia"});
+        TokenVerb push = new TokenVerb(VerbType.PUSH);
+        push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Prova", "Schiaccia", "Pigia")));
         getTokenVerbs().add(push);
-        TokenVerb talk = new TokenVerb(VerbType.TALK_TO, "parla");
-        talk.setAlias(new String[]{"chiacchiera", "comunica", "dialoga", "conversa",
-                "affronta", "ascolta", "chiedi", "grida", "urla", "mormora", "sussurra", "bisbiglia", "conferisci"});
+        TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
+        talk.setAlias(new HashSet<>(Arrays.asList("Parla", "Chiacchiera", "Comunica", "Dialoga", "Conversa",
+                "Affronta", "Ascolta", "Chiedi", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
         getTokenVerbs().add(talk);
-        TokenVerb eat = new TokenVerb(VerbType.EAT, "mangia");
-        eat.setAlias(new String[]{"pranza", "cena", "divora", "finisci"});
+        TokenVerb eat = new TokenVerb(VerbType.EAT);
+        eat.setAlias(new HashSet<>(Arrays.asList("Mangia", "Pranza", "Cena", "Divora", "Finisci")));
         getTokenVerbs().add(eat);
-        TokenVerb play = new TokenVerb(VerbType.PLAY, "gioca");
-        play.setAlias(new String[]{"allenati"});
+        TokenVerb play = new TokenVerb(VerbType.PLAY);
+        play.setAlias(new HashSet<>(Arrays.asList("Gioca", "Allenati")));
         getTokenVerbs().add(play);
-        TokenVerb walk = new TokenVerb(VerbType.WALK, "cammina");
-        walk.setAlias(new String[]{"corri", "vai", "muoviti", "striscia", "avvicinati", "avanza", "prosegui"});
+        TokenVerb walk = new TokenVerb(VerbType.WALK);
+        walk.setAlias(new HashSet<>(Arrays.asList("Cammina", "Corri", "Vai", "Muoviti", "Striscia", "Avvicinati",
+                "Avanza", "Prosegui")));
         getTokenVerbs().add(walk);
-        TokenVerb move = new TokenVerb(VerbType.MOVE, "muovi");
-        move.setAlias(new String[]{"sposta", "togli", "leva"});
+        TokenVerb move = new TokenVerb(VerbType.MOVE);
+        move.setAlias(new HashSet<>(Arrays.asList("Muovi", "Sposta", "Togli", "Leva")));
         getTokenVerbs().add(move);
-        TokenVerb stand_up = new TokenVerb(VerbType.STAND_UP, "alzati");
-        stand_up.setAlias(new String[]{"in piedi", "svegliati"});
+        TokenVerb stand_up = new TokenVerb(VerbType.STAND_UP);
+        stand_up.setAlias(new HashSet<>(Arrays.asList("Alzati", "Svegliati")));
         getTokenVerbs().add(stand_up);
-        TokenVerb sit_down = new TokenVerb(VerbType.SIT_DOWN, "siediti");
-        sit_down.setAlias(new String[]{"sdraiati", "dormi", "rilassati", "abbassati"});
+        TokenVerb sit_down = new TokenVerb(VerbType.SIT_DOWN);
+        sit_down.setAlias(new String[]{"Siediti", "Sdraiati", "Dormi", "Rilassati", "Abbassati")));
         getTokenVerbs().add(sit_down);
         TokenVerb climb = new TokenVerb(VerbType.CLIMB, "arrampicati");
         climb.setAlias(new String[]{"sali", "scendi", "buttati", "scivola", "scavalca", "salta"});
         getTokenVerbs().add(climb);
         TokenVerb use = new TokenVerb(VerbType.USE, "usa");
-        use.setAlias(new String[]{"prova","testa"});
+        use.setAlias(new String[]{"prova", "testa"});
         getTokenVerbs().add(use);
         //si intende uscire da una stanza e non uscire dal gioco
         TokenVerb exit = new TokenVerb(VerbType.EXIT, "esci");
@@ -498,15 +499,15 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(window);
         getRooms().add(out_isolation1);
 
-        AdvObject screw= new AdvObject(1, "vite", "E' una semplice vite con inciso il numero di" +
+        AdvObject screw = new AdvObject(1, "vite", "E' una semplice vite con inciso il numero di" +
                 " serie: 11121147");
-        screw.setAlias(new String[]{"viti", "cacciavite", "cacciaviti","chiodo"});
+        screw.setAlias(new String[]{"viti", "cacciavite", "cacciaviti", "chiodo"});
         brawl1.getObjects().add(screw);
-        AdvObject scotch= new AdvObject(2, "scotch", "E' un semplice scotch, dimenticato li" +
+        AdvObject scotch = new AdvObject(2, "scotch", "E' un semplice scotch, dimenticato li" +
                 " forse da qualche operaio!");
         scotch.setAlias(new String[]{"nastro", "nastro adesivo"});
         air_duct_west.getObjects().add(scotch);
-        AdvObject tools= new AdvObject(3, "attrezzi", "Sono degli attrezzi da palestra, ottimi" +
+        AdvObject tools = new AdvObject(3, "attrezzi", "Sono degli attrezzi da palestra, ottimi" +
                 " per allenarsi e aumentare la forza!");
         tools.setAlias(new String[]{"manubri", "pesi"});
         tools.setPickupable(false);
@@ -514,13 +515,13 @@ public class PrisonBreakGame extends GameDescription {
         gym.getObjects().add(tools);
         AdvObject food = new AdvObject(4, "cibo", "C'è solo il tuo pranzo, puoi mangiarlo anche" +
                 " se non servirà a nulla");
-        food.setAlias(new String[]{"pranzo", "cena","piatto","tavolo"});
+        food.setAlias(new String[]{"pranzo", "cena", "piatto", "tavolo"});
         tools.setEatable(true);
         cell.getObjects().add(food);
         cell1.getObjects().add(food);
         cell2.getObjects().add(food);
         AdvObject ball = new AdvObject(5, "palla da basket", "E' un semplice pallone da basket");
-        ball.setAlias(new String[]{"palla", "pallone","pallone da basket"});
+        ball.setAlias(new String[]{"palla", "pallone", "pallone da basket"});
         ball.setUsable(true);
         basket.getObjects().add(ball);
         AdvObject ladder = new AdvObject(6, "scala", "E' solo una scala in legno, " +
@@ -535,21 +536,21 @@ public class PrisonBreakGame extends GameDescription {
 
         AdvObject hacksaw = new AdvObject(8, "seghetto", "E’ un seghetto molto affilato," +
                 " potresti riuscire a rompere qualcosa");
-        hacksaw.setAlias(new String[]{"sega","taglierino"});
+        hacksaw.setAlias(new String[]{"sega", "taglierino"});
         scalpel.setUsable(true);
         //TO DO assegnare oggetto a Jonny Bello
 
         AdvObject substances = new AdvObject(9, "sostanze", "Sul tavolo puoi vedere alcuni " +
                 "strumenti di lavoro e alcune sostanze come: Cloruro di sodio, acido solforico e altre sostanze" +
                 " di cui non riesco nemmeno a leggere il nome!");
-        substances.setAlias(new String[]{"tavolo con strumenti","ingredienti","acido","sostanze chimiche"});
+        substances.setAlias(new String[]{"tavolo con strumenti", "ingredienti", "acido", "sostanze chimiche"});
         substances.setUsable(true);
         substances.setMixable(true);
         infirmary1.getObjects().add(substances);
 
         AdvObject medicine = new AdvObject(10, "farmaco alle ortiche", "E' un medicinale per" +
                 " alleviare i dolori.");
-        medicine.setAlias(new String[]{"farmaco","medicina","compresse alle ortiche","compresse","sciroppo",
+        medicine.setAlias(new String[]{"farmaco", "medicina", "compresse alle ortiche", "compresse", "sciroppo",
                 "sciroppo alle ortiche"});
         medicine.setGive(true);
         //TO DO mettere nell'inventario
@@ -558,8 +559,8 @@ public class PrisonBreakGame extends GameDescription {
         setCurrentRoom(cell);
     }
 
-    @Override
-    public void nextMove(ParserOutput p, PrintStream out) {
+        @Override
+        public void nextMove (ParserOutput p, PrintStream out){
 
+        }
     }
-}
