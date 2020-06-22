@@ -1,9 +1,16 @@
 package prisonbreak.parser;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import prisonbreak.Exceptions.InputErrorException;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
-
-import java.util.*;
 
 public class ParserIta extends Parser {
 
@@ -89,7 +96,9 @@ public class ParserIta extends Parser {
         while (iterator.hasNext()) {
             TokenVerb verb = null;
             TokenObject object = null;
+            Token adjective = null;
             List<Token> phrase = iterator.next();
+            boolean isAdjective = false;
 
             for (Token i : phrase) {
                 if (i.getType().equals(TokenType.VERB)) {
@@ -97,6 +106,21 @@ public class ParserIta extends Parser {
                 } else if (i.getType().equals(TokenType.OBJECT)) {
                     object = (TokenObject) i;
                 }
+                if (i.getType().equals(TokenType.ADJECTIVE)) {
+                    adjective = i;
+                }
+            }
+
+            if (adjective != null && object != null) {
+                for (String i : adjective.getAlias()) {
+                    if (object.isAlias(i)) {
+                        isAdjective = true;
+                    }
+                }
+            }
+
+            if (!isAdjective) {
+                throw new InputErrorException();
             }
 
             parserOutputs.add(new ParserOutput(verb, object));
