@@ -27,7 +27,7 @@ public abstract class ScannerToken {
     }
 
     public void setSkipCharacters(Set<String> skipCharacters) {
-        skip.addAlias(skipCharacters);
+        skip.setAlias(skipCharacters);
     }
 
     public void addVerb(TokenVerb verb) {

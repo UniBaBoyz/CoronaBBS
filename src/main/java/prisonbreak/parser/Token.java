@@ -13,16 +13,16 @@ public class Token {
 
     public Token(TokenType type, Set<String> tokens) {
         this.type = type;
-        addAlias(tokens);
+        setAlias(tokens);
     }
 
-    public void addAlias(String alias) {
+    public void setAlias(String alias) {
         this.alias.add(alias.toLowerCase());
     }
 
-    public void addAlias(Set<String> aliasTokens) {
+    public void setAlias(Set<String> aliasTokens) {
         for (String alias : aliasTokens) {
-            addAlias(alias);
+            setAlias(alias);
         }
     }
 

@@ -21,15 +21,15 @@ public class ScannerTokenIta extends ScannerToken {
     }
 
     public void setArticles(Set<String> articles) {
-        article.addAlias(articles);
+        article.setAlias(articles);
     }
 
     public void setAdjective(Set<String> adjectives) {
-        adjective.addAlias(adjectives);
+        adjective.setAlias(adjectives);
     }
 
     public void setJunctions(Set<String> junctions) {
-        junction.addAlias(junctions);
+        junction.setAlias(junctions);
     }
 
     @Override
