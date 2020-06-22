@@ -48,17 +48,6 @@ public class Engine {
     public static void main(String[] args) {
         Engine engine = new Engine(new PrisonBreakGame());
         engine.run();
-        ParserIta p = new ParserIta(new HashSet<>(Arrays.asList(new TokenVerb(VerbType.USE, new HashSet<>(Arrays.asList("usa", "utilizza"))), new TokenVerb(VerbType.PICK_UP, new HashSet<>(Arrays.asList("prendi", "raccogli"))))),
-                new HashSet<>(Arrays.asList(new TokenObject(0, "Computer", new HashSet<>(Arrays.asList("computer", "calcolatore"))), new TokenObject(1, "Mouse", new HashSet<>(Arrays.asList("mouse", "touchpad"))))),
-                new HashSet<>(Arrays.asList("Bianco", "Rotto")));
-
-        try {
-            List<ParserOutput> pi = p.parse("Inserisci frase qui");
-            System.out.println(pi);
-        } catch (Exception e) {
-            e.printStackTrace();
-            e.getMessage();
-        }
     }
 
     public void run() {

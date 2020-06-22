@@ -71,7 +71,7 @@ public abstract class ScannerToken {
 
     public abstract Iterator<Token> tokenize() throws Exception;
 
-    public void setPhrase(String string) {
+    public void setsentence(String string) {
         stringToTokenize = string;
     }
 

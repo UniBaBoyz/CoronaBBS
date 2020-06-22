@@ -34,7 +34,7 @@ public class ScannerTokenIta extends ScannerToken {
 
     @Override
     public Iterator<Token> tokenize() throws Exception {
-        List<Token> phrase = new ArrayList<>();
+        List<Token> sentence = new ArrayList<>();
         String tokenizedString;
 
         tokenizedString = createTokenizedString();
@@ -72,10 +72,10 @@ public class ScannerTokenIta extends ScannerToken {
                     throw new LexicalErrorException();
                 }
             }
-            phrase.add(token);
+            sentence.add(token);
         }
 
-        return phrase.iterator();
+        return sentence.iterator();
     }
 
 }

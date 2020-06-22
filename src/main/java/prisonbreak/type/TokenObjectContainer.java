@@ -5,6 +5,8 @@
  */
 package prisonbreak.type;
 
+import prisonbreak.parser.TokenType;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -16,20 +18,16 @@ public class TokenObjectContainer extends TokenObject {
 
     private List<TokenObject> list = new ArrayList<>();
 
-    public TokenObjectContainer(int id) {
-        super(id);
+    public TokenObjectContainer(int id, Set<String> alias) {
+        super(id, alias);
     }
 
-    public TokenObjectContainer(int id, String name) {
-        super(id, name);
+    public TokenObjectContainer(int id, Set<String> alias, String description) {
+        super(id, alias, description);
     }
 
-    public TokenObjectContainer(int id, String name, String description) {
-        super(id, name, description);
-    }
-
-    public TokenObjectContainer(int id, String name, String description, Set<String> alias) {
-        super(id, name, description, alias);
+    public TokenObjectContainer(int id, Set<String> alias, String description, Set<String> adjectives) {
+        super(id, alias, description, adjectives);
     }
 
     public List<TokenObject> getList() {
