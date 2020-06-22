@@ -12,8 +12,12 @@ import java.util.List;
  * @author pierpaolo
  */
 public class Inventory {
+    //TODO CONTROLLARE MAX ITEM
+    private int MAX_ITEM;
 
-    private final int MAX_ITEM = 4;
+    public Inventory(int dimension) {
+        this.MAX_ITEM = dimension;
+    }
 
     private List<TokenObject> list = new ArrayList<>();
 

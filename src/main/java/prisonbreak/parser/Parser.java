@@ -28,6 +28,7 @@ public abstract class Parser {
         for (Token i : phrase) {
             tokens.add(i.getType());
         }
+
         return tokens;
     }
 

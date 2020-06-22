@@ -37,4 +37,12 @@ public class Token {
     public boolean isAlias(String alias) {
         return this.alias.contains(alias.toLowerCase());
     }
+
+    @Override
+    public String toString() {
+        return "Token{" +
+                "type=" + type +
+                ", alias=" + alias +
+                '}';
+    }
 }

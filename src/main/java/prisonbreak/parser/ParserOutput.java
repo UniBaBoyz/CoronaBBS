@@ -15,17 +15,15 @@ public class ParserOutput {
 
     private TokenVerb verb;
     private TokenObject object;
-    private TokenObject invObject;
+
+    public ParserOutput(TokenVerb verb) {
+        this.verb = verb;
+        this.object = null;
+    }
 
     public ParserOutput(TokenVerb verb, TokenObject object) {
         this.verb = verb;
         this.object = object;
-    }
-
-    public ParserOutput(TokenVerb verb, TokenObject object, TokenObject invObejct) {
-        this.verb = verb;
-        this.object = object;
-        this.invObject = invObejct;
     }
 
     public TokenVerb getVerb() {
@@ -44,12 +42,11 @@ public class ParserOutput {
         this.object = object;
     }
 
-    public TokenObject getInvObject() {
-        return invObject;
+    @Override
+    public String toString() {
+        return "ParserOutput{" +
+                "verb=" + verb +
+                ", object=" + object +
+                '}';
     }
-
-    public void setInvObject(TokenObject invObject) {
-        this.invObject = invObject;
-    }
-
 }

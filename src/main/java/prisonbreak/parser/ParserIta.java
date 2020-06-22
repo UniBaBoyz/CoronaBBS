@@ -85,7 +85,7 @@ public class ParserIta extends Parser {
 
 
         //TODO CREATE NEW METHOD
-        /*iterator = phrases.iterator();
+        iterator = phrases.iterator();
         while (iterator.hasNext()) {
             TokenVerb verb = null;
             TokenObject object = null;
@@ -99,11 +99,9 @@ public class ParserIta extends Parser {
                 }
             }
 
-            if (getScanner().getObjects().contains(object)) {
-                parserOutputs.add(new ParserOutput(verb, object, null));
-            }
+            parserOutputs.add(new ParserOutput(verb, object));
 
-        }*/
+        }
         // TODO END NEW METHOD
 
         return parserOutputs;

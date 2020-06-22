@@ -6,8 +6,8 @@
 package prisonbreak;
 
 import prisonbreak.parser.ParserOutput;
+import prisonbreak.type.Inventory;
 import prisonbreak.type.Room;
-import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
 import java.io.PrintStream;
@@ -23,7 +23,7 @@ public abstract class GameDescription {
 
     private final List<TokenVerb> tokenVerbs = new ArrayList<>();
 
-    private final List<TokenObject> inventory = new ArrayList<>();
+    private Inventory inventory;
 
     private Room currentRoom;
 
@@ -43,7 +43,7 @@ public abstract class GameDescription {
         this.currentRoom = currentRoom;
     }
 
-    public List<TokenObject> getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 

@@ -8,12 +8,14 @@ package prisonbreak;
 //fixme import prisonbreak.games.FireHouseGame;
 
 import prisonbreak.parser.ParserIta;
+import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 import prisonbreak.type.VerbType;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * ATTENZIONE: l'Engine è molto spartano, in realtà demanda la logica alla
@@ -49,7 +51,8 @@ public class Engine {
                 new HashSet<>(Arrays.asList("Bianco", "Rotto")));
 
         try {
-            p.parse("Inserisci qui la frase");
+            List<ParserOutput> pi = p.parse("Inserisci frase qui");
+            System.out.println(pi);
         } catch (Exception e) {
             e.printStackTrace();
             e.getMessage();
