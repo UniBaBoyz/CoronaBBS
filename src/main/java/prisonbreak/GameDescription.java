@@ -12,11 +12,12 @@ import java.util.Set;
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.Inventory;
 import prisonbreak.type.Room;
+import prisonbreak.type.TokenAdjective;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public abstract class GameDescription {
 
@@ -64,8 +65,8 @@ public abstract class GameDescription {
         return objects;
     }
 
-    public Set<String> getAdjectives() {
-        Set<String> adjectives = new HashSet<>();
+    public Set<TokenAdjective> getAdjectives() {
+        Set<TokenAdjective> adjectives = new HashSet<>();
         Set<TokenObject> objects = new HashSet<>(getObjects());
 
         if (!objects.isEmpty()) {

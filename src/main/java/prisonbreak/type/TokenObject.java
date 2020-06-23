@@ -18,7 +18,7 @@ import prisonbreak.parser.TokenType;
 public class TokenObject extends Token {
 
     private final int id;
-    private final Set<String> adjectives = new HashSet<>();
+    private final Set<TokenAdjective> adjectives = new HashSet<>();
     private String description;
     private boolean openable = false;
     private boolean pickupable = true;
@@ -47,7 +47,7 @@ public class TokenObject extends Token {
         this.description = description;
     }
 
-    public TokenObject(int id, Set<String> alias, String description, Set<String> adjectives) {
+    public TokenObject(int id, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
         super(TokenType.OBJECT);
         this.id = id;
         super.setAlias(alias);
@@ -63,7 +63,7 @@ public class TokenObject extends Token {
         this.description = description;
     }
 
-    public Set<String> getAdjectives() {
+    public Set<TokenAdjective> getAdjectives() {
         return adjectives;
     }
 
@@ -71,7 +71,7 @@ public class TokenObject extends Token {
         adjectives.addAll(adjectives);
     }
 
-    public void setAdjective(String adjective) {
+    public void setAdjective(TokenAdjective adjective) {
         this.adjectives.add(adjective);
     }
 

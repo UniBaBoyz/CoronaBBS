@@ -7,6 +7,7 @@ import java.util.HashSet;
 import prisonbreak.GameDescription;
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.Room;
+import prisonbreak.type.TokenAdjective;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 import prisonbreak.type.VerbType;
@@ -57,7 +58,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(close);
 
         TokenVerb pull = new TokenVerb(VerbType.PULL);
-        pull.setAlias(new HashSet<>(Arrays.asList("trascina", "Tira")));
+        pull.setAlias(new HashSet<>(Arrays.asList("Trascina", "Tira")));
         getTokenVerbs().add(pull);
 
         TokenVerb turn_on = new TokenVerb(VerbType.TURN_ON);
@@ -568,11 +569,15 @@ public class PrisonBreakGame extends GameDescription {
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
 
-        TokenObject hacksaw = new TokenObject(8, new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
-                "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.");
-        scalpel.setUsable(true);
-
         //TODO assegnare oggetto a Jonny Bello
+        TokenObject hacksaw = new TokenObject(8, new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
+                "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.",
+                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto", "Distrutto",
+                        "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Aggiustato",
+                        "Sistemato", "Riparato"))))));
+        scalpel.setUsable(true);
+        cell.getObjects().add(hacksaw);
+
         TokenObject substances = new TokenObject(9, new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Acido", "Oggetti")),
                 "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro di sodio, " +
                         "acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");

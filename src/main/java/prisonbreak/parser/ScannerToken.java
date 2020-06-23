@@ -5,14 +5,16 @@ import java.util.Iterator;
 import java.util.Set;
 
 import prisonbreak.Exceptions.SkipCharactersEmptyException;
+import prisonbreak.type.TokenAdjective;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
 public abstract class ScannerToken {
     private static final char SEPARATOR_CHARACTER = ';';
     private final Token skip = new Token(TokenType.SKIP);
-    private Set<TokenVerb> verbs = new HashSet<>();
-    private Set<TokenObject> objects = new HashSet<>();
+    private final Set<TokenVerb> verbs = new HashSet<>();
+    private final Set<TokenObject> objects = new HashSet<>();
+    private final Set<TokenAdjective> adjectives = new HashSet<>();
     private String stringToTokenize;
 
     public ScannerToken() {
@@ -30,20 +32,16 @@ public abstract class ScannerToken {
         skip.setAlias(skipCharacters);
     }
 
-    public void addVerb(TokenVerb verb) {
-        verbs.add(verb);
-    }
-
     public Set<TokenVerb> getVerbs() {
         return verbs;
     }
 
     public void setVerbs(Set<TokenVerb> verbs) {
-        this.verbs = new HashSet<>(verbs);
+        this.verbs.addAll(verbs);
     }
 
-    public void addObject(TokenObject object) {
-        objects.add(object);
+    public void addVerb(TokenVerb verb) {
+        verbs.add(verb);
     }
 
     public Set<TokenObject> getObjects() {
@@ -51,7 +49,23 @@ public abstract class ScannerToken {
     }
 
     public void setObjects(Set<TokenObject> objects) {
-        this.objects = new HashSet<>(objects);
+        this.objects.addAll(objects);
+    }
+
+    public void addObject(TokenObject object) {
+        objects.add(object);
+    }
+
+    public Set<TokenAdjective> getAdjectives() {
+        return adjectives;
+    }
+
+    public void setAdjectives(Set<TokenAdjective> adjectives) {
+        this.adjectives.addAll(adjectives);
+    }
+
+    public void addAdjective(TokenAdjective adjective) {
+        adjectives.add(adjective);
     }
 
     public String createTokenizedString() throws SkipCharactersEmptyException {

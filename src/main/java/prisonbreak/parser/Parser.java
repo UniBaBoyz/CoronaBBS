@@ -7,6 +7,7 @@ import java.util.Set;
 
 import prisonbreak.Exceptions.InputErrorException;
 import prisonbreak.Exceptions.SyntaxErrorException;
+import prisonbreak.type.TokenAdjective;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
@@ -14,7 +15,7 @@ public abstract class Parser {
     private final ScannerToken scanner;
     private final List<List<TokenType>> validsentences;
 
-    public Parser(List<List<TokenType>> validsentences, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives) {
+    public Parser(List<List<TokenType>> validsentences, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {
         scanner = initScanner(verbs, objects, adjectives);
         this.validsentences = new ArrayList<>(validsentences);
     }
@@ -68,7 +69,7 @@ public abstract class Parser {
         while (sentences.hasNext()) {
             TokenVerb verb = null;
             TokenObject object = null;
-            Token adjective = null;
+            TokenAdjective adjective = null;
             List<Token> sentence = sentences.next();
             boolean isAdjective = false;
 
@@ -77,15 +78,15 @@ public abstract class Parser {
                     verb = (TokenVerb) i;
                 } else if (i.getType().equals(TokenType.OBJECT)) {
                     object = (TokenObject) i;
-                }
-                if (i.getType().equals(TokenType.ADJECTIVE)) {
-                    adjective = i;
+                } else if (i.getType().equals(TokenType.ADJECTIVE)) {
+                    adjective = (TokenAdjective) i;
                 }
             }
 
             if (adjective != null && object != null) {
                 for (String i : adjective.getAlias()) {
-                    if (object.isAlias(i)) {
+                    if (object.getAdjectives().stream()
+                            .anyMatch(t -> t.isAlias(i))) {
                         isAdjective = true;
                     }
                 }
@@ -103,7 +104,7 @@ public abstract class Parser {
         return parserOutputs;
     }
 
-    public abstract ScannerToken initScanner(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<String> adjectives);
+    public abstract ScannerToken initScanner(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives);
 
     public abstract List<ParserOutput> parse(String stringToParse) throws Exception;
 

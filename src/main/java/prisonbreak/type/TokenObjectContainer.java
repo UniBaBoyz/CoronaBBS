@@ -24,7 +24,8 @@ public class TokenObjectContainer extends TokenObject {
         super(id, alias, description);
     }
 
-    public TokenObjectContainer(int id, Set<String> alias, String description, Set<String> adjectives) {
+    public TokenObjectContainer(int id, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
+
         super(id, alias, description, adjectives);
     }
 

@@ -9,7 +9,6 @@ import prisonbreak.Exceptions.LexicalErrorException;
 
 public class ScannerTokenIta extends ScannerToken {
     private final Token article = new Token(TokenType.ARTICLE);
-    private final Token adjective = new Token(TokenType.ADJECTIVE);
     private final Token junction = new Token(TokenType.JUNCTION);
 
     public ScannerTokenIta() {
@@ -22,10 +21,6 @@ public class ScannerTokenIta extends ScannerToken {
 
     public void setArticles(Set<String> articles) {
         article.setAlias(articles);
-    }
-
-    public void setAdjective(Set<String> adjectives) {
-        adjective.setAlias(adjectives);
     }
 
     public void setJunctions(Set<String> junctions) {
@@ -62,8 +57,14 @@ public class ScannerTokenIta extends ScannerToken {
                         .orElse(null);
             } else if (article.isAlias(stringToken)) {
                 token = article;
-            } else if (adjective.isAlias(stringToken)) {
-                token = adjective;
+            } else if (getAdjectives()
+                    .stream()
+                    .anyMatch(t -> t.isAlias(stringToken))) {
+                token = getAdjectives()
+                        .stream()
+                        .filter(t -> t.isAlias(stringToken))
+                        .findFirst()
+                        .orElse(null);
             } else if (junction.isAlias(stringToken)) {
                 token = junction;
             } else {
