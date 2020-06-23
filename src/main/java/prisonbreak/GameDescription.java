@@ -66,11 +66,9 @@ public abstract class GameDescription {
 
     public Set<String> getAdjectives() {
         Set<String> adjectives = new HashSet<>();
-        Set<TokenObject> objects;
+        Set<TokenObject> objects = new HashSet<>(getObjects());
 
-        if (getObjects() != null) {
-            objects = getObjects();
-
+        if (!objects.isEmpty()) {
             for (TokenObject i : objects) {
                 adjectives.addAll(i.getAdjectives());
             }

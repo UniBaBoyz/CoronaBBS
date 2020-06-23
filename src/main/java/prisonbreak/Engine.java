@@ -67,7 +67,7 @@ public class Engine {
                     }
                 }
             } catch (Exception e) {
-                //System.out.println("pippo");
+                System.out.println(e.toString());
                 e.getMessage();
             }
         }
