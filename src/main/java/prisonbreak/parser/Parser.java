@@ -1,9 +1,6 @@
 package prisonbreak.parser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import prisonbreak.Exceptions.InputErrorException;
 import prisonbreak.Exceptions.SyntaxErrorException;
@@ -13,11 +10,11 @@ import prisonbreak.type.TokenVerb;
 
 public abstract class Parser {
     private final ScannerToken scanner;
-    private final List<List<TokenType>> validsentences;
+    private final List<List<TokenType>> validSentences;
 
-    public Parser(List<List<TokenType>> validsentences, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {
+    public Parser(List<List<TokenType>> validSentences, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {
         scanner = initScanner(verbs, objects, adjectives);
-        this.validsentences = new ArrayList<>(validsentences);
+        this.validSentences = new ArrayList<>(validSentences);
     }
 
     public ScannerToken getScanner() {
@@ -34,70 +31,109 @@ public abstract class Parser {
         return tokens;
     }
 
-    private boolean isValidsentence(List<TokenType> sentence) {
-        boolean validsentence = false;
+    private boolean isValidSentence(List<TokenType> sentence) {
+        boolean validSentence = false;
 
-        Iterator<List<TokenType>> validsentenceIterator = validsentences.iterator();
-        while (validsentenceIterator.hasNext() && !validsentence) {
-            validsentence = validsentenceIterator.next().equals(sentence);
+        Iterator<List<TokenType>> validSentenceIterator = validSentences.iterator();
+        while (validSentenceIterator.hasNext() && !validSentence) {
+            validSentence = validSentenceIterator.next().equals(sentence);
         }
 
-        return validsentence;
+        return validSentence;
     }
 
-    public boolean areValidsentences(List<List<Token>> sentences) throws Exception {
+    public boolean areValidSentences(List<List<Token>> sentences) throws SyntaxErrorException {
         Iterator<List<Token>> iterator;
-        List<TokenType> tokensentence;
-        boolean validsentence = true;
+        List<TokenType> tokenSentence;
+        boolean validSentence = true;
 
         iterator = sentences.iterator();
-        while (validsentence && iterator.hasNext()) {
-            tokensentence = getTokenType(iterator.next());
-            validsentence = isValidsentence(tokensentence);
+        while (validSentence && iterator.hasNext()) {
+            tokenSentence = getTokenType(iterator.next());
+            validSentence = isValidSentence(tokenSentence);
         }
 
-        if (!validsentence) {
+        if (!validSentence) {
             throw new SyntaxErrorException();
         }
 
-        return validsentence;
+        return validSentence;
+    }
+
+    private TokenVerb getTokenVerb(List<Token> sentence) {
+        TokenVerb token = null;
+
+        for (Token i : sentence) {
+            if (i.getType().equals(TokenType.VERB)) {
+                token = (TokenVerb) i;
+                break;
+            }
+        }
+
+        return token;
+    }
+
+    private TokenObject getTokenObject(List<Token> sentence) {
+        TokenObject token = null;
+
+        for (Token i : sentence) {
+            if (i.getType().equals(TokenType.OBJECT)) {
+                token = (TokenObject) i;
+                break;
+            }
+        }
+
+        return token;
+    }
+
+    private TokenAdjective getTokenAdjective(List<Token> sentence) {
+        TokenAdjective token = null;
+
+        for (Token i : sentence) {
+            if (i.getType().equals(TokenType.ADJECTIVE)) {
+                token = (TokenAdjective) i;
+                break;
+            }
+        }
+
+        return token;
+    }
+
+    private boolean isCorrectAdjective(TokenObject object, TokenAdjective adjective) {
+        boolean isAdjective = false;
+
+        if (adjective != null && object != null) {
+            for (String i : adjective.getAlias()) {
+                if (object.getAdjectives().stream()
+                        .anyMatch(t -> t.isAlias(i))) {
+                    isAdjective = true;
+                    break;
+                }
+            }
+        }
+
+        return isAdjective;
     }
 
     public List<ParserOutput> generateParserOutput(Iterator<List<Token>> sentences) throws InputErrorException {
         List<ParserOutput> parserOutputs = new ArrayList<>(); //For each sentence a ParserOutput is created
+        List<Token> sentence;
+        TokenVerb verb;
+        TokenObject object;
+        TokenAdjective adjective;
 
         while (sentences.hasNext()) {
-            TokenVerb verb = null;
-            TokenObject object = null;
-            TokenAdjective adjective = null;
-            List<Token> sentence = sentences.next();
-            boolean isAdjective = false;
-
-            for (Token i : sentence) {
-                if (i.getType().equals(TokenType.VERB)) {
-                    verb = (TokenVerb) i;
-                } else if (i.getType().equals(TokenType.OBJECT)) {
-                    object = (TokenObject) i;
-                } else if (i.getType().equals(TokenType.ADJECTIVE)) {
-                    adjective = (TokenAdjective) i;
-                }
-            }
-
-            if (adjective != null && object != null) {
-                for (String i : adjective.getAlias()) {
-                    if (object.getAdjectives().stream()
-                            .anyMatch(t -> t.isAlias(i))) {
-                        isAdjective = true;
-                    }
-                }
-            }
+            sentence = sentences.next();
+            verb = getTokenVerb(sentence);
+            object = getTokenObject(sentence);
+            adjective = getTokenAdjective(sentence);
 
             // Check if the adjective refers to the exact object
-            if (adjective != null && object != null && !isAdjective) {
+            if (object != null && adjective != null && !isCorrectAdjective(object, adjective)) {
                 throw new InputErrorException();
             }
 
-            parserOutputs.add(new ParserOutput(verb, object));
+            parserOutputs.add(new ParserOutput(verb, object, adjective));
 
         }
 

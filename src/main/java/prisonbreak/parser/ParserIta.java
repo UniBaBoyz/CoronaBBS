@@ -16,27 +16,26 @@ public class ParserIta extends Parser {
 
     public ParserIta(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {
 
-        super(initValidsentences(), verbs, objects, adjectives);
+        super(initValidSentences(), verbs, objects, adjectives);
     }
 
-    private static List<List<TokenType>> initValidsentences() {
-        List<List<TokenType>> validsentences = new ArrayList<>();
+    private static List<List<TokenType>> initValidSentences() {
+        List<List<TokenType>> validSentences = new ArrayList<>();
 
         // Accepted sentences form
-        validsentences.add(new ArrayList<>(Collections.singletonList(TokenType.VERB)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT, TokenType.ADJECTIVE)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ADJECTIVE, TokenType.OBJECT)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT, TokenType.ADJECTIVE)));
-        validsentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.ADJECTIVE, TokenType.OBJECT)));
+        validSentences.add(new ArrayList<>(Collections.singletonList(TokenType.VERB)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT, TokenType.ADJECTIVE)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ADJECTIVE, TokenType.OBJECT)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT, TokenType.ADJECTIVE)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.ADJECTIVE, TokenType.OBJECT)));
 
-        return validsentences;
+        return validSentences;
     }
 
-    private List<List<Token>> separatesentences(Iterator<Token> iterator) {
+    private List<List<Token>> separateSentences(Iterator<Token> iterator) {
         List<List<Token>> sentences = new ArrayList<>();
-
         List<Token> sentence = new ArrayList<>();
 
         while (iterator.hasNext()) {
@@ -83,9 +82,9 @@ public class ParserIta extends Parser {
         List<List<Token>> sentences; //Each Token list is one sentence combined with another from TokenType.Junction
 
         // Check the syntax of the sentence
-        getScanner().setsentence(stringToParse);
-        sentences = separatesentences(getScanner().tokenize());
-        areValidsentences(sentences);
+        getScanner().setSentence(stringToParse);
+        sentences = separateSentences(getScanner().tokenize());
+        areValidSentences(sentences);
 
         return generateParserOutput(sentences.iterator());
     }

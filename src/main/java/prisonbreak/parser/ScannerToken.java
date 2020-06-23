@@ -32,10 +32,6 @@ public abstract class ScannerToken {
         skip.setAlias(skipCharacters);
     }
 
-    public Set<TokenVerb> getVerbs() {
-        return verbs;
-    }
-
     public void setVerbs(Set<TokenVerb> verbs) {
         this.verbs.addAll(verbs);
     }
@@ -44,8 +40,8 @@ public abstract class ScannerToken {
         verbs.add(verb);
     }
 
-    public Set<TokenObject> getObjects() {
-        return objects;
+    public Set<TokenVerb> getVerbs() {
+        return verbs;
     }
 
     public void setObjects(Set<TokenObject> objects) {
@@ -56,8 +52,8 @@ public abstract class ScannerToken {
         objects.add(object);
     }
 
-    public Set<TokenAdjective> getAdjectives() {
-        return adjectives;
+    public Set<TokenObject> getObjects() {
+        return objects;
     }
 
     public void setAdjectives(Set<TokenAdjective> adjectives) {
@@ -66,6 +62,14 @@ public abstract class ScannerToken {
 
     public void addAdjective(TokenAdjective adjective) {
         adjectives.add(adjective);
+    }
+
+    public Set<TokenAdjective> getAdjectives() {
+        return adjectives;
+    }
+
+    public void setSentence(String string) {
+        stringToTokenize = string;
     }
 
     public String createTokenizedString() throws SkipCharactersEmptyException {
@@ -84,9 +88,5 @@ public abstract class ScannerToken {
     }
 
     public abstract Iterator<Token> tokenize() throws Exception;
-
-    public void setsentence(String string) {
-        stringToTokenize = string;
-    }
 
 }
