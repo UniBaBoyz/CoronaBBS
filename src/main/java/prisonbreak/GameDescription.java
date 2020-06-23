@@ -20,14 +20,16 @@ import prisonbreak.type.TokenVerb;
  * @author Corona-Extra
  */
 public abstract class GameDescription {
-
+    private static final int INCREASE_SCORE = 5;
     private final Set<Room> rooms = new HashSet<>();
-
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
-
     private Inventory inventory;
-
     private Room currentRoom;
+    private int score = 0;
+
+    public static int getIncreaseScore() {
+        return INCREASE_SCORE;
+    }
 
     public Set<Room> getRooms() {
         return rooms;
@@ -78,4 +80,11 @@ public abstract class GameDescription {
         return adjectives;
     }
 
+    public void increaseScore() {
+        this.score += INCREASE_SCORE;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

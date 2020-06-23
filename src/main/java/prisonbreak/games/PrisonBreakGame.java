@@ -14,9 +14,7 @@ import prisonbreak.type.VerbType;
 
 public class PrisonBreakGame extends GameDescription {
 
-    @Override
-    public void init() {
-        //TokenVerbs
+    private void initVerbs() {
         TokenVerb nord = new TokenVerb(VerbType.NORD);
         nord.setAlias(new HashSet<>(Arrays.asList("N", "Nord")));
         getTokenVerbs().add(nord);
@@ -54,7 +52,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(open);
 
         TokenVerb close = new TokenVerb(VerbType.CLOSE);
-        close.setAlias(new HashSet<>(Arrays.asList("Chiudi")));
+        close.setAlias(new HashSet<>(Arrays.asList("Chiudi", "Sbarra", "Richiudi")));
         getTokenVerbs().add(close);
 
         TokenVerb pull = new TokenVerb(VerbType.PULL);
@@ -148,8 +146,9 @@ public class PrisonBreakGame extends GameDescription {
         remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Togli", "Corrodi", "Elimina", "Rompi",
                 "Spezza", "Distruggi", "Fracassa", "Frantuma", "Sgretola", "Sposta")));
         getTokenVerbs().add(remove);
+    }
 
-        //Descrizione cella
+    private void initRooms() {
         Room cell = new Room(0, "Cella 17", "Ti trovi nella tua cella 17, al momento sei da solo" +
                 " visto che sei l’ultimo arrivato.");
         cell.setLook("La cella e' poco accogliente: e' presente un letto a castello molto scomodo e pieno di polvere, " +
@@ -157,42 +156,42 @@ public class PrisonBreakGame extends GameDescription {
                 "un odore non buonissimo. La stanza e' illuminata da una piccola finestra sbarrata e l’unica via di " +
                 "uscita si trova a est, al momento aperta visto che e' l’ora d’aria e tutti i detenuti " +
                 "devono raggiungere il giardino!");
-        //Descrizione corridoio
+
         Room corridor = new Room(1, "Corridoio", "Ti trovi nel corridoio del carcere che si" +
                 " estende da sud verso nord.");
         corridor.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest la porta della tua cella aperta e" +
                 " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
-        //Descrizione scale
+
         Room ladders = new Room(2, "Scalinata", "Ti trovi presso una scalinata, l’unica cosa" +
                 "che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
         ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino.");
-        //Descrizione atrio
+
         Room lobby = new Room(3, "Atrio", "Ti trovi in un grosso atrio di ingresso, puoi notare" +
                 " un enorme porta aperta dove si intravede il giardino.");
         lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Vedi a nord un enorme scalinata" +
                 " che porta al piano superiore e a ovest le celle degl’altri detenuti. L’atrio si estende ancora " +
                 "verso sud.");
-        //Descrizione giardino
+
         Room garden = new Room(4, "Giardino", "Sei in un ampio giardino verde illuminato " +
                 "dal sole, dietro di te la porta che collega al grosso atrio.");
         garden.setLook("Guardando a sinistra puoi notare un grosso campo da basket, avanti a te un grosso muro " +
                 "che separa il giardino dall’esterno con due enormi torri sulle quali ci sono le guardie come vedetta," +
                 " a destra invece tre grosse panchine dove puoi sederti e rilassarti.");
-        //Descrizione campo da basket
+
         Room basket = new Room(5, "Campo da basket", "Ti trovi nel campo di basket" +
                 " momentaneamente vuoto.");
         basket.setLook("Puoi notare due canestri e un pallone in mezzo al campo.");
-        //Descrizione muro della prigione
+
         Room wall = new Room(6, "Muro prigione", "Avvicinandoti alle mura le guardie ti danno " +
                 "l’ordine di indietreggiare, rappresenti un potenziale pericolo. Non penso sia un’idea geniale " +
                 "fuggendo da qui, la zona e' troppo controllata.");
         wall.setLook("Non c'e' nulla di particolare tranne che un grosso muro in mattoni!");
-        //Descrizione panchine
+
         Room bench = new Room(7, "Panchine", "Tutte le panchine sono occupati da un gruppo " +
                 "di detenuti che ti guardano con aria sospetta.");
         bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una dove a terra puoi " +
                 "notare un oggetto di metallo simile ad una vite.");
-        //Descrizione infermeria
+
         Room infirmary = new Room(8, "Infermeria", "E' una classica infermeria e ti trovi" +
                 " sdraiato sul tuo letto.");
         infirmary.setLook("Aprendo gli occhi noti un tavolo con molti strumenti, un grosso armadio in legno, " +
@@ -200,7 +199,7 @@ public class PrisonBreakGame extends GameDescription {
                 "un quadro di Donald Trump appeso alla parete e in alto un condotto d’aria nuovissimo che sembra " +
                 "irraggiungibile.  Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
                 "voci nel corridoio.");
-        //Seconda descrizione cella 17
+
         Room cell1 = new Room(9, "Cella 17", "Caspita gli antidolorifici ti hanno fatto dormire " +
                 "molto e ti risvegli nella tua cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti" +
                 " ha dato qualche medicinale tra cui un medicinale all’ortica. La porta e' di nuovo aperta," +
@@ -209,125 +208,125 @@ public class PrisonBreakGame extends GameDescription {
                 "un lavandino fissato al muro con delle viti e il water. Sul tavolo c’e' il tuo pranzo che emana " +
                 "un odore non buonissimo. La stanza è illuminata da una piccola finestra sbarrata e l’unica via di " +
                 "uscita si trova a est, al momento aperta!");
-        //Descrizione passaggio segreto
+
         Room passage = new Room(10, "Passaggio segreto", "Sei appena entrato nel passaggio segreto.");
         passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete sti blocca la strada" +
                 " a nord, puoi solo andare ad sud o a nord o ritornare indietro nella tua cella prima che qualcuno" +
                 " ti scopra!!!");
-        //Descrizione a sud del passaggio segreto
+
         Room passage_south = new Room(11, "Passaggio segreto", "Prosegui nel passaggio segreto" +
                 " e vedi una scala appoggiata al muro.");
         passage_south.setLook("La scala sembra non portare da nessuna parte, infatti sopra ci sono solo" +
                 " delle grate che porta al secondo piano in cui non e' possibile accedere. Il passaggio continua" +
                 " ancora a sud oppure puoi sempre ritornare indietro prima che sia troppo tardi!");
-        //Descrizione stanza generatore
+
         Room generator = new Room(12, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
         generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
-        //Descrizione a nord del passaggio segreto
+
         Room passage_north = new Room(13, "Passaggio segreto", "Sembra che sei arrivato gia' " +
                 "in un vicolo cieco, vedi solo un enorme soffitto e una piccola grata posta in alto!");
         passage_north.setLook("Non c'e' nient'altro di particolare.");
-        //Descrizione sulla scala
+
         Room on_ladder = new Room(14, "Sulla scala", "Sei salito sulla scala e noti un condotto" +
                 " d’aria un po’ vecchiotto.");
         on_ladder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte!");
-        //Descrizione condotto d'aria
+
         Room air_duct = new Room(15, "Condotto d'aria", "Sei riuscito ad entrare nel condotto," +
                 " strisci piano cercando di fare meno rumore possibile.");
         air_duct.setLook("Ci sono molte ragnatele e il condotto sembra non utilizzato, cerca di fare veloce in modo" +
                 " da non risultare assente all’appello! Il condotto si divide in tre strade diverse, una a nord," +
                 " una ad est e l’altra a ovest.");
-        //Descrizione a est condotto d'aria
+
         Room air_duct_east = new Room(16, "Condotto d'aria", "Ti ritrovi in un vicolo ceco, " +
                 "sotto di te c’e' un’enorme grata.");
         air_duct_east.setLook("Puoi osservare un’altra cella di un detenuto.");
-        //Descrizione cella detenuti
+
         Room other_cell = new Room(17, "Cella detenuto", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         other_cell.setLook("Meglio non perdere tempo qui!");
-        //Descrizione a nord condotto d'aria
+
         Room air_duct_north = new Room(18, "Condotto d'aria", "Vedi una grossa grata e " +
                 "senti delle voci simili a quelle che sentivi quando eri in infermeria.");
         air_duct_north.setLook("C'e' solo una grossa grata");
-        //Descrizione a ovest condotto d'aria
+
         Room air_duct_west = new Room(19, "Condotto d'aria", " Il condotto si fa sempre piu' " +
                 "stretto e non riesci piu' a passare! Non sembra sia la strada giusta!");
         air_duct_west.setLook("Scorgi pero' in lontananza un piccolo oggetto!");
-        //Descrizione mensa
+
         Room canteen = new Room(20, "Mensa", " Ti trovi in una grossa mensa e puoi vedere " +
                 "i detenuti che stanno mangiando.");
         canteen.setLook("Uno di loro si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto" +
                 " che lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
                 "per averne uno quindi sarei costretto a trattare.");
-        //Descrizione palestra
+
         Room gym = new Room(21, "Palestra", "Ti trovi nella palestra del carcere, " +
                 "e' molto grande e non e' tenuta in ottimo stato, alcuni detenuti si stanno allenando.");
         gym.setLook("Intorno a te vedi tanti attrezzi per poterti allenare e aumentare la tua forza.");
-        //Descrizione fuori cella isolamento
+
         Room out_isolation = new Room(22, "Fuori cella isolamento", "Sei di fronte la cella" +
                 " di isolamento dove e' collocato tuo fratello. Essendo in un carcere di massima sicurezza, la porta " +
                 "e' controllata da un paio di guardie.");
         out_isolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
                 "puo' essere aperta solo tramite un PIN segreto.");
-        //Descrizione porta isolamento
+
         Room door_isolation = new Room(23, "Porta isolamento", "Sei di fronte ad una porta" +
                 " blindata che come gia' ti sembrava e' possibile aprire tramite un PIN segreto.");
         door_isolation.setLook("Il pin e' conosciuto solo dalle guardie e quindi ti e' impossibile reperirlo!" +
                 " A meno che non vuoi iniziare a sparare numeri a caso devi trovare assolutamente un’altra soluzione" +
                 " prima che le luci si accendano e le guardie tornino!");
-        //Descrizione dentro isolamento
+
         Room isolation = new Room(24, "Dentro isolamento", "La porta si apre e ti trovi dentro" +
                 " il luogo dove si trovano le celle isolamento. Ci sono tre lunghi corridoi, uno a est, uno a " +
                 "sud e l’altro a nord!");
         isolation.setLook("Non noti nient’altro di particolare!");
-        //Descrizione corridoio nord isolamento
+
         Room north_corridor = new Room(25, "Corridoio nord isolamento", "Prosegui nel corridoio" +
                 " a nord, ci sono tante celle chiuse di prigionieri in isolamento. Provi a gridare (ma non troppo)," +
                 " il nome di tuo fratello ma non risponde nessuno!");
         north_corridor.setLook("Non noti nient’altro di particolare!");
-        //Descrizione proseguimento corridoio nord isolamento
+
         Room north_corridor1 = new Room(26, "Corridoio nord isolamento", "La speranza e' l’ultima" +
                 " a morire ma penso proprio che tuo fratello non si trovi in questo corridoio! ");
         north_corridor1.setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
-        //Descrizione fine corridoio nord isolamento
+
         Room north_corridor2 = new Room(27, "Corridoio nord isolamento", "Il corridoio termina" +
                 " con una grossa parete di fronte e te, hai visto tutte le celle ma di tuo fratello nemmeno l’ombra, " +
                 "te l’avevo detto io!!!");
         north_corridor2.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
-        //Descrizione corridoio est isolamento
+
         Room est_corridor = new Room(28, "Corridoio est isolamento", "Prosegui nel corridoio" +
                 " a est, ci sono tante celle chiuse di prigionieri in isolamento. Provi a gridare (ma non troppo)," +
                 " il nome di tuo fratello ma non risponde nessuno!");
         est_corridor.setLook("Non noti nient’altro di particolare!");
-        //Descrizione proseguimento corridoio est isolamento
+
         Room est_corridor1 = new Room(29, "Corridoio est isolamento", "La speranza e' l’ultima" +
                 " a morire ma penso proprio che tuo fratello non si trovi in questo corridoio! ");
         est_corridor1.setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
-        //Descrizione fine corridoio est isolamento
+
         Room est_corridor2 = new Room(30, "Corridoio est isolamento", "Il corridoio termina" +
                 " con una grossa parete di fronte e te, hai visto tutte le celle ma di tuo fratello nemmeno l’ombra, " +
                 "te l’avevo detto io!!!");
         est_corridor2.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
-        //Descrizione corridoio sud isolamento
+
         Room south_corridor = new Room(31, "Corridoio sud isolamento", "Prosegui nel corridoio " +
                 "a sud, ci sono tante celle chiuse di prigionieri in isolamento. Provi a gridare (ma non troppo)!");
         south_corridor.setLook("Senti un mormorio in lontananza!");
-        //Descrizione proseguimento corridoio sud isolamento
+
         Room south_corridor1 = new Room(32, "Corridoio sud isolamento", "Il mormorio si fa sempre" +
                 " piu' forte ma non hai ancora trovato la cella di tuo fratello.");
         south_corridor1.setLook("Puoi osservare le celle degli altri prigionieri in cui non e' possibile entrare!");
-        //Descrizione fine corridoio sud isolamento
+
         Room south_corridor2 = new Room(33, "Corridoio sud isolamento", "Il corridoio termina con " +
                 "una grossa parete di fronte a te, hai visto tutte le celle tranne l’ultima!");
         south_corridor2.setLook("Avvicinandoti a questa senti la voce di tuo fratello, hai trovato la sua cella!!!");
-        //Descrizione cella del fratello
+
         Room brother_cell = new Room(34, "Cella fratello", "Sei nella cella di tuo fratello, " +
                 "l’aspetto della cella e' ripugnante.");
         brother_cell.setLook("Vedi solo un piccolo lavandino e un water e un letto in legno che sembra scomodissimo." +
                 " Di fronte a te, tuo fratello con un’aria contenta di vederti ma allo stesso tempo sorpresa!");
-        //Descrizione2 fuori cella isolamento
+
         Room out_isolation1 = new Room(35, "Fuori cella isolamento", "Appena dato il farmaco " +
                 "decidi di fuggire fuori la cella isolamento prima che le luci si accendano e le guardie ti scoprano!!!" +
                 " Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella e completare il tuo piano! " +
@@ -336,54 +335,54 @@ public class PrisonBreakGame extends GameDescription {
                 "carcere di massima sicurezza, la porta e' controllata da un paio di guardie. Puoi notare da lontano" +
                 " che non si tratta di una semplice porta ma di una porta che puo' essere aperta solo tramite un" +
                 " PIN segreto.");
-        //Descrizione 3 cella
+
         Room cell2 = new Room(36, "Cella 17", "Sei arrivato alla tua cella , ad aspettarti " +
                 "puntuale c’e' il tuo amichetto Genny. E' ora di attuare il piano!");
         cell2.setLook("La cella e' poco accogliente: e' presente un letto a castello molto scomodo e pieno di polvere, " +
                 "un lavandino fissato al muro con delle viti e il water. Sul tavolo c’e' il tuo pranzo che emana " +
                 "un odore non buonissimo!");
-        //Descrizione 2 infermeria
+
         Room infirmary1 = new Room(37, "Infermeria", "Sei in infermeria, vedi tuo fratello " +
                 "sdraiato sul letto, la porta dell’infermeria e' chiusa a chiave.");
         infirmary1.setLook("Puoi notare il letto di tuo fratello, il vecchio armadio, il tavolo con gli strumenti, " +
                 "una finestra a nord e una lavagna appesa al muro. Non c’e' nessun altro siccome e' notte!");
-        //Descrizione finale
+
         Room out_window = new Room(38, "Fine", "Decidi di fuggire dalla finestra. Tu e tutta" +
                 " la tua squadra usate il lungo cavo che collega la finestra al grande muro della prigione. Arrivati" +
                 " sul muro riuscite a scavalcare con molta attenzione il filo spinato presente. Fate tutti un grande" +
                 " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovare ad aspettarvi un " +
                 "elicottero guidato da vostro padre, che sapeva tutto del vostro piano segreto e l’ora esatta in cui " +
-                "dovevate attuarlo! Salite tutti sull’elicottero e' fuggite tutti insieme verso il Messico cosicche'" +
-                " nessuno potra' piu' ritrovarvi!\n\n" +
+                "dovevate attuarlo! Salite tutti sull’elicottero e' fuggite tutti insieme verso il Messico cosicché" +
+                " nessuno potrà piu' ritrovarvi!\n\n" +
                 "COMPLIMENTI HAI VINTO!");
         out_window.setLook("");
-        //Descrizione finestra infermeria
+
         Room window = new Room(39, "Finestra infermeria", "La finestra e' sbarrata e non" +
                 " sembra possibile aprirla! Puoi notare un lungo cavo che porta fino al muro della prigione!");
         window.setLook("Non noti nient'altro di particolare!");
-        //Descrizione di fronte alle panchine
+
         Room front_bench = new Room(40, "Di fronte alle panchine", "Ti avvicini alla panchina" +
                 " per controllare meglio l’oggetto ma vieni subito fermato da un gruppo di neri che con aria " +
                 "minacciosa ti chiedono di allontanarti percha' la panchina e' la loro. Cosa scegli di fare?");
         front_bench.setLook("Vedi il gruppo di neri che ti fissa aspettando una tua mossa, non credo sia l’idea " +
                 "migliore restare lì impalato.");
-        //Descrizione rissa
+
         Room brawl = new Room(41, "Rissa", "Sai benissimo che in un carcere non si possono" +
                 " comprare panchine e ti avvicini nuovamente con l’intendo di prendere l’oggetto. Il gruppetto " +
                 "ti blocca e il piu' grosso di loro ti tira un pugno contro il viso... \n Perdendo i sensi" +
                 " non ti ricordi piu' nulla e ti svegli in infermeria.");
         brawl.setLook("");
-        //Descrizione rissa con bisturi
+
         Room brawl1 = new Room(42, "Rissa", "Riesci subito a tirare fuori il bisturi dalla " +
                 "tasca, il gruppetto lo vede e capito il pericolo decide di lasciare stare (Mettere a rischio la " +
                 "vita per una panchina sarebbe veramente stupido) e vanno via con un’aria di vendetta. Ora sei solo " +
                 "vicino alla panchina.");
         brawl1.setLook("E' una grossa panchina in legno un po’ malandata, ci sei solo tu nelle vicinanze.");
-        //Descrizione sud atrio
+
         Room south_lobby = new Room(43, "Atrio", "Ti trovi a sud del grosso atrio di ingresso." +
                 " Puoi notare che l'atrio prosegue sia a nord che a sud!");
         south_lobby.setLook("Puoi notare a ovest le celle chiuse dei detenuti e a est la palestra.");
-        //Descrizione fine atrio
+
         Room end_lobby = new Room(44, "Atrio", "Ti trovi alla fine del grosso atrio, a sud vedi " +
                 " tante guardie, sembra una zona particolarmente protetta!!! Noti a est la sala per la mensa e a " +
                 " ovest le celle chiuse dei detenuti!");
@@ -589,13 +588,39 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject medicine = new TokenObject(10, new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse", "sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
         medicine.setGive(true);
+    }
+
+    @Override
+    public void init() {
+        initVerbs();
+        initRooms();
 
         //Set starting room
-        setCurrentRoom(cell);
+        setCurrentRoom(getRooms().stream()
+                .filter(room -> room.getId() == 0)
+                .findFirst()
+                .orElse(null));
     }
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
+        int minScore = getIncreaseScore();
 
+        while (getScore() < minScore) {
+            //TODO PRENDERE IL BISTURI PER AUMENTARE IL PUNTEGGIO
+
+            /* //TODO per passare allo step successivo eseguire queste istruzioni
+            increaseScore();
+            minScore += getIncreaseScore();
+             */
+        }
+
+        while (getScore() < getIncreaseScore() * 2) {
+            //TODO PRENDERE LA VITE
+        }
+
+        while (getScore() < getIncreaseScore() * 3) {
+            //
+        }
     }
 }

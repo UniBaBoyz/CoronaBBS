@@ -24,9 +24,7 @@ import prisonbreak.type.VerbType;
  * @author pierpaolo
  */
 public class Engine {
-
     private final GameDescription game;
-
     private Parser parser;
 
     public Engine(GameDescription game) {
