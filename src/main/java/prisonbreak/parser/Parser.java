@@ -91,7 +91,8 @@ public abstract class Parser {
                 }
             }
 
-            if (!isAdjective) {
+            // Check if the adjective refers to the exact object
+            if (adjective != null && object != null && !isAdjective) {
                 throw new InputErrorException();
             }
 

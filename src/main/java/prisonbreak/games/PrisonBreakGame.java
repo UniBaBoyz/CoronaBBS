@@ -112,7 +112,7 @@ public class PrisonBreakGame extends GameDescription {
 
         //Exit from a room, not from the game
         TokenVerb exit = new TokenVerb(VerbType.EXIT);
-        exit.setAlias(new HashSet<>(Arrays.asList("Esci", "Indietreggia", "Ritorna", "Scappa",
+        exit.setAlias(new HashSet<>(Arrays.asList("Indietreggia", "Ritorna", "Scappa",
                 "Spostati", "Togliti", "Levati", "Vai", "Fuggi")));
         getTokenVerbs().add(exit);
 

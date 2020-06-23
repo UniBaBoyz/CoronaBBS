@@ -47,19 +47,21 @@ public class Engine {
     }
 
     public void run() {
+        boolean endGame = false;
         parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
         List<ParserOutput> listParser;
         System.out.println(game.getCurrentRoom().getName());
         System.out.println("================================================");
         System.out.println(game.getCurrentRoom().getDescription());
         Scanner scanner = new Scanner(System.in, "UTF-8");
-        while (scanner.hasNextLine()) {
+        while (!endGame && scanner.hasNextLine()) {
             String input = scanner.nextLine();
             try {
                 listParser = parser.parse(input);
                 for (ParserOutput p : listParser) {
-                    if (p.getVerb() != null && p.getVerb().getType().equals(VerbType.END)) {
+                    if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)) {
                         System.out.println("Addio!");
+                        endGame = true;
                         break;
                     } else {
                         game.nextMove(p, System.out);
