@@ -5,8 +5,6 @@
  */
 package prisonbreak.type;
 
-import prisonbreak.parser.TokenType;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

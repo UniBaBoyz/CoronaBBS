@@ -116,9 +116,9 @@ public class PrisonBreakGame extends GameDescription {
                 "Spostati", "Togliti", "Levati", "Vai", "Fuggi")));
         getTokenVerbs().add(exit);
 
-        TokenVerb esci = new TokenVerb(VerbType.ENTER);
-        esci.setAlias(new HashSet<>(Arrays.asList("Entra", "Vai", "Accedi")));
-        getTokenVerbs().add(esci);
+        TokenVerb enter = new TokenVerb(VerbType.ENTER);
+        enter.setAlias(new HashSet<>(Arrays.asList("Entra", "Vai", "Accedi")));
+        getTokenVerbs().add(enter);
 
         TokenVerb accept = new TokenVerb(VerbType.ACCEPT);
         accept.setAlias(new HashSet<>(Arrays.asList("Accetta", "Sì", "Si", "Ok", "Okay", "Conferma", "D'accordo",

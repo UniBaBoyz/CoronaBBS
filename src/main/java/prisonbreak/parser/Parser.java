@@ -1,14 +1,14 @@
 package prisonbreak.parser;
 
-import prisonbreak.Exceptions.InputErrorException;
-import prisonbreak.type.TokenObject;
-import prisonbreak.type.TokenVerb;
-import prisonbreak.Exceptions.SyntaxErrorException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import prisonbreak.Exceptions.InputErrorException;
+import prisonbreak.Exceptions.SyntaxErrorException;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
 
 public abstract class Parser {
     private final ScannerToken scanner;

@@ -5,6 +5,7 @@
  */
 package prisonbreak.type;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,8 +18,8 @@ import prisonbreak.parser.TokenType;
 public class TokenObject extends Token {
 
     private final int id;
+    private final Set<String> adjectives = new HashSet<>();
     private String description;
-    private Set<String> adjectives;
     private boolean openable = false;
     private boolean pickupable = true;
     private boolean give = false;
@@ -51,7 +52,7 @@ public class TokenObject extends Token {
         this.id = id;
         super.setAlias(alias);
         this.description = description;
-        this.adjectives = adjectives;
+        this.adjectives.addAll(adjectives);
     }
 
     public String getDescription() {
@@ -67,7 +68,7 @@ public class TokenObject extends Token {
     }
 
     public void setAdjectives(Set<String> adjectives) {
-        this.adjectives = adjectives;
+        adjectives.addAll(adjectives);
     }
 
     public void setAdjective(String adjective) {

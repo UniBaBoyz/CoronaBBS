@@ -7,8 +7,6 @@ package prisonbreak;
 
 //fixme import prisonbreak.games.FireHouseGame;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 
@@ -16,8 +14,6 @@ import prisonbreak.games.PrisonBreakGame;
 import prisonbreak.parser.Parser;
 import prisonbreak.parser.ParserIta;
 import prisonbreak.parser.ParserOutput;
-import prisonbreak.type.TokenObject;
-import prisonbreak.type.TokenVerb;
 import prisonbreak.type.VerbType;
 
 /**
@@ -71,6 +67,7 @@ public class Engine {
                     }
                 }
             } catch (Exception e) {
+                //System.out.println("pippo");
                 e.getMessage();
             }
         }

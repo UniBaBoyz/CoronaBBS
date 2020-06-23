@@ -1,9 +1,9 @@
 package prisonbreak.type;
 
+import java.util.Set;
+
 import prisonbreak.parser.Token;
 import prisonbreak.parser.TokenType;
-
-import java.util.Set;
 
 public class TokenVerb extends Token {
     private final VerbType verbType;

@@ -1,12 +1,12 @@
 package prisonbreak.parser;
 
-import prisonbreak.type.TokenObject;
-import prisonbreak.type.TokenVerb;
-import prisonbreak.Exceptions.SkipCharactersEmptyException;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import prisonbreak.Exceptions.SkipCharactersEmptyException;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
 
 public abstract class ScannerToken {
     private static final char SEPARATOR_CHARACTER = ';';
@@ -34,12 +34,12 @@ public abstract class ScannerToken {
         verbs.add(verb);
     }
 
-    public void setVerbs(Set<TokenVerb> verbs) {
-        this.verbs = new HashSet<>(verbs);
-    }
-
     public Set<TokenVerb> getVerbs() {
         return verbs;
+    }
+
+    public void setVerbs(Set<TokenVerb> verbs) {
+        this.verbs = new HashSet<>(verbs);
     }
 
     public void addObject(TokenObject object) {

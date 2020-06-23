@@ -1,10 +1,10 @@
 package prisonbreak.type;
 
-import prisonbreak.Exceptions.InventoryFullException;
-import prisonbreak.Exceptions.ObjectNotFoundException;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import prisonbreak.Exceptions.InventoryFullException;
+import prisonbreak.Exceptions.ObjectNotFoundException;
 
 /**
  * @author Corona-Extra
@@ -17,12 +17,12 @@ public class Inventory {
         this.MAX_ITEM = dimension;
     }
 
-    public void setList(List<TokenObject> list) {
-        this.list = list;
-    }
-
     public List<TokenObject> getList() {
         return list;
+    }
+
+    public void setList(List<TokenObject> list) {
+        this.list = list;
     }
 
     public void add(TokenObject o) throws InventoryFullException {

@@ -16,6 +16,10 @@ public class Token {
         setAlias(tokens);
     }
 
+    public Set<String> getAlias() {
+        return alias;
+    }
+
     public void setAlias(String alias) {
         this.alias.add(alias.toLowerCase());
     }
@@ -24,10 +28,6 @@ public class Token {
         for (String alias : aliasTokens) {
             setAlias(alias);
         }
-    }
-
-    public Set<String> getAlias() {
-        return alias;
     }
 
     public TokenType getType() {

@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import prisonbreak.Exceptions.InputErrorException;
 import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 

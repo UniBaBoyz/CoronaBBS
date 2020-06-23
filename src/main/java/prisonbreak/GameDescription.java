@@ -55,8 +55,10 @@ public abstract class GameDescription {
     public Set<TokenObject> getObjects() {
         Set<TokenObject> objects = new HashSet<>();
 
-        for (Room i : rooms) {
-            objects.addAll(i.getObjects());
+        if (!rooms.isEmpty()) {
+            for (Room i : rooms) {
+                objects.addAll(i.getObjects());
+            }
         }
 
         return objects;
@@ -64,10 +66,14 @@ public abstract class GameDescription {
 
     public Set<String> getAdjectives() {
         Set<String> adjectives = new HashSet<>();
-        Set<TokenObject> objects = new HashSet<>(getObjects());
+        Set<TokenObject> objects;
 
-        for (TokenObject i : objects) {
-            adjectives.addAll(i.getAdjectives());
+        if (getObjects() != null) {
+            objects = getObjects();
+
+            for (TokenObject i : objects) {
+                adjectives.addAll(i.getAdjectives());
+            }
         }
 
         return adjectives;
