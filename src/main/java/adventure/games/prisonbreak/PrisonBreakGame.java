@@ -4,17 +4,18 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import adventure.GameDescription;
-import adventure.exceptions.InventoryEmptyException;
-import adventure.exceptions.InventoryFullException;
-import adventure.parser.ParserOutput;
-import adventure.type.Inventory;
-import adventure.type.Room;
-import adventure.type.TokenAdjective;
-import adventure.type.TokenObject;
-import adventure.type.TokenObjectContainer;
-import adventure.type.TokenVerb;
-import adventure.type.VerbType;
+import prisonbreak.Exceptions.InventoryEmptyException;
+import prisonbreak.Exceptions.InventoryFullException;
+import prisonbreak.Exceptions.ObjectNotFoundException;
+import prisonbreak.Exceptions.ObjectNotUsableNowException;
+import prisonbreak.GameDescription;
+import prisonbreak.parser.ParserOutput;
+import prisonbreak.type.Inventory;
+import prisonbreak.type.Room;
+import prisonbreak.type.TokenAdjective;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
+import prisonbreak.type.VerbType;
 
 public class PrisonBreakGame extends GameDescription {
 
@@ -593,9 +594,12 @@ public class PrisonBreakGame extends GameDescription {
         infirmary1.getObjects().add(substances);
 
         //TODO da mettere nell'inventario nella prima fase del gioco
-        TokenObject medicine = new TokenObject(10, new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse", "sciroppo")),
+        TokenObject medicine = new TokenObject(10, new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
         medicine.setGive(true);
+
+        getObjects().add(new TokenObject(13, new HashSet<>(Arrays.asList("Combinazione"))));
+
     }
 
     @Override
@@ -675,6 +679,33 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getInventory().contains(p.getObject())) {
                     out.println("Guarda bene nella tua borsa, cretino!");
                 }
+            } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
+                if (p.getObject() != null && getInventory().contains(p.getObject())) {
+                    getCurrentRoom().getObjects().add(p.getObject());
+                    getInventory().remove(p.getObject());
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
+                if (p.getObject() != null && p.getObject().isUsable() && getInventory().contains(p.getObject())) {
+                    if (p.getObject().getId() == 2) {
+                        //Correct room
+                        if (getCurrentRoom().getId() == 23) {
+                            // Scotch used
+                            getInventory().remove(p.getObject());
+                            getInventory().add(getObjects().stream().filter(object -> object.getId() == 13).findFirst().orElse(null));
+                        } else {
+                            throw new ObjectNotUsableNowException();
+                        }
+                    } else if (p.getObject().getId() == 13) {
+
+                        //Correct Room
+                        if (getCurrentRoom().getId() == 23) {
+                            // Combination used
+                            getInventory().remove(p.getObject());
+                        } else {
+                            throw new ObjectNotUsableNowException();
+                        }
+                    }
+                }
 
                 //FIXME Risolvere problema oggetto contenitore
             } else if (p.getVerb().getVerbType().equals(VerbType.OPEN)) {
@@ -729,12 +760,18 @@ public class PrisonBreakGame extends GameDescription {
                 out.println("================================================");
                 out.println(getCurrentRoom().getDescription());
             }
-        } catch (InventoryEmptyException iee) {
+        } catch (InventoryEmptyException e) {
             out.println("L'inventario è vuoto!");
-
-        } catch (InventoryFullException ife) {
+        } catch (InventoryFullException e) {
             out.println("Non puoi mettere più elementi nel tuo inventario!");
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
+        } catch (ObjectNotFoundException e) {
+            out.println("Non hai questo oggetto nell'inventario");
+        } catch (ObjectNotUsableNowException e) {
+            out.println("Non e' appropriato usare questo oggetto in questa stanza");
+        } catch (Exception e) {
+            //FIXME
+            out.println(e.getMessage());
         }
     }
 }
