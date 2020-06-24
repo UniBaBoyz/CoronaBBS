@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import prisonbreak.Exceptions.InventoryEmptyException;
 import prisonbreak.Exceptions.InventoryFullException;
 import prisonbreak.Exceptions.ObjectNotFoundException;
 
@@ -22,8 +23,16 @@ public class Inventory {
         this.list = list;
     }
 
-    public List<TokenObject> getInventory() {
+    public List<TokenObject> getObjects() throws InventoryEmptyException {
+        isEmpty();
         return list;
+    }
+
+    public boolean isEmpty() throws InventoryEmptyException {
+        if (list.isEmpty()) {
+            throw new InventoryEmptyException();
+        }
+        return true;
     }
 
     public boolean contains(TokenObject o) {

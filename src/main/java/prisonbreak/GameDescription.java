@@ -47,6 +47,10 @@ public abstract class GameDescription {
         this.currentRoom = currentRoom;
     }
 
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
     public Inventory getInventory() {
         return inventory;
     }

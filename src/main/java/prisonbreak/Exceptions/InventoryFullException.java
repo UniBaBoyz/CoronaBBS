@@ -1,6 +1,6 @@
 package prisonbreak.Exceptions;
 
-public class InventoryFullException extends Exception {
+public class InventoryFullException extends InventoryException {
 
     @Override
     public String getMessage() {

@@ -22,11 +22,15 @@ public class ParserIta extends Parser {
     private static List<List<TokenType>> initValidSentences() {
         List<List<TokenType>> validSentences = new ArrayList<>();
 
+        //TODO FRASI: "Prendi oggetto dall'inventario/Prendi dall'inventario l'oggetto"
         // Accepted sentences form
         validSentences.add(new ArrayList<>(Collections.singletonList(TokenType.VERB)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT, TokenType.ADJECTIVE)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT,
+                TokenType.ARTICLE, TokenType.INVENTORY)));
+        validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT, TokenType.ARTICLE, TokenType.INVENTORY)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ADJECTIVE, TokenType.OBJECT)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT, TokenType.ADJECTIVE)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.ADJECTIVE, TokenType.OBJECT)));
@@ -70,9 +74,11 @@ public class ParserIta extends Parser {
         scanner.setSkipCharacters(new HashSet<>(Arrays.asList("\n", "\t", "\r", " ")));
         scanner.setVerbs(verbs);
         scanner.setObjects(objects);
-        scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una", "un'", "del", "dello", "della", "dei", "degli", "delle")));
+        scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una",
+                "un'", "del", "dello", "della", "dei", "degli", "delle", "dall'", "dal", "dell'")));
         scanner.setAdjectives(adjectives);
-        scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè", "successivamente", "poi")));
+        scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè",
+                "successivamente", "poi")));
 
         return scanner;
     }

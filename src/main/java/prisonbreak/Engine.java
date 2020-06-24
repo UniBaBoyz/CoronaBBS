@@ -10,6 +10,9 @@ package prisonbreak;
 import java.util.List;
 import java.util.Scanner;
 
+import prisonbreak.Exceptions.InputErrorException;
+import prisonbreak.Exceptions.LexicalErrorException;
+import prisonbreak.Exceptions.SyntaxErrorException;
 import prisonbreak.games.PrisonBreakGame;
 import prisonbreak.parser.Parser;
 import prisonbreak.parser.ParserIta;
@@ -66,6 +69,14 @@ public class Engine {
                         System.out.println("================================================");
                     }
                 }
+            } catch (LexicalErrorException le) {
+                System.out.println("Non ho capito!");
+                System.out.println("C'e' qualche parola che non conosco.");
+            } catch (SyntaxErrorException se) {
+                System.out.println("Non ho capito!");
+                System.out.println("Dovresti ripassare un po' la grammatica!");
+            } catch (InputErrorException ie) {
+                System.out.println("Non ho capito!");
             } catch (Exception e) {
                 System.out.println(e.toString());
                 e.getMessage();

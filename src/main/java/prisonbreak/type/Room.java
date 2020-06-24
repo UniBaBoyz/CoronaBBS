@@ -20,6 +20,7 @@ public class Room {
     private String description;
     private String look;
     private boolean visible = true;
+    private boolean locked = false;
     private Room south = null;
     private Room north = null;
     private Room east = null;
@@ -73,6 +74,14 @@ public class Room {
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public void setSouth(Room south) {

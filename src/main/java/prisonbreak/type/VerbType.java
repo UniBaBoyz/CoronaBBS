@@ -35,4 +35,5 @@ public enum VerbType {
     TURN_OFF,
     EAT,
     PLAY,
+    DESTROY,
 }

@@ -4,8 +4,11 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import prisonbreak.Exceptions.InventoryEmptyException;
+import prisonbreak.Exceptions.InventoryFullException;
 import prisonbreak.GameDescription;
 import prisonbreak.parser.ParserOutput;
+import prisonbreak.type.Inventory;
 import prisonbreak.type.Room;
 import prisonbreak.type.TokenAdjective;
 import prisonbreak.type.TokenObject;
@@ -89,10 +92,6 @@ public class PrisonBreakGame extends GameDescription {
                 "Avanza", "Prosegui")));
         getTokenVerbs().add(walk);
 
-        TokenVerb move = new TokenVerb(VerbType.MOVE);
-        move.setAlias(new HashSet<>(Arrays.asList("Muovi", "Sposta", "Togli", "Leva")));
-        getTokenVerbs().add(move);
-
         TokenVerb stand_up = new TokenVerb(VerbType.STAND_UP);
         stand_up.setAlias(new HashSet<>(Arrays.asList("Alzati", "Svegliati")));
         getTokenVerbs().add(stand_up);
@@ -129,7 +128,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(decline);
 
         TokenVerb put_in = new TokenVerb(VerbType.PUT_IN);
-        put_in.setAlias(new HashSet<>(Arrays.asList("Immetti", "Inserisci", "Togli", "Introduci", "Prova")));
+        put_in.setAlias(new HashSet<>(Arrays.asList("Immetti", "Inserisci", "Introduci", "Prova")));
         getTokenVerbs().add(put_in);
 
         TokenVerb give = new TokenVerb(VerbType.GIVE);
@@ -143,9 +142,17 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(make);
 
         TokenVerb remove = new TokenVerb(VerbType.REMOVE);
-        remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Togli", "Corrodi", "Elimina", "Rompi",
-                "Spezza", "Distruggi", "Fracassa", "Frantuma", "Sgretola", "Sposta")));
+        remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Leva", "Elimina")));
         getTokenVerbs().add(remove);
+
+        TokenVerb destroy = new TokenVerb(VerbType.DESTROY);
+        destroy.setAlias(new HashSet<>(Arrays.asList("Spezza", "Distruggi", "Fracassa", "Sgretola", "Rompi",
+                "Frantuma", "Corrodi")));
+
+        TokenVerb move = new TokenVerb(VerbType.MOVE);
+        move.setAlias(new HashSet<>(Arrays.asList("Muovi", "Sposta", "Togli")));
+        getTokenVerbs().add(move);
+
     }
 
     private void initRooms() {
@@ -600,27 +607,105 @@ public class PrisonBreakGame extends GameDescription {
                 .filter(room -> room.getId() == 0)
                 .findFirst()
                 .orElse(null));
+
+        //Set Inventory
+        setInventory(new Inventory(5));
     }
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
         int minScore = getIncreaseScore();
+        boolean move = false;
+        boolean noroom = false;
 
-        while (getScore() < minScore) {
+        try {
+
+            if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
+                if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    move = true;
+                } else {
+                    noroom = true;
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.SOUTH)) {
+                if (getCurrentRoom().getSouth() != null && !getCurrentRoom().getSouth().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getSouth());
+                    move = true;
+                } else {
+                    noroom = true;
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.EAST)) {
+                if (getCurrentRoom().getEast() != null && !getCurrentRoom().getEast().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getEast());
+                    move = true;
+                } else {
+                    noroom = true;
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.WEST)) {
+                if (getCurrentRoom().getWest() != null && !getCurrentRoom().getWest().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getWest());
+                    move = true;
+                } else {
+                    noroom = true;
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.INVENTORY)) {
+                if (!getInventory().isEmpty()) {
+                    out.println("Nel tuo inventario ci sono:");
+                }
+                for (TokenObject o : getInventory().getObjects()) {
+                    out.println(o.getAlias().iterator().next() + ": " + o.getDescription());
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
+                if (getCurrentRoom().getLook() != null) {
+                    out.println(getCurrentRoom().getLook());
+                } else {
+                    out.println("Non c'è niente di interessante qui.");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
+                if (p.getObject() != null && p.getObject().isPickupable()
+                        && getCurrentRoom().getObjects().contains(p.getObject())) {
+                    getInventory().add(p.getObject());
+                } else if (p.getObject() == null) {
+                    out.println("Cosa vorresti prendere di preciso?");
+                } else if (!p.getObject().isPickupable()) {
+                    out.println("Non e' certo un oggetto che si può prendere imbecille!");
+                } else if (!getCurrentRoom().getObjects().contains(p.getObject())) {
+                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
+                } else if (getInventory().contains(p.getObject())) {
+                    out.println("Guarda bene nella tua borsa, cretino!");
+                }
+            }
+
+            // while (getScore() < minScore) {
             //TODO PRENDERE IL BISTURI PER AUMENTARE IL PUNTEGGIO
 
             /* //TODO per passare allo step successivo eseguire queste istruzioni
             increaseScore();
             minScore += getIncreaseScore();
              */
-        }
+            //}
 
-        while (getScore() < getIncreaseScore() * 2) {
+            //while (getScore() < getIncreaseScore() * 2) {
             //TODO PRENDERE LA VITE
-        }
+            //}
 
-        while (getScore() < getIncreaseScore() * 3) {
-            //
+            //while (getScore() < getIncreaseScore() * 3) {
+
+            //}
+            if (noroom) {
+                out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri per oltrepassare i muri...");
+            } else if (move) {
+                out.println(getCurrentRoom().getName());
+                out.println("================================================");
+                out.println(getCurrentRoom().getDescription());
+            }
+        } catch (InventoryEmptyException iee) {
+            out.println("L'inventario è vuoto!");
+
+        } catch (InventoryFullException ife) {
+            out.println("Non puoi mettere più elementi nel tuo inventario!");
+            out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
         }
     }
 }
+
