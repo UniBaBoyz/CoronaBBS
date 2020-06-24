@@ -4,18 +4,19 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import prisonbreak.Exceptions.InventoryEmptyException;
-import prisonbreak.Exceptions.InventoryFullException;
-import prisonbreak.Exceptions.ObjectNotFoundException;
-import prisonbreak.Exceptions.ObjectNotUsableNowException;
-import prisonbreak.GameDescription;
-import prisonbreak.parser.ParserOutput;
-import prisonbreak.type.Inventory;
-import prisonbreak.type.Room;
-import prisonbreak.type.TokenAdjective;
-import prisonbreak.type.TokenObject;
-import prisonbreak.type.TokenVerb;
-import prisonbreak.type.VerbType;
+import adventure.GameDescription;
+import adventure.exceptions.InventoryEmptyException;
+import adventure.exceptions.InventoryFullException;
+import adventure.exceptions.ObjectNotFoundException;
+import adventure.exceptions.ObjectNotUsableNowException;
+import adventure.parser.ParserOutput;
+import adventure.type.Inventory;
+import adventure.type.Room;
+import adventure.type.TokenAdjective;
+import adventure.type.TokenObject;
+import adventure.type.TokenObjectContainer;
+import adventure.type.TokenVerb;
+import adventure.type.VerbType;
 
 public class PrisonBreakGame extends GameDescription {
 

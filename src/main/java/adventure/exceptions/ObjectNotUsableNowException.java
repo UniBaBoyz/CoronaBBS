@@ -1,4 +1,4 @@
-package prisonbreak.Exceptions;
+package adventure.exceptions;
 
 public class ObjectNotUsableNowException extends Exception {
 
