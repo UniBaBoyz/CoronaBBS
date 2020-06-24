@@ -5,8 +5,9 @@
  */
 package prisonbreak.type;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author pierpaolo
@@ -14,7 +15,7 @@ import java.util.List;
 public class Room {
 
     private final int id;
-    private final List<TokenObject> objects = new ArrayList<>();
+    private final Set<TokenObject> objects = new HashSet<>();
     private String name;
     private String description;
     private String look;
@@ -34,97 +35,88 @@ public class Room {
         this.description = description;
     }
 
-    public String getName() {
-        return name;
+    public int getId() {
+        return id;
+    }
+
+    public Set<TokenObject> getObjects() {
+        return objects;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    public Room getSouth() {
-        return south;
-    }
-
-    public void setSouth(Room south) {
-        this.south = south;
-    }
-
-    public Room getNorth() {
-        return north;
-    }
-
-    public void setNorth(Room north) {
-        this.north = north;
-    }
-
-    public Room getEast() {
-        return east;
-    }
-
-    public void setEast(Room east) {
-        this.east = east;
-    }
-
-    public Room getWest() {
-        return west;
-    }
-
-    public void setWest(Room west) {
-        this.west = west;
-    }
-
-    public List<TokenObject> getObjects() {
-        return objects;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 83 * hash + this.id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Room other = (Room) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
-
-    public String getLook() {
-        return look;
+    public String getDescription() {
+        return description;
     }
 
     public void setLook(String look) {
         this.look = look;
     }
 
+    public String getLook() {
+        return look;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setSouth(Room south) {
+        this.south = south;
+    }
+
+    public Room getSouth() {
+        return south;
+    }
+
+    public void setNorth(Room north) {
+        this.north = north;
+    }
+
+    public Room getNorth() {
+        return north;
+    }
+
+    public void setEast(Room east) {
+        this.east = east;
+    }
+
+    public Room getEast() {
+        return east;
+    }
+
+    public void setWest(Room west) {
+        this.west = west;
+    }
+
+    public Room getWest() {
+        return west;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+        Room room = (Room) o;
+        return id == room.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

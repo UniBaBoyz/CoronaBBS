@@ -1,18 +1,20 @@
 package prisonbreak.parser;
 
-import prisonbreak.type.TokenObject;
-import prisonbreak.type.TokenVerb;
-import prisonbreak.utils.SkipCharactersEmptyException;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import prisonbreak.Exceptions.SkipCharactersEmptyException;
+import prisonbreak.type.TokenAdjective;
+import prisonbreak.type.TokenObject;
+import prisonbreak.type.TokenVerb;
+
 public abstract class ScannerToken {
     private static final char SEPARATOR_CHARACTER = ';';
     private final Token skip = new Token(TokenType.SKIP);
-    private Set<TokenVerb> verbs = new HashSet<>();
-    private Set<TokenObject> objects = new HashSet<>();
+    private final Set<TokenVerb> verbs = new HashSet<>();
+    private final Set<TokenObject> objects = new HashSet<>();
+    private final Set<TokenAdjective> adjectives = new HashSet<>();
     private String stringToTokenize;
 
     public ScannerToken() {
@@ -27,19 +29,23 @@ public abstract class ScannerToken {
     }
 
     public void setSkipCharacters(Set<String> skipCharacters) {
-        skip.addAlias(skipCharacters);
+        skip.setAlias(skipCharacters);
+    }
+
+    public void setVerbs(Set<TokenVerb> verbs) {
+        this.verbs.addAll(verbs);
     }
 
     public void addVerb(TokenVerb verb) {
         verbs.add(verb);
     }
 
-    public void setVerbs(Set<TokenVerb> verbs) {
-        this.verbs = new HashSet<>(verbs);
-    }
-
     public Set<TokenVerb> getVerbs() {
         return verbs;
+    }
+
+    public void setObjects(Set<TokenObject> objects) {
+        this.objects.addAll(objects);
     }
 
     public void addObject(TokenObject object) {
@@ -50,8 +56,20 @@ public abstract class ScannerToken {
         return objects;
     }
 
-    public void setObjects(Set<TokenObject> objects) {
-        this.objects = new HashSet<>(objects);
+    public void setAdjectives(Set<TokenAdjective> adjectives) {
+        this.adjectives.addAll(adjectives);
+    }
+
+    public void addAdjective(TokenAdjective adjective) {
+        adjectives.add(adjective);
+    }
+
+    public Set<TokenAdjective> getAdjectives() {
+        return adjectives;
+    }
+
+    public void setSentence(String string) {
+        stringToTokenize = string;
     }
 
     public String createTokenizedString() throws SkipCharactersEmptyException {
@@ -70,9 +88,5 @@ public abstract class ScannerToken {
     }
 
     public abstract Iterator<Token> tokenize() throws Exception;
-
-    public void setPhrase(String string) {
-        stringToTokenize = string;
-    }
 
 }

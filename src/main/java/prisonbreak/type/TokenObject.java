@@ -5,10 +5,12 @@
  */
 package prisonbreak.type;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
 import prisonbreak.parser.Token;
 import prisonbreak.parser.TokenType;
-
-import java.util.Set;
 
 /**
  * @author pierpaolo
@@ -16,47 +18,41 @@ import java.util.Set;
 public class TokenObject extends Token {
 
     private final int id;
-    private String name;
+    private final Set<TokenAdjective> adjectives = new HashSet<>();
     private String description;
     private boolean openable = false;
     private boolean pickupable = true;
+    private boolean give = false;
+    private boolean mixable = false;
+    private boolean usable = false;
     private boolean pushable = false;
+    private boolean eatable = false;
+    private boolean given = false;
+    private boolean eat = false;
     private boolean open = false;
     private boolean push = false;
     private boolean on = false;
+    private boolean used = false;
 
-    public TokenObject(int id) {
+    public TokenObject(int id, Set<String> alias) {
         super(TokenType.OBJECT);
         this.id = id;
+        super.setAlias(alias);
     }
 
-    public TokenObject(int id, String name) {
+    public TokenObject(int id, Set<String> alias, String description) {
         super(TokenType.OBJECT);
         this.id = id;
-        this.name = name;
-    }
-
-    public TokenObject(int id, String name, String description) {
-        super(TokenType.OBJECT);
-        this.id = id;
-        this.name = name;
+        super.setAlias(alias);
         this.description = description;
     }
 
-    public TokenObject(int id, String name, String description, Set<String> alias) {
+    public TokenObject(int id, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
         super(TokenType.OBJECT);
         this.id = id;
-        this.name = name;
+        super.setAlias(alias);
         this.description = description;
-        super.addAlias(alias);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        this.adjectives.addAll(adjectives);
     }
 
     public String getDescription() {
@@ -65,6 +61,18 @@ public class TokenObject extends Token {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<TokenAdjective> getAdjectives() {
+        return adjectives;
+    }
+
+    public void setAdjectives(Set<String> adjectives) {
+        adjectives.addAll(adjectives);
+    }
+
+    public void setAdjective(TokenAdjective adjective) {
+        this.adjectives.add(adjective);
     }
 
     public boolean isOpenable() {
@@ -99,6 +107,70 @@ public class TokenObject extends Token {
         this.open = open;
     }
 
+    public boolean isMixable() {
+        return mixable;
+    }
+
+    public void setMixable(boolean mixable) {
+        this.mixable = mixable;
+    }
+
+    public boolean isEat() {
+        return eat;
+    }
+
+    public void setEat(boolean eat) {
+        this.eat = eat;
+    }
+
+    public boolean isEatable() {
+        return eatable;
+    }
+
+    public void setEatable(boolean eatable) {
+        this.eatable = eatable;
+    }
+
+    public boolean isUsable() {
+        return usable;
+    }
+
+    public void setUsable(boolean usable) {
+        this.usable = usable;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public boolean isOn() {
+        return on;
+    }
+
+    public void setOn(boolean on) {
+        this.on = on;
+    }
+
+    public boolean isGive() {
+        return give;
+    }
+
+    public void setGive(boolean give) {
+        this.give = give;
+    }
+
+    public boolean isGiven() {
+        return given;
+    }
+
+    public void setGiven(boolean given) {
+        this.given = given;
+    }
+
     public boolean isPush() {
         return push;
     }
@@ -112,28 +184,15 @@ public class TokenObject extends Token {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 37 * hash + this.id;
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TokenObject that = (TokenObject) o;
+        return id == that.id;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final TokenObject other = (TokenObject) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hash(id);
     }
-
 }

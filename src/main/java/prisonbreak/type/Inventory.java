@@ -1,39 +1,64 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package prisonbreak.type;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import prisonbreak.Exceptions.InventoryFullException;
+import prisonbreak.Exceptions.ObjectNotFoundException;
+
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public class Inventory {
-    //TODO CONTROLLARE MAX ITEM
-    private int MAX_ITEM;
+    private final int MAX_ITEM;
+    private List<TokenObject> list = new ArrayList<>();
 
     public Inventory(int dimension) {
         this.MAX_ITEM = dimension;
     }
 
-    private List<TokenObject> list = new ArrayList<>();
-
-    public List<TokenObject> getList() {
-        return list;
-    }
-
-    public void setList(List<TokenObject> list) {
+    public void setInventory(List<TokenObject> list) {
         this.list = list;
     }
 
-    public void add(TokenObject o) {
+    public List<TokenObject> getInventory() {
+        return list;
+    }
+
+    public boolean contains(TokenObject o) {
+        if (o != null) {
+            return list.contains(o);
+        }
+        return false;
+    }
+
+    public TokenObject getObject(int id) {
+        Iterator<TokenObject> iterator = list.iterator();
+        TokenObject o = null;
+
+        while (iterator.hasNext()) {
+            o = iterator.next();
+            if (o.getId() == id) {
+                return o;
+            }
+        }
+
+        return o;
+    }
+
+    public void add(TokenObject o) throws InventoryFullException {
+        if (list.size() > MAX_ITEM) {
+            throw new InventoryFullException();
+        }
         list.add(o);
     }
 
-    public void remove(TokenObject o) {
+    public void remove(TokenObject o) throws ObjectNotFoundException {
+        if (!list.contains(o)) {
+            throw new ObjectNotFoundException();
+        }
+
         list.remove(o);
     }
 }

@@ -13,21 +13,21 @@ public class Token {
 
     public Token(TokenType type, Set<String> tokens) {
         this.type = type;
-        addAlias(tokens);
-    }
-
-    public void addAlias(String alias) {
-        this.alias.add(alias.toLowerCase());
-    }
-
-    public void addAlias(Set<String> aliasTokens) {
-        for (String alias : aliasTokens) {
-            addAlias(alias);
-        }
+        setAlias(tokens);
     }
 
     public Set<String> getAlias() {
         return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias.add(alias.toLowerCase());
+    }
+
+    public void setAlias(Set<String> aliasTokens) {
+        for (String alias : aliasTokens) {
+            setAlias(alias);
+        }
     }
 
     public TokenType getType() {
@@ -36,13 +36,5 @@ public class Token {
 
     public boolean isAlias(String alias) {
         return this.alias.contains(alias.toLowerCase());
-    }
-
-    @Override
-    public String toString() {
-        return "Token{" +
-                "type=" + type +
-                ", alias=" + alias +
-                '}';
     }
 }

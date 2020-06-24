@@ -5,33 +5,37 @@
  */
 package prisonbreak;
 
+import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
+
 import prisonbreak.parser.ParserOutput;
 import prisonbreak.type.Inventory;
 import prisonbreak.type.Room;
+import prisonbreak.type.TokenAdjective;
+import prisonbreak.type.TokenObject;
 import prisonbreak.type.TokenVerb;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public abstract class GameDescription {
-
-    private final List<Room> rooms = new ArrayList<>();
-
-    private final List<TokenVerb> tokenVerbs = new ArrayList<>();
-
+    private static final int INCREASE_SCORE = 5;
+    private final Set<Room> rooms = new HashSet<>();
+    private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private Inventory inventory;
-
     private Room currentRoom;
+    private int score = 0;
 
-    public List<Room> getRooms() {
+    public static int getIncreaseScore() {
+        return INCREASE_SCORE;
+    }
+
+    public Set<Room> getRooms() {
         return rooms;
     }
 
-    public List<TokenVerb> getTokenVerbs() {
+    public Set<TokenVerb> getTokenVerbs() {
         return tokenVerbs;
     }
 
@@ -51,4 +55,36 @@ public abstract class GameDescription {
 
     public abstract void nextMove(ParserOutput p, PrintStream out);
 
+    public Set<TokenObject> getObjects() {
+        Set<TokenObject> objects = new HashSet<>();
+
+        if (!rooms.isEmpty()) {
+            for (Room i : rooms) {
+                objects.addAll(i.getObjects());
+            }
+        }
+
+        return objects;
+    }
+
+    public Set<TokenAdjective> getAdjectives() {
+        Set<TokenAdjective> adjectives = new HashSet<>();
+        Set<TokenObject> objects = new HashSet<>(getObjects());
+
+        if (!objects.isEmpty()) {
+            for (TokenObject i : objects) {
+                adjectives.addAll(i.getAdjectives());
+            }
+        }
+
+        return adjectives;
+    }
+
+    public void increaseScore() {
+        this.score += INCREASE_SCORE;
+    }
+
+    public int getScore() {
+        return score;
+    }
 }

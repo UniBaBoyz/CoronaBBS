@@ -5,11 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import prisonbreak.utils.LexicalErrorException;
+import prisonbreak.Exceptions.LexicalErrorException;
 
 public class ScannerTokenIta extends ScannerToken {
     private final Token article = new Token(TokenType.ARTICLE);
-    private final Token adjective = new Token(TokenType.ADJECTIVE);
     private final Token junction = new Token(TokenType.JUNCTION);
 
     public ScannerTokenIta() {
@@ -21,20 +20,16 @@ public class ScannerTokenIta extends ScannerToken {
     }
 
     public void setArticles(Set<String> articles) {
-        article.addAlias(articles);
-    }
-
-    public void setAdjective(Set<String> adjectives) {
-        adjective.addAlias(adjectives);
+        article.setAlias(articles);
     }
 
     public void setJunctions(Set<String> junctions) {
-        junction.addAlias(junctions);
+        junction.setAlias(junctions);
     }
 
     @Override
     public Iterator<Token> tokenize() throws Exception {
-        List<Token> phrase = new ArrayList<>();
+        List<Token> sentence = new ArrayList<>();
         String tokenizedString;
 
         tokenizedString = createTokenizedString();
@@ -62,8 +57,14 @@ public class ScannerTokenIta extends ScannerToken {
                         .orElse(null);
             } else if (article.isAlias(stringToken)) {
                 token = article;
-            } else if (adjective.isAlias(stringToken)) {
-                token = adjective;
+            } else if (getAdjectives()
+                    .stream()
+                    .anyMatch(t -> t.isAlias(stringToken))) {
+                token = getAdjectives()
+                        .stream()
+                        .filter(t -> t.isAlias(stringToken))
+                        .findFirst()
+                        .orElse(null);
             } else if (junction.isAlias(stringToken)) {
                 token = junction;
             } else {
@@ -72,10 +73,10 @@ public class ScannerTokenIta extends ScannerToken {
                     throw new LexicalErrorException();
                 }
             }
-            phrase.add(token);
+            sentence.add(token);
         }
 
-        return phrase.iterator();
+        return sentence.iterator();
     }
 
 }
