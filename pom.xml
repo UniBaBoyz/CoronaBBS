@@ -19,7 +19,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>prisonbreak.Engine</mainClass>
+                            <mainClass>adventure.Engine</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
