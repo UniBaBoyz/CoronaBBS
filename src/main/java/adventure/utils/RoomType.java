@@ -16,7 +16,7 @@ public class RoomType {
     public static final int PASSAGESOUTH = 12;
     public static final int PASSAGENORTH = 13;
     public static final int GENERATOR = 14;
-    public static final int LADDER = 15;
+    public static final int ONLADDER = 15;
     public static final int AIRDUCT = 16;
     public static final int AIRDUCTEAST = 17;
     public static final int AIRDUCTNORTH = 18;

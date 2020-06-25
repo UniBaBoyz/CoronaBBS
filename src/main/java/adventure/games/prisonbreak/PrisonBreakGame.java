@@ -47,7 +47,7 @@ import static adventure.utils.RoomType.ISOLATIONCORRIDORNORTHNORTHNORTH;
 import static adventure.utils.RoomType.ISOLATIONCORRIDORSOUTH;
 import static adventure.utils.RoomType.ISOLATIONCORRIDORSOUTHSOUTH;
 import static adventure.utils.RoomType.ISOLATIONCORRIDORSOUTHSOUTHSOUTH;
-import static adventure.utils.RoomType.LADDER;
+import static adventure.utils.RoomType.ONLADDER;
 import static adventure.utils.RoomType.LADDERS;
 import static adventure.utils.RoomType.LOBBY;
 import static adventure.utils.RoomType.LOBBYSOUTH;
@@ -280,10 +280,10 @@ public class PrisonBreakGame extends GameDescription {
                 " finisca qui, sei in una piccola stanza tutta buia.");
         generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
 
-        Room ladder = new Room(LADDER, "Sulla scala", "Sei salito sulla scala e noti un condotto" +
+        Room onLadder = new Room(ONLADDER, "Sulla scala", "Sei salito sulla scala e noti un condotto" +
                 " d’aria un po’ vecchiotto.");
-        ladder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte!");
-        ladder.setLocked(true);
+        onLadder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte!");
+        onLadder.setLocked(true);
 
         Room airDuct = new Room(AIRDUCT, "Condotto d'aria", "Sei riuscito ad entrare nel condotto," +
                 " strisci piano cercando di fare meno rumore possibile.");
@@ -476,10 +476,10 @@ public class PrisonBreakGame extends GameDescription {
         passageSouth.setSouth(generator);
         generator.setNorth(passageSouth);
         passageNorth.setSouth(passage);
-        passageNorth.setNorth(ladder);
-        ladder.setSouth(passageNorth);
-        ladder.setNorth(airDuct);
-        airDuct.setSouth(ladder);
+        passageNorth.setNorth(onLadder);
+        onLadder.setSouth(passageNorth);
+        onLadder.setNorth(airDuct);
+        airDuct.setSouth(onLadder);
         airDuct.setEast(airDuctEast);
         airDuct.setNorth(airDuctNorth);
         airDuct.setWest(airDuctWest);
@@ -523,7 +523,7 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(passageSouth);
         getRooms().add(generator);
         getRooms().add(passageNorth);
-        getRooms().add(ladder);
+        getRooms().add(onLadder);
         getRooms().add(airDuct);
         getRooms().add(airDuctEast);
         getRooms().add(airDuctWest);
@@ -534,7 +534,8 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject screw = new TokenObject(1, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
-        brawl1.getObjects().add(screw);
+        screw.setPickupable(false);
+        bench.getObjects().add(screw);
 
         TokenObject scotch = new TokenObject(2, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
@@ -551,8 +552,6 @@ public class PrisonBreakGame extends GameDescription {
                 "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla.");
         tools.setEatable(true);
         cell.getObjects().add(food);
-        cell1.getObjects().add(food);
-        cell2.getObjects().add(food);
 
         TokenObject ball = new TokenObject(5, new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")),
                 "E' un semplice pallone da basket.");
@@ -585,7 +584,7 @@ public class PrisonBreakGame extends GameDescription {
                         "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
         substances.setUsable(true);
         substances.setMixable(true);
-        infirmary1.getObjects().add(substances);
+        infirmary.getObjects().add(substances);
 
         //TODO da mettere nell'inventario nella prima fase del gioco
         TokenObject medicine = new TokenObject(10, new HashSet<>(Arrays.asList("farmaco", "medicina", "compresse",
@@ -599,42 +598,32 @@ public class PrisonBreakGame extends GameDescription {
         sink.setPickupable(false);
         sink.setUsable(true);
         cell.getObjects().add(sink);
-        cell1.getObjects().add(sink);
-        cell2.getObjects().add(sink);
-        brother_cell.getObjects().add(sink);
+        brotherCell.getObjects().add(sink);
 
         TokenObject bed = new TokenObject(12, new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina",
                 "Lettuccio")),
                 "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
         bed.setPickupable(false);
         cell.getObjects().add(bed);
-        cell1.getObjects().add(bed);
-        cell2.getObjects().add(bed);
-        brother_cell.getObjects().add(bed);
+        brotherCell.getObjects().add(bed);
 
         TokenObject table = new TokenObject(14, new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
                 "E' un semplice tavolo in legno, molto piccolo e molto sporco!");
         table.setPickupable(false);
         cell.getObjects().add(table);
-        cell1.getObjects().add(table);
-        cell2.getObjects().add(table);
 
         TokenObject windowCell = new TokenObject(15, new HashSet<>(Arrays.asList("Finestra")),
                 "E' una piccola finestra dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!");
         windowCell.setPickupable(false);
         cell.getObjects().add(windowCell);
-        cell1.getObjects().add(windowCell);
-        cell2.getObjects().add(windowCell);
 
         TokenObject water = new TokenObject(16, new HashSet<>(Arrays.asList("Water", "Cesso", "Gabinetto",
                 "Tazza", "Wc")),
                 "Un water qualunque, senza nessun particolare, non penso sia bello osservarlo");
         water.setPickupable(false);
         cell.getObjects().add(water);
-        cell1.getObjects().add(water);
-        cell2.getObjects().add(water);
-        brother_cell.getObjects().add(water);
+        brotherCell.getObjects().add(water);
 
         TokenObject railing = new TokenObject(16, new HashSet<>(Arrays.asList("Ringhiera", "Scorrimano")),
                 "Sei troppo giovane per camminare appoggiato ad una ringhiera e troppo giovane " +
@@ -657,14 +646,12 @@ public class PrisonBreakGame extends GameDescription {
                 "Vedi scritto tante ricette tra cui quella per creare l’acido cloridico! ");
         blackboard.setPickupable(false);
         infirmary.getObjects().add(blackboard);
-        infirmary1.getObjects().add(blackboard);
 
         TokenObject windowsInfirmary = new TokenObject(20, new HashSet<>(Arrays.asList("Finestra")),
                 "La finestra è sbarrata non sembra possibile aprirla! Puoi notare un lungo cavo che porta" +
                         " fino al muro della prigione!");
         windowsInfirmary.setPickupable(false);
         infirmary.getObjects().add(windowsInfirmary);
-        infirmary1.getObjects().add(windowsInfirmary);
 
         TokenObject tableInfirmary = new TokenObject(21, new HashSet<>(Arrays.asList("Tavolo", "Tavolino")),
                 "Noti vari oggetti, alcuni non sai nemmeno a cosa possano servire, in particolare in un" +
@@ -680,7 +667,6 @@ public class PrisonBreakGame extends GameDescription {
         picture.setPickupable(false);
         picture.setPushable(true);
         infirmary.getObjects().add(picture);
-        infirmary1.getObjects().add(picture);
 
         TokenObject doorInfirmary = new TokenObject(23, new HashSet<>(Arrays.asList("Porta")),
                 " la porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
@@ -688,7 +674,6 @@ public class PrisonBreakGame extends GameDescription {
                         "la stanza. ");
         doorInfirmary.setPickupable(false);
         infirmary.getObjects().add(doorInfirmary);
-        infirmary1.getObjects().add(doorInfirmary);
 
         TokenObjectContainer wardrobe = new TokenObjectContainer(24, new HashSet<>(Arrays.asList("Armadio",
                 "Guardaroba", "Armadietto")),
@@ -698,7 +683,6 @@ public class PrisonBreakGame extends GameDescription {
         wardrobe.setPickupable(false);
         wardrobe.setOpen(false);
         infirmary.getObjects().add(wardrobe);
-        infirmary1.getObjects().add(wardrobe);
 
         TokenObject gowns = new TokenObject(25, new HashSet<>(Arrays.asList("Camici", "Camice", "Vestito",
                 "Vestiti")),
@@ -710,12 +694,11 @@ public class PrisonBreakGame extends GameDescription {
                 "Non sei un campione di arrampicata o salto in alto, perché perdere tempo qui!");
         newAirDuct.setPickupable(false);
         infirmary.getObjects().add(newAirDuct);
-        infirmary1.getObjects().add(newAirDuct);
 
         TokenObject grate = new TokenObject(27, new HashSet<>(Arrays.asList("Grata", "Grate")),
                 "Puoi notare solo il piano superiore, ma non puoi fare nient' altro");
         grate.setPickupable(false);
-        passage_south.getObjects().add(grate);
+        passageSouth.getObjects().add(grate);
 
         TokenObject generatorObject = new TokenObject(28, new HashSet<>(Arrays.asList("Generatore")),
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
@@ -734,7 +717,7 @@ public class PrisonBreakGame extends GameDescription {
                 "La cella è controllata da un poliziotto e poi non mi sembra il caso di intrufolarsi" +
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
         gratePassage.setPickupable(false);
-        air_duct_east.getObjects().add(gratePassage);
+        airDuctEast.getObjects().add(gratePassage);
 
         TokenObject drug = new TokenObject(31, new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
