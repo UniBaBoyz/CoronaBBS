@@ -748,7 +748,7 @@ public class PrisonBreakGame extends GameDescription {
 
         //Set starting room
         setCurrentRoom(getRooms().stream()
-                .filter(room -> room.getId() == 0)
+                .filter(room -> room.getId() == CELL)
                 .findFirst()
                 .orElse(null));
 
@@ -824,26 +824,42 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().remove(p.getObject());
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
-                if (p.getObject() != null && p.getObject().isUsable() && getInventory().contains(p.getObject())) {
-                    if (p.getObject().getId() == 2) {
-                        //Correct room
-                        if (getCurrentRoom().getId() == 23) {
+                boolean objectUsed = false;
+                if (p.getObject() != null && p.getObject().isUsable() && (getInventory().contains(p.getObject())
+                        || getCurrentRoom().containsObject(p.getObject()))) {
+                    if (p.getObject().getId() == 1) {
+                        // Screw case
+                        if (getCurrentRoom().getId() == CELL) {
+                            //TODO AGGIUNGERE LAVANDINO
+                            objectUsed = true;
+                        }
+                    } else if (p.getObject().getId() == 2) {
+                        // Scotch case
+                        if (getCurrentRoom().getId() == ISOLATION) {
                             // Scotch used
+                            objectUsed = true;
                             getInventory().remove(p.getObject());
                             getInventory().add(getObjects().stream().filter(object -> object.getId() == 13).findFirst().orElse(null));
-                        } else {
-                            throw new ObjectNotUsableNowException();
+                        }
+                    } else if (p.getObject().getId() == 3) {
+                        // Tools Case
+                        if (getCurrentRoom().getId() == GYM) {
+                            objectUsed = true;
+                            //TODO INSERIRE SEGHETTO UTILIZZABILE
                         }
                     } else if (p.getObject().getId() == 13) {
-
-                        //Correct Room
-                        if (getCurrentRoom().getId() == 23) {
-                            // Combination used
+                        // Combination case
+                        if (getCurrentRoom().getId() == ISOLATION) {
+                            objectUsed = true;
                             getInventory().remove(p.getObject());
-                        } else {
-                            throw new ObjectNotUsableNowException();
+                            getRoom(ISOLATION).setLocked(false);
                         }
                     }
+
+                    if(!objectUsed) {
+                        throw new ObjectNotUsableNowException();
+                    }
+
                 }
 
                 //FIXME Risolvere problema oggetto contenitore

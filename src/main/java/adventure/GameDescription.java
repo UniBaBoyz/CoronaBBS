@@ -35,6 +35,10 @@ public abstract class GameDescription {
         return rooms;
     }
 
+    public Room getRoom(int id) {
+        return rooms.stream().filter(room -> room.getId() == id).findFirst().orElse(null);
+    }
+
     public Set<TokenVerb> getTokenVerbs() {
         return tokenVerbs;
     }
