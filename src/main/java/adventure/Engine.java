@@ -28,7 +28,6 @@ import adventure.type.VerbType;
  */
 public class Engine {
     private final GameDescription game;
-    private Parser parser;
 
     public Engine(GameDescription game) {
         this.game = game;
@@ -49,7 +48,7 @@ public class Engine {
 
     public void run() {
         boolean endGame = false;
-        parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
+        Parser parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
         List<ParserOutput> listParser;
         System.out.println(game.getCurrentRoom().getName());
         System.out.println("================================================");

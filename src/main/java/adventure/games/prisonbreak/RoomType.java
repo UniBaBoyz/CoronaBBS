@@ -1,4 +1,4 @@
-package adventure.utils;
+package adventure.games.prisonbreak;
 
 public class RoomType {
     public static final int CELL = 0;

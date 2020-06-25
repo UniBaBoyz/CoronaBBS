@@ -21,7 +21,7 @@ public class TokenObject extends Token {
     private final Set<TokenAdjective> adjectives = new HashSet<>();
     private String description;
     private boolean openable = false;
-    private boolean pickupable = true;
+    private boolean pickupable = false;
     private boolean give = false;
     private boolean mixable = false;
     private boolean usable = false;
