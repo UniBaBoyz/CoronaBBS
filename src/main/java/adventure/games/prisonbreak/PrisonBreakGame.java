@@ -534,38 +534,41 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject screw = new TokenObject(1, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
-        screw.setPickupable(false);
         bench.getObjects().add(screw);
 
         TokenObject scotch = new TokenObject(2, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
         airDuctWest.getObjects().add(scotch);
+        scotch.setPickupable(true);
 
         TokenObject tools = new TokenObject(3, new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
                 "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!");
-        tools.setPickupable(false);
         tools.setUsable(true);
         gym.getObjects().add(tools);
 
         TokenObject food = new TokenObject(4, new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto",
                 "Tavolo")),
                 "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla.");
-        tools.setEatable(true);
+        food.setEatable(true);
+        food.setPickupable(true);
         cell.getObjects().add(food);
 
         TokenObject ball = new TokenObject(5, new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")),
                 "E' un semplice pallone da basket.");
+        ball.setPickupable(true);
         ball.setUsable(true);
         basket.getObjects().add(ball);
         passageSouth.getObjects().add(ball);
 
         TokenObject ladder = new TokenObject(6, new HashSet<>(Arrays.asList("Scala", "Scaletta")),
                 "E' solo una scala in legno, sembra molto leggera e facile da spostare.");
+        ladder.setPickupable(false);
         ladder.setPushable(true);
         passageSouth.getObjects().add(ladder);
 
         TokenObject scalpel = new TokenObject(7, new HashSet<>(Arrays.asList("Bisturi", "Lama")),
                 "Sono solo tanti bisturi tutti uguali!");
+        scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
 
@@ -575,6 +578,7 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto", "Distrutto",
                         "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Aggiustato",
                         "Sistemato", "Riparato"))))));
+        scalpel.setPickupable(true);
         scalpel.setUsable(true);
         cell.getObjects().add(hacksaw);
 
@@ -582,6 +586,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Oggetti")),
                 "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro " +
                         "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
+        substances.setPickupable(true);
         substances.setUsable(true);
         substances.setMixable(true);
         infirmary.getObjects().add(substances);
@@ -595,76 +600,72 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject sink = new TokenObject(11, new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
                 "E' un piccolo lavandino fissato al muro con delle viti arruginite... Ha un aspetto " +
                         "malandato!");
-        sink.setPickupable(false);
         sink.setUsable(true);
         cell.getObjects().add(sink);
-        brotherCell.getObjects().add(sink);
+
+        TokenObject sinkBrother = new TokenObject(33, new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
+                "E' un piccolo lavandino posto nella stanza di tuo fratello");
+        sink.setUsable(true);
+        brotherCell.getObjects().add(sinkBrother);
 
         TokenObject bed = new TokenObject(12, new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina",
                 "Lettuccio")),
                 "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
-        bed.setPickupable(false);
         cell.getObjects().add(bed);
-        brotherCell.getObjects().add(bed);
+
+        TokenObject bedBrother = new TokenObject(35, new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina",
+                "Lettuccio")),
+                "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
+        brotherCell.getObjects().add(bedBrother);
 
         TokenObject table = new TokenObject(14, new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
                 "E' un semplice tavolo in legno, molto piccolo e molto sporco!");
-        table.setPickupable(false);
         cell.getObjects().add(table);
 
         TokenObject windowCell = new TokenObject(15, new HashSet<>(Arrays.asList("Finestra")),
                 "E' una piccola finestra dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!");
-        windowCell.setPickupable(false);
         cell.getObjects().add(windowCell);
 
         TokenObject water = new TokenObject(16, new HashSet<>(Arrays.asList("Water", "Cesso", "Gabinetto",
                 "Tazza", "Wc")),
                 "Un water qualunque, senza nessun particolare, non penso sia bello osservarlo");
-        water.setPickupable(false);
         cell.getObjects().add(water);
         brotherCell.getObjects().add(water);
 
         TokenObject railing = new TokenObject(16, new HashSet<>(Arrays.asList("Ringhiera", "Scorrimano")),
                 "Sei troppo giovane per camminare appoggiato ad una ringhiera e troppo giovane " +
                         "per buttarti, ti prego non farlo!!!");
-        railing.setPickupable(false);
         corridor.getObjects().add(railing);
 
         TokenObject door = new TokenObject(17, new HashSet<>(Arrays.asList("Porta", "Portone", "Ingresso")),
                 "E' una grande porta che separa giardino e atrio, e' sempre aperta e non puoi chiuderla!");
-        door.setPickupable(false);
         garden.getObjects().add(door);
         lobby.getObjects().add(door);
 
         TokenObject basketObject = new TokenObject(18, new HashSet<>(Arrays.asList("Canestro", "Basket")),
                 "Sono due canestri, ottimi per giocare a basket e perdere tempo!!!");
-        basketObject.setPickupable(false);
         basket.getObjects().add(basketObject);
 
         TokenObject blackboard = new TokenObject(19, new HashSet<>(Arrays.asList("Lavagna", "Lavagnetta")),
                 "Vedi scritto tante ricette tra cui quella per creare l’acido cloridico! ");
-        blackboard.setPickupable(false);
         infirmary.getObjects().add(blackboard);
 
         TokenObject windowsInfirmary = new TokenObject(20, new HashSet<>(Arrays.asList("Finestra")),
                 "La finestra è sbarrata non sembra possibile aprirla! Puoi notare un lungo cavo che porta" +
                         " fino al muro della prigione!");
-        windowsInfirmary.setPickupable(false);
         infirmary.getObjects().add(windowsInfirmary);
 
         TokenObject tableInfirmary = new TokenObject(21, new HashSet<>(Arrays.asList("Tavolo", "Tavolino")),
                 "Noti vari oggetti, alcuni non sai nemmeno a cosa possano servire, in particolare in un" +
                         " cassetto ci sono una decina di bisturi. Non penso che qualcuno se ne accorga se ne prendi " +
                         "uno solo!");
-        tableInfirmary.setPickupable(false);
         infirmary.getObjects().add(tableInfirmary);
 
         TokenObject picture = new TokenObject(22, new HashSet<>(Arrays.asList("Quadro", "Tramp", "Dipinto",
                 "Ritratto", "Foto", "Fotografia")),
                 " Il presidente ha un sorriso smagliante e uno sguardo felice, perché proprio quel quadro " +
                         "li?");
-        picture.setPickupable(false);
         picture.setPushable(true);
         infirmary.getObjects().add(picture);
 
@@ -672,7 +673,6 @@ public class PrisonBreakGame extends GameDescription {
                 " la porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
                         " l’infermiere verrà a dirtelo. Mi dispiace devi attendere, puoi continuare a controllare " +
                         "la stanza. ");
-        doorInfirmary.setPickupable(false);
         infirmary.getObjects().add(doorInfirmary);
 
         TokenObjectContainer wardrobe = new TokenObjectContainer(24, new HashSet<>(Arrays.asList("Armadio",
@@ -680,50 +680,42 @@ public class PrisonBreakGame extends GameDescription {
                 "E' un semplice armadio in legno molto antico pieno di camici per infermieri, " +
                         "non noti nulla di particolare.");
         wardrobe.setOpenable(true);
-        wardrobe.setPickupable(false);
         wardrobe.setOpen(false);
         infirmary.getObjects().add(wardrobe);
 
         TokenObject gowns = new TokenObject(25, new HashSet<>(Arrays.asList("Camici", "Camice", "Vestito",
                 "Vestiti")),
                 "Combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
-        gowns.setPickupable(false);
         wardrobe.add(gowns);
 
         TokenObject newAirDuct = new TokenObject(26, new HashSet<>(Arrays.asList("Condotto", "Passaggio")),
                 "Non sei un campione di arrampicata o salto in alto, perché perdere tempo qui!");
-        newAirDuct.setPickupable(false);
         infirmary.getObjects().add(newAirDuct);
 
         TokenObject grate = new TokenObject(27, new HashSet<>(Arrays.asList("Grata", "Grate")),
                 "Puoi notare solo il piano superiore, ma non puoi fare nient' altro");
-        grate.setPickupable(false);
         passageSouth.getObjects().add(grate);
 
         TokenObject generatorObject = new TokenObject(28, new HashSet<>(Arrays.asList("Generatore")),
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
-        generatorObject.setPickupable(false);
         generatorObject.setUsable(true);
         generator.getObjects().add(generatorObject);
 
         TokenObject button = new TokenObject(29, new HashSet<>(Arrays.asList("Pulsante", "Bottone",
                 "Interruttore")),
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
-        button.setPickupable(false);
         button.setPushable(true);
         generator.getObjects().add(button);
 
         TokenObject gratePassage = new TokenObject(30, new HashSet<>(Arrays.asList("Grata")),
                 "La cella è controllata da un poliziotto e poi non mi sembra il caso di intrufolarsi" +
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
-        gratePassage.setPickupable(false);
         airDuctEast.getObjects().add(gratePassage);
 
         TokenObject drug = new TokenObject(31, new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! Ti ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
-        drug.setPickupable(false);
         //TODO ASSEGNARE DROGA A GENNY
 
         TokenObject videogame = new TokenObject(32, new HashSet<>(Arrays.asList("VideoGame", "Gioco",
@@ -737,6 +729,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Leggendo la ricetta alla lavagna capisci come creare l’acido, mischi le sostanze " +
                         "tutte insieme utilizzando le giuste dosi in modo da non sbagliare! Sei riuscito a" +
                         " creare l’acido!");
+        acid.setPickupable(true);
         acid.setUsable(true);
         //TODO NON E' ASSEGNATO A NULLA
     }
@@ -830,8 +823,8 @@ public class PrisonBreakGame extends GameDescription {
                     if (p.getObject().getId() == 1) {
                         // Screw case
                         if (getCurrentRoom().getId() == CELL) {
-                            //TODO AGGIUNGERE LAVANDINO
                             objectUsed = true;
+                            getObject(11).setPushable(true);
                         }
                     } else if (p.getObject().getId() == 2) {
                         // Scotch case

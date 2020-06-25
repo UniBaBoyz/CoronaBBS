@@ -75,6 +75,10 @@ public abstract class GameDescription {
         return objects;
     }
 
+    public TokenObject getObject(int id) {
+        return getObjects().stream().filter(tokenObject -> tokenObject.getId() == id).findFirst().orElse(null);
+    }
+
     public Set<TokenAdjective> getAdjectives() {
         Set<TokenAdjective> adjectives = new HashSet<>();
         Set<TokenObject> objects = new HashSet<>(getObjects());
