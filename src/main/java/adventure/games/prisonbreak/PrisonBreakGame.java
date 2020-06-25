@@ -95,6 +95,8 @@ import static adventure.games.prisonbreak.RoomType.SECRETPASSAGE;
 import static adventure.games.prisonbreak.RoomType.WALL;
 import static adventure.games.prisonbreak.RoomType.WINDOWINFIRMARY;
 
+//import java.util.Collections;
+
 public class PrisonBreakGame extends GameDescription {
 
     private void initVerbs() {
@@ -723,7 +725,8 @@ public class PrisonBreakGame extends GameDescription {
         picture.setPushable(true);
         infirmary.getObjects().add(picture);
 
-        TokenObject doorInfirmary = new TokenObject(DOORINFIRMARY, new HashSet<>(Collections.singletonList("Porta")),
+        TokenObject doorInfirmary = new TokenObject(DOORINFIRMARY, new HashSet<>(Arrays.asList("Porta",
+                "Soglia", "Passaggio", "Portone")),
                 " la porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
                         " l’infermiere verrà a dirtelo. Mi dispiace devi attendere, puoi continuare a controllare " +
                         "la stanza. ");
@@ -752,7 +755,8 @@ public class PrisonBreakGame extends GameDescription {
                 "Puoi notare solo il piano superiore, ma non puoi fare nient' altro");
         passageSouth.getObjects().add(grate);
 
-        TokenObject generatorObject = new TokenObject(GENERATOROBJ, new HashSet<>(Collections.singletonList("Generatore")),
+        TokenObject generatorObject = new TokenObject(GENERATOROBJ, new HashSet<>(Arrays.asList("Generatore",
+                "Alimentatore", "Alternatore")),
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
         generatorObject.setUsable(true);
         generator.getObjects().add(generatorObject);
@@ -763,7 +767,7 @@ public class PrisonBreakGame extends GameDescription {
         buttonGenerator.setPushable(true);
         generator.getObjects().add(buttonGenerator);
 
-        TokenObject gratePassage = new TokenObject(GRATEPASSAGE, new HashSet<>(Collections.singletonList("Grata")),
+        TokenObject gratePassage = new TokenObject(GRATEPASSAGE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
                 "La cella è controllata da un poliziotto e poi non mi sembra il caso di intrufolarsi" +
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
         airDuctEast.getObjects().add(gratePassage);
