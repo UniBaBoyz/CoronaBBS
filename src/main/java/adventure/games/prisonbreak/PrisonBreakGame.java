@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import adventure.GameDescription;
 import adventure.exceptions.InventoryEmptyException;
@@ -825,10 +826,9 @@ public class PrisonBreakGame extends GameDescription {
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
-        int minScore = getIncreaseScore();
         boolean move = false;
         boolean noroom = false;
-        TokenObjectContainer objContainerCurrentRoom = thereIsContainer();
+        Set<TokenObjectContainer> objectContainers = thereIsContainer();
 
         try {
 
@@ -932,10 +932,11 @@ public class PrisonBreakGame extends GameDescription {
                         && p.getObject().isOpenable()
                         && !p.getObject().isOpen()
                         && (getCurrentRoom().containsObject(p.getObject())
-                        || (objContainerCurrentRoom != null
-                        && objContainerCurrentRoom.isOpenable()
-                        && objContainerCurrentRoom.isOpen()
-                        && objContainerCurrentRoom.containsObject(p.getObject())))) {
+                        || (!objectContainers.isEmpty()
+                        && objectContainers.stream()
+                        .anyMatch(objectContainer -> objectContainer.isOpenable()
+                                && objectContainer.isOpen()
+                                && objectContainer.containsObject(p.getObject()))))) {
                     if (!(p.getObject() instanceof TokenObjectContainer)) {
                         out.println("Hai aperto " + p.getObject().getAlias().iterator().next() + "!");
                     } else if (!p.getObject().isOpen()) {
@@ -981,12 +982,13 @@ public class PrisonBreakGame extends GameDescription {
         }
     }
 
-    private TokenObjectContainer thereIsContainer() {
+    private Set<TokenObjectContainer> thereIsContainer() {
+        Set<TokenObjectContainer> objectContainers = new HashSet<>();
         for (TokenObject o : getCurrentRoom().getObjects()) {
             if (o instanceof TokenObjectContainer) {
-                return (TokenObjectContainer) o;
+                objectContainers.add((TokenObjectContainer) o);
             }
         }
-        return null;
+        return objectContainers;
     }
 }
