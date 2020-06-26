@@ -6,6 +6,7 @@
 package adventure.type;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ public class Room {
 
     private final int id;
     private final Set<TokenObject> objects = new HashSet<>();
+    private Set<TokenObject> objectsUsableHere = new HashSet<>();
     private String name;
     private String description;
     private String look;
@@ -46,6 +48,24 @@ public class Room {
 
     public String getName() {
         return name;
+    }
+
+    public void setObjectsUsableHere(Set<TokenObject> objectsUsableHere) throws IllegalArgumentException {
+        for (TokenObject object : objectsUsableHere) {
+            setObjectsUsableHere(object);
+        }
+    }
+
+    public void setObjectsUsableHere(TokenObject objectsUsableHere) throws IllegalArgumentException {
+        if(!objectsUsableHere.isUsable()) {
+            throw new IllegalArgumentException();
+        }
+
+        this.objectsUsableHere.add(objectsUsableHere);
+    }
+
+    public boolean isObjectUsableHere(TokenObject object) {
+        return objectsUsableHere.contains(object);
     }
 
     public void setName(String name) {

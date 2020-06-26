@@ -39,4 +39,5 @@ public class ObjectType {
     public final static int DRUG = 32;
     public final static int VIDEOGAME = 33;
     public final static int ACID = 34;
+    public final static int COMBINATION = 35;
 }

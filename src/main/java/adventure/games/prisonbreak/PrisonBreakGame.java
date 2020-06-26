@@ -9,7 +9,6 @@ import adventure.GameDescription;
 import adventure.exceptions.InventoryEmptyException;
 import adventure.exceptions.InventoryFullException;
 import adventure.exceptions.ObjectNotFoundException;
-import adventure.exceptions.ObjectNotUsableNowException;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.Room;
@@ -19,41 +18,7 @@ import adventure.type.TokenObjectContainer;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
-import static adventure.games.prisonbreak.ObjectType.ACID;
-import static adventure.games.prisonbreak.ObjectType.BALL;
-import static adventure.games.prisonbreak.ObjectType.BASKETOBJECT;
-import static adventure.games.prisonbreak.ObjectType.BED;
-import static adventure.games.prisonbreak.ObjectType.BEDBROTHER;
-import static adventure.games.prisonbreak.ObjectType.BLACKBOARD;
-import static adventure.games.prisonbreak.ObjectType.BUTTONGENERATOR;
-import static adventure.games.prisonbreak.ObjectType.DOORGARDEN;
-import static adventure.games.prisonbreak.ObjectType.DOORINFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.DRUG;
-import static adventure.games.prisonbreak.ObjectType.FOOD;
-import static adventure.games.prisonbreak.ObjectType.GENERATOROBJ;
-import static adventure.games.prisonbreak.ObjectType.GOWN;
-import static adventure.games.prisonbreak.ObjectType.GRATE;
-import static adventure.games.prisonbreak.ObjectType.GRATEPASSAGE;
-import static adventure.games.prisonbreak.ObjectType.HACKSAW;
-import static adventure.games.prisonbreak.ObjectType.LADDER;
-import static adventure.games.prisonbreak.ObjectType.MEDICINE;
-import static adventure.games.prisonbreak.ObjectType.NEWAIRDUCTINFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.PICTURE;
-import static adventure.games.prisonbreak.ObjectType.RAILING;
-import static adventure.games.prisonbreak.ObjectType.SCALPEL;
-import static adventure.games.prisonbreak.ObjectType.SCOTCH;
-import static adventure.games.prisonbreak.ObjectType.SCREW;
-import static adventure.games.prisonbreak.ObjectType.SINK;
-import static adventure.games.prisonbreak.ObjectType.SINKBROTHER;
-import static adventure.games.prisonbreak.ObjectType.SUBSTANCES;
-import static adventure.games.prisonbreak.ObjectType.TABLE;
-import static adventure.games.prisonbreak.ObjectType.TABLEINFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.TOOLS;
-import static adventure.games.prisonbreak.ObjectType.VIDEOGAME;
-import static adventure.games.prisonbreak.ObjectType.WARDROBE;
-import static adventure.games.prisonbreak.ObjectType.WATER;
-import static adventure.games.prisonbreak.ObjectType.WINDOWCELL;
-import static adventure.games.prisonbreak.ObjectType.WINDOWSINFIRMARY;
+import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.AIRDUCT;
 import static adventure.games.prisonbreak.RoomType.AIRDUCTEAST;
 import static adventure.games.prisonbreak.RoomType.AIRDUCTNORTH;
@@ -594,16 +559,19 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject screw = new TokenObject(SCREW, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
         bench.getObjects().add(screw);
+        getRoom(CELL).setObjectsUsableHere(screw);
 
         TokenObject scotch = new TokenObject(SCOTCH, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
         airDuctWest.getObjects().add(scotch);
         scotch.setPickupable(true);
+        getRoom(ISOLATION).setObjectsUsableHere(scotch);
 
         TokenObject tools = new TokenObject(TOOLS, new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
                 "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!");
         tools.setUsable(true);
         gym.getObjects().add(tools);
+        gym.setObjectsUsableHere(tools);
 
         TokenObject food = new TokenObject(FOOD, new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto",
                 "Tavolo")),
@@ -794,6 +762,12 @@ public class PrisonBreakGame extends GameDescription {
         acid.setPickupable(true);
         acid.setUsable(true);
         //TODO NON E' ASSEGNATO A NULLA
+
+        TokenObject combination = new TokenObject(COMBINATION, new HashSet<>(Collections.singletonList("Combinazione")),
+                "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
+                        "della stanza");
+        setObjectNotAssignedRoom(combination);
+        getRoom(ISOLATION).setObjectsUsableHere(combination);
     }
 
     @Override
@@ -826,6 +800,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     noroom = true;
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.SOUTH)) {
                 if (getCurrentRoom().getSouth() != null && !getCurrentRoom().getSouth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getSouth());
@@ -833,6 +808,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     noroom = true;
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.EAST)) {
                 if (getCurrentRoom().getEast() != null && !getCurrentRoom().getEast().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getEast());
@@ -840,6 +816,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     noroom = true;
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.WEST)) {
                 if (getCurrentRoom().getWest() != null && !getCurrentRoom().getWest().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getWest());
@@ -847,6 +824,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     noroom = true;
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.INVENTORY)) {
                 if (!getInventory().isEmpty()) {
                     out.println("Nel tuo inventario ci sono:");
@@ -854,12 +832,14 @@ public class PrisonBreakGame extends GameDescription {
                 for (TokenObject o : getInventory().getObjects()) {
                     out.println(o.getAlias().iterator().next() + ": " + o.getDescription());
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
                 if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
                 if (p.getObject() != null && p.getObject().isPickupable()
                         && getCurrentRoom().containsObject(p.getObject())) {
@@ -873,45 +853,37 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getInventory().contains(p.getObject())) {
                     out.println("Guarda bene nella tua borsa, cretino!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
                 if (p.getObject() != null && getInventory().contains(p.getObject())) {
                     getCurrentRoom().getObjects().add(p.getObject());
                     getInventory().remove(p.getObject());
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
-                boolean objectUsed = false;
-                if (p.getObject() != null && p.getObject().isUsable() && (getInventory().contains(p.getObject())
-                        || getCurrentRoom().containsObject(p.getObject()))) {
+                if (p.getObject() != null && p.getObject().isUsable() && getCurrentRoom().isObjectUsableHere(p.getObject())
+                        && (getInventory().contains(p.getObject()) || getCurrentRoom().containsObject(p.getObject()))) {
                     if (p.getObject().getId() == SCREW) {
-                        if (getCurrentRoom().getId() == CELL) {
-                            objectUsed = true;
-                            getObject(SINK).setPushable(true);
-                        }
+                        getObject(SINK).setPushable(true);
                     } else if (p.getObject().getId() == SCOTCH) {
-                        if (getCurrentRoom().getId() == ISOLATION) {
-                            objectUsed = true;
-                            getInventory().remove(p.getObject());
-                            //todo getInventory().add(getObject());
-                        }
-                    } else if (p.getObject().getId() == 3) {
-                        // Tools Case
-                        if (getCurrentRoom().getId() == GYM) {
-                            objectUsed = true;
-                            //TODO INSERIRE SEGHETTO UTILIZZABILE
-                        }
-                    } else if (p.getObject().getId() == 13) {
-                        // Combination case
-                        if (getCurrentRoom().getId() == ISOLATION) {
-                            objectUsed = true;
-                            getInventory().remove(p.getObject());
-                            getRoom(ISOLATION).setLocked(false);
-                        }
+                        getInventory().remove(p.getObject());
+                        getInventory().add(getObject(COMBINATION));
+                    } else if (p.getObject().getId() == TOOLS) {
+                        getObject(HACKSAW).setUsable(true);
+                    } else if (p.getObject().getId() == COMBINATION) {
+                        getInventory().remove(p.getObject());
+                        getRoom(ISOLATION).setLocked(false);
                     }
-
-                    if (!objectUsed) {
-                        throw new ObjectNotUsableNowException();
+                } else {
+                    if(p.getObject() == null) {
+                        out.println("Sei sicuro di non voler usare niente?");
+                    } else if(!p.getObject().isUsable()) {
+                        out.println("Mi dispiace ma questo oggetto non si può utilizzare");
+                    } else if(!getCurrentRoom().isObjectUsableHere(p.getObject())) {
+                        out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
+                    } else if(!getInventory().contains(p.getObject()) && !getCurrentRoom().containsObject(p.getObject())) {
+                        out.println("Io non vedo nessun oggetto di questo tipo qui!");
                     }
-
                 }
 
                 //FIXME Risolvere problema oggetto contenitore
@@ -940,6 +912,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!getCurrentRoom().containsObject(p.getObject())) {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
 
             }
@@ -974,8 +947,6 @@ public class PrisonBreakGame extends GameDescription {
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
         } catch (ObjectNotFoundException e) {
             out.println("Non hai questo oggetto nell'inventario");
-        } catch (ObjectNotUsableNowException e) {
-            out.println("Non e' appropriato usare questo oggetto in questa stanza");
         } catch (Exception e) {
             //FIXME
             out.println(e.getMessage());
