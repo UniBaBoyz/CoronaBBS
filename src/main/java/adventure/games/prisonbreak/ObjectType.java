@@ -1,5 +1,8 @@
 package adventure.games.prisonbreak;
 
+/**
+ * @author Corona-Extra
+ */
 public class ObjectType {
     public final static int SCREW = 0;
     public final static int SCOTCH = 1;

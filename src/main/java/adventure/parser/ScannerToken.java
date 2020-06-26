@@ -9,6 +9,9 @@ import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
+/**
+ * @author Corona-Extra
+ */
 public abstract class ScannerToken {
     private static final char SEPARATOR_CHARACTER = ';';
     private final Token skip = new Token(TokenType.SKIP);
@@ -32,10 +35,6 @@ public abstract class ScannerToken {
         skip.setAlias(skipCharacters);
     }
 
-    public void setVerbs(Set<TokenVerb> verbs) {
-        this.verbs.addAll(verbs);
-    }
-
     public void addVerb(TokenVerb verb) {
         verbs.add(verb);
     }
@@ -44,8 +43,8 @@ public abstract class ScannerToken {
         return verbs;
     }
 
-    public void setObjects(Set<TokenObject> objects) {
-        this.objects.addAll(objects);
+    public void setVerbs(Set<TokenVerb> verbs) {
+        this.verbs.addAll(verbs);
     }
 
     public void addObject(TokenObject object) {
@@ -56,8 +55,8 @@ public abstract class ScannerToken {
         return objects;
     }
 
-    public void setAdjectives(Set<TokenAdjective> adjectives) {
-        this.adjectives.addAll(adjectives);
+    public void setObjects(Set<TokenObject> objects) {
+        this.objects.addAll(objects);
     }
 
     public void addAdjective(TokenAdjective adjective) {
@@ -66,6 +65,10 @@ public abstract class ScannerToken {
 
     public Set<TokenAdjective> getAdjectives() {
         return adjectives;
+    }
+
+    public void setAdjectives(Set<TokenAdjective> adjectives) {
+        this.adjectives.addAll(adjectives);
     }
 
     public void setSentence(String string) {

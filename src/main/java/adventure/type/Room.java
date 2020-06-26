@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @Corona-Extra
+ * @author Corona-Extra
  */
 public class Room {
 
@@ -44,36 +44,36 @@ public class Room {
         return objects;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setLook(String look) {
-        this.look = look;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLook() {
         return look;
     }
 
-    public void setVisible(boolean visible) {
-        this.visible = visible;
+    public void setLook(String look) {
+        this.look = look;
     }
 
     public boolean isVisible() {
         return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     public boolean isLocked() {
@@ -84,36 +84,36 @@ public class Room {
         this.locked = locked;
     }
 
-    public void setSouth(Room south) {
-        this.south = south;
-    }
-
     public Room getSouth() {
         return south;
     }
 
-    public void setNorth(Room north) {
-        this.north = north;
+    public void setSouth(Room south) {
+        this.south = south;
     }
 
     public Room getNorth() {
         return north;
     }
 
-    public void setEast(Room east) {
-        this.east = east;
+    public void setNorth(Room north) {
+        this.north = north;
     }
 
     public Room getEast() {
         return east;
     }
 
-    public void setWest(Room west) {
-        this.west = west;
+    public void setEast(Room east) {
+        this.east = east;
     }
 
     public Room getWest() {
         return west;
+    }
+
+    public void setWest(Room west) {
+        this.west = west;
     }
 
     public boolean containsObject(TokenObject object) {

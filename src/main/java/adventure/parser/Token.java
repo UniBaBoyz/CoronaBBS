@@ -3,6 +3,9 @@ package adventure.parser;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * @author Corona-Extra
+ */
 public class Token {
     TokenType type;
     Set<String> alias = new HashSet<>();

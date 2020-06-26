@@ -13,7 +13,7 @@ import adventure.parser.Token;
 import adventure.parser.TokenType;
 
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public class TokenObject extends Token {
 

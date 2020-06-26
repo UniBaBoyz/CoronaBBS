@@ -12,6 +12,9 @@ import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
+/**
+ * @author Corona-Extra
+ */
 public class ParserIta extends Parser {
 
     public ParserIta(Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {

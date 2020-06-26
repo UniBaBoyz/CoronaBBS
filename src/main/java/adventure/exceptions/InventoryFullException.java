@@ -1,5 +1,8 @@
 package adventure.exceptions;
 
+/**
+ * @author Corona-Extra
+ */
 public class InventoryFullException extends InventoryException {
 
     @Override

@@ -1,5 +1,8 @@
 package adventure.games.prisonbreak;
 
+/**
+ * @author Corona-Extra
+ */
 public class RoomType {
     public static final int CELL = 0;
     public static final int CORRIDOR = 1;

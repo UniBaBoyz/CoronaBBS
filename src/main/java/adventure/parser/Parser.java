@@ -11,6 +11,9 @@ import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
+/**
+ * @author Corona-Extra
+ */
 public abstract class Parser {
     private final ScannerToken scanner;
     private final List<List<TokenType>> validSentences;

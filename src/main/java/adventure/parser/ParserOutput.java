@@ -10,7 +10,7 @@ import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public class ParserOutput {
     private TokenVerb verb;
@@ -35,19 +35,19 @@ public class ParserOutput {
         this.adjective = adjective;
     }
 
-    public void setVerb(TokenVerb verb) {
-        this.verb = verb;
-    }
-
     public TokenVerb getVerb() {
         return verb;
     }
 
-    public void setObject(TokenObject object) {
-        this.object = object;
+    public void setVerb(TokenVerb verb) {
+        this.verb = verb;
     }
 
     public TokenObject getObject() {
         return object;
+    }
+
+    public void setObject(TokenObject object) {
+        this.object = object;
     }
 }

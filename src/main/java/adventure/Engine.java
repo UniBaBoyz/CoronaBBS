@@ -24,7 +24,7 @@ import adventure.type.VerbType;
  * classe che implementa GameDescription e si occupa di gestire I/O sul
  * terminale.
  *
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public class Engine {
     private final GameDescription game;

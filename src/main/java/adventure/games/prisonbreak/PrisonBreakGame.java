@@ -96,6 +96,9 @@ import static adventure.games.prisonbreak.RoomType.WALL;
 import static adventure.games.prisonbreak.RoomType.WINDOWINFIRMARY;
 
 
+/**
+ * @author Corona-Extra
+ */
 public class PrisonBreakGame extends GameDescription {
 
     private void initVerbs() {

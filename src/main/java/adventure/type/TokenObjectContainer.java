@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author pierpaolo
+ * @author Corona-Extra
  */
 public class TokenObjectContainer extends TokenObject {
 

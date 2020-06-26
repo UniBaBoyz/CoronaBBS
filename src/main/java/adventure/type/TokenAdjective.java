@@ -5,6 +5,9 @@ import java.util.Set;
 import adventure.parser.Token;
 import adventure.parser.TokenType;
 
+/**
+ * @author Corona-Extra
+ */
 public class TokenAdjective extends Token {
 
     public TokenAdjective() {

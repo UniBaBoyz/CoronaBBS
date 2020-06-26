@@ -7,6 +7,9 @@ import java.util.Set;
 
 import adventure.exceptions.LexicalErrorException;
 
+/**
+ * @author Corona-Extra
+ */
 public class ScannerTokenIta extends ScannerToken {
     private final Token article = new Token(TokenType.ARTICLE);
     private final Token junction = new Token(TokenType.JUNCTION);

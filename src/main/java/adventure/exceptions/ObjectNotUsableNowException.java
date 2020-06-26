@@ -1,5 +1,8 @@
 package adventure.exceptions;
 
+/**
+ * @author Corona-Extra
+ */
 public class ObjectNotUsableNowException extends Exception {
 
     @Override
