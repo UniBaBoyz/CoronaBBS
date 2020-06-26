@@ -95,7 +95,6 @@ import static adventure.games.prisonbreak.RoomType.SECRETPASSAGE;
 import static adventure.games.prisonbreak.RoomType.WALL;
 import static adventure.games.prisonbreak.RoomType.WINDOWINFIRMARY;
 
-//import java.util.Collections;
 
 public class PrisonBreakGame extends GameDescription {
 
@@ -146,13 +145,13 @@ public class PrisonBreakGame extends GameDescription {
         pull.setAlias(new HashSet<>(Arrays.asList("Trascina", "Tira")));
         getTokenVerbs().add(pull);
 
-        TokenVerb turn_on = new TokenVerb(VerbType.TURN_ON);
-        turn_on.setAlias(new HashSet<>(Arrays.asList("Accendi", "On")));
-        getTokenVerbs().add(turn_on);
+        TokenVerb turnOn = new TokenVerb(VerbType.TURN_ON);
+        turnOn.setAlias(new HashSet<>(Arrays.asList("Accendi", "On")));
+        getTokenVerbs().add(turnOn);
 
-        TokenVerb turn_off = new TokenVerb(VerbType.TURN_OFF);
-        turn_off.setAlias(new HashSet<>(Arrays.asList("Spegni", "Off")));
-        getTokenVerbs().add(turn_off);
+        TokenVerb turnOff = new TokenVerb(VerbType.TURN_OFF);
+        turnOff.setAlias(new HashSet<>(Arrays.asList("Spegni", "Off")));
+        getTokenVerbs().add(turnOff);
 
         TokenVerb push = new TokenVerb(VerbType.PUSH);
         push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia", "Pigia")));
@@ -176,13 +175,13 @@ public class PrisonBreakGame extends GameDescription {
                 "Avanza", "Prosegui")));
         getTokenVerbs().add(walk);
 
-        TokenVerb stand_up = new TokenVerb(VerbType.STAND_UP);
-        stand_up.setAlias(new HashSet<>(Arrays.asList("Alzati", "Svegliati")));
-        getTokenVerbs().add(stand_up);
+        TokenVerb standUp = new TokenVerb(VerbType.STAND_UP);
+        standUp.setAlias(new HashSet<>(Arrays.asList("Alzati", "Svegliati")));
+        getTokenVerbs().add(standUp);
 
-        TokenVerb sit_down = new TokenVerb(VerbType.SIT_DOWN);
-        sit_down.setAlias(new HashSet<>(Arrays.asList("Siediti", "Sdraiati", "Dormi", "Rilassati", "Abbassati")));
-        getTokenVerbs().add(sit_down);
+        TokenVerb sitDown = new TokenVerb(VerbType.SIT_DOWN);
+        sitDown.setAlias(new HashSet<>(Arrays.asList("Siediti", "Sdraiati", "Dormi", "Rilassati", "Abbassati")));
+        getTokenVerbs().add(sitDown);
 
         TokenVerb climb = new TokenVerb(VerbType.CLIMB);
         climb.setAlias(new HashSet<>(Arrays.asList("Arrampicati", "Sali", "Scendi", "Buttati", "Scivola",
@@ -648,8 +647,8 @@ public class PrisonBreakGame extends GameDescription {
         infirmary.getObjects().add(substances);
 
         //TODO da mettere nell'inventario nella prima fase del gioco
-        TokenObject medicine = new TokenObject(MEDICINE, new HashSet<>(Arrays.asList("farmaco", "medicina",
-                "compresse", "sciroppo")), "E' un medicinale per alleviare i dolori.");
+        TokenObject medicine = new TokenObject(MEDICINE, new HashSet<>(Arrays.asList("Farmaco", "Medicina",
+                "Compresse", "Sciroppo")), "E' un medicinale per alleviare i dolori.");
         medicine.setGive(true);
 
         TokenObject sink = new TokenObject(SINK, new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
@@ -678,7 +677,7 @@ public class PrisonBreakGame extends GameDescription {
                 "E' un semplice tavolo in legno, molto piccolo e molto sporco!");
         cell.getObjects().add(table);
 
-        TokenObject windowCell = new TokenObject(WINDOWCELL, new HashSet<>(Collections.singletonList("Finestra")),
+        TokenObject windowCell = new TokenObject(WINDOWCELL, new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
                 "E' una piccola finestra dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!");
         cell.getObjects().add(windowCell);
@@ -707,7 +706,8 @@ public class PrisonBreakGame extends GameDescription {
                 "Vedi scritto tante ricette tra cui quella per creare l’acido cloridico! ");
         infirmary.getObjects().add(blackboard);
 
-        TokenObject windowsInfirmary = new TokenObject(WINDOWSINFIRMARY, new HashSet<>(Collections.singletonList("Finestra")),
+        TokenObject windowsInfirmary = new TokenObject(WINDOWSINFIRMARY,
+                new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
                 "La finestra è sbarrata non sembra possibile aprirla! Puoi notare un lungo cavo che porta" +
                         " fino al muro della prigione!");
         infirmary.getObjects().add(windowsInfirmary);
