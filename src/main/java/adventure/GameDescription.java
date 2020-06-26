@@ -23,6 +23,7 @@ public abstract class GameDescription {
     private static final int INCREASE_SCORE = 5;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
+    private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
@@ -41,6 +42,22 @@ public abstract class GameDescription {
 
     public Set<TokenVerb> getTokenVerbs() {
         return tokenVerbs;
+    }
+
+    public void setObjectNotAssignedRoom(Set<TokenObject> objectNotAssignedRoom) {
+        this.objectNotAssignedRoom.addAll(objectNotAssignedRoom);
+    }
+
+    public void setObjectNotAssignedRoom(TokenObject objectNotAssignedRoom) {
+        this.objectNotAssignedRoom.add(objectNotAssignedRoom);
+    }
+
+    public Set<TokenObject> getObjectNotAssignedRoom() {
+        return objectNotAssignedRoom;
+    }
+
+    public void removeObjectNotAssigned(TokenObject object) {
+        objectNotAssignedRoom.remove(object);
     }
 
     public Room getCurrentRoom() {
@@ -64,7 +81,7 @@ public abstract class GameDescription {
     public abstract void nextMove(ParserOutput p, PrintStream out);
 
     public Set<TokenObject> getObjects() {
-        Set<TokenObject> objects = new HashSet<>();
+        Set<TokenObject> objects = new HashSet<>(objectNotAssignedRoom);
 
         if (!rooms.isEmpty()) {
             for (Room i : rooms) {

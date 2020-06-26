@@ -879,19 +879,16 @@ public class PrisonBreakGame extends GameDescription {
                 boolean objectUsed = false;
                 if (p.getObject() != null && p.getObject().isUsable() && (getInventory().contains(p.getObject())
                         || getCurrentRoom().containsObject(p.getObject()))) {
-                    if (p.getObject().getId() == 1) {
-                        // Screw case
+                    if (p.getObject().getId() == SCREW) {
                         if (getCurrentRoom().getId() == CELL) {
                             objectUsed = true;
-                            getObject(11).setPushable(true);
+                            getObject(SINK).setPushable(true);
                         }
-                    } else if (p.getObject().getId() == 2) {
-                        // Scotch case
+                    } else if (p.getObject().getId() == SCOTCH) {
                         if (getCurrentRoom().getId() == ISOLATION) {
-                            // Scotch used
                             objectUsed = true;
                             getInventory().remove(p.getObject());
-                            getInventory().add(getObjects().stream().filter(object -> object.getId() == 13).findFirst().orElse(null));
+                            //todo getInventory().add(getObject());
                         }
                     } else if (p.getObject().getId() == 3) {
                         // Tools Case
