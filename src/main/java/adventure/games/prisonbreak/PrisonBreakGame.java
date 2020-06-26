@@ -18,7 +18,42 @@ import adventure.type.TokenObjectContainer;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
-import static adventure.games.prisonbreak.ObjectType.*;
+import static adventure.games.prisonbreak.ObjectType.ACID;
+import static adventure.games.prisonbreak.ObjectType.BALL;
+import static adventure.games.prisonbreak.ObjectType.BASKETOBJECT;
+import static adventure.games.prisonbreak.ObjectType.BED;
+import static adventure.games.prisonbreak.ObjectType.BEDBROTHER;
+import static adventure.games.prisonbreak.ObjectType.BLACKBOARD;
+import static adventure.games.prisonbreak.ObjectType.BUTTONGENERATOR;
+import static adventure.games.prisonbreak.ObjectType.COMBINATION;
+import static adventure.games.prisonbreak.ObjectType.DOORGARDEN;
+import static adventure.games.prisonbreak.ObjectType.DOORINFIRMARY;
+import static adventure.games.prisonbreak.ObjectType.DRUG;
+import static adventure.games.prisonbreak.ObjectType.FOOD;
+import static adventure.games.prisonbreak.ObjectType.GENERATOROBJ;
+import static adventure.games.prisonbreak.ObjectType.GOWN;
+import static adventure.games.prisonbreak.ObjectType.GRATE;
+import static adventure.games.prisonbreak.ObjectType.GRATEPASSAGE;
+import static adventure.games.prisonbreak.ObjectType.HACKSAW;
+import static adventure.games.prisonbreak.ObjectType.LADDER;
+import static adventure.games.prisonbreak.ObjectType.MEDICINE;
+import static adventure.games.prisonbreak.ObjectType.NEWAIRDUCTINFIRMARY;
+import static adventure.games.prisonbreak.ObjectType.PICTURE;
+import static adventure.games.prisonbreak.ObjectType.RAILING;
+import static adventure.games.prisonbreak.ObjectType.SCALPEL;
+import static adventure.games.prisonbreak.ObjectType.SCOTCH;
+import static adventure.games.prisonbreak.ObjectType.SCREW;
+import static adventure.games.prisonbreak.ObjectType.SINK;
+import static adventure.games.prisonbreak.ObjectType.SINKBROTHER;
+import static adventure.games.prisonbreak.ObjectType.SUBSTANCES;
+import static adventure.games.prisonbreak.ObjectType.TABLE;
+import static adventure.games.prisonbreak.ObjectType.TABLEINFIRMARY;
+import static adventure.games.prisonbreak.ObjectType.TOOLS;
+import static adventure.games.prisonbreak.ObjectType.VIDEOGAME;
+import static adventure.games.prisonbreak.ObjectType.WARDROBE;
+import static adventure.games.prisonbreak.ObjectType.WATER;
+import static adventure.games.prisonbreak.ObjectType.WINDOWCELL;
+import static adventure.games.prisonbreak.ObjectType.WINDOWSINFIRMARY;
 import static adventure.games.prisonbreak.RoomType.AIRDUCT;
 import static adventure.games.prisonbreak.RoomType.AIRDUCTEAST;
 import static adventure.games.prisonbreak.RoomType.AIRDUCTNORTH;
@@ -793,6 +828,7 @@ public class PrisonBreakGame extends GameDescription {
         int minScore = getIncreaseScore();
         boolean move = false;
         boolean noroom = false;
+        TokenObjectContainer objContainerCurrentRoom = thereIsContainer();
 
         try {
 
@@ -837,7 +873,7 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if(p.getObject() != null) {
+                if (p.getObject() != null) {
                     out.println(p.getObject().getDescription());
                 } else if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
@@ -880,33 +916,36 @@ public class PrisonBreakGame extends GameDescription {
                         getRoom(ISOLATION).setLocked(false);
                     }
                 } else {
-                    if(p.getObject() == null) {
+                    if (p.getObject() == null) {
                         out.println("Sei sicuro di non voler usare niente?");
-                    } else if(!p.getObject().isUsable()) {
+                    } else if (!p.getObject().isUsable()) {
                         out.println("Mi dispiace ma questo oggetto non si può utilizzare");
-                    } else if(!getCurrentRoom().isObjectUsableHere(p.getObject())) {
+                    } else if (!getCurrentRoom().isObjectUsableHere(p.getObject())) {
                         out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
-                    } else if(!getInventory().contains(p.getObject()) && !getCurrentRoom().containsObject(p.getObject())) {
+                    } else if (!getInventory().contains(p.getObject()) && !getCurrentRoom().containsObject(p.getObject())) {
                         out.println("Io non vedo nessun oggetto di questo tipo qui!");
                     }
                 }
 
-                //FIXME Risolvere problema oggetto contenitore
             } else if (p.getVerb().getVerbType().equals(VerbType.OPEN)) {
                 if (p.getObject() != null
                         && p.getObject().isOpenable()
                         && !p.getObject().isOpen()
-                        && getCurrentRoom().containsObject(p.getObject())) {
+                        && (getCurrentRoom().containsObject(p.getObject())
+                        || (objContainerCurrentRoom != null
+                        && objContainerCurrentRoom.isOpenable()
+                        && objContainerCurrentRoom.isOpen()
+                        && objContainerCurrentRoom.containsObject(p.getObject())))) {
                     if (!(p.getObject() instanceof TokenObjectContainer)) {
                         out.println("Hai aperto " + p.getObject().getAlias().iterator().next() + "!");
-                        p.getObject().setOpen(true);
-                    } else {
+                    } else if (!p.getObject().isOpen()) {
                         out.println("Hai aperto " + p.getObject().getAlias().iterator().next() + "!");
                         out.println("Contiene: ");
-                        for (TokenObject object : ((TokenObjectContainer) p.getObject()).getList()) {
+                        for (TokenObject object : ((TokenObjectContainer) p.getObject()).getObjects()) {
                             out.println(object.getAlias().iterator().next() + ": " + object.getDescription());
                         }
                     }
+                    p.getObject().setOpen(true);
                 } else if (p.getObject() == null) {
                     out.println("Cosa vorresti aprire di preciso?");
                 } else if (!p.getObject().isOpenable()) {
@@ -914,7 +953,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Sei fuori di testa!");
                 } else if (p.getObject().isOpen()) {
                     out.println("E' gia' aperto testa di merda!");
-                } else if (!getCurrentRoom().containsObject(p.getObject())) {
+                } else {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
@@ -922,22 +961,6 @@ public class PrisonBreakGame extends GameDescription {
 
             }
 
-            // while (getScore() < minScore) {
-            //TODO PRENDERE IL BISTURI PER AUMENTARE IL PUNTEGGIO
-
-            /* //TODO per passare allo step successivo eseguire queste istruzioni
-            increaseScore();
-            minScore += getIncreaseScore();
-             */
-            //}
-
-            //while (getScore() < getIncreaseScore() * 2) {
-            //TODO PRENDERE LA VITE
-            //}
-
-            //while (getScore() < getIncreaseScore() * 3) {
-
-            //}
             if (noroom) {
                 out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri per oltrepassare i muri...");
             } else if (move) {
@@ -957,5 +980,13 @@ public class PrisonBreakGame extends GameDescription {
             out.println(e.getMessage());
         }
     }
-}
 
+    private TokenObjectContainer thereIsContainer() {
+        for (TokenObject o : getCurrentRoom().getObjects()) {
+            if (o instanceof TokenObjectContainer) {
+                return (TokenObjectContainer) o;
+            }
+        }
+        return null;
+    }
+}

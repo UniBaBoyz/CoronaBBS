@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class TokenObjectContainer extends TokenObject {
 
-    private List<TokenObject> list = new ArrayList<>();
+    private List<TokenObject> objects = new ArrayList<>();
 
     public TokenObjectContainer(int id, Set<String> alias) {
         super(id, alias);
@@ -29,20 +29,24 @@ public class TokenObjectContainer extends TokenObject {
         super(id, alias, description, adjectives);
     }
 
-    public List<TokenObject> getList() {
-        return list;
+    public List<TokenObject> getObjects() {
+        return objects;
     }
 
-    public void setList(List<TokenObject> list) {
-        this.list = list;
+    public void setObjects(List<TokenObject> objects) {
+        this.objects = objects;
+    }
+
+    public boolean containsObject(TokenObject object) {
+        return getObjects().contains(object);
     }
 
     public void add(TokenObject o) {
-        list.add(o);
+        objects.add(o);
     }
 
     public void remove(TokenObject o) {
-        list.remove(o);
+        objects.remove(o);
     }
 
 }
