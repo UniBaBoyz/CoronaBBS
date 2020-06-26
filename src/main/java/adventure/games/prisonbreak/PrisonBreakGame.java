@@ -886,18 +886,23 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!p.getObject().isPickupable()) {
                     out.println("Non e' certo un oggetto che si può prendere imbecille!");
-                } else if (!getCurrentRoom().containsObject(p.getObject())) {
-                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 } else if (getInventory().contains(p.getObject())) {
                     out.println("Guarda bene nella tua borsa, cretino!");
+                } else {
+                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
-            }
-
-            else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
+            } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
                 if (p.getObject() != null && getInventory().contains(p.getObject())) {
                     getCurrentRoom().getObjects().add(p.getObject());
                     getInventory().remove(p.getObject());
+                    out.println("Hai lasciato a terra " + p.getObject().getAlias().iterator().next() + "!");
+                } else if (p.getObject() == null) {
+                    out.println("Cosa vorresti rimuovere dall'inventario?");
+                } else {
+                    out.println("L'inventario non ha questo oggetto!");
+                    out.println("L'avrai sicuramente scordato da qualche parte!");
+                    out.println("Che pazienzaaa!!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
@@ -978,6 +983,29 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
+                if (p.getObject() != null
+                        && p.getObject().isOpenable()
+                        && p.getObject().isOpen()
+                        && (getCurrentRoom().containsObject(p.getObject())
+                        || (!objectContainers.isEmpty()
+                        && objectContainers.stream()
+                        .anyMatch(objectContainer -> objectContainer.isOpenable()
+                                && objectContainer.isOpen()
+                                && objectContainer.containsObject(p.getObject()))))) {
+
+                    out.println("Hai chiuso " + p.getObject().getAlias().iterator().next() + "!");
+                    p.getObject().setOpen(false);
+
+                } else if (p.getObject() == null) {
+                    out.println("Cosa vorresti chiudere di preciso?");
+                } else if (!p.getObject().isOpenable()) {
+                    out.println("Sei serio? Vorresti veramente chiuderlo?!");
+                    out.println("Sei fuori di testa!");
+                } else if (p.getObject().isOpen()) {
+                    out.println("E' gia' chiuso testa di merda!");
+                } else {
+                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)) {
                 if (p.getObject() != null && p.getObject().isPushable() && getCurrentRoom().containsObject(p.getObject())) {
