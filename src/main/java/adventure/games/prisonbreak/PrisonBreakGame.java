@@ -158,7 +158,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(turnOff);
 
         TokenVerb push = new TokenVerb(VerbType.PUSH);
-        push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia", "Pigia")));
+        push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia", "Pigia", "Togli", "Sposta")));
         getTokenVerbs().add(push);
 
         TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
@@ -167,7 +167,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(talk);
 
         TokenVerb eat = new TokenVerb(VerbType.EAT);
-        eat.setAlias(new HashSet<>(Arrays.asList("Mangia", "Pranza", "Cena", "Divora", "Finisci")));
+        eat.setAlias(new HashSet<>(Arrays.asList("Mangia", "Pranza", "Cena", "Divora")));
         getTokenVerbs().add(eat);
 
         TokenVerb play = new TokenVerb(VerbType.PLAY);
@@ -236,11 +236,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenVerb destroy = new TokenVerb(VerbType.DESTROY);
         destroy.setAlias(new HashSet<>(Arrays.asList("Spezza", "Distruggi", "Fracassa", "Sgretola", "Rompi",
                 "Frantuma", "Corrodi")));
-
-        TokenVerb move = new TokenVerb(VerbType.MOVE);
-        move.setAlias(new HashSet<>(Arrays.asList("Muovi", "Sposta", "Togli")));
-        getTokenVerbs().add(move);
-
     }
 
     private void initRooms() {
@@ -324,7 +319,8 @@ public class PrisonBreakGame extends GameDescription {
 
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
-        generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
+        generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te! " +
+                "Sembra essere un generatore di corrente e riesci a intravedere un pulsante!");
 
         Room onLadder = new Room(ONLADDER, "Sulla scala",
                 "Sei salito sulla scala e noti un condotto d’aria un po’ vecchiotto.");
@@ -885,6 +881,7 @@ public class PrisonBreakGame extends GameDescription {
                 if (p.getObject() != null && p.getObject().isPickupable()
                         && getCurrentRoom().containsObject(p.getObject())) {
                     getInventory().add(p.getObject());
+                    out.println("Preso!");
                 } else if (p.getObject() == null) {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!p.getObject().isPickupable()) {
@@ -960,6 +957,81 @@ public class PrisonBreakGame extends GameDescription {
 
             } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
 
+            } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)) {
+                if (p.getObject() != null && p.getObject().isPushable() && getCurrentRoom().containsObject(p.getObject())) {
+                    if (p.getObject().getId() == LADDER) {
+                        // ladder case
+                        if (getCurrentRoom().getId() == PASSAGESOUTH) {
+                            getRoom(PASSAGENORTH).getObjects().add(p.getObject());
+                            getRoom(PASSAGESOUTH).getObjects().remove(p.getObject());
+                        }
+                    } else if (p.getObject().getId() == SINK) {
+                        // sink case
+                        if (getCurrentRoom().getId() == CELL) {
+                            // sink pushed
+                            if (p.getObject().isPush()) {
+                                out.println("Il Lavandino è già stato spostato!");
+                            } else {
+                                p.getObject().setPush(true);
+                                getRoom(SECRETPASSAGE).setLocked(false);
+                                out.println("Oissà!");
+                            }
+                        }
+
+                    } else if (p.getObject().getId() == PICTURE) {
+                        // picture case
+                        if (getCurrentRoom().getId() == INFIRMARY) {
+                            // picture pushed
+                            if (p.getObject().isPush()) {
+                                out.println("Il quadro è già stato spostato!");
+                            } else {
+                                p.getObject().setPush(true);
+                                out.println("Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
+                                        "sembra quasi che non serva più perché ne hanno costruito un altro… " +
+                                        "Perché nasconderlo?");
+                            }
+                        }
+                    } else if (p.getObject().getId() == BUTTONGENERATOR) {
+                        // botton case
+                        if (getCurrentRoom().getId() == GENERATOR) {
+                            // botton pushed
+                            if (p.getObject().isPush()) {
+                                out.println("Il pulsante è già stato premuto! Fai in fretta!!!");
+                            } else {
+                                p.getObject().setPush(true);
+                                getRoom(DOORISOLATION).setLocked(false);
+                                out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
+                                        " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
+                                        " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                            }
+                        }
+                    }
+                } else if (p.getObject() == null) {
+                    out.println("Cosa vuoi spostare? L'aria?!?");
+                } else if (!p.getObject().isPushable()) {
+                    out.println("Puoi essere anche Hulk ma quell'oggetto non si può spostare!!!");
+                } else if (!(getCurrentRoom().containsObject(p.getObject()))) {
+                    out.println("Forse non ci vedi bene, quell'oggetto non è presente in questa stanza!!!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.EAT)) {
+                if (p.getObject() != null && p.getObject().isEatable() && (getInventory().contains(p.getObject())
+                        || getCurrentRoom().containsObject(p.getObject()))) {
+                    // food case
+                    if (getCurrentRoom().getObjects().contains(p.getObject())) {
+                        getCurrentRoom().getObjects().remove(p.getObject());
+                        out.println("Gnam Gnam...");
+                    } else if (getInventory().getObjects().contains(p.getObject())) {
+                        getInventory().remove(p.getObject());
+                        out.println("Gnam Gnam...");
+                    }
+                } else if (p.getObject() == null) {
+                    out.println("Cosa vuoi mangiare??? Sembra non ci sia nulla di commestibile");
+                } else if (!p.getObject().isEatable()) {
+                    out.println("Sei veramente sicuro??? Non mi sembra una buona idea!");
+                } else if (!(getInventory().contains(p.getObject())
+                        || getCurrentRoom().containsObject(p.getObject()))) {
+                    out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
+                }
             }
 
             if (noroom) {
