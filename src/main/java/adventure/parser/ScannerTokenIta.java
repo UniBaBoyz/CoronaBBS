@@ -41,18 +41,14 @@ public class ScannerTokenIta extends ScannerToken {
             // TODO IMPROVEMENT REQUIRED
             Token token = null;
             if (getVerbs()
-                    .stream()
-                    .filter(t -> t.isAlias(stringToken))
-                    .count() == 1) {
+                    .stream().anyMatch(t -> t.isAlias(stringToken))) {
                 token = getVerbs()
                         .stream()
                         .filter(t -> t.isAlias(stringToken))
                         .findFirst()
                         .orElse(null);
             } else if (getObjects()
-                    .stream()
-                    .filter(t -> t.isAlias(stringToken))
-                    .count() == 1) {
+                    .stream().anyMatch(t -> t.isAlias(stringToken))) {
                 token = getObjects()
                         .stream()
                         .filter(t -> t.isAlias(stringToken))

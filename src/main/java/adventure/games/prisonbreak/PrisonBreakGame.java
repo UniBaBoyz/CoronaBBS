@@ -892,7 +892,9 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Guarda bene nella tua borsa, cretino!");
                 }
 
-            } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
+            }
+
+            else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
                 if (p.getObject() != null && getInventory().contains(p.getObject())) {
                     getCurrentRoom().getObjects().add(p.getObject());
                     getInventory().remove(p.getObject());
@@ -903,14 +905,34 @@ public class PrisonBreakGame extends GameDescription {
                         && (getInventory().contains(p.getObject()) || getCurrentRoom().containsObject(p.getObject()))) {
                     if (p.getObject().getId() == SCREW) {
                         getObject(SINK).setPushable(true);
+                        getInventory().remove(p.getObject());
+                        out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
+                                "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
+                                "sposti il lavandino e vedi un passaggio segreto");
                     } else if (p.getObject().getId() == SCOTCH) {
                         getInventory().remove(p.getObject());
+                        out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
+                                "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                         getInventory().add(getObject(COMBINATION));
+                        out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
+                                "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                     } else if (p.getObject().getId() == TOOLS) {
                         getObject(HACKSAW).setUsable(true);
                     } else if (p.getObject().getId() == COMBINATION) {
                         getInventory().remove(p.getObject());
                         getRoom(ISOLATION).setLocked(false);
+                        out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
+                                "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
+                                "nient’altro di particolare!");
+                    } else if (p.getObject().getId() == BALL) {
+                        out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
+                    } else if (p.getObject().getId() == SCALPEL) {
+                        getInventory().remove(p.getObject());
+                        out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e capito " +
+                                "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
+                                "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
+                                "alla panchina.");
+                        getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu nelle vicinanze.");
                     }
                 } else {
                     if (p.getObject() == null) {
