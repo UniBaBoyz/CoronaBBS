@@ -558,12 +558,14 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject screw = new TokenObject(SCREW, new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
+        screw.setUsable(true);
         bench.getObjects().add(screw);
         getRoom(CELL).setObjectsUsableHere(screw);
 
         TokenObject scotch = new TokenObject(SCOTCH, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
         airDuctWest.getObjects().add(scotch);
+        scotch.setUsable(true);
         scotch.setPickupable(true);
         getRoom(ISOLATION).setObjectsUsableHere(scotch);
 
@@ -766,6 +768,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject combination = new TokenObject(COMBINATION, new HashSet<>(Collections.singletonList("Combinazione")),
                 "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
                         "della stanza");
+        combination.setUsable(true);
         setObjectNotAssignedRoom(combination);
         getRoom(ISOLATION).setObjectsUsableHere(combination);
     }
@@ -834,7 +837,9 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if (getCurrentRoom().getLook() != null) {
+                if(p.getObject() != null) {
+                    out.println(p.getObject().getDescription());
+                } else if (getCurrentRoom().getLook() != null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
