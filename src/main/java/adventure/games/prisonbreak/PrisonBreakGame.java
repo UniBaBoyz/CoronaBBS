@@ -56,6 +56,47 @@ import static adventure.games.prisonbreak.ObjectType.WATER;
 import static adventure.games.prisonbreak.ObjectType.WINDOWCELL;
 import static adventure.games.prisonbreak.ObjectType.WINDOWSINFIRMARY;
 import static adventure.games.prisonbreak.RoomType.*;
+import static adventure.games.prisonbreak.ObjectType.AIRDUCTOLD;
+import static adventure.games.prisonbreak.RoomType.AIRDUCT;
+import static adventure.games.prisonbreak.RoomType.AIRDUCTEAST;
+import static adventure.games.prisonbreak.RoomType.AIRDUCTNORTH;
+import static adventure.games.prisonbreak.RoomType.AIRDUCTWEST;
+import static adventure.games.prisonbreak.RoomType.BASKETCAMP;
+import static adventure.games.prisonbreak.RoomType.BENCH;
+import static adventure.games.prisonbreak.RoomType.BRAWL;
+import static adventure.games.prisonbreak.RoomType.BROTHERCELL;
+import static adventure.games.prisonbreak.RoomType.CANTEEN;
+import static adventure.games.prisonbreak.RoomType.CELL;
+import static adventure.games.prisonbreak.RoomType.CORRIDOR;
+import static adventure.games.prisonbreak.RoomType.DOORISOLATION;
+import static adventure.games.prisonbreak.RoomType.ENDGAME;
+import static adventure.games.prisonbreak.RoomType.ENDLOBBY;
+import static adventure.games.prisonbreak.RoomType.FRONTBENCH;
+import static adventure.games.prisonbreak.RoomType.GARDEN;
+import static adventure.games.prisonbreak.RoomType.GENERATOR;
+import static adventure.games.prisonbreak.RoomType.GYM;
+import static adventure.games.prisonbreak.RoomType.INFIRMARY;
+import static adventure.games.prisonbreak.RoomType.ISOLATION;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREASTEAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREASTEASTEAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTHNORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTHNORTHNORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTHSOUTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTHSOUTHSOUTH;
+import static adventure.games.prisonbreak.RoomType.LADDERS;
+import static adventure.games.prisonbreak.RoomType.LOBBY;
+import static adventure.games.prisonbreak.RoomType.LOBBYSOUTH;
+import static adventure.games.prisonbreak.RoomType.ONLADDER;
+import static adventure.games.prisonbreak.RoomType.OTHERCELL;
+import static adventure.games.prisonbreak.RoomType.OUTISOLATION;
+import static adventure.games.prisonbreak.RoomType.PASSAGENORTH;
+import static adventure.games.prisonbreak.RoomType.PASSAGESOUTH;
+import static adventure.games.prisonbreak.RoomType.SECRETPASSAGE;
+import static adventure.games.prisonbreak.RoomType.WALL;
+import static adventure.games.prisonbreak.RoomType.WINDOWINFIRMARY;
 
 
 /**
@@ -505,6 +546,8 @@ public class PrisonBreakGame extends GameDescription {
         airDuctEast.setWest(airDuct);
         airDuctWest.setEast(airDuct);
         airDuctNorth.setSouth(airDuct);
+        airDuctNorth.setNorth(infirmary);
+        infirmary.setSouth(airDuctNorth);
         infirmary.setNorth(windowInfirmary);
         windowInfirmary.setSouth(infirmary);
         windowInfirmary.setNorth(endGame);
@@ -712,6 +755,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
         wardrobe.add(gown);
 
+        // TODO SCEGLIERE SE ELIMINARE IL CONDOTTO NUOVO DALL' INFERMERIA
         TokenObject newAirDuct = new TokenObject(NEWAIRDUCTINFIRMARY, new HashSet<>(Arrays.asList("Condotto",
                 "Passaggio")), "Non sei un campione di arrampicata o salto in alto, " +
                 "perché perdere tempo qui!");
@@ -769,6 +813,12 @@ public class PrisonBreakGame extends GameDescription {
         combination.setUsable(true);
         setObjectNotAssignedRoom(combination);
         getRoom(ISOLATION).setObjectsUsableHere(combination);
+
+        TokenObject airDuctOld = new TokenObject(AIRDUCTOLD, new HashSet<>(Collections.singletonList("Condotto")),
+                "Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
+                        "sembra quasi che non serva più perché ne hanno costruito un altro… " +
+                        "Perché nasconderlo?");
+        setObjectNotAssignedRoom(airDuctOld);
     }
 
     @Override
@@ -778,7 +828,7 @@ public class PrisonBreakGame extends GameDescription {
 
         //Set starting room
         setCurrentRoom(getRooms().stream()
-                .filter(room -> room.getId() == CELL)
+                .filter(room -> room.getId() == INFIRMARY)
                 .findFirst()
                 .orElse(null));
 
@@ -1016,9 +1066,8 @@ public class PrisonBreakGame extends GameDescription {
                                 out.println("Il quadro è già stato spostato!");
                             } else {
                                 p.getObject().setPush(true);
-                                out.println("Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
-                                        "sembra quasi che non serva più perché ne hanno costruito un altro… " +
-                                        "Perché nasconderlo?");
+                                getCurrentRoom().getObjects().add(getObject(AIRDUCTOLD));
+                                out.println(getObject(AIRDUCTOLD).getDescription());
                             }
                         }
                     } else if (p.getObject().getId() == BUTTONGENERATOR) {
@@ -1029,6 +1078,7 @@ public class PrisonBreakGame extends GameDescription {
                                 out.println("Il pulsante è già stato premuto! Fai in fretta!!!");
                             } else {
                                 p.getObject().setPush(true);
+                                getObject(GENERATOROBJ).setUsable(true);
                                 getRoom(DOORISOLATION).setLocked(false);
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                         " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
