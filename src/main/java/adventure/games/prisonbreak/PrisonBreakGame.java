@@ -55,46 +55,7 @@ import static adventure.games.prisonbreak.ObjectType.WARDROBE;
 import static adventure.games.prisonbreak.ObjectType.WATER;
 import static adventure.games.prisonbreak.ObjectType.WINDOWCELL;
 import static adventure.games.prisonbreak.ObjectType.WINDOWSINFIRMARY;
-import static adventure.games.prisonbreak.RoomType.AIRDUCT;
-import static adventure.games.prisonbreak.RoomType.AIRDUCTEAST;
-import static adventure.games.prisonbreak.RoomType.AIRDUCTNORTH;
-import static adventure.games.prisonbreak.RoomType.AIRDUCTWEST;
-import static adventure.games.prisonbreak.RoomType.BASKETCAMP;
-import static adventure.games.prisonbreak.RoomType.BENCH;
-import static adventure.games.prisonbreak.RoomType.BRAWL;
-import static adventure.games.prisonbreak.RoomType.BROTHERCELL;
-import static adventure.games.prisonbreak.RoomType.CANTEEN;
-import static adventure.games.prisonbreak.RoomType.CELL;
-import static adventure.games.prisonbreak.RoomType.CORRIDOR;
-import static adventure.games.prisonbreak.RoomType.DOORISOLATION;
-import static adventure.games.prisonbreak.RoomType.ENDGAME;
-import static adventure.games.prisonbreak.RoomType.ENDLOBBY;
-import static adventure.games.prisonbreak.RoomType.FRONTBENCH;
-import static adventure.games.prisonbreak.RoomType.GARDEN;
-import static adventure.games.prisonbreak.RoomType.GENERATOR;
-import static adventure.games.prisonbreak.RoomType.GYM;
-import static adventure.games.prisonbreak.RoomType.INFIRMARY;
-import static adventure.games.prisonbreak.RoomType.ISOLATION;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREAST;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREASTEAST;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDOREASTEASTEAST;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTH;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTHNORTH;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORNORTHNORTHNORTH;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTH;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTHSOUTH;
-import static adventure.games.prisonbreak.RoomType.ISOLATIONCORRIDORSOUTHSOUTHSOUTH;
-import static adventure.games.prisonbreak.RoomType.LADDERS;
-import static adventure.games.prisonbreak.RoomType.LOBBY;
-import static adventure.games.prisonbreak.RoomType.LOBBYSOUTH;
-import static adventure.games.prisonbreak.RoomType.ONLADDER;
-import static adventure.games.prisonbreak.RoomType.OTHERCELL;
-import static adventure.games.prisonbreak.RoomType.OUTISOLATION;
-import static adventure.games.prisonbreak.RoomType.PASSAGENORTH;
-import static adventure.games.prisonbreak.RoomType.PASSAGESOUTH;
-import static adventure.games.prisonbreak.RoomType.SECRETPASSAGE;
-import static adventure.games.prisonbreak.RoomType.WALL;
-import static adventure.games.prisonbreak.RoomType.WINDOWINFIRMARY;
+import static adventure.games.prisonbreak.RoomType.*;
 
 
 /**
@@ -298,6 +259,7 @@ public class PrisonBreakGame extends GameDescription {
                 "un quadro di Donald Trump appeso alla parete e in alto un condotto d’aria nuovissimo che sembra " +
                 "irraggiungibile.  Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
                 "voci nel corridoio.");
+        infirmary.setLocked(true);
 
         Room passage = new Room(SECRETPASSAGE, "Passaggio segreto",
                 "Sei appena entrato nel passaggio segreto.");
@@ -777,6 +739,10 @@ public class PrisonBreakGame extends GameDescription {
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
         airDuctEast.getObjects().add(gratePassage);
 
+        TokenObject detroyableGrate = new TokenObject(DESTROYABLEGRATE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
+                "");
+        airDuctNorth.getObjects().add(detroyableGrate);
+
         TokenObject drug = new TokenObject(DRUG, new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
@@ -869,9 +835,10 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if (p.getObject() != null) {
+                if (p.getObject() != null
+                        && (getInventory().contains(p.getObject()) || getCurrentRoom().getObjects().contains(p.getObject()))) {
                     out.println(p.getObject().getDescription());
-                } else if (getCurrentRoom().getLook() != null) {
+                } else if (getCurrentRoom().getLook() != null && p.getObject() == null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
@@ -908,6 +875,9 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
                 if (p.getObject() != null && p.getObject().isUsable() && getCurrentRoom().isObjectUsableHere(p.getObject())
                         && (getInventory().contains(p.getObject()) || getCurrentRoom().containsObject(p.getObject()))) {
+
+                    p.getObject().setUsed(true);
+
                     if (p.getObject().getId() == SCREW) {
                         getObject(SINK).setPushable(true);
                         getInventory().remove(p.getObject());
@@ -916,13 +886,11 @@ public class PrisonBreakGame extends GameDescription {
                                 "sposti il lavandino e vedi un passaggio segreto");
                     } else if (p.getObject().getId() == SCOTCH) {
                         getInventory().remove(p.getObject());
-                        out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
-                                "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                                 "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                     } else if (p.getObject().getId() == TOOLS) {
-                        getObject(HACKSAW).setUsable(true);
+                        out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento ti senti già più forte!");
                     } else if (p.getObject().getId() == COMBINATION) {
                         getInventory().remove(p.getObject());
                         getRoom(ISOLATION).setLocked(false);
@@ -938,11 +906,23 @@ public class PrisonBreakGame extends GameDescription {
                                 "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
                                 "alla panchina.");
                         getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu nelle vicinanze.");
+                    } else if (p.getObject().getId() == HACKSAW && getObject(TOOLS).isUsed()) {
+                        getRoom(PASSAGENORTH).setLocked(false);
+                        out.println("-\tDopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
+                                "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
+                        out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi la persona più importante???");
                     }
                 } else {
                     if (p.getObject() == null) {
                         out.println("Sei sicuro di non voler usare niente?");
                     } else if (!p.getObject().isUsable()) {
+                        if (p.getObject().getId() == HACKSAW
+                                && !getObject(TOOLS).isUsed()
+                                && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
+                            out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre " +
+                                    "della grata! In realtà la colpa non è totalmente del seghetto ma anche la tua " +
+                                    "poiché sei molto stanco e hai poca forza nelle braccia!");
+                        }
                         out.println("Mi dispiace ma questo oggetto non si può utilizzare");
                     } else if (!getCurrentRoom().isObjectUsableHere(p.getObject())) {
                         out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
