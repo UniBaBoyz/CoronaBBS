@@ -72,7 +72,10 @@ public class ScannerTokenIta extends ScannerToken {
                     throw new LexicalErrorException();
                 }
             }
-            sentence.add(token);
+
+            if (token != null) {
+                sentence.add(token);
+            }
         }
 
         return sentence.iterator();

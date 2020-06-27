@@ -59,7 +59,7 @@ public abstract class Parser {
             validSentence = isValidSentence(tokenSentence);
         }
 
-        if (!validSentence) {
+        if (!validSentence || sentences.isEmpty()) {
             throw new SyntaxErrorException();
         }
 

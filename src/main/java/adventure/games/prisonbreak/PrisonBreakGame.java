@@ -222,7 +222,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(put_in);
 
         TokenVerb give = new TokenVerb(VerbType.GIVE);
-        give.setAlias(new HashSet<>(Arrays.asList("Dai", "Lascia", "Cedi", "Dona", "Regala", "Poni", "Concedi", "Porgi",
+        give.setAlias(new HashSet<>(Arrays.asList("Dai", "Cedi", "Dona", "Regala", "Poni", "Concedi", "Porgi",
                 "Consegna", "Offri")));
         getTokenVerbs().add(give);
 
@@ -232,7 +232,7 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(make);
 
         TokenVerb remove = new TokenVerb(VerbType.REMOVE);
-        remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Leva", "Elimina")));
+        remove.setAlias(new HashSet<>(Arrays.asList("Rimuovi", "Leva", "Elimina", "Lascia")));
         getTokenVerbs().add(remove);
 
         TokenVerb destroy = new TokenVerb(VerbType.DESTROY);
@@ -597,14 +597,14 @@ public class PrisonBreakGame extends GameDescription {
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
         screw.setUsable(true);
         bench.getObjects().add(screw);
-        getRoom(CELL).setObjectsUsableHere(screw);
+        cell.setObjectsUsableHere(screw);
 
         TokenObject scotch = new TokenObject(SCOTCH, new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
         airDuctWest.getObjects().add(scotch);
         scotch.setUsable(true);
         scotch.setPickupable(true);
-        getRoom(ISOLATION).setObjectsUsableHere(scotch);
+        isolation.setObjectsUsableHere(scotch);
 
         TokenObject tools = new TokenObject(TOOLS, new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
                 "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!");
@@ -625,6 +625,7 @@ public class PrisonBreakGame extends GameDescription {
         ball.setUsable(true);
         basket.getObjects().add(ball);
         passageSouth.getObjects().add(ball);
+        getRooms().forEach(room -> room.setObjectsUsableHere(ball));
 
         TokenObject ladder = new TokenObject(LADDER, new HashSet<>(Arrays.asList("Scala", "Scaletta")),
                 "E' solo una scala in legno, sembra molto leggera e facile da spostare.");
@@ -636,6 +637,7 @@ public class PrisonBreakGame extends GameDescription {
         scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
+        brawl.setObjectsUsableHere(scalpel);
 
         //TODO assegnare oggetto a Jonny Bello
         TokenObject hacksaw = new TokenObject(HACKSAW, new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
@@ -643,9 +645,10 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto", "Distrutto",
                         "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Aggiustato",
                         "Sistemato", "Riparato"))))));
-        scalpel.setPickupable(true);
-        scalpel.setUsable(true);
+        hacksaw.setPickupable(true);
+        hacksaw.setUsable(true);
         cell.getObjects().add(hacksaw);
+        airDuctNorth.setObjectsUsableHere(hacksaw);
 
         TokenObject substances = new TokenObject(SUBSTANCES, new HashSet<>(Arrays.asList("Sostanze", "Ingredienti",
                 "Acido", "Oggetti")),
@@ -666,12 +669,14 @@ public class PrisonBreakGame extends GameDescription {
                         "malandato!");
         sink.setUsable(true);
         cell.getObjects().add(sink);
+        cell.setObjectsUsableHere(sink);
 
         TokenObject sinkBrother = new TokenObject(SINK_BROTHER,
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
                 "E' un piccolo lavandino posto nella stanza di tuo fratello");
-        sink.setUsable(true);
+        sinkBrother.setUsable(true);
         brotherCell.getObjects().add(sinkBrother);
+        brotherCell.setObjectsUsableHere(sinkBrother);
 
         TokenObject bed = new TokenObject(BED, new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina",
                 "Lettuccio")),
@@ -771,6 +776,7 @@ public class PrisonBreakGame extends GameDescription {
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
         generatorObject.setUsable(true);
         generator.getObjects().add(generatorObject);
+        generator.setObjectsUsableHere(generatorObject);
 
         TokenObject buttonGenerator = new TokenObject(BUTTON_GENERATOR, new HashSet<>(Arrays.asList("Pulsante", "Bottone",
                 "Interruttore")),
@@ -783,9 +789,9 @@ public class PrisonBreakGame extends GameDescription {
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
         airDuctEast.getObjects().add(gratePassage);
 
-        TokenObject detroyableGrate = new TokenObject(DESTROYABLE_GRATE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
+        TokenObject destroyableGrate = new TokenObject(DESTROYABLE_GRATE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
                 "");
-        airDuctNorth.getObjects().add(detroyableGrate);
+        airDuctNorth.getObjects().add(destroyableGrate);
 
         TokenObject drug = new TokenObject(DRUG, new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
@@ -812,7 +818,7 @@ public class PrisonBreakGame extends GameDescription {
                         "della stanza");
         combination.setUsable(true);
         setObjectNotAssignedRoom(combination);
-        getRoom(ISOLATION).setObjectsUsableHere(combination);
+        isolation.setObjectsUsableHere(combination);
 
         TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, new HashSet<>(Collections.singletonList("Condotto")),
                 "Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
@@ -827,10 +833,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRooms().stream()
-                .filter(room -> room.getId() == CELL)
-                .findFirst()
-                .orElse(null));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -958,7 +961,7 @@ public class PrisonBreakGame extends GameDescription {
                         getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu nelle vicinanze.");
                     } else if (p.getObject().getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(PASSAGE_NORTH).setLocked(false);
-                        out.println("-\tDopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
+                        out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi la persona più importante???");
                     }

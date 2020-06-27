@@ -74,6 +74,7 @@ public class Engine {
             } catch (Exception e) {
                 System.out.println(e.toString());
                 e.getMessage();
+                e.printStackTrace();
             }
         }
     }
