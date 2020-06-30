@@ -791,34 +791,36 @@ public class PrisonBreakGame extends GameDescription {
         generator.getObjects().add(generatorObject);
         generator.setObjectsUsableHere(generatorObject);
 
-        TokenObject buttonGenerator = new TokenObject(BUTTON_GENERATOR, new HashSet<>(Arrays.asList("Pulsante", "Bottone",
-                "Interruttore")),
+        TokenObject buttonGenerator = new TokenObject(BUTTON_GENERATOR, "Pulsante", new HashSet<>(Arrays.asList
+                ("Pulsante", "Bottone", "Interruttore")),
                 "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
         buttonGenerator.setPushable(true);
         generator.getObjects().add(buttonGenerator);
 
-        TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
+        TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, "Grata",new HashSet<>(Arrays.asList
+                ("Grata", "Inferriata")),
                 "La cella è controllata da un poliziotto e poi non mi sembra il caso di intrufolarsi" +
                         " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
         airDuctEast.getObjects().add(gratePassage);
 
-        TokenObject destroyableGrate = new TokenObject(DESTROYABLE_GRATE, new HashSet<>(Arrays.asList("Grata", "Inferriata")),
+        TokenObject destroyableGrate = new TokenObject(DESTROYABLE_GRATE, "Grata", new HashSet<>(Arrays.asList(
+                "Grata", "Inferriata")),
                 "");
         airDuctNorth.getObjects().add(destroyableGrate);
 
-        TokenObject drug = new TokenObject(DRUG, new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
+        TokenObject drug = new TokenObject(DRUG, "Droga", new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
         //TODO ASSEGNARE DROGA A GENNY
 
-        TokenObject videogame = new TokenObject(VIDEOGAME, new HashSet<>(Arrays.asList("VideoGame", "Gioco",
-                "Videogioco")),
+        TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame",new HashSet<>(Arrays.asList("VideoGame",
+                "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
         //TODO ASSEGNARE DROGA A GENNY
 
-        TokenObject acid = new TokenObject(ACID, new HashSet<>(Collections.singletonList("Acido")),
+        TokenObject acid = new TokenObject(ACID, "Acido", new HashSet<>(Collections.singletonList("Acido")),
                 "Leggendo la ricetta alla lavagna capisci come creare l’acido, mischi le sostanze " +
                         "tutte insieme utilizzando le giuste dosi in modo da non sbagliare! Sei riuscito a" +
                         " creare l’acido!");
@@ -826,14 +828,16 @@ public class PrisonBreakGame extends GameDescription {
         acid.setUsable(true);
         //TODO NON E' ASSEGNATO A NULLA
 
-        TokenObject combination = new TokenObject(COMBINATION, new HashSet<>(Collections.singletonList("Combinazione")),
+        TokenObject combination = new TokenObject(COMBINATION, "Combinazione", new HashSet<>(Arrays.asList(
+                "Combinazione","Password","Pin")),
                 "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
                         "della stanza");
         combination.setUsable(true);
         setObjectNotAssignedRoom(combination);
         isolation.setObjectsUsableHere(combination);
 
-        TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, new HashSet<>(Collections.singletonList("Condotto")),
+        TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, "Condotto d'aria vecchio", new HashSet<>(
+                Arrays.asList("Condotto d'aria vecchio","Condotto d'aria","Condotto","Indotto")),
                 "Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
                         "sembra quasi che non serva più perché ne hanno costruito un altro… " +
                         "Perché nasconderlo?");

@@ -11,17 +11,16 @@ public class TokenObjectContainer extends TokenObject {
 
     private List<TokenObject> objects = new ArrayList<>();
 
-    public TokenObjectContainer(int id, Set<String> alias) {
-        super(id, alias);
+    public TokenObjectContainer(int id, String name, Set<String> alias) {
+        super(id, name, alias);
     }
 
-    public TokenObjectContainer(int id, Set<String> alias, String description) {
-        super(id, alias, description);
+    public TokenObjectContainer(int id, String name, Set<String> alias, String description) {
+        super(id, name, alias, description);
     }
 
-    public TokenObjectContainer(int id, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
-
-        super(id, alias, description, adjectives);
+    public TokenObjectContainer(int id, String name, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
+        super(id, name, alias, description, adjectives);
     }
 
     public List<TokenObject> getObjects() {
