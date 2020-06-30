@@ -4,12 +4,14 @@ import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
+import java.util.Set;
+
 /**
  * @author Corona-Extra
  */
 public class ParserOutput {
     private TokenVerb verb;
-    private TokenObject object;
+    private Set<TokenObject> object;
     private TokenAdjective adjective;
 
     public ParserOutput(TokenVerb verb) {
@@ -18,13 +20,13 @@ public class ParserOutput {
         this.adjective = null;
     }
 
-    public ParserOutput(TokenVerb verb, TokenObject object) {
+    public ParserOutput(TokenVerb verb, Set<TokenObject> object) {
         this.verb = verb;
         this.object = object;
         this.adjective = null;
     }
 
-    public ParserOutput(TokenVerb verb, TokenObject object, TokenAdjective adjective) {
+    public ParserOutput(TokenVerb verb, Set<TokenObject> object, TokenAdjective adjective) {
         this.verb = verb;
         this.object = object;
         this.adjective = adjective;
@@ -38,11 +40,11 @@ public class ParserOutput {
         this.verb = verb;
     }
 
-    public TokenObject getObject() {
+    public Set<TokenObject> getObject() {
         return object;
     }
 
-    public void setObject(TokenObject object) {
+    public void setObject(Set<TokenObject> object) {
         this.object = object;
     }
 }

@@ -10,6 +10,7 @@ import adventure.GameDescription;
 import adventure.exceptions.InventoryEmptyException;
 import adventure.exceptions.InventoryFullException;
 import adventure.exceptions.ObjectNotFoundException;
+import adventure.exceptions.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.Room;
@@ -814,7 +815,7 @@ public class PrisonBreakGame extends GameDescription {
                         "anno di più!");
         //TODO ASSEGNARE DROGA A GENNY
 
-        TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame",new HashSet<>(Arrays.asList("VideoGame",
+        TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame",new HashSet<>(Arrays.asList("Videogame",
                 "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
@@ -858,11 +859,13 @@ public class PrisonBreakGame extends GameDescription {
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
+        TokenObject object;
         boolean move = false;
         boolean noroom = false;
         Set<TokenObjectContainer> objectContainers = thereIsContainer();
 
         try {
+            object = getCorrectObject(p.getObject());
 
             if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
@@ -905,38 +908,38 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if (p.getObject() != null
-                        && (getInventory().contains(p.getObject()) || getCurrentRoom().getObjects().contains(p.getObject()))) {
-                    out.println(p.getObject().getDescription());
-                } else if (getCurrentRoom().getLook() != null && p.getObject() == null) {
+                if (object != null
+                        && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
+                    out.println(object.getDescription());
+                } else if (getCurrentRoom().getLook() != null && object == null) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
-                if (p.getObject() != null && p.getObject().isPickupable()
-                        && getCurrentRoom().containsObject(p.getObject())) {
-                    getCurrentRoom().getObjects().remove(p.getObject());
-                    getInventory().add(p.getObject());
-                    out.println("Hai preso " + p.getObject().getName() + "!");
-                } else if (p.getObject() == null) {
+                if (object != null && object.isPickupable()
+                        && getCurrentRoom().containsObject(object)) {
+                    getCurrentRoom().getObjects().remove(object);
+                    getInventory().add(object);
+                    out.println("Hai preso " + object.getName() + "!");
+                } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
-                } else if (!p.getObject().isPickupable()) {
+                } else if (!object.isPickupable()) {
                     out.println("Non e' certo un oggetto che si può prendere imbecille!");
-                } else if (getInventory().contains(p.getObject())) {
+                } else if (getInventory().contains(object)) {
                     out.println("Guarda bene nella tua borsa, cretino!");
                 } else {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
-                if (p.getObject() != null && getInventory().contains(p.getObject())) {
-                    getCurrentRoom().getObjects().add(p.getObject());
-                    getInventory().remove(p.getObject());
-                    out.println("Hai lasciato a terra " + p.getObject().getName() + "!");
+                if (object != null && getInventory().contains(object)) {
+                    getCurrentRoom().getObjects().add(object);
+                    getInventory().remove(object);
+                    out.println("Hai lasciato a terra " + object.getName() + "!");
 
-                } else if (p.getObject() == null) {
+                } else if (object == null) {
                     out.println("Cosa vorresti rimuovere dall'inventario?");
                 } else {
                     out.println("L'inventario non ha questo oggetto!");
@@ -945,50 +948,50 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
-                if (p.getObject() != null && p.getObject().isUsable() && getCurrentRoom().isObjectUsableHere(p.getObject())
-                        && (getInventory().contains(p.getObject()) || getCurrentRoom().containsObject(p.getObject()))) {
+                if (object != null && object.isUsable() && getCurrentRoom().isObjectUsableHere(object)
+                        && (getInventory().contains(object) || getCurrentRoom().containsObject(object))) {
 
-                    p.getObject().setUsed(true);
+                    object.setUsed(true);
 
-                    if (p.getObject().getId() == SCREW) {
+                    if (object.getId() == SCREW) {
                         getObject(SINK).setPushable(true);
-                        getInventory().remove(p.getObject());
+                        getInventory().remove(object);
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
                                 "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
                                 "sposti il lavandino e vedi un passaggio segreto");
-                    } else if (p.getObject().getId() == SCOTCH) {
-                        getInventory().remove(p.getObject());
+                    } else if (object.getId() == SCOTCH) {
+                        getInventory().remove(object);
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                                 "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
-                    } else if (p.getObject().getId() == TOOLS) {
+                    } else if (object.getId() == TOOLS) {
                         out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento ti senti già più forte!");
-                    } else if (p.getObject().getId() == COMBINATION) {
-                        getInventory().remove(p.getObject());
+                    } else if (object.getId() == COMBINATION) {
+                        getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
                         out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
                                 "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
                                 "nient’altro di particolare!");
-                    } else if (p.getObject().getId() == BALL) {
+                    } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
-                    } else if (p.getObject().getId() == SCALPEL) {
-                        getInventory().remove(p.getObject());
+                    } else if (object.getId() == SCALPEL) {
+                        getInventory().remove(object);
                         out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e capito " +
                                 "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                                 "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
                                 "alla panchina.");
                         getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu nelle vicinanze.");
-                    } else if (p.getObject().getId() == HACKSAW && getObject(TOOLS).isUsed()) {
+                    } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(PASSAGE_NORTH).setLocked(false);
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi la persona più importante???");
                     }
                 } else {
-                    if (p.getObject() == null) {
+                    if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
-                    } else if (!p.getObject().isUsable()) {
-                        if (p.getObject().getId() == HACKSAW
+                    } else if (!object.isUsable()) {
+                        if (object.getId() == HACKSAW
                                 && !getObject(TOOLS).isUsed()
                                 && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
                             out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre " +
@@ -996,110 +999,110 @@ public class PrisonBreakGame extends GameDescription {
                                     "poiché sei molto stanco e hai poca forza nelle braccia!");
                         }
                         out.println("Mi dispiace ma questo oggetto non si può utilizzare");
-                    } else if (!getCurrentRoom().isObjectUsableHere(p.getObject())) {
+                    } else if (!getCurrentRoom().isObjectUsableHere(object)) {
                         out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
-                    } else if (!getInventory().contains(p.getObject()) && !getCurrentRoom().containsObject(p.getObject())) {
+                    } else if (!getInventory().contains(object) && !getCurrentRoom().containsObject(object)) {
                         out.println("Io non vedo nessun oggetto di questo tipo qui!");
                     }
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.OPEN)) {
-                if (p.getObject() != null
-                        && p.getObject().isOpenable()
-                        && !p.getObject().isOpen()
-                        && (getCurrentRoom().containsObject(p.getObject())
+                if (object != null
+                        && object.isOpenable()
+                        && !object.isOpen()
+                        && (getCurrentRoom().containsObject(object)
                         || (!objectContainers.isEmpty()
                         && objectContainers.stream()
                         .anyMatch(objectContainer -> objectContainer.isOpenable()
                                 && objectContainer.isOpen()
-                                && objectContainer.containsObject(p.getObject()))))) {
-                    if (!(p.getObject() instanceof TokenObjectContainer)) {
-                        out.println("Hai aperto " + p.getObject().getAlias().iterator().next() + "!");
-                    } else if (!p.getObject().isOpen()) {
-                        out.println("Hai aperto " + p.getObject().getAlias().iterator().next() + "!");
+                                && objectContainer.containsObject(object))))) {
+                    if (!(object instanceof TokenObjectContainer)) {
+                        out.println("Hai aperto " + object.getAlias().iterator().next() + "!");
+                    } else if (!object.isOpen()) {
+                        out.println("Hai aperto " + object.getAlias().iterator().next() + "!");
                         out.println("Contiene: ");
-                        for (TokenObject object : ((TokenObjectContainer) p.getObject()).getObjects()) {
-                            out.println(object.getAlias().iterator().next() + ": " + object.getDescription());
+                        for (TokenObject obj : ((TokenObjectContainer) object).getObjects()) {
+                            out.println(obj.getAlias().iterator().next() + ": " + obj.getDescription());
                         }
                     }
-                    p.getObject().setOpen(true);
-                } else if (p.getObject() == null) {
+                    object.setOpen(true);
+                } else if (object == null) {
                     out.println("Cosa vorresti aprire di preciso?");
-                } else if (!p.getObject().isOpenable()) {
+                } else if (!object.isOpenable()) {
                     out.println("Sei serio? Vorresti veramente aprirlo?!");
                     out.println("Sei fuori di testa!");
-                } else if (p.getObject().isOpen()) {
+                } else if (object.isOpen()) {
                     out.println("E' gia' aperto testa di merda!");
                 } else {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
-                if (p.getObject() != null
-                        && p.getObject().isOpenable()
-                        && p.getObject().isOpen()
-                        && (getCurrentRoom().containsObject(p.getObject())
+                if (object != null
+                        && object.isOpenable()
+                        && object.isOpen()
+                        && (getCurrentRoom().containsObject(object)
                         || (!objectContainers.isEmpty()
                         && objectContainers.stream()
                         .anyMatch(objectContainer -> objectContainer.isOpenable()
                                 && objectContainer.isOpen()
-                                && objectContainer.containsObject(p.getObject()))))) {
+                                && objectContainer.containsObject(object))))) {
 
-                    out.println("Hai chiuso " + p.getObject().getAlias().iterator().next() + "!");
-                    p.getObject().setOpen(false);
+                    out.println("Hai chiuso " + object.getAlias().iterator().next() + "!");
+                    object.setOpen(false);
 
-                } else if (p.getObject() == null) {
+                } else if (object == null) {
                     out.println("Cosa vorresti chiudere di preciso?");
-                } else if (!p.getObject().isOpenable()) {
+                } else if (!object.isOpenable()) {
                     out.println("Sei serio? Vorresti veramente chiuderlo?!");
                     out.println("Sei fuori di testa!");
-                } else if (p.getObject().isOpen()) {
+                } else if (object.isOpen()) {
                     out.println("E' gia' chiuso testa di merda!");
                 } else {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)) {
-                if (p.getObject() != null && p.getObject().isPushable() && getCurrentRoom().containsObject(p.getObject())) {
-                    if (p.getObject().getId() == LADDER) {
+                if (object != null && object.isPushable() && getCurrentRoom().containsObject(object)) {
+                    if (object.getId() == LADDER) {
                         // ladder case
                         if (getCurrentRoom().getId() == PASSAGE_SOUTH) {
-                            getRoom(PASSAGE_NORTH).getObjects().add(p.getObject());
-                            getRoom(PASSAGE_SOUTH).getObjects().remove(p.getObject());
+                            getRoom(PASSAGE_NORTH).getObjects().add(object);
+                            getRoom(PASSAGE_SOUTH).getObjects().remove(object);
                         }
-                    } else if (p.getObject().getId() == SINK) {
+                    } else if (object.getId() == SINK) {
                         // sink case
                         if (getCurrentRoom().getId() == CELL) {
                             // sink pushed
-                            if (p.getObject().isPush()) {
+                            if (object.isPush()) {
                                 out.println("Il Lavandino è già stato spostato!");
                             } else {
-                                p.getObject().setPush(true);
+                                object.setPush(true);
                                 getRoom(SECRET_PASSAGE).setLocked(false);
                                 out.println("Oissà!");
                             }
                         }
 
-                    } else if (p.getObject().getId() == PICTURE) {
+                    } else if (object.getId() == PICTURE) {
                         // picture case
                         if (getCurrentRoom().getId() == INFIRMARY) {
                             // picture pushed
-                            if (p.getObject().isPush()) {
+                            if (object.isPush()) {
                                 out.println("Il quadro è già stato spostato!");
                             } else {
-                                p.getObject().setPush(true);
+                                object.setPush(true);
                                 getCurrentRoom().getObjects().add(getObject(AIR_DUCT_OLD));
                                 out.println(getObject(AIR_DUCT_OLD).getDescription());
                             }
                         }
-                    } else if (p.getObject().getId() == BUTTON_GENERATOR) {
+                    } else if (object.getId() == BUTTON_GENERATOR) {
                         // botton case
                         if (getCurrentRoom().getId() == GENERATOR) {
                             // botton pushed
-                            if (p.getObject().isPush()) {
+                            if (object.isPush()) {
                                 out.println("Il pulsante è già stato premuto! Fai in fretta!!!");
                             } else {
-                                p.getObject().setPush(true);
+                                object.setPush(true);
                                 getObject(GENERATOR_OBJ).setUsable(true);
                                 getRoom(DOOR_ISOLATION).setLocked(false);
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
@@ -1108,30 +1111,30 @@ public class PrisonBreakGame extends GameDescription {
                             }
                         }
                     }
-                } else if (p.getObject() == null) {
+                } else if (object == null) {
                     out.println("Cosa vuoi spostare? L'aria?!?");
-                } else if (!p.getObject().isPushable()) {
+                } else if (!object.isPushable()) {
                     out.println("Puoi essere anche Hulk ma quell'oggetto non si può spostare!!!");
-                } else if (!(getCurrentRoom().containsObject(p.getObject()))) {
+                } else if (!(getCurrentRoom().containsObject(object))) {
                     out.println("Forse non ci vedi bene, quell'oggetto non è presente in questa stanza!!!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.EAT)) {
-                if (p.getObject() != null && p.getObject().isEatable() && (getInventory().contains(p.getObject())
-                        || getCurrentRoom().containsObject(p.getObject()))) {
+                if (object != null && object.isEatable() && (getInventory().contains(object)
+                        || getCurrentRoom().containsObject(object))) {
                     // food case
-                    if (getCurrentRoom().getObjects().contains(p.getObject())) {
-                        getCurrentRoom().getObjects().remove(p.getObject());
+                    if (getCurrentRoom().getObjects().contains(object)) {
+                        getCurrentRoom().getObjects().remove(object);
                         out.println("Gnam Gnam...");
-                    } else if (getInventory().getObjects().contains(p.getObject())) {
-                        getInventory().remove(p.getObject());
+                    } else if (getInventory().getObjects().contains(object)) {
+                        getInventory().remove(object);
                         out.println("Gnam Gnam...");
                     }
-                } else if (p.getObject() == null) {
+                } else if (object == null) {
                     out.println("Cosa vuoi mangiare??? Sembra non ci sia nulla di commestibile");
-                } else if (!p.getObject().isEatable()) {
+                } else if (!object.isEatable()) {
                     out.println("Sei veramente sicuro??? Non mi sembra una buona idea!");
-                } else if (!(getInventory().contains(p.getObject())
-                        || getCurrentRoom().containsObject(p.getObject()))) {
+                } else if (!(getInventory().contains(object)
+                        || getCurrentRoom().containsObject(object))) {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
             }
@@ -1150,7 +1153,10 @@ public class PrisonBreakGame extends GameDescription {
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
         } catch (ObjectNotFoundException e) {
             out.println("Non hai questo oggetto nell'inventario");
-        } catch (Exception e) {
+        } catch (ObjectsAmbiguityException e) {
+            out.println("C'è ambiguità negli oggetti!");
+        }
+        catch (Exception e) {
             //FIXME
             out.println(e.getMessage());
         }

@@ -1,9 +1,13 @@
 package adventure.parser;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import adventure.exceptions.InputErrorException;
 import adventure.exceptions.SyntaxErrorException;
@@ -27,11 +31,11 @@ public abstract class Parser {
         return scanner;
     }
 
-    public List<TokenType> getTokenType(List<Token> sentence) {
+    public List<TokenType> getTokenType(List<Set<Token>> sentence) {
         List<TokenType> tokens = new ArrayList<>();
 
-        for (Token i : sentence) {
-            tokens.add(i.getType());
+        for (Set<Token> i : sentence) {
+            i.stream().findFirst().ifPresent(t -> tokens.add(t.getType()));
         }
 
         return tokens;
@@ -48,8 +52,8 @@ public abstract class Parser {
         return validSentence;
     }
 
-    public boolean areValidSentences(List<List<Token>> sentences) throws SyntaxErrorException {
-        Iterator<List<Token>> iterator;
+    public boolean areValidSentences(List<List<Set<Token>>> sentences) throws SyntaxErrorException {
+        Iterator<List<Set<Token>>> iterator;
         List<TokenType> tokenSentence;
         boolean validSentence = true;
 
@@ -66,66 +70,66 @@ public abstract class Parser {
         return validSentence;
     }
 
-    private TokenVerb getTokenVerb(List<Token> sentence) {
+    private TokenVerb getTokenVerb(List<Set<Token>> sentence) {
         TokenVerb token = null;
+        Iterator<Set<Token>> i = sentence.iterator();
 
-        for (Token i : sentence) {
-            if (i.getType().equals(TokenType.VERB)) {
-                token = (TokenVerb) i;
-                break;
+        while (token == null && i.hasNext()) {
+            Set<Token> set = i.next();
+
+            token = (TokenVerb) set.stream()
+                    .filter(t -> t.getType().equals(TokenType.VERB))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        return token;
+    }
+
+    private Set<TokenObject> getTokenObject(List<Set<Token>> sentence) {
+        Set<TokenObject> token = new HashSet<>();
+
+        for (Set<Token> tokenSet : sentence) {
+            if (tokenSet.stream().allMatch(t -> t.getType().equals(TokenType.OBJECT))) {
+                tokenSet.forEach(t -> token.add((TokenObject) t));
             }
         }
 
         return token;
     }
 
-    private TokenObject getTokenObject(List<Token> sentence) {
-        TokenObject token = null;
-
-        for (Token i : sentence) {
-            if (i.getType().equals(TokenType.OBJECT)) {
-                token = (TokenObject) i;
-                break;
-            }
-        }
-
-        return token;
-    }
-
-    private TokenAdjective getTokenAdjective(List<Token> sentence) {
+    private TokenAdjective getTokenAdjective(List<Set<Token>> sentence) {
         TokenAdjective token = null;
+        Iterator<Set<Token>> i = sentence.iterator();
 
-        for (Token i : sentence) {
-            if (i.getType().equals(TokenType.ADJECTIVE)) {
-                token = (TokenAdjective) i;
-                break;
-            }
+        while (token == null && i.hasNext()) {
+            Set<Token> set = i.next();
+
+            token = (TokenAdjective) set.stream()
+                    .filter(t -> t.getType().equals(TokenType.ADJECTIVE))
+                    .findFirst()
+                    .orElse(null);
         }
 
         return token;
     }
 
-    private boolean isCorrectAdjective(TokenObject object, TokenAdjective adjective) {
+    private boolean isCorrectAdjective(Set<TokenObject> object, TokenAdjective adjective) {
         boolean isAdjective = false;
 
-        if (adjective != null && object != null) {
-            for (String i : adjective.getAlias()) {
-                if (object.getAdjectives().stream()
-                        .anyMatch(t -> t.isAlias(i))) {
-                    isAdjective = true;
-                    break;
-                }
-            }
+        if (adjective != null && !object.isEmpty()) {
+            isAdjective = object.stream()
+                    .anyMatch(o -> o.getAdjectives().contains(adjective));
         }
 
         return isAdjective;
     }
 
-    public List<ParserOutput> generateParserOutput(Iterator<List<Token>> sentences) throws InputErrorException {
+    public List<ParserOutput> generateParserOutput(Iterator<List<Set<Token>>> sentences) throws InputErrorException {
         List<ParserOutput> parserOutputs = new ArrayList<>(); //For each sentence a ParserOutput is created
-        List<Token> sentence;
+        List<Set<Token>> sentence;
         TokenVerb verb;
-        TokenObject object;
+        Set<TokenObject> object;
         TokenAdjective adjective;
 
         while (sentences.hasNext()) {
@@ -135,7 +139,7 @@ public abstract class Parser {
             adjective = getTokenAdjective(sentence);
 
             // Check if the adjective refers to the exact object
-            if (object != null && adjective != null && !isCorrectAdjective(object, adjective)) {
+            if (!object.isEmpty() && adjective != null && !isCorrectAdjective(object, adjective)) {
                 throw new InputErrorException();
             }
 

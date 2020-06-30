@@ -90,6 +90,6 @@ public abstract class ScannerToken {
         return tokenizedString.toString();
     }
 
-    public abstract Iterator<Token> tokenize() throws Exception;
+    public abstract Iterator<Set<Token>> tokenize() throws Exception;
 
 }

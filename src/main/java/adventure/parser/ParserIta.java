@@ -38,15 +38,15 @@ public class ParserIta extends Parser {
         return validSentences;
     }
 
-    private List<List<Token>> separateSentences(Iterator<Token> iterator) {
-        List<List<Token>> sentences = new ArrayList<>();
-        List<Token> sentence = new ArrayList<>();
+    private List<List<Set<Token>>> separateSentences(Iterator<Set<Token>> iterator) {
+        List<List<Set<Token>>> sentences = new ArrayList<>();
+        List<Set<Token>> sentence = new ArrayList<>();
 
         while (iterator.hasNext()) {
-            Token token = iterator.next();
+            Set<Token> token = iterator.next();
 
             // If there is a junction then it means that there is another sentence
-            if (token.getType().equals(TokenType.JUNCTION)) {
+            if (token.stream().allMatch(t -> t.getType().equals(TokenType.JUNCTION))) {
 
                 // The sentence cannot end with a junction so i add the token to produce a SyntaxErrorException
                 if (!iterator.hasNext()) {
@@ -85,7 +85,7 @@ public class ParserIta extends Parser {
 
     @Override
     public List<ParserOutput> parse(String stringToParse) throws Exception {
-        List<List<Token>> sentences; //Each Token list is one sentence combined with another from TokenType.Junction
+        List<List<Set<Token>>> sentences; //Each Token list is one sentence combined with another from TokenType.Junction
 
         // Check the syntax of the sentence
         getScanner().setSentence(stringToParse);

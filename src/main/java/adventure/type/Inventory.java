@@ -57,7 +57,7 @@ public class Inventory {
     }
 
     public void add(TokenObject o) throws InventoryFullException {
-        if (list.size() > MAX_ITEM) {
+        if (list.size() >= MAX_ITEM) {
             throw new InventoryFullException();
         }
         list.add(o);

@@ -3,7 +3,9 @@ package adventure;
 import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
+import adventure.exceptions.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.Room;
@@ -110,5 +112,19 @@ public abstract class GameDescription {
 
     public int getScore() {
         return score;
+    }
+
+    protected TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsAmbiguityException {
+        Stream<TokenObject> stream = tokenObjects.stream()
+                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object));
+
+        if(stream.count() > 1) {
+            throw new ObjectsAmbiguityException();
+        }
+
+        return tokenObjects.stream()
+                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
+                .findFirst()
+                .orElse(null);
     }
 }

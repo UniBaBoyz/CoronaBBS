@@ -1,9 +1,11 @@
 package adventure.parser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import adventure.exceptions.LexicalErrorException;
 
@@ -31,41 +33,38 @@ public class ScannerTokenIta extends ScannerToken {
     }
 
     @Override
-    public Iterator<Token> tokenize() throws Exception {
-        List<Token> sentence = new ArrayList<>();
+    public Iterator<Set<Token>> tokenize() throws Exception {
+        List<Set<Token>> sentence = new ArrayList<>();
         String tokenizedString;
 
         tokenizedString = createTokenizedString();
 
         for (String stringToken : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
             // TODO IMPROVEMENT REQUIRED
-            Token token = null;
+            Set<Token> token = new HashSet<>();
             if (getVerbs()
                     .stream().anyMatch(t -> t.isAlias(stringToken))) {
-                token = getVerbs()
+                token.add(getVerbs()
                         .stream()
                         .filter(t -> t.isAlias(stringToken))
-                        .findFirst()
-                        .orElse(null);
+                        .findFirst().orElse(null));
             } else if (getObjects()
                     .stream().anyMatch(t -> t.isAlias(stringToken))) {
                 token = getObjects()
                         .stream()
                         .filter(t -> t.isAlias(stringToken))
-                        .findFirst()
-                        .orElse(null);
+                        .collect(Collectors.toSet());
             } else if (article.isAlias(stringToken)) {
-                token = article;
+                token.add(article);
             } else if (getAdjectives()
                     .stream()
                     .anyMatch(t -> t.isAlias(stringToken))) {
-                token = getAdjectives()
+                token.add(getAdjectives()
                         .stream()
                         .filter(t -> t.isAlias(stringToken))
-                        .findFirst()
-                        .orElse(null);
+                        .findFirst().orElse(null));
             } else if (junction.isAlias(stringToken)) {
-                token = junction;
+                token.add(junction);
             } else {
                 // If the stringToken is empty, the user has entered several consecutive skip characters
                 if (!stringToken.isEmpty()) {
@@ -73,7 +72,7 @@ public class ScannerTokenIta extends ScannerToken {
                 }
             }
 
-            if (token != null) {
+            if (!token.isEmpty()) {
                 sentence.add(token);
             }
         }
