@@ -20,6 +20,7 @@ import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
 import static adventure.games.prisonbreak.ObjectType.ACID;
+import static adventure.games.prisonbreak.ObjectType.AIR_DUCT_OLD;
 import static adventure.games.prisonbreak.ObjectType.BALL;
 import static adventure.games.prisonbreak.ObjectType.BASKET_OBJECT;
 import static adventure.games.prisonbreak.ObjectType.BED;
@@ -53,10 +54,8 @@ import static adventure.games.prisonbreak.ObjectType.TOOLS;
 import static adventure.games.prisonbreak.ObjectType.VIDEOGAME;
 import static adventure.games.prisonbreak.ObjectType.WARDROBE;
 import static adventure.games.prisonbreak.ObjectType.WATER;
-import static adventure.games.prisonbreak.ObjectType.WINDOW_CELL;
 import static adventure.games.prisonbreak.ObjectType.WINDOWS_INFIRMARY;
-import static adventure.games.prisonbreak.RoomType.*;
-import static adventure.games.prisonbreak.ObjectType.AIR_DUCT_OLD;
+import static adventure.games.prisonbreak.ObjectType.WINDOW_CELL;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_EAST;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_NORTH;
@@ -68,6 +67,7 @@ import static adventure.games.prisonbreak.RoomType.BROTHER_CELL;
 import static adventure.games.prisonbreak.RoomType.CANTEEN;
 import static adventure.games.prisonbreak.RoomType.CELL;
 import static adventure.games.prisonbreak.RoomType.CORRIDOR;
+import static adventure.games.prisonbreak.RoomType.DESTROYABLE_GRATE;
 import static adventure.games.prisonbreak.RoomType.DOOR_ISOLATION;
 import static adventure.games.prisonbreak.RoomType.ENDGAME;
 import static adventure.games.prisonbreak.RoomType.END_LOBBY;
@@ -647,7 +647,6 @@ public class PrisonBreakGame extends GameDescription {
                         "Sistemato", "Riparato"))))));
         hacksaw.setPickupable(true);
         hacksaw.setUsable(true);
-        cell.getObjects().add(hacksaw);
         airDuctNorth.setObjectsUsableHere(hacksaw);
 
         TokenObject substances = new TokenObject(SUBSTANCES, new HashSet<>(Arrays.asList("Sostanze", "Ingredienti",
@@ -713,7 +712,8 @@ public class PrisonBreakGame extends GameDescription {
         garden.getObjects().add(door);
         lobby.getObjects().add(door);
 
-        TokenObject basketObject = new TokenObject(BASKET_OBJECT, new HashSet<>(Arrays.asList("Canestro", "Basket")),
+        TokenObject basketObject = new TokenObject(BASKET_OBJECT, new HashSet<>(
+                Arrays.asList("Canestri", "Canestro")),
                 "Sono due canestri, ottimi per giocare a basket e perdere tempo!!!");
         basket.getObjects().add(basketObject);
 
@@ -833,7 +833,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CELL));
+        setCurrentRoom(getRoom(BASKET_CAMP));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -900,8 +900,9 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
                 if (p.getObject() != null && p.getObject().isPickupable()
                         && getCurrentRoom().containsObject(p.getObject())) {
+                    getCurrentRoom().getObjects().remove(p.getObject());
                     getInventory().add(p.getObject());
-                    out.println("Preso!");
+                    out.println("Hai preso " + p.getObject().getName() + "!");
                 } else if (p.getObject() == null) {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!p.getObject().isPickupable()) {
@@ -916,7 +917,8 @@ public class PrisonBreakGame extends GameDescription {
                 if (p.getObject() != null && getInventory().contains(p.getObject())) {
                     getCurrentRoom().getObjects().add(p.getObject());
                     getInventory().remove(p.getObject());
-                    out.println("Hai lasciato a terra " + p.getObject().getAlias().iterator().next() + "!");
+                    out.println("Hai lasciato a terra " + p.getObject().getName() + "!");
+
                 } else if (p.getObject() == null) {
                     out.println("Cosa vorresti rimuovere dall'inventario?");
                 } else {

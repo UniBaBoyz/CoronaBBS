@@ -1,7 +1,6 @@
 package adventure.type;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
@@ -76,7 +75,15 @@ public class Room {
     }
 
     public String getLook() {
-        return look;
+        StringBuilder objectsDescription = new StringBuilder("Inoltre si può notare: \n");
+        for (TokenObject obj : objects) {
+            objectsDescription.append(obj.getName())
+                    .append(": ")
+                    .append(obj.getDescription())
+                    .append("\n");
+
+        }
+        return look + "\n" + objectsDescription.toString();
     }
 
     public void setLook(String look) {

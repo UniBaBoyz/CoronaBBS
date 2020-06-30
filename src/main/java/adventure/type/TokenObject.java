@@ -14,6 +14,7 @@ public class TokenObject extends Token {
 
     private final int id;
     private final Set<TokenAdjective> adjectives = new HashSet<>();
+    private String name;
     private String description;
     private boolean openable = false;
     private boolean pickupable = false;
@@ -29,22 +30,25 @@ public class TokenObject extends Token {
     private boolean on = false;
     private boolean used = false;
 
-    public TokenObject(int id, Set<String> alias) {
+    public TokenObject(int id, String name, Set<String> alias) {
         super(TokenType.OBJECT);
         this.id = id;
+        this.name = name;
         super.setAlias(alias);
     }
 
-    public TokenObject(int id, Set<String> alias, String description) {
+    public TokenObject(int id, String name, Set<String> alias, String description) {
         super(TokenType.OBJECT);
         this.id = id;
+        this.name = name;
         super.setAlias(alias);
         this.description = description;
     }
 
-    public TokenObject(int id, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
+    public TokenObject(int id, String name, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
         super(TokenType.OBJECT);
         this.id = id;
+        this.name = name;
         super.setAlias(alias);
         this.description = description;
         this.adjectives.addAll(adjectives);
@@ -56,6 +60,14 @@ public class TokenObject extends Token {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<TokenAdjective> getAdjectives() {
