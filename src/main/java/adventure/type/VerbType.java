@@ -18,6 +18,7 @@ public enum VerbType {
     STAND_UP,
     SIT_DOWN,
     CLIMB,
+    GET_OFF,
     EXIT,
     ENTER,
     PICK_UP,

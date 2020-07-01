@@ -110,6 +110,16 @@ import static adventure.games.prisonbreak.RoomType.WINDOW_INFIRMARY;
  */
 public class PrisonBreakGame extends GameDescription {
 
+    private boolean bed = false;
+
+    public boolean isBed() {
+        return bed;
+    }
+
+    public void setBed(boolean bed) {
+        this.bed = bed;
+    }
+
     private void initVerbs() {
         TokenVerb nord = new TokenVerb(VerbType.NORD);
         nord.setAlias(new HashSet<>(Arrays.asList("N", "Nord")));
@@ -196,9 +206,12 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(sitDown);
 
         TokenVerb climb = new TokenVerb(VerbType.CLIMB);
-        climb.setAlias(new HashSet<>(Arrays.asList("Arrampicati", "Sali", "Scendi", "Buttati", "Scivola",
-                "Scavalca", "Salta")));
+        climb.setAlias(new HashSet<>(Arrays.asList("Arrampicati", "Sali", "Su")));
         getTokenVerbs().add(climb);
+
+        TokenVerb getOff = new TokenVerb(VerbType.GET_OFF);
+        getOff.setAlias(new HashSet<>(Arrays.asList("Scendi", "Scivola", "Giu", "Giù")));
+        getTokenVerbs().add(getOff);
 
         TokenVerb use = new TokenVerb(VerbType.USE);
         use.setAlias(new HashSet<>(Arrays.asList("Usa", "Testa", "Utilizza", "Adopera", "Usufruisci")));
@@ -258,13 +271,13 @@ public class PrisonBreakGame extends GameDescription {
                 " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
 
         Room ladders = new Room(LADDERS, "Scalinata", "Ti trovi presso una scalinata, l’unica cosa" +
-                "che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
+                " che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
         ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino.");
 
         Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
                 "intravedere il giardino.");
-        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Vedi a nord un enorme scalinata" +
-                " che porta al piano superiore e a ovest le celle degl’altri detenuti. L’atrio si estende ancora " +
+        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite la scalinata" +
+                " al piano superiore e a ovest le celle degl’altri detenuti. L’atrio si estende ancora " +
                 "verso sud.");
 
         Room lobbySouth = new Room(LOBBY_SOUTH, "Atrio", "Ti trovi a sud del grosso atrio di ingresso." +
@@ -303,21 +316,21 @@ public class PrisonBreakGame extends GameDescription {
         infirmary.setLocked(true);
 
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
-                "Sei appena entrato nel passaggio segreto.");
+                "Sei nel passaggio segreto.");
         passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete blocca la strada" +
                 " a nord, puoi solo andare ad sud o a nord o ritornare indietro nella tua cella prima che qualcuno" +
                 " ti scopra!!!");
         passage.setLocked(true);
 
-        Room passageSouth = new Room(PASSAGE_SOUTH, "Passaggio segreto",
+        Room passageSouth = new Room(PASSAGE_SOUTH, "Passaggio segreto Sud",
                 "Prosegui nel passaggio segreto andando verso Sud");
         passageSouth.setLook("Il passaggio continua ancora a sud oppure puoi sempre ritornare indietro prima " +
                 "che sia troppo tardi!");
 
-        Room passageNorth = new Room(PASSAGE_NORTH, "Passaggio segreto",
+        Room passageNorth = new Room(PASSAGE_NORTH, "Passaggio segreto Nord",
                 "Sembra che sei arrivato gia' in un vicolo cieco, vedi solo un enorme soffitto " +
                         "e una piccola grata posta in alto!");
-        passageNorth.setLook("Non c'e' nient'altro di particolare.");
+        passageNorth.setLook("Non c'e' nient'altro di particolare. Vai a sud per poter tornare indietro!");
 
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
@@ -374,13 +387,13 @@ public class PrisonBreakGame extends GameDescription {
         doorIsolation.setLook("Il pin e' conosciuto solo dalle guardie e quindi ti e' impossibile reperirlo!" +
                 " A meno che non vuoi iniziare a sparare numeri a caso devi trovare assolutamente un’altra soluzione" +
                 " prima che le luci si accendano e le guardie tornino!");
-        doorIsolation.setLocked(true);
+        //doorIsolation.setLocked(true);
 
         Room isolation = new Room(ISOLATION, "Dentro isolamento",
                 "La porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
                         "Ci sono tre lunghi corridoi, uno a est, uno a sud e l’altro a nord!");
         isolation.setLook("Non noti nient’altro di particolare!");
-        isolation.setLocked(true);
+        //isolation.setLocked(true);
 
         Room isolationCorridorNorth = new Room(ISOLATION_CORRIDOR_NORTH, "Corridoio nord isolamento",
                 "Prosegui nel corridoio a nord, ci sono tante celle chiuse di prigionieri in isolamento." +
@@ -1079,9 +1092,17 @@ public class PrisonBreakGame extends GameDescription {
                     if (object.getId() == LADDER) {
                         // ladder case
                         if (getCurrentRoom().getId() == PASSAGE_SOUTH) {
-                            getRoom(PASSAGE_NORTH).setObject(object);
+                            getRoom(SECRET_PASSAGE).setObject(object);
                             getRoom(PASSAGE_SOUTH).getObjects().remove(object);
+                            out.println("La scala è stata spinta fino alla stanza a nord!");
+                        } else if (getCurrentRoom().getId() == SECRET_PASSAGE) {
+                            getRoom(PASSAGE_NORTH).setObject(object);
+                            getRoom(SECRET_PASSAGE).getObjects().remove(object);
+                            out.println("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!");
+                        } else {
+                            out.println("La scala è bloccata! Non esiste alcun modo per spostarla!");
                         }
+
                     } else if (object.getId() == SINK) {
                         // sink case
                         if (getCurrentRoom().getId() == CELL) {
@@ -1154,6 +1175,7 @@ public class PrisonBreakGame extends GameDescription {
                     // in piedi
                     if (!isStandUp()) {
                         setStandUp(true);
+                        setBed(false);
                         out.println("Oplà! Ti sei alzato!");
                     } else {
                         out.println("Sei così basso che non ti accorgi di stare già in piedi???");
@@ -1165,15 +1187,17 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null && object.isSit() && getCurrentRoom().containsObject(object)) {
                     // bed case
                     if (object.getId() == BED || object.getId() == BED_BROTHER) {
-                        if (isStandUp()) {
+                        if (isStandUp() || !isBed()) {
                             setStandUp(false);
+                            setBed(true);
                             out.println("Buonanotte fiorellino!");
                         } else {
                             out.println("Sei talmente stanco che nemmeno ti accorgi che sei già seduto???");
                         }
                     } else if (object.getId() == WATER) {
-                        if (isStandUp()) {
+                        if (isStandUp() || isBed()) {
                             setStandUp(false);
+                            setBed(false);
                             out.println("Proprio ora devi farlo?");
                         } else {
                             out.println("Sei già seduto! Ricordati di tirare lo scarico!");
@@ -1185,6 +1209,52 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con quell'oggetto puoi fare altro ma di certo non sederti!");
                 } else if (!getCurrentRoom().containsObject(object)) {
                     out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.CLIMB)) {
+
+                if (getCurrentRoom().getId() == LOBBY) {
+                    setCurrentRoom(getCurrentRoom().getWest());
+                    move = true;
+                } else if (object != null && getCurrentRoom().containsObject(object)) {
+                    if (object.getId() == LADDER && getCurrentRoom().getId() == PASSAGE_NORTH) {
+                        getRoom(ON_LADDER).setLocked(false);
+                        setCurrentRoom(getCurrentRoom().getNorth());
+                        move = true;
+                    } else if (object.getId() != LADDER) {
+                        out.println("Non puoi salire su quell'oggetto");
+                    } else {
+                        out.println("Usa quell'oggetto altrove, qui acchiappi solo le mosche!");
+                    }
+                } else if (object == null) {
+                    out.println("Sei Spiderman? Non puoi arrampicarti sui muri!");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.GET_OFF)) {
+
+                if (getCurrentRoom().getId() == LADDERS) {
+                    setCurrentRoom(getCurrentRoom().getEast());
+                    move = true;
+                } else if (getCurrentRoom().getId() == AIR_DUCT) {
+                    setCurrentRoom(getCurrentRoom().getSouth());
+                    move = true;
+                    out.println("Usi la scala per scendere!");
+                } else {
+                    out.println("Non puoi bucare il pavimento!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.ENTER)) {
+
+                if (getCurrentRoom().getId() == CELL && getObject(SINK).isPush()) {
+                    setCurrentRoom(getCurrentRoom().getWest());
+                    move = true;
+                } else if (getCurrentRoom().getId() == ON_LADDER) {
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    move = true;
+                } else if (getCurrentRoom().getId() == DOOR_ISOLATION) {
+                    setCurrentRoom(getCurrentRoom().getEast());
+                    move = true;
+                } else {
+                    out.println("Non puoi entrare lì!");
                 }
             }
 
