@@ -36,6 +36,20 @@ public class Room {
         return id;
     }
 
+    public void setObject(TokenObject object) {
+        objects.add(object);
+
+        if (object instanceof TokenObjectContainer) {
+            objects.addAll(((TokenObjectContainer) object).getObjects());
+        }
+    }
+
+    public void setObjects(Set<TokenObject> objects) {
+        for (TokenObject o : objects) {
+            setObject(o);
+        }
+    }
+
     public Set<TokenObject> getObjects() {
         return objects;
     }

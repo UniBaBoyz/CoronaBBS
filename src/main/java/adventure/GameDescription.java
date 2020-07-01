@@ -92,7 +92,13 @@ public abstract class GameDescription {
 
         if (!rooms.isEmpty()) {
             for (Room i : rooms) {
-                objects.addAll(i.getObjects());
+                for (TokenObject o : i.getObjects()) {
+                    objects.add(o);
+
+                    if (o instanceof TokenObjectContainer) {
+                        objects.addAll(((TokenObjectContainer) o).getObjects());
+                    }
+                }
             }
         }
 
@@ -137,8 +143,6 @@ public abstract class GameDescription {
     }
 
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsAmbiguityException {
-        // Can't create a stream because it throws an exception
-
         if (tokenObjects.stream()
                 .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
                 .count() > 1) {
@@ -147,7 +151,6 @@ public abstract class GameDescription {
 
         return tokenObjects.stream()
                 .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
-                .findFirst()
-                .orElse(null);
+                .findFirst().orElse(null);
     }
 }
