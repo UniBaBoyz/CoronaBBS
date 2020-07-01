@@ -244,11 +244,8 @@ public class PrisonBreakGame extends GameDescription {
     private void initRooms() {
         Room cell = new Room(CELL, "Cella 17", "Ti trovi nella tua cella 17, al momento sei da solo" +
                 " visto che sei l’ultimo arrivato.");
-        cell.setLook("La cella e' poco accogliente: e' presente un letto a castello molto scomodo e pieno di polvere, " +
-                "un lavandino fissato al muro con delle viti e il water. Sul tavolo c’e' il tuo pranzo che emana " +
-                "un odore non buonissimo. La stanza e' illuminata da una piccola finestra sbarrata e l’unica via di " +
-                "uscita si trova a est, al momento aperta visto che e' l’ora d’aria e tutti i detenuti " +
-                "devono raggiungere il giardino!");
+        cell.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, al momento aperta visto " +
+                "che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
 
         Room corridor = new Room(CORRIDOR, "Corridoio", "Ti trovi nel corridoio del carcere che si" +
                 " estende da sud verso nord.");
@@ -259,8 +256,8 @@ public class PrisonBreakGame extends GameDescription {
                 "che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
         ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino.");
 
-        Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso, puoi notare" +
-                " un enorme porta aperta dove si intravede il giardino.");
+        Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
+                "intravedere il giardino.");
         lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Vedi a nord un enorme scalinata" +
                 " che porta al piano superiore e a ovest le celle degl’altri detenuti. L’atrio si estende ancora " +
                 "verso sud.");
@@ -275,14 +272,14 @@ public class PrisonBreakGame extends GameDescription {
         lobbyEnd.setLook("Non c'è nulla di particolare! Puoi ritornare indietro verso nord!");
 
         Room garden = new Room(GARDEN, "Giardino", "Sei in un ampio giardino verde illuminato " +
-                "dal sole, dietro di te la porta che collega al grosso atrio.");
+                "dal sole, dietro di te il grosso atrio.");
         garden.setLook("Guardando a nord  puoi notare un grosso campo da basket, avanti a te a est un grosso muro " +
                 "che separa il giardino dall’esterno con due enormi torri sulle quali ci sono le guardie come vedetta," +
                 " a sud invece tre grosse panchine dove puoi sederti e rilassarti.");
 
         Room basket = new Room(BASKET_CAMP, "Campo da basket", "Ti trovi nel campo di basket" +
                 " momentaneamente vuoto.");
-        basket.setLook("Puoi notare due canestri e un pallone in mezzo al campo.");
+        basket.setLook("Sembra un po' trascurato...");
 
         Room wall = new Room(WALL, "Muro prigione", "Avvicinandoti alle mura le guardie ti danno " +
                 "l’ordine di indietreggiare: rappresenti un potenziale pericolo. Non penso sia un’idea geniale " +
@@ -296,25 +293,21 @@ public class PrisonBreakGame extends GameDescription {
 
         Room infirmary = new Room(INFIRMARY, "Infermeria", "E' una classica infermeria e ti trovi" +
                 " sdraiato sul tuo letto.");
-        infirmary.setLook("Aprendo gli occhi noti un tavolo con molti strumenti, un grosso armadio in legno, " +
-                "una lavagna, una porta che si collega al corridoio e una finestra sbarrata a nord. Puoi osservare anche " +
-                "un quadro di Donald Trump appeso alla parete e in alto un condotto d’aria nuovissimo che sembra " +
-                "irraggiungibile.  Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
+        infirmary.setLook("Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
                 "voci nel corridoio.");
         infirmary.setLocked(true);
 
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
                 "Sei appena entrato nel passaggio segreto.");
-        passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete sti blocca la strada" +
+        passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete blocca la strada" +
                 " a nord, puoi solo andare ad sud o a nord o ritornare indietro nella tua cella prima che qualcuno" +
                 " ti scopra!!!");
         passage.setLocked(true);
 
         Room passageSouth = new Room(PASSAGE_SOUTH, "Passaggio segreto",
-                "Prosegui nel passaggio segreto e vedi una scala appoggiata al muro.");
-        passageSouth.setLook("La scala sembra non portare da nessuna parte, infatti sopra ci sono solo" +
-                " delle grate che porta al secondo piano in cui non e' possibile accedere. Il passaggio continua" +
-                " ancora a sud oppure puoi sempre ritornare indietro prima che sia troppo tardi!");
+                "Prosegui nel passaggio segreto andando verso Sud");
+        passageSouth.setLook("Il passaggio continua ancora a sud oppure puoi sempre ritornare indietro prima " +
+                "che sia troppo tardi!");
 
         Room passageNorth = new Room(PASSAGE_NORTH, "Passaggio segreto",
                 "Sembra che sei arrivato gia' in un vicolo cieco, vedi solo un enorme soffitto " +
@@ -323,8 +316,7 @@ public class PrisonBreakGame extends GameDescription {
 
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
-        generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te! " +
-                "Sembra essere un generatore di corrente e riesci a intravedere un pulsante!");
+        generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
 
         Room onLadder = new Room(ON_LADDER, "Sulla scala",
                 "Sei salito sulla scala e noti un condotto d’aria un po’ vecchiotto.");
@@ -337,13 +329,12 @@ public class PrisonBreakGame extends GameDescription {
                 " da non risultare assente all’appello! Il condotto si divide in tre strade diverse, una a nord," +
                 " una ad est e l’altra a ovest.");
 
-        Room airDuctEast = new Room(AIR_DUCT_EAST, "Condotto d'aria", "Ti ritrovi in un vicolo ceco, " +
-                "sotto di te c’e' un’enorme grata.");
+        Room airDuctEast = new Room(AIR_DUCT_EAST, "Condotto d'aria", "Ti ritrovi in un vicolo cieco");
         airDuctEast.setLook("Puoi osservare un’altra cella di un detenuto.");
 
         Room airDuctNorth = new Room(AIR_DUCT_NORTH, "Condotto d'aria", "Vedi una grossa grata e " +
                 "senti delle voci simili a quelle che sentivi quando eri in infermeria.");
-        airDuctNorth.setLook("C'e' solo una grossa grata");
+        airDuctNorth.setLook("Sembra la strada giusta!");
 
         Room airDuctWest = new Room(AIR_DUCT_WEST, "Condotto d'aria",
                 " Il condotto si fa sempre piu' stretto e non riesci piu' a passare! " +
@@ -356,7 +347,7 @@ public class PrisonBreakGame extends GameDescription {
         otherCell.setLook("Meglio non perdere tempo qui!");
         otherCell.setLocked(true);
 
-        Room canteen = new Room(CANTEEN, "Mensa", " Ti trovi in una grossa mensa e puoi vedere " +
+        Room canteen = new Room(CANTEEN, "Mensa", "Ti trovi in una grossa mensa e puoi vedere " +
                 "i detenuti che stanno mangiando.");
         canteen.setLook("Uno di loro si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto" +
                 " che lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
@@ -368,8 +359,7 @@ public class PrisonBreakGame extends GameDescription {
 
         Room outIsolation = new Room(OUT_ISOLATION, "Fuori cella isolamento",
                 "Sei di fronte la cella di isolamento dove e' collocato tuo fratello. " +
-                        "Essendo in un carcere di massima sicurezza, la porta " +
-                        "e' controllata da un paio di guardie.");
+                        "Essendo in un carcere di massima sicurezza, la porta e' controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
                 "puo' essere aperta solo tramite un PIN segreto.");
 
@@ -438,8 +428,8 @@ public class PrisonBreakGame extends GameDescription {
 
         Room brotherCell = new Room(BROTHER_CELL, "Cella fratello",
                 "Sei nella cella di tuo fratello, l’aspetto della cella e' ripugnante.");
-        brotherCell.setLook("Vedi solo un piccolo lavandino e un water e un letto in legno che sembra scomodissimo." +
-                " Di fronte a te, tuo fratello con un’aria contenta di vederti ma allo stesso tempo sorpresa!");
+        brotherCell.setLook("Di fronte a te, tuo fratello con un’aria contenta di vederti ma allo stesso tempo " +
+                "sorpresa!");
 
         Room endGame = new Room(ENDGAME, "Fine", "Decidi di fuggire dalla finestra. Tu e tutta" +
                 " la tua squadra usate il lungo cavo che collega la finestra al grande muro della prigione. Arrivati" +
@@ -616,27 +606,28 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject food = new TokenObject(FOOD, "Cibo",
                 new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto", "Tavolo")),
-                "C'è solo il tuo pranzo, puoi mangiarlo anche se non servirà a nulla.");
+                "C'è solo il tuo pranzo che emana un odore non buonissimo, puoi mangiarlo anche se non" +
+                        " servirà a nulla.");
         food.setEatable(true);
         food.setPickupable(true);
         cell.getObjects().add(food);
 
         TokenObject ball = new TokenObject(BALL, "Pallone",
                 new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")),
-                "E' un semplice pallone da basket.");
+                "Un semplice pallone da basket.");
         ball.setPickupable(true);
         ball.setUsable(true);
         basket.getObjects().add(ball);
-        passageSouth.getObjects().add(ball);
         getRooms().forEach(room -> room.setObjectsUsableHere(ball));
 
         TokenObject ladder = new TokenObject(LADDER, "Scala", new HashSet<>(Arrays.asList("Scala", "Scaletta")),
-                "E' solo una scala in legno, sembra molto leggera e facile da spostare.");
+                "E' solo una scala in legno, sembra molto leggera e facile da spostare. " +
+                        "La scala sembra non portare da nessuna parte!");
         ladder.setPushable(true);
         passageSouth.getObjects().add(ladder);
 
         TokenObject scalpel = new TokenObject(SCALPEL, "Bisturi", new HashSet<>(Arrays.asList("Bisturi", "Lama")),
-                "Sono solo tanti bisturi tutti uguali!");
+                "Sul tavolo noti tanti bisturi tutti uguali!");
         scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.getObjects().add(scalpel);
@@ -685,7 +676,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
-                "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
+                "E' presente un letto a castello molto scomodo e pieno di polvere!");
         cell.getObjects().add(bed);
 
         TokenObject bedBrother = new TokenObject(BED_BROTHER, "Letto",
@@ -700,7 +691,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject windowCell = new TokenObject(WINDOW_CELL, "Finestra",
                 new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
-                "E' una piccola finestra dalla quale puoi osservare il cortile della prigione! " +
+                "E' una piccola finestra sbarrata dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!");
         cell.getObjects().add(windowCell);
 
@@ -724,7 +715,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject basketObject = new TokenObject(BASKET_OBJECT, "Canestri", new HashSet<>(
                 Arrays.asList("Canestri", "Canestro", "Basket")),
-                "Sono due canestri, ottimi per giocare a basket e perdere tempo!!!");
+                "Ottimi per giocare a basket e perdere tempo!!!");
         basket.getObjects().add(basketObject);
 
         TokenObject blackboard = new TokenObject(BLACKBOARD, "Lavagna",
@@ -755,7 +746,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject doorInfirmary = new TokenObject(DOOR_INFIRMARY, "Porta d'ingresso",
                 new HashSet<>(Arrays.asList("Porta", "Soglia", "Ingresso", "Portone")),
-                " la porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
+                "La porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
                         " l’infermiere verrà a dirtelo. Mi dispiace devi attendere, puoi continuare a controllare " +
                         "la stanza. ");
         infirmary.getObjects().add(doorInfirmary);
@@ -778,7 +769,6 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList("Condotto", "Passaggio")),
                 "Non sei un campione di arrampicata o salto in alto, " +
                         "perché perdere tempo qui!");
-        newAirDuct.setPickupable(false);
         infirmary.getObjects().add(newAirDuct);
 
         TokenObject grate = new TokenObject(GRATE, "Grata", new HashSet<>(Arrays.asList("Grata", "Grate")),
@@ -787,26 +777,26 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject generatorObject = new TokenObject(GENERATOR_OBJ, "Generatore",
                 new HashSet<>(Arrays.asList("Generatore", "Alimentatore", "Alternatore")),
-                "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
+                "C'è un enorme pulsante rosso!!!");
         generatorObject.setUsable(true);
         generator.getObjects().add(generatorObject);
         generator.setObjectsUsableHere(generatorObject);
 
         TokenObject buttonGenerator = new TokenObject(BUTTON_GENERATOR, "Pulsante", new HashSet<>(Arrays.asList
                 ("Pulsante", "Bottone", "Interruttore")),
-                "C'è un enorme pulsante rosso con una scritta che vieta di premerlo!!!");
+                "Noti una scritta che vieta di premerlo!!!");
         buttonGenerator.setPushable(true);
         generator.getObjects().add(buttonGenerator);
 
         TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, "Grata",new HashSet<>(Arrays.asList
                 ("Grata", "Inferriata")),
-                "La cella è controllata da un poliziotto e poi non mi sembra il caso di intrufolarsi" +
-                        " in una cella di un detenuto. Rischieresti di mandare a rotoli il piano!!!");
+                "La grata è sulla cella del detenuto che è controllata da un poliziotto. Non mi sembra il" +
+                        " caso di intrufolarsi rischieresti di mandare a rotoli il piano!!!");
         airDuctEast.getObjects().add(gratePassage);
 
         TokenObject destroyableGrate = new TokenObject(DESTROYABLE_GRATE, "Grata", new HashSet<>(Arrays.asList(
                 "Grata", "Inferriata")),
-                "");
+                "La grossa grata blocca il passaggio, ci sarà qualche modo per romperla???");
         airDuctNorth.getObjects().add(destroyableGrate);
 
         TokenObject drug = new TokenObject(DRUG, "Droga", new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
@@ -851,7 +841,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(BASKET_CAMP));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
