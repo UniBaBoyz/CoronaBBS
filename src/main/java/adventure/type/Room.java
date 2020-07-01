@@ -75,7 +75,7 @@ public class Room {
     }
 
     public String getLook() {
-        StringBuilder objectsDescription = new StringBuilder("Inoltre si può notare: \n");
+        StringBuilder objectsDescription = new StringBuilder("Si può notare: \n");
         for (TokenObject obj : objects) {
             objectsDescription.append(obj.getName())
                     .append(": ")

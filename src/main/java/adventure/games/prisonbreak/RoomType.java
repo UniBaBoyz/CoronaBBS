@@ -44,5 +44,4 @@ public class RoomType {
     public static final int WINDOW_INFIRMARY = 37;
     public static final int FRONTBENCH = 38;
     public static final int BRAWL = 39;
-    public static final int DESTROYABLE_GRATE = 40;
 }

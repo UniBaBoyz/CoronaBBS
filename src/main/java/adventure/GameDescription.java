@@ -11,6 +11,7 @@ import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
+import adventure.type.TokenObjectContainer;
 import adventure.type.TokenVerb;
 
 /**
@@ -114,11 +115,24 @@ public abstract class GameDescription {
         return score;
     }
 
-    protected TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsAmbiguityException {
-        Stream<TokenObject> stream = tokenObjects.stream()
-                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object));
+    public Set<TokenObjectContainer> getContainer() {
+        Set<TokenObjectContainer> objectContainers = new HashSet<>();
 
-        if(stream.count() > 1) {
+        for (TokenObject o : getCurrentRoom().getObjects()) {
+            if (o instanceof TokenObjectContainer) {
+                objectContainers.add((TokenObjectContainer) o);
+            }
+        }
+
+        return objectContainers;
+    }
+
+    public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsAmbiguityException {
+        // Can't create a stream because it throws an exception
+
+        if (tokenObjects.stream()
+                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
+                .count() > 1) {
             throw new ObjectsAmbiguityException();
         }
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import adventure.GameDescription;
 import adventure.exceptions.InventoryEmptyException;
@@ -57,6 +58,8 @@ import static adventure.games.prisonbreak.ObjectType.WARDROBE;
 import static adventure.games.prisonbreak.ObjectType.WATER;
 import static adventure.games.prisonbreak.ObjectType.WINDOWS_INFIRMARY;
 import static adventure.games.prisonbreak.ObjectType.WINDOW_CELL;
+import static adventure.games.prisonbreak.ObjectType.DESTROYABLE_GRATE;
+import static adventure.games.prisonbreak.ObjectType.ROOM_OBJ;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_EAST;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_NORTH;
@@ -68,7 +71,6 @@ import static adventure.games.prisonbreak.RoomType.BROTHER_CELL;
 import static adventure.games.prisonbreak.RoomType.CANTEEN;
 import static adventure.games.prisonbreak.RoomType.CELL;
 import static adventure.games.prisonbreak.RoomType.CORRIDOR;
-import static adventure.games.prisonbreak.RoomType.DESTROYABLE_GRATE;
 import static adventure.games.prisonbreak.RoomType.DOOR_ISOLATION;
 import static adventure.games.prisonbreak.RoomType.ENDGAME;
 import static adventure.games.prisonbreak.RoomType.END_LOBBY;
@@ -833,6 +835,10 @@ public class PrisonBreakGame extends GameDescription {
                         "sembra quasi che non serva più perché ne hanno costruito un altro… " +
                         "Perché nasconderlo?");
         setObjectNotAssignedRoom(airDuctOld);
+
+        TokenObject roomObject = new TokenObject(ROOM_OBJ, "Stanza", new HashSet<>(
+                Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
+        setObjectNotAssignedRoom(roomObject);
     }
 
     @Override
@@ -852,7 +858,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject object;
         boolean move = false;
         boolean noroom = false;
-        Set<TokenObjectContainer> objectContainers = thereIsContainer();
+        Set<TokenObjectContainer> objectContainers = getContainer();
 
         try {
             object = getCorrectObject(p.getObject());
@@ -898,10 +904,20 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
+                if(object != null && !objectContainers.isEmpty()) {
+                    Stream<TokenObjectContainer> stream = objectContainers.stream()
+                            .filter(TokenObject::isOpen)
+                            .filter(t -> t.containsObject(object));
+
+                    if(stream.count() > 0) {
+                        out.println(object.getDescription());
+                    }
+                }
+
                 if (object != null
                         && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
                     out.println(object.getDescription());
-                } else if (getCurrentRoom().getLook() != null && object == null) {
+                } else if (getCurrentRoom().getLook() != null && (object == null || object.getId() == ROOM_OBJ)) {
                     out.println(getCurrentRoom().getLook());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
@@ -1046,7 +1062,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isOpenable()) {
                     out.println("Sei serio? Vorresti veramente chiuderlo?!");
                     out.println("Sei fuori di testa!");
-                } else if (object.isOpen()) {
+                } else if (!object.isOpen()) {
                     out.println("E' gia' chiuso testa di merda!");
                 } else {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
@@ -1145,20 +1161,9 @@ public class PrisonBreakGame extends GameDescription {
             out.println("Non hai questo oggetto nell'inventario");
         } catch (ObjectsAmbiguityException e) {
             out.println("C'è ambiguità negli oggetti!");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             //FIXME
             out.println(e.getMessage());
         }
-    }
-
-    private Set<TokenObjectContainer> thereIsContainer() {
-        Set<TokenObjectContainer> objectContainers = new HashSet<>();
-        for (TokenObject o : getCurrentRoom().getObjects()) {
-            if (o instanceof TokenObjectContainer) {
-                objectContainers.add((TokenObjectContainer) o);
-            }
-        }
-        return objectContainers;
     }
 }
