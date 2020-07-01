@@ -4,12 +4,10 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
-import adventure.parser.TokenType;
 import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -85,8 +83,6 @@ public abstract class GameDescription {
     public void setStandUp(boolean standUp) {
         this.standUp = standUp;
     }
-
-    public abstract void init() throws Exception;
 
     public abstract void nextMove(ParserOutput p, PrintStream out);
 

@@ -26,11 +26,6 @@ public class Engine {
 
     public Engine(GameDescription game) {
         this.game = game;
-        try {
-            this.game.init();
-        } catch (Exception ex) {
-            System.err.println(ex);
-        }
     }
 
     /**

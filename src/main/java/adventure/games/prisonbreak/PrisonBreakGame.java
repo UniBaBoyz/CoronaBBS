@@ -29,6 +29,7 @@ import static adventure.games.prisonbreak.ObjectType.BED_BROTHER;
 import static adventure.games.prisonbreak.ObjectType.BLACKBOARD;
 import static adventure.games.prisonbreak.ObjectType.BUTTON_GENERATOR;
 import static adventure.games.prisonbreak.ObjectType.COMBINATION;
+import static adventure.games.prisonbreak.ObjectType.DESTROYABLE_GRATE;
 import static adventure.games.prisonbreak.ObjectType.DOOR_GARDEN;
 import static adventure.games.prisonbreak.ObjectType.DOOR_INFIRMARY;
 import static adventure.games.prisonbreak.ObjectType.DRUG;
@@ -43,6 +44,7 @@ import static adventure.games.prisonbreak.ObjectType.MEDICINE;
 import static adventure.games.prisonbreak.ObjectType.NEW_AIR_DUCT_INFIRMARY;
 import static adventure.games.prisonbreak.ObjectType.PICTURE;
 import static adventure.games.prisonbreak.ObjectType.RAILING;
+import static adventure.games.prisonbreak.ObjectType.ROOM_OBJ;
 import static adventure.games.prisonbreak.ObjectType.SCALPEL;
 import static adventure.games.prisonbreak.ObjectType.SCOTCH;
 import static adventure.games.prisonbreak.ObjectType.SCREW;
@@ -57,8 +59,6 @@ import static adventure.games.prisonbreak.ObjectType.WARDROBE;
 import static adventure.games.prisonbreak.ObjectType.WATER;
 import static adventure.games.prisonbreak.ObjectType.WINDOWS_INFIRMARY;
 import static adventure.games.prisonbreak.ObjectType.WINDOW_CELL;
-import static adventure.games.prisonbreak.ObjectType.DESTROYABLE_GRATE;
-import static adventure.games.prisonbreak.ObjectType.ROOM_OBJ;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_EAST;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_NORTH;
@@ -107,6 +107,17 @@ import static adventure.games.prisonbreak.RoomType.WINDOW_INFIRMARY;
 public class PrisonBreakGame extends GameDescription {
 
     private boolean bed = false;
+
+    public PrisonBreakGame() {
+        initVerbs();
+        initRooms();
+
+        //Set starting room
+        setCurrentRoom(getRoom(INFIRMARY));
+
+        //Set Inventory
+        setInventory(new Inventory(5));
+    }
 
     public boolean isBed() {
         return bed;
@@ -854,18 +865,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject roomObject = new TokenObject(ROOM_OBJ, "Stanza", new HashSet<>(
                 Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
         setObjectNotAssignedRoom(roomObject);
-    }
-
-    @Override
-    public void init() {
-        initVerbs();
-        initRooms();
-
-        //Set starting room
-        setCurrentRoom(getRoom(INFIRMARY));
-
-        //Set Inventory
-        setInventory(new Inventory(5));
     }
 
     @Override
