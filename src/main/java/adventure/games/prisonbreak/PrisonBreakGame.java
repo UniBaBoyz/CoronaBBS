@@ -781,7 +781,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject gown = new TokenObject(GOWN, "Camici",
                 new HashSet<>(Arrays.asList("Camici", "Camice", "Vestito", "Vestiti")),
-                "Combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
+                "Che combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
         wardrobe.add(gown);
         infirmary.setObject(wardrobe);
 
@@ -877,7 +877,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject object;
         boolean move = false;
         boolean noroom = false;
-        Set<TokenObjectContainer> objectContainers = getContainer();
 
         try {
             object = getCorrectObject(p.getObject());
@@ -919,20 +918,10 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Nel tuo inventario ci sono:");
                 }
                 for (TokenObject o : getInventory().getObjects()) {
-                    out.println(o.getAlias().iterator().next() + ": " + o.getDescription());
+                    out.println(o.getName() + ": " + o.getDescription());
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if (object != null && !objectContainers.isEmpty()) {
-                    Stream<TokenObjectContainer> stream = objectContainers.stream()
-                            .filter(TokenObject::isOpen)
-                            .filter(t -> t.containsObject(object));
-
-                    if (stream.count() > 0) {
-                        out.println(object.getDescription());
-                    }
-                }
-
                 if (object != null
                         && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
                     out.println(object.getDescription());
@@ -954,8 +943,6 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non e' certo un oggetto che si può prendere imbecille!");
                 } else if (getInventory().contains(object)) {
                     out.println("Guarda bene nella tua borsa, cretino!");
-                } else {
-                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
@@ -984,34 +971,44 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
                                 "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
                                 "sposti il lavandino e vedi un passaggio segreto");
+
                     } else if (object.getId() == SCOTCH) {
                         getInventory().remove(object);
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                                 "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
+
                     } else if (object.getId() == TOOLS) {
-                        out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento ti senti già più forte!");
+                        out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
+                                "ti senti già più forte!");
+
                     } else if (object.getId() == COMBINATION) {
                         getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
                         out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
                                 "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
                                 "nient’altro di particolare!");
+
                     } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
+
                     } else if (object.getId() == SCALPEL) {
                         getInventory().remove(object);
                         out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e capito " +
                                 "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                                 "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
                                 "alla panchina.");
-                        getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu nelle vicinanze.");
+                        getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
+                                " nelle vicinanze.");
+
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(PASSAGE_NORTH).setLocked(false);
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
-                        out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi la persona più importante???");
+                        out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
+                                "non ti sembri manchi la persona più importante???");
                     }
+
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
@@ -1035,19 +1032,14 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null
                         && object.isOpenable()
                         && !object.isOpen()
-                        && (getCurrentRoom().containsObject(object)
-                        || (!objectContainers.isEmpty()
-                        && objectContainers.stream()
-                        .anyMatch(objectContainer -> objectContainer.isOpenable()
-                                && objectContainer.isOpen()
-                                && objectContainer.containsObject(object))))) {
+                        && (getCurrentRoom().containsObject(object))) {
                     if (!(object instanceof TokenObjectContainer)) {
-                        out.println("Hai aperto " + object.getAlias().iterator().next() + "!");
+                        out.println("Hai aperto " + object.getName() + "!");
                     } else if (!object.isOpen()) {
-                        out.println("Hai aperto " + object.getAlias().iterator().next() + "!");
+                        out.println("Hai aperto " + object.getName() + "!");
                         out.println("Contiene: ");
                         for (TokenObject obj : ((TokenObjectContainer) object).getObjects()) {
-                            out.println(obj.getAlias().iterator().next() + ": " + obj.getDescription());
+                            out.println(obj.getName() + ": " + obj.getDescription());
                         }
                     }
                     object.setOpen(true);
@@ -1066,14 +1058,9 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null
                         && object.isOpenable()
                         && object.isOpen()
-                        && (getCurrentRoom().containsObject(object)
-                        || (!objectContainers.isEmpty()
-                        && objectContainers.stream()
-                        .anyMatch(objectContainer -> objectContainer.isOpenable()
-                                && objectContainer.isOpen()
-                                && objectContainer.containsObject(object))))) {
+                        && (getCurrentRoom().containsObject(object))) {
 
-                    out.println("Hai chiuso " + object.getAlias().iterator().next() + "!");
+                    out.println("Hai chiuso " + object.getName() + "!");
                     object.setOpen(false);
 
                 } else if (object == null) {
@@ -1285,7 +1272,7 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.EAT
                     || p.getVerb().getVerbType() == VerbType.PULL
                     || p.getVerb().getVerbType() == VerbType.PUSH) {
-                out.println("Lo vedi solo nei tuoi sogni!");
+                out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
             }

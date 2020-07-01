@@ -9,6 +9,7 @@ import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
+import adventure.parser.TokenType;
 import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -130,18 +131,6 @@ public abstract class GameDescription {
 
     public int getScore() {
         return score;
-    }
-
-    public Set<TokenObjectContainer> getContainer() {
-        Set<TokenObjectContainer> objectContainers = new HashSet<>();
-
-        for (TokenObject o : getCurrentRoom().getObjects()) {
-            if (o instanceof TokenObjectContainer) {
-                objectContainers.add((TokenObjectContainer) o);
-            }
-        }
-
-        return objectContainers;
     }
 
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {

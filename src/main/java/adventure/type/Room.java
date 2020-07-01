@@ -39,9 +39,9 @@ public class Room {
     public void setObject(TokenObject object) {
         objects.add(object);
 
-        if (object instanceof TokenObjectContainer) {
+        /*if (object instanceof TokenObjectContainer) {
             objects.addAll(((TokenObjectContainer) object).getObjects());
-        }
+        }*/
     }
 
     public void setObjects(Set<TokenObject> objects) {
@@ -51,7 +51,15 @@ public class Room {
     }
 
     public Set<TokenObject> getObjects() {
-        return objects;
+        Set<TokenObject> allObjects = new HashSet<>(objects);
+
+        for (TokenObject obj : objects) {
+            if (obj instanceof TokenObjectContainer && obj.isOpenable() && obj.isOpen()) {
+                allObjects.addAll(((TokenObjectContainer) obj).getObjects());
+            }
+        }
+
+        return allObjects;
     }
 
     public String getName() {
@@ -89,9 +97,9 @@ public class Room {
     }
 
     public String getLook() {
-        if (!objects.isEmpty()) {
+        if (!getObjects().isEmpty()) {
             StringBuilder objectsDescription = new StringBuilder("Inoltre si può notare: \n");
-            for (TokenObject obj : objects) {
+            for (TokenObject obj : getObjects()) {
                 objectsDescription.append(obj.getName())
                         .append(", ");
             }
