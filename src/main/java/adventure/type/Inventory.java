@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import adventure.exceptions.InventoryEmptyException;
-import adventure.exceptions.InventoryFullException;
-import adventure.exceptions.ObjectNotFoundException;
+import adventure.exceptions.inventoryException.InventoryEmptyException;
+import adventure.exceptions.inventoryException.InventoryFullException;
+import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 
 /**
  * @author Corona-Extra
@@ -63,9 +63,9 @@ public class Inventory {
         list.add(o);
     }
 
-    public void remove(TokenObject o) throws ObjectNotFoundException {
+    public void remove(TokenObject o) throws ObjectNotFoundInInventoryException {
         if (!list.contains(o)) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundInInventoryException();
         }
 
         list.remove(o);

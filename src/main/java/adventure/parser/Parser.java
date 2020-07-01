@@ -1,16 +1,13 @@
 package adventure.parser;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import adventure.exceptions.InputErrorException;
-import adventure.exceptions.SyntaxErrorException;
+import adventure.exceptions.inputException.InputErrorException;
+import adventure.exceptions.inputException.SyntaxErrorException;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;

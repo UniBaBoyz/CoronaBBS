@@ -3,9 +3,11 @@ package adventure;
 import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import adventure.exceptions.ObjectsAmbiguityException;
+import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
+import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
+import adventure.exceptions.objectsException.ObjectsAmbiguityException;
+import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.Room;
@@ -142,11 +144,15 @@ public abstract class GameDescription {
         return objectContainers;
     }
 
-    public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsAmbiguityException {
+    public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
         if (tokenObjects.stream()
                 .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
                 .count() > 1) {
             throw new ObjectsAmbiguityException();
+        } else if (tokenObjects.stream()
+                .noneMatch(object -> getCurrentRoom().containsObject(object)
+                        || getInventory().contains(object)) && !tokenObjects.isEmpty()) {
+            throw new ObjectNotFoundInRoomException();
         }
 
         return tokenObjects.stream()

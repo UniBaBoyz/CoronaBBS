@@ -1,4 +1,4 @@
-package adventure.exceptions;
+package adventure.exceptions.inventoryException;
 
 /**
  * @author Corona-Extra

@@ -8,11 +8,14 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import adventure.GameDescription;
-import adventure.exceptions.InventoryEmptyException;
-import adventure.exceptions.InventoryFullException;
-import adventure.exceptions.ObjectNotFoundException;
-import adventure.exceptions.ObjectsAmbiguityException;
+import adventure.exceptions.inputException.InputErrorException;
+import adventure.exceptions.inventoryException.InventoryEmptyException;
+import adventure.exceptions.inventoryException.InventoryFullException;
+import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
+import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
+import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
+import adventure.parser.Token;
 import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -762,12 +765,12 @@ public class PrisonBreakGame extends GameDescription {
                         "non noti nulla di particolare.");
         wardrobe.setOpenable(true);
         wardrobe.setOpen(false);
-        infirmary.setObject(wardrobe);
 
         TokenObject gown = new TokenObject(GOWN, "Camici",
                 new HashSet<>(Arrays.asList("Camici", "Camice", "Vestito", "Vestiti")),
                 "Combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
         wardrobe.add(gown);
+        infirmary.setObject(wardrobe);
 
         // TODO SCEGLIERE SE ELIMINARE IL CONDOTTO NUOVO DALL' INFERMERIA
         TokenObject newAirDuct = new TokenObject(NEW_AIR_DUCT_INFIRMARY, "Condotto d'aria nuovo",
@@ -793,7 +796,7 @@ public class PrisonBreakGame extends GameDescription {
         buttonGenerator.setPushable(true);
         generator.setObject(buttonGenerator);
 
-        TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, "Grata",new HashSet<>(Arrays.asList
+        TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, "Grata", new HashSet<>(Arrays.asList
                 ("Grata", "Inferriata")),
                 "La grata è sulla cella del detenuto che è controllata da un poliziotto. Non mi sembra il" +
                         " caso di intrufolarsi rischieresti di mandare a rotoli il piano!!!");
@@ -810,7 +813,7 @@ public class PrisonBreakGame extends GameDescription {
                         "anno di più!");
         //TODO ASSEGNARE DROGA A GENNY
 
-        TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame",new HashSet<>(Arrays.asList("Videogame",
+        TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame", new HashSet<>(Arrays.asList("Videogame",
                 "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
@@ -825,7 +828,7 @@ public class PrisonBreakGame extends GameDescription {
         //TODO NON E' ASSEGNATO A NULLA
 
         TokenObject combination = new TokenObject(COMBINATION, "Combinazione", new HashSet<>(Arrays.asList(
-                "Combinazione","Password","Pin")),
+                "Combinazione", "Password", "Pin")),
                 "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
                         "della stanza");
         combination.setUsable(true);
@@ -833,7 +836,7 @@ public class PrisonBreakGame extends GameDescription {
         isolation.setObjectsUsableHere(combination);
 
         TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, "Condotto d'aria vecchio", new HashSet<>(
-                Arrays.asList("Condotto d'aria vecchio","Condotto d'aria","Condotto","Indotto")),
+                Arrays.asList("Condotto d'aria vecchio", "Condotto d'aria", "Condotto", "Indotto")),
                 "Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
                         "sembra quasi che non serva più perché ne hanno costruito un altro… " +
                         "Perché nasconderlo?");
@@ -907,12 +910,12 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
-                if(object != null && !objectContainers.isEmpty()) {
+                if (object != null && !objectContainers.isEmpty()) {
                     Stream<TokenObjectContainer> stream = objectContainers.stream()
                             .filter(TokenObject::isOpen)
                             .filter(t -> t.containsObject(object));
 
-                    if(stream.count() > 0) {
+                    if (stream.count() > 0) {
                         out.println(object.getDescription());
                     }
                 }
@@ -1147,7 +1150,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
-                if (object == null ) {
+                if (object == null) {
                     // in piedi
                     if (!isStandUp()) {
                         setStandUp(true);
@@ -1162,14 +1165,14 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null && object.isSit() && getCurrentRoom().containsObject(object)) {
                     // bed case
                     if (object.getId() == BED || object.getId() == BED_BROTHER) {
-                        if(isStandUp()) {
+                        if (isStandUp()) {
                             setStandUp(false);
                             out.println("Buonanotte fiorellino!");
                         } else {
                             out.println("Sei talmente stanco che nemmeno ti accorgi che sei già seduto???");
                         }
-                    } else if(object.getId() == WATER) {
-                        if(isStandUp()) {
+                    } else if (object.getId() == WATER) {
+                        if (isStandUp()) {
                             setStandUp(false);
                             out.println("Proprio ora devi farlo?");
                         } else {
@@ -1197,13 +1200,28 @@ public class PrisonBreakGame extends GameDescription {
         } catch (InventoryFullException e) {
             out.println("Non puoi mettere più elementi nel tuo inventario!");
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
-        } catch (ObjectNotFoundException e) {
-            out.println("Non hai questo oggetto nell'inventario");
+        } catch (ObjectNotFoundInInventoryException e) {
+            out.println("Non hai questo oggetto nell'inventario, energumeno");
         } catch (ObjectsAmbiguityException e) {
-            out.println("C'è ambiguità negli oggetti!");
-        } /*catch (Exception e) {
+            out.println("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
+        } catch (ObjectNotFoundInRoomException e) {
+            if (p.getVerb().getVerbType() == VerbType.PICK_UP
+                    || p.getVerb().getVerbType() == VerbType.USE
+                    || p.getVerb().getVerbType() == VerbType.REMOVE
+                    || p.getVerb().getVerbType() == VerbType.OPEN
+                    || p.getVerb().getVerbType() == VerbType.CLOSE
+                    || p.getVerb().getVerbType() == VerbType.DESTROY
+                    || p.getVerb().getVerbType() == VerbType.GIVE
+                    || p.getVerb().getVerbType() == VerbType.EAT
+                    || p.getVerb().getVerbType() == VerbType.PULL
+                    || p.getVerb().getVerbType() == VerbType.PUSH) {
+                out.println("Lo vedi solo nei tuoi sogni!");
+            } else {
+                out.println("Hai fumato qualcosa per caso?!");
+            }
+        } catch (Exception e) {
             //FIXME
             out.println(e.getMessage());
-        }*/
+        }
     }
 }
