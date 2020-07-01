@@ -57,17 +57,25 @@ public class Inventory {
     }
 
     public void add(TokenObject o) throws InventoryFullException {
-        if (list.size() >= MAX_ITEM) {
-            throw new InventoryFullException();
+        if (o != null) {
+            if (list.size() >= MAX_ITEM) {
+                throw new InventoryFullException();
+            }
+            list.add(o);
+        } else {
+            throw new NullPointerException();
         }
-        list.add(o);
     }
 
     public void remove(TokenObject o) throws ObjectNotFoundInInventoryException {
-        if (!list.contains(o)) {
-            throw new ObjectNotFoundInInventoryException();
-        }
+        if (o != null) {
+            if (!list.contains(o)) {
+                throw new ObjectNotFoundInInventoryException();
+            }
 
-        list.remove(o);
+            list.remove(o);
+        } else {
+            throw new NullPointerException();
+        }
     }
 }

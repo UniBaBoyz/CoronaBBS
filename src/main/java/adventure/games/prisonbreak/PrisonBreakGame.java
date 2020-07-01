@@ -317,7 +317,7 @@ public class PrisonBreakGame extends GameDescription {
                 "notare un oggetto di metallo simile ad una vite.");
 
         Room infirmary = new Room(INFIRMARY, "Infermeria", "E' una classica infermeria e ti trovi" +
-                " sdraiato sul tuo letto.");
+                " sdraiato sul tuo letto. Decidi di alzarti senza far rumore!");
         infirmary.setLook("Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
                 "voci nel corridoio.");
         infirmary.setLocked(true);
@@ -652,7 +652,7 @@ public class PrisonBreakGame extends GameDescription {
         passageSouth.setObject(ladder);
 
         TokenObject scalpel = new TokenObject(SCALPEL, "Bisturi", new HashSet<>(Arrays.asList("Bisturi", "Lama")),
-                "Sul tavolo noti tanti bisturi tutti uguali!");
+                "Un semplice bisturi per effettuare operazioni mediche!");
         scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.setObject(scalpel);
@@ -1238,6 +1238,44 @@ public class PrisonBreakGame extends GameDescription {
                     move = true;
                 } else {
                     out.println("Non puoi entrare lì!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.EXIT)) {
+                if (getCurrentRoom().getId() == FRONTBENCH && !getInventory().contains(getObject(SCALPEL))) {
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    move = true;
+                    out.println("Decidi di fuggire, ma prima o poi il pericolo dovrai affrontarlo!\n");
+                } else {
+                    out.println("Perchè scappare?? Ma soprattutto da cosa??? Fifone!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.MAKE)) {
+                if ((object != null
+                        && object.isMixable()
+                        && (getInventory().contains(object)
+                        || getCurrentRoom().containsObject(object)))
+                        || (( object!= null && object.equals(getObject(ACID)))
+                        && (getInventory().contains(getObject(SUBSTANCES))
+                        || getCurrentRoom().containsObject(getObject(SUBSTANCES))))) {
+                    // substances case
+                    if (getCurrentRoom().getObjects().contains(object)) {
+                        getCurrentRoom().getObjects().remove(object);
+                        getInventory().add(getObject(ACID));
+                        getObjectNotAssignedRoom().remove(getObject(ACID));
+                        out.println("Hai creato un acido corrosivo, attento alle mani!");
+                        out.println("L'acido è stato inserito nel tuo inventario!\n");
+                    } else if (getInventory().getObjects().contains(object)) {
+                        getInventory().remove(object);
+                        getInventory().add(getObject(ACID));
+                        out.println("Hai creato un acido corrosivo, attento alle mani!");
+                        out.println("L'acido è stato inserito nel tuo inventario!\n");
+                    }
+                    //TODO AGGIUNGERE OGGETTO ACIDO
+                } else if (object == null) {
+                    out.println("Cosa vuoi creare esattamente?");
+                } else if (!object.isMixable()) {
+                    out.println("Non è una cosa che si può fare");
+                } else if (!(getInventory().contains(object)
+                        || getCurrentRoom().containsObject(object))) {
+                    out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
             }
 
