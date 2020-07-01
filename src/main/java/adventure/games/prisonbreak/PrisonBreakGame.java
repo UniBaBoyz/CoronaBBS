@@ -679,11 +679,13 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' presente un letto a castello molto scomodo e pieno di polvere!");
+        bed.setSit(true);
         cell.getObjects().add(bed);
 
         TokenObject bedBrother = new TokenObject(BED_BROTHER, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
+        bed.setSit(true);
         brotherCell.getObjects().add(bedBrother);
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
@@ -700,6 +702,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject water = new TokenObject(WATER, "Water",
                 new HashSet<>(Arrays.asList("Water", "Cesso", "Gabinetto", "Tazza", "Wc")),
                 "Un water qualunque, senza nessun particolare, non penso sia bello osservarlo");
+        water.setSit(true);
         cell.getObjects().add(water);
         brotherCell.getObjects().add(water);
 
@@ -1142,6 +1145,43 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!(getInventory().contains(object)
                         || getCurrentRoom().containsObject(object))) {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
+                if (object == null ) {
+                    // in piedi
+                    if (!isStandUp()) {
+                        setStandUp(true);
+                        out.println("Oplà! Ti sei alzato!");
+                    } else {
+                        out.println("Sei così basso che non ti accorgi di stare già in piedi???");
+                    }
+                } else {
+                    out.println("Non penso che questa cosa si possa fare ?!?");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.SIT_DOWN)) {
+                if (object != null && object.isSit() && getCurrentRoom().containsObject(object)) {
+                    // bed case
+                    if (object.getId() == BED || object.getId() == BED_BROTHER) {
+                        if(isStandUp()) {
+                            setStandUp(false);
+                            out.println("Buonanotte fiorellino!");
+                        } else {
+                            out.println("Sei talmente stanco che nemmeno ti accorgi che sei già seduto???");
+                        }
+                    } else if(object.getId() == WATER) {
+                        if(isStandUp()) {
+                            setStandUp(false);
+                            out.println("Proprio ora devi farlo?");
+                        } else {
+                            out.println("Sei già seduto! Ricordati di tirare lo scarico!");
+                        }
+                    }
+                } else if (object == null) {
+                    out.println("Sedersi sul pavimento non mi sembra una buona idea!");
+                } else if (!object.isSit()) {
+                    out.println("Con quell'oggetto puoi fare altro ma di certo non sederti!");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
                 }
             }
 

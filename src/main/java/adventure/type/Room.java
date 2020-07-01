@@ -51,7 +51,7 @@ public class Room {
     }
 
     public void setObjectsUsableHere(TokenObject objectsUsableHere) throws IllegalArgumentException {
-        if(!objectsUsableHere.isUsable()) {
+        if (!objectsUsableHere.isUsable()) {
             throw new IllegalArgumentException();
         }
 
@@ -75,15 +75,15 @@ public class Room {
     }
 
     public String getLook() {
-        StringBuilder objectsDescription = new StringBuilder("Si può notare: \n");
-        for (TokenObject obj : objects) {
-            objectsDescription.append(obj.getName())
-                    .append(": ")
-                    .append(obj.getDescription())
-                    .append("\n");
-
+        if (!objects.isEmpty()) {
+            StringBuilder objectsDescription = new StringBuilder("Inoltre si può notare: \n");
+            for (TokenObject obj : objects) {
+                objectsDescription.append(obj.getName())
+                        .append(", ");
+            }
+            return look + "\n" + objectsDescription.substring(0, objectsDescription.length() - 2);
         }
-        return look + "\n" + objectsDescription.toString();
+        return null;
     }
 
     public void setLook(String look) {

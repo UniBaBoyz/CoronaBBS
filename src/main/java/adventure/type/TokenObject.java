@@ -23,6 +23,7 @@ public class TokenObject extends Token {
     private boolean usable = false;
     private boolean pushable = false;
     private boolean eatable = false;
+    private boolean sit = false;
     private boolean given = false;
     private boolean eat = false;
     private boolean open = false;
@@ -104,6 +105,14 @@ public class TokenObject extends Token {
 
     public void setPushable(boolean pushable) {
         this.pushable = pushable;
+    }
+
+    public boolean isSit() {
+        return sit;
+    }
+
+    public void setSit(boolean sit) {
+        this.sit = sit;
     }
 
     public boolean isOpen() {
