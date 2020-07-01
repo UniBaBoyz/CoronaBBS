@@ -25,8 +25,6 @@ public class ParserIta extends Parser {
     private static List<List<TokenType>> initValidSentences() {
         List<List<TokenType>> validSentences = new ArrayList<>();
 
-        //TODO FRASI: "Prendi oggetto dall'inventario/Prendi dall'inventario l'oggetto"
-        // Accepted sentences form
         validSentences.add(new ArrayList<>(Collections.singletonList(TokenType.VERB)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.OBJECT)));
         validSentences.add(new ArrayList<>(Arrays.asList(TokenType.VERB, TokenType.ARTICLE, TokenType.OBJECT)));

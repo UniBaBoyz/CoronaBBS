@@ -133,6 +133,7 @@ public abstract class GameDescription {
         return score;
     }
 
+    //FIXME guarda stanza non funge
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
         if (tokenObjects.stream()
                 .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))

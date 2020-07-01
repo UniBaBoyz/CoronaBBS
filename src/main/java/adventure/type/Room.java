@@ -38,16 +38,10 @@ public class Room {
 
     public void setObject(TokenObject object) {
         objects.add(object);
-
-        /*if (object instanceof TokenObjectContainer) {
-            objects.addAll(((TokenObjectContainer) object).getObjects());
-        }*/
     }
 
     public void setObjects(Set<TokenObject> objects) {
-        for (TokenObject o : objects) {
-            setObject(o);
-        }
+        this.objects.addAll(objects);
     }
 
     public Set<TokenObject> getObjects() {
@@ -98,7 +92,7 @@ public class Room {
 
     public String getLook() {
         if (!getObjects().isEmpty()) {
-            StringBuilder objectsDescription = new StringBuilder("Inoltre si può notare: \n");
+            StringBuilder objectsDescription = new StringBuilder("Puoi notare: \n");
             for (TokenObject obj : getObjects()) {
                 objectsDescription.append(obj.getName())
                         .append(", ");

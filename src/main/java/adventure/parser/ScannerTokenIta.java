@@ -40,7 +40,6 @@ public class ScannerTokenIta extends ScannerToken {
         tokenizedString = createTokenizedString();
 
         for (String stringToken : tokenizedString.split(String.valueOf(getSeparatorCharacter()))) {
-            // TODO IMPROVEMENT REQUIRED
             Set<Token> token = new HashSet<>();
             if (getVerbs()
                     .stream().anyMatch(t -> t.isAlias(stringToken))) {

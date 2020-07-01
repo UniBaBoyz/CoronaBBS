@@ -4,18 +4,14 @@ import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import adventure.GameDescription;
-import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
-import adventure.parser.Token;
 import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -820,17 +816,17 @@ public class PrisonBreakGame extends GameDescription {
                 "La grossa grata blocca il passaggio, ci sarà qualche modo per romperla???");
         airDuctNorth.setObject(destroyableGrate);
 
+        //TODO ASSEGNARE DROGA A GENNY
         TokenObject drug = new TokenObject(DRUG, "Droga", new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
-        //TODO ASSEGNARE DROGA A GENNY
 
+        //TODO ASSEGNARE VIDEOGAME A GENNY
         TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame", new HashSet<>(Arrays.asList("Videogame",
                 "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
-        //TODO ASSEGNARE DROGA A GENNY
 
         TokenObject acid = new TokenObject(ACID, "Acido", new HashSet<>(Collections.singletonList("Acido")),
                 "Leggendo la ricetta alla lavagna capisci come creare l’acido, mischi le sostanze " +
@@ -838,7 +834,7 @@ public class PrisonBreakGame extends GameDescription {
                         " creare l’acido!");
         acid.setPickupable(true);
         acid.setUsable(true);
-        //TODO NON E' ASSEGNATO A NULLA
+        setObjectNotAssignedRoom(acid);
 
         TokenObject combination = new TokenObject(COMBINATION, "Combinazione", new HashSet<>(Arrays.asList(
                 "Combinazione", "Password", "Pin")),
@@ -921,6 +917,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
 
+                //FIXME A VOLTE NON FUNZIONA IL GUARDA
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
                 if (object != null
                         && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
