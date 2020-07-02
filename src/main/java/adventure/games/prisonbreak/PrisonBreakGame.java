@@ -670,7 +670,7 @@ public class PrisonBreakGame extends GameDescription {
         airDuctNorth.setObjectsUsableHere(hacksaw);
 
         TokenObject substances = new TokenObject(SUBSTANCES, "Sostanze chimiche",
-                new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Acido", "Oggetti")),
+                new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Oggetti")),
                 "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro " +
                         "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
         substances.setPickupable(true);
@@ -845,6 +845,7 @@ public class PrisonBreakGame extends GameDescription {
                         " creare l’acido!");
         acid.setPickupable(true);
         acid.setUsable(true);
+        acid.setMixable(true);
         setObjectNotAssignedRoom(acid);
 
         TokenObject combination = new TokenObject(COMBINATION, "Combinazione", new HashSet<>(Arrays.asList(
@@ -872,6 +873,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject object;
         boolean move = false;
         boolean noroom = false;
+        boolean mixed = false;
 
         try {
             object = getCorrectObject(p.getObject());
@@ -1248,27 +1250,50 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Perchè scappare?? Ma soprattutto da cosa??? Fifone!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.MAKE)) {
+                out.println("SONO ENTRATO");
                 if ((object != null
                         && object.isMixable()
                         && (getInventory().contains(object)
                         || getCurrentRoom().containsObject(object)))
-                        || (( object!= null && object.equals(getObject(ACID)))
+                        || ((object != null && object.equals(getObject(ACID)))
                         && (getInventory().contains(getObject(SUBSTANCES))
                         || getCurrentRoom().containsObject(getObject(SUBSTANCES))))) {
+                    out.println("ciao");
                     // substances case
-                    if (getCurrentRoom().getObjects().contains(object)) {
+                    if (getCurrentRoom().getObjects().contains(object) && !(object.equals(getObject(ACID)))) {
+                        out.println("1");
                         getCurrentRoom().getObjects().remove(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
-                        out.println("Hai creato un acido corrosivo, attento alle mani!");
-                        out.println("L'acido è stato inserito nel tuo inventario!\n");
-                    } else if (getInventory().getObjects().contains(object)) {
+                        mixed = true;
+                    } else if (!object.equals(getObject(ACID)) && getInventory().getObjects().contains(object)) {
+                        out.println("2");
                         getInventory().remove(object);
                         getInventory().add(getObject(ACID));
-                        out.println("Hai creato un acido corrosivo, attento alle mani!");
-                        out.println("L'acido è stato inserito nel tuo inventario!\n");
+                        getObjectNotAssignedRoom().remove(getObject(ACID));
+                        mixed = true;
+                    } else if (getCurrentRoom().getObjects().contains(getObject(SUBSTANCES))
+                            && object.equals(getObject(ACID))) {
+                        out.println("3");
+                        getCurrentRoom().getObjects().remove(getObject(SUBSTANCES));
+                        getInventory().add(getObject(ACID));
+                        getObjectNotAssignedRoom().remove(getObject(ACID));
+                        mixed = true;
+                    } else if (getInventory().getObjects().contains(getObject(SUBSTANCES))
+                            && object.equals(getObject(ACID))) {
+                        out.println("4");
+                        getInventory().remove(getObject(SUBSTANCES));
+                        getInventory().add(getObject(ACID));
+                        getObjectNotAssignedRoom().remove(getObject(ACID));
+                        mixed = true;
                     }
-                    //TODO AGGIUNGERE OGGETTO ACIDO
+                    if (mixed || !getInventory().getObjects().contains(getObject(ACID))) {
+                        out.println("Hai creato un acido corrosivo, attento alle mani!");
+                        out.println("L'acido è stato inserito nel tuo inventario!");
+                    } else {
+                        out.println("Hai già creato l'acido!!! Guarda bene nel tuo inventario!");
+                    }
+
                 } else if (object == null) {
                     out.println("Cosa vuoi creare esattamente?");
                 } else if (!object.isMixable()) {
@@ -1305,7 +1330,8 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.GIVE
                     || p.getVerb().getVerbType() == VerbType.EAT
                     || p.getVerb().getVerbType() == VerbType.PULL
-                    || p.getVerb().getVerbType() == VerbType.PUSH) {
+                    || p.getVerb().getVerbType() == VerbType.PUSH
+                    || p.getVerb().getVerbType() == VerbType.MAKE) {
                 out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
             } else {
                 out.println("Hai fumato qualcosa per caso?!");

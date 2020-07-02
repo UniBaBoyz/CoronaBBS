@@ -10,7 +10,7 @@ import java.util.Set;
 public class Room {
 
     private final int id;
-    private final Set<TokenObject> objects = new HashSet<>();
+    private Set<TokenObject> objects = new HashSet<>();
     private Set<TokenObject> objectsUsableHere = new HashSet<>();
     private String name;
     private String description;
@@ -53,7 +53,7 @@ public class Room {
             }
         }
 
-        return allObjects;
+        return objects=new HashSet<>(allObjects);
     }
 
     public String getName() {

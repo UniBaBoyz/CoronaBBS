@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.HashSet;
 import java.util.Set;
 
+import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
@@ -89,6 +90,12 @@ public abstract class GameDescription {
     public Set<TokenObject> getObjects() {
         Set<TokenObject> objects = new HashSet<>(objectNotAssignedRoom);
 
+        try {
+            objects.addAll(getInventory().getObjects());
+        } catch (InventoryEmptyException e) {
+
+        }
+
         if (!rooms.isEmpty()) {
             for (Room i : rooms) {
                 for (TokenObject o : i.getObjects()) {
@@ -132,17 +139,19 @@ public abstract class GameDescription {
     //FIXME guarda stanza non funge
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
         if (tokenObjects.stream()
-                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
+                .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object)
+                || getObjectNotAssignedRoom().contains(object)))
                 .count() > 1) {
             throw new ObjectsAmbiguityException();
         } else if (tokenObjects.stream()
                 .noneMatch(object -> getCurrentRoom().containsObject(object)
-                        || getInventory().contains(object)) && !tokenObjects.isEmpty()) {
+                        || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object))
+                        && !tokenObjects.isEmpty()) {
             throw new ObjectNotFoundInRoomException();
         }
 
         return tokenObjects.stream()
-                .filter(object -> getCurrentRoom().containsObject(object) || getInventory().contains(object))
+                .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object)))
                 .findFirst().orElse(null);
     }
 }
