@@ -23,12 +23,13 @@ public class TokenObject extends Token {
     private boolean usable = false;
     private boolean pushable = false;
     private boolean eatable = false;
+    private boolean turnOnAble = false;
     private boolean sit = false; //indica se si può sedere su un oggetto
     private boolean given = false;
     private boolean eat = false;
     private boolean open = false;
     private boolean push = false;
-    private boolean on = false;
+    private boolean on = true;
     private boolean climb = false;
     private boolean used = false;
 
@@ -90,6 +91,14 @@ public class TokenObject extends Token {
 
     public void setOpenable(boolean openable) {
         this.openable = openable;
+    }
+
+    public boolean isTurnOnAble() {
+        return turnOnAble;
+    }
+
+    public void setTurnOnAble(boolean turnOnAble) {
+        this.turnOnAble = turnOnAble;
     }
 
     public boolean isClimb() {
