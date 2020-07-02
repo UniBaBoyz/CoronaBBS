@@ -1,5 +1,10 @@
 package adventure.games.prisonbreak;
 
+import java.io.PrintStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+
 import adventure.GameDescription;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
@@ -7,15 +12,55 @@ import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryExceptio
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
-import adventure.type.*;
-
-import java.io.PrintStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
+import adventure.type.Inventory;
+import adventure.type.Room;
+import adventure.type.TokenAdjective;
+import adventure.type.TokenObject;
+import adventure.type.TokenObjectContainer;
+import adventure.type.TokenVerb;
+import adventure.type.VerbType;
 
 import static adventure.games.prisonbreak.ObjectType.*;
-import static adventure.games.prisonbreak.RoomType.*;
+import static adventure.games.prisonbreak.RoomType.AIR_DUCT;
+import static adventure.games.prisonbreak.RoomType.AIR_DUCT_EAST;
+import static adventure.games.prisonbreak.RoomType.AIR_DUCT_NORTH;
+import static adventure.games.prisonbreak.RoomType.AIR_DUCT_WEST;
+import static adventure.games.prisonbreak.RoomType.BASKET_CAMP;
+import static adventure.games.prisonbreak.RoomType.BENCH;
+import static adventure.games.prisonbreak.RoomType.BRAWL;
+import static adventure.games.prisonbreak.RoomType.BROTHER_CELL;
+import static adventure.games.prisonbreak.RoomType.CANTEEN;
+import static adventure.games.prisonbreak.RoomType.CELL;
+import static adventure.games.prisonbreak.RoomType.CORRIDOR;
+import static adventure.games.prisonbreak.RoomType.DOOR_ISOLATION;
+import static adventure.games.prisonbreak.RoomType.ENDGAME;
+import static adventure.games.prisonbreak.RoomType.END_LOBBY;
+import static adventure.games.prisonbreak.RoomType.FRONTBENCH;
+import static adventure.games.prisonbreak.RoomType.GARDEN;
+import static adventure.games.prisonbreak.RoomType.GENERATOR;
+import static adventure.games.prisonbreak.RoomType.GYM;
+import static adventure.games.prisonbreak.RoomType.INFIRMARY;
+import static adventure.games.prisonbreak.RoomType.ISOLATION;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_EAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_EAST_EAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_EAST_EAST_EAST;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_NORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_NORTH_NORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_NORTH_NORTH_NORTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_SOUTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_SOUTH_SOUTH;
+import static adventure.games.prisonbreak.RoomType.ISOLATION_CORRIDOR_SOUTH_SOUTH_SOUTH;
+import static adventure.games.prisonbreak.RoomType.LADDERS;
+import static adventure.games.prisonbreak.RoomType.LOBBY;
+import static adventure.games.prisonbreak.RoomType.LOBBY_SOUTH;
+import static adventure.games.prisonbreak.RoomType.ON_LADDER;
+import static adventure.games.prisonbreak.RoomType.OTHER_CELL;
+import static adventure.games.prisonbreak.RoomType.OUT_ISOLATION;
+import static adventure.games.prisonbreak.RoomType.PASSAGE_NORTH;
+import static adventure.games.prisonbreak.RoomType.PASSAGE_SOUTH;
+import static adventure.games.prisonbreak.RoomType.SECRET_PASSAGE;
+import static adventure.games.prisonbreak.RoomType.WALL;
+import static adventure.games.prisonbreak.RoomType.WINDOW_INFIRMARY;
 
 
 /**
@@ -30,7 +75,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(GENERATOR));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -311,13 +356,13 @@ public class PrisonBreakGame extends GameDescription {
         doorIsolation.setLook("Il pin e' conosciuto solo dalle guardie e quindi ti e' impossibile reperirlo!" +
                 " A meno che non vuoi iniziare a sparare numeri a caso devi trovare assolutamente un’altra soluzione" +
                 " prima che le luci si accendano e le guardie tornino!");
-        //doorIsolation.setLocked(true);
+        doorIsolation.setLocked(true);
 
         Room isolation = new Room(ISOLATION, "Dentro isolamento",
                 "La porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
                         "Ci sono tre lunghi corridoi, uno a est, uno a sud e l’altro a nord!");
         isolation.setLook("Non noti nient’altro di particolare!");
-        //isolation.setLocked(true);
+        isolation.setLocked(true);
 
         Room isolationCorridorNorth = new Room(ISOLATION_CORRIDOR_NORTH, "Corridoio nord isolamento",
                 "Prosegui nel corridoio a nord, ci sono tante celle chiuse di prigionieri in isolamento." +
@@ -526,13 +571,6 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(endGame);
         getRooms().add(windowInfirmary);
 
-        TokenPerson jennyBello = new TokenPerson(PERSON, "Jenny",
-                new HashSet<>(Arrays.asList("Jenny", "Bello")),
-                "E' un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
-                new HashSet<>(
-                        Collections.singletonList(
-                                new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))));
-
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
         screw.setUsable(true);
@@ -544,7 +582,7 @@ public class PrisonBreakGame extends GameDescription {
         airDuctWest.setObject(scotch);
         scotch.setUsable(true);
         scotch.setPickupable(true);
-        isolation.setObjectsUsableHere(scotch);
+        doorIsolation.setObjectsUsableHere(scotch);
 
         TokenObject tools = new TokenObject(TOOLS, "Attrezzi",
                 new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
@@ -582,6 +620,7 @@ public class PrisonBreakGame extends GameDescription {
         infirmary.setObject(scalpel);
         brawl.setObjectsUsableHere(scalpel);
 
+        //TODO assegnare oggetto a Jonny Bello
         TokenObject hacksaw = new TokenObject(HACKSAW, "Seghetto",
                 new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
                 "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.",
@@ -591,12 +630,6 @@ public class PrisonBreakGame extends GameDescription {
         hacksaw.setPickupable(true);
         hacksaw.setUsable(true);
         airDuctNorth.setObjectsUsableHere(hacksaw);
-
-        try {
-            jennyBello.getInventory().add(hacksaw);
-        } catch (InventoryFullException e) {
-            e.getMessage();
-        }
 
         TokenObject substances = new TokenObject(SUBSTANCES, "Sostanze chimiche",
                 new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Oggetti")),
@@ -761,25 +794,17 @@ public class PrisonBreakGame extends GameDescription {
                 "La grossa grata blocca il passaggio, ci sarà qualche modo per romperla???");
         airDuctNorth.setObject(destroyableGrate);
 
+        //TODO ASSEGNARE DROGA A GENNY
         TokenObject drug = new TokenObject(DRUG, "Droga", new HashSet<>(Arrays.asList("Droga", "Stupefacenti")),
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
-        try {
-            jennyBello.getInventory().add(drug);
-        } catch (InventoryFullException e) {
-            e.getMessage();
-        }
 
+        //TODO ASSEGNARE VIDEOGAME A GENNY
         TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame", new HashSet<>(Arrays.asList("Videogame",
                 "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
-        try {
-            jennyBello.getInventory().add(videogame);
-        } catch (InventoryFullException e) {
-            e.getMessage();
-        }
 
         TokenObject acid = new TokenObject(ACID, "Acido", new HashSet<>(Collections.singletonList("Acido")),
                 "Leggendo la ricetta alla lavagna capisci come creare l’acido, mischi le sostanze " +
@@ -796,7 +821,7 @@ public class PrisonBreakGame extends GameDescription {
                         "della stanza");
         combination.setUsable(true);
         setObjectNotAssignedRoom(combination);
-        isolation.setObjectsUsableHere(combination);
+        doorIsolation.setObjectsUsableHere(combination);
 
         TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, "Condotto d'aria vecchio", new HashSet<>(
                 Arrays.asList("Condotto d'aria vecchio", "Condotto d'aria", "Condotto", "Indotto")),
@@ -955,10 +980,12 @@ public class PrisonBreakGame extends GameDescription {
                                     " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                     " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                         }
+
                     } else if (object.getId() == ACID) {
                         getRoom(ENDGAME).setLocked(false);
                         getInventory().remove(object);
                         out.println("La finestra adesso presenta un buco, sarebbe meglio infilarsi dentro!");
+
                     } else if (object.getId() == COMBINATION) {
                         getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
