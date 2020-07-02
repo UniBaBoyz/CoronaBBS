@@ -21,45 +21,7 @@ import adventure.type.TokenObjectContainer;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
-import static adventure.games.prisonbreak.ObjectType.ACID;
-import static adventure.games.prisonbreak.ObjectType.AIR_DUCT_OLD;
-import static adventure.games.prisonbreak.ObjectType.BALL;
-import static adventure.games.prisonbreak.ObjectType.BASKET_OBJECT;
-import static adventure.games.prisonbreak.ObjectType.BED;
-import static adventure.games.prisonbreak.ObjectType.BED_BROTHER;
-import static adventure.games.prisonbreak.ObjectType.BLACKBOARD;
-import static adventure.games.prisonbreak.ObjectType.BUTTON_GENERATOR;
-import static adventure.games.prisonbreak.ObjectType.COMBINATION;
-import static adventure.games.prisonbreak.ObjectType.DESTROYABLE_GRATE;
-import static adventure.games.prisonbreak.ObjectType.DOOR_GARDEN;
-import static adventure.games.prisonbreak.ObjectType.DOOR_INFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.DRUG;
-import static adventure.games.prisonbreak.ObjectType.FOOD;
-import static adventure.games.prisonbreak.ObjectType.GENERATOR_OBJ;
-import static adventure.games.prisonbreak.ObjectType.GOWN;
-import static adventure.games.prisonbreak.ObjectType.GRATE;
-import static adventure.games.prisonbreak.ObjectType.GRATE_PASSAGE;
-import static adventure.games.prisonbreak.ObjectType.HACKSAW;
-import static adventure.games.prisonbreak.ObjectType.LADDER;
-import static adventure.games.prisonbreak.ObjectType.MEDICINE;
-import static adventure.games.prisonbreak.ObjectType.NEW_AIR_DUCT_INFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.PICTURE;
-import static adventure.games.prisonbreak.ObjectType.RAILING;
-import static adventure.games.prisonbreak.ObjectType.ROOM_OBJ;
-import static adventure.games.prisonbreak.ObjectType.SCALPEL;
-import static adventure.games.prisonbreak.ObjectType.SCOTCH;
-import static adventure.games.prisonbreak.ObjectType.SCREW;
-import static adventure.games.prisonbreak.ObjectType.SINK;
-import static adventure.games.prisonbreak.ObjectType.SINK_BROTHER;
-import static adventure.games.prisonbreak.ObjectType.SUBSTANCES;
-import static adventure.games.prisonbreak.ObjectType.TABLE;
-import static adventure.games.prisonbreak.ObjectType.TABLE_INFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.TOOLS;
-import static adventure.games.prisonbreak.ObjectType.VIDEOGAME;
-import static adventure.games.prisonbreak.ObjectType.WARDROBE;
-import static adventure.games.prisonbreak.ObjectType.WATER;
-import static adventure.games.prisonbreak.ObjectType.WINDOWS_INFIRMARY;
-import static adventure.games.prisonbreak.ObjectType.WINDOW_CELL;
+import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_EAST;
 import static adventure.games.prisonbreak.RoomType.AIR_DUCT_NORTH;
@@ -114,7 +76,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(INFIRMARY));
+        setCurrentRoom(getRoom(GENERATOR));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -255,7 +217,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb make = new TokenVerb(VerbType.MAKE);
         make.setAlias(new HashSet<>(Arrays.asList("Fai", "Crea", "Prepara", "Inventa", "Mischia", "Mescola", "Produci",
-                "Costruisci", "Fabbrica", "Realizza", "Genera", "Componi", "Origina")));
+                "Realizza", "Genera", "Componi", "Origina")));
         getTokenVerbs().add(make);
 
         TokenVerb remove = new TokenVerb(VerbType.REMOVE);
@@ -817,6 +779,12 @@ public class PrisonBreakGame extends GameDescription {
         buttonGenerator.setPushable(true);
         generator.setObject(buttonGenerator);
 
+        TokenObject lights = new TokenObject(LIGHTS, "Luci", new HashSet<>(Arrays.asList
+                ("Luci", "Luce", "Lampada", "Lampadario")),
+                "Sono semplici luci della prigione!");
+        lights.setTurnOnAble(true);
+        setObjectNotAssignedRoom(lights);
+
         TokenObject gratePassage = new TokenObject(GRATE_PASSAGE, "Grata", new HashSet<>(Arrays.asList
                 ("Grata", "Inferriata")),
                 "La grata è sulla cella del detenuto che è controllata da un poliziotto. Non mi sembra il" +
@@ -1272,7 +1240,6 @@ public class PrisonBreakGame extends GameDescription {
                         mixed = true;
                     } else if (getCurrentRoom().getObjects().contains(substances)
                             && object.equals(getObject(ACID))) {
-
                         getCurrentRoom().getObjects().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
@@ -1295,9 +1262,48 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vuoi creare esattamente?");
                 } else if (!object.isMixable()) {
                     out.println("Non è una cosa che si può fare");
-                } else if (!(getInventory().contains(object)
-                        || getCurrentRoom().containsObject(object))) {
-                    out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.TURN_OFF)) {
+                if (object != null && object.isTurnOnAble()) {
+                    // lights case
+                    if (getCurrentRoom().getId() == GENERATOR) {
+                        // lights turnOFF
+                        if (!object.isOn()) {
+                            out.println("Il pulsante è già stato premuto! Fai in fretta!!!");
+                        } else {
+                            getObject(BUTTON_GENERATOR).setPush(true);
+                            getObject(GENERATOR_OBJ).setUsable(true);
+                            object.setOn(false);
+                            getRoom(DOOR_ISOLATION).setLocked(false);
+                            out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
+                                    " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
+                                    " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                        }
+                    } else {
+                        out.println("Non puoi spegnere nulla qui!");
+                    }
+                } else if (object == null) {
+                    out.println("Cosa vuoi spegnere esattamente???");
+                } else if (!object.isTurnOnAble()) {
+                    out.println("Come puoi spegnere questo oggetto???");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.TURN_ON)) {
+                if (object != null && object.isTurnOnAble()) {
+                    // lights case
+                    if (getCurrentRoom().getId() == GENERATOR) {
+                        // lights turnOFF
+                        if (object.isOn()) {
+                            out.println("Le luci sono già accese!");
+                        } else {
+                            out.println("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
+                        }
+                    } else {
+                        out.println("Non puoi accendere nulla qui!");
+                    }
+                } else if (object == null) {
+                    out.println("Cosa vuoi accendere esattamente???");
+                } else if (!object.isTurnOnAble()) {
+                    out.println("Come puoi accendere questo oggetto???");
                 }
             }
 
