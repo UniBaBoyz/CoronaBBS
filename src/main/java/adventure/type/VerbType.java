@@ -13,7 +13,7 @@ public enum VerbType {
     OPEN,
     CLOSE,
     PUSH,
-    PULL,
+    PULL, //TODO
     WALK,
     STAND_UP,
     SIT_DOWN,
@@ -22,11 +22,11 @@ public enum VerbType {
     EXIT,
     ENTER,
     PICK_UP,
-    TALK_TO,
-    GIVE,
-    DECLINE,
-    ACCEPT,
-    PUT_IN,
+    TALK_TO, //TODO
+    GIVE, //TODO
+    DECLINE, //TODO
+    ACCEPT, //TODO
+    PUT_IN, //TODO
     MAKE,
     REMOVE,
     USE,
@@ -35,5 +35,5 @@ public enum VerbType {
     TURN_OFF,
     EAT,
     PLAY,
-    DESTROY,
+    DESTROY, //TODO
 }
