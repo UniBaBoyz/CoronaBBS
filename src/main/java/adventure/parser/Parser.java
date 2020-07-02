@@ -1,16 +1,12 @@
 package adventure.parser;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
+
+import java.util.*;
 
 /**
  * @author Corona-Extra

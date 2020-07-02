@@ -43,4 +43,5 @@ public class ObjectType {
     public final static int AIR_DUCT_OLD = 36;
     public static final int DESTROYABLE_GRATE = 37;
     public static final int ROOM_OBJ = 38;
+    public static final int PERSON = 39;
 }

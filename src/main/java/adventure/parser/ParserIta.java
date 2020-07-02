@@ -1,16 +1,10 @@
 package adventure.parser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
+
+import java.util.*;
 
 /**
  * @author Corona-Extra
@@ -73,7 +67,7 @@ public class ParserIta extends Parser {
         scanner.setVerbs(verbs);
         scanner.setObjects(objects);
         scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una",
-                "un'", "del", "dello", "della", "dei", "degli", "delle", "dall'", "dal", "dell'", "sul","sulla",
+                "un'", "del", "dello", "della", "dei", "degli", "delle", "dall'", "dal", "dell'", "sul", "sulla",
                 "sull'", "sullo", "sui", "su", "sulle", "sugli")));
         scanner.setAdjectives(adjectives);
         scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè",

@@ -1,13 +1,9 @@
 package adventure.parser;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import adventure.exceptions.inputException.LexicalErrorException;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Corona-Extra

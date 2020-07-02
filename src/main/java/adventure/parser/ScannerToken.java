@@ -1,13 +1,13 @@
 package adventure.parser;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-
 import adventure.exceptions.inputException.SkipCharactersEmptyException;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  * @author Corona-Extra

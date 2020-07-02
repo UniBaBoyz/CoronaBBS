@@ -1,20 +1,15 @@
 package adventure;
 
-import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.Set;
-
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
-import adventure.type.Inventory;
-import adventure.type.Room;
-import adventure.type.TokenAdjective;
-import adventure.type.TokenObject;
-import adventure.type.TokenObjectContainer;
-import adventure.type.TokenVerb;
+import adventure.type.*;
+
+import java.io.PrintStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Corona-Extra
@@ -45,16 +40,16 @@ public abstract class GameDescription {
         return tokenVerbs;
     }
 
+    public Set<TokenObject> getObjectNotAssignedRoom() {
+        return objectNotAssignedRoom;
+    }
+
     public void setObjectNotAssignedRoom(Set<TokenObject> objectNotAssignedRoom) {
         this.objectNotAssignedRoom.addAll(objectNotAssignedRoom);
     }
 
     public void setObjectNotAssignedRoom(TokenObject objectNotAssignedRoom) {
         this.objectNotAssignedRoom.add(objectNotAssignedRoom);
-    }
-
-    public Set<TokenObject> getObjectNotAssignedRoom() {
-        return objectNotAssignedRoom;
     }
 
     public void removeObjectNotAssigned(TokenObject object) {
@@ -140,13 +135,13 @@ public abstract class GameDescription {
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
         if (tokenObjects.stream()
                 .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object)
-                || getObjectNotAssignedRoom().contains(object)))
+                        || getObjectNotAssignedRoom().contains(object)))
                 .count() > 1) {
             throw new ObjectsAmbiguityException();
         } else if (tokenObjects.stream()
                 .noneMatch(object -> getCurrentRoom().containsObject(object)
                         || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object))
-                        && !tokenObjects.isEmpty()) {
+                && !tokenObjects.isEmpty()) {
             throw new ObjectNotFoundInRoomException();
         }
 

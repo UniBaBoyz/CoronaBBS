@@ -1,11 +1,11 @@
 package adventure.type;
 
+import adventure.parser.Token;
+import adventure.parser.TokenType;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import adventure.parser.Token;
-import adventure.parser.TokenType;
 
 /**
  * @author Corona-Extra

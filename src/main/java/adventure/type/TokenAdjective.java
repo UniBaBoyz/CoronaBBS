@@ -1,9 +1,9 @@
 package adventure.type;
 
-import java.util.Set;
-
 import adventure.parser.Token;
 import adventure.parser.TokenType;
+
+import java.util.Set;
 
 /**
  * @author Corona-Extra

@@ -40,10 +40,6 @@ public class Room {
         objects.add(object);
     }
 
-    public void setObjects(Set<TokenObject> objects) {
-        this.objects.addAll(objects);
-    }
-
     public Set<TokenObject> getObjects() {
         Set<TokenObject> allObjects = new HashSet<>(objects);
 
@@ -56,8 +52,16 @@ public class Room {
         return objects = new HashSet<>(allObjects);
     }
 
+    public void setObjects(Set<TokenObject> objects) {
+        this.objects.addAll(objects);
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setObjectsUsableHere(Set<TokenObject> objectsUsableHere) throws IllegalArgumentException {
@@ -76,10 +80,6 @@ public class Room {
 
     public boolean isObjectUsableHere(TokenObject object) {
         return objectsUsableHere.contains(object);
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {

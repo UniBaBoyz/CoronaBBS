@@ -2,9 +2,6 @@ package adventure;
 
 //fixme import prisonbreak.games.FireHouseGame;
 
-import java.util.List;
-import java.util.Scanner;
-
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
@@ -13,6 +10,9 @@ import adventure.parser.Parser;
 import adventure.parser.ParserIta;
 import adventure.parser.ParserOutput;
 import adventure.type.VerbType;
+
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * ATTENZIONE: l'Engine è molto spartano, in realtà demanda la logica alla
