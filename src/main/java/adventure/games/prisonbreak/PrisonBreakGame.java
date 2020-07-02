@@ -1251,39 +1251,35 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Perchè scappare?? Ma soprattutto da cosa??? Fifone!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.MAKE)) {
-                out.println("SONO ENTRATO");
+                TokenObject substances = getObject(SUBSTANCES);
                 if ((object != null
                         && object.isMixable()
                         && (getInventory().contains(object)
                         || getCurrentRoom().containsObject(object)))
                         || ((object != null && object.equals(getObject(ACID)))
-                        && (getInventory().contains(getObject(SUBSTANCES))
-                        || getCurrentRoom().containsObject(getObject(SUBSTANCES))))) {
-                    out.println("ciao");
+                        && (getInventory().contains(substances)
+                        || getCurrentRoom().containsObject(substances)))) {
 
                     if (getCurrentRoom().getObjects().contains(object) && !(object.equals(getObject(ACID)))) {
-                        out.println("1");
                         getCurrentRoom().getObjects().remove(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
                     } else if (!object.equals(getObject(ACID)) && getInventory().getObjects().contains(object)) {
-                        out.println("2");
                         getInventory().remove(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
-                    } else if (getCurrentRoom().getObjects().contains(getObject(SUBSTANCES))
+                    } else if (getCurrentRoom().getObjects().contains(substances)
                             && object.equals(getObject(ACID))) {
-                        out.println("3");
-                        getCurrentRoom().getObjects().remove(getObject(SUBSTANCES));
+
+                        getCurrentRoom().getObjects().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
-                    } else if (getInventory().getObjects().contains(getObject(SUBSTANCES))
+                    } else if (getInventory().getObjects().contains(substances)
                             && object.equals(getObject(ACID))) {
-                        out.println("4");
-                        getInventory().remove(getObject(SUBSTANCES));
+                        getInventory().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
