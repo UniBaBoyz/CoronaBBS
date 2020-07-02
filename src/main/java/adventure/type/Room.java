@@ -53,7 +53,7 @@ public class Room {
             }
         }
 
-        return objects=new HashSet<>(allObjects);
+        return objects = new HashSet<>(allObjects);
     }
 
     public String getName() {
@@ -93,13 +93,16 @@ public class Room {
     public String getLook() {
         if (!getObjects().isEmpty()) {
             StringBuilder objectsDescription = new StringBuilder("Puoi notare: \n");
+
             for (TokenObject obj : getObjects()) {
                 objectsDescription.append(obj.getName())
                         .append(", ");
             }
+
             return look + "\n" + objectsDescription.substring(0, objectsDescription.length() - 2);
         }
-        return null;
+
+        return look;
     }
 
     public void setLook(String look) {

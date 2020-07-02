@@ -12,6 +12,7 @@ import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryExceptio
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.parser.ParserOutput;
+import adventure.parser.Token;
 import adventure.type.Inventory;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -918,7 +919,6 @@ public class PrisonBreakGame extends GameDescription {
                     out.println(o.getName() + ": " + o.getDescription());
                 }
 
-                //FIXME A VOLTE NON FUNZIONA IL GUARDA
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
                 if (object != null
                         && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
@@ -1005,6 +1005,7 @@ public class PrisonBreakGame extends GameDescription {
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
                                 "non ti sembri manchi la persona più importante???");
+
                     }
 
                 } else {
@@ -1259,7 +1260,7 @@ public class PrisonBreakGame extends GameDescription {
                         && (getInventory().contains(getObject(SUBSTANCES))
                         || getCurrentRoom().containsObject(getObject(SUBSTANCES))))) {
                     out.println("ciao");
-                    // substances case
+
                     if (getCurrentRoom().getObjects().contains(object) && !(object.equals(getObject(ACID)))) {
                         out.println("1");
                         getCurrentRoom().getObjects().remove(object);
