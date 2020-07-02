@@ -16,7 +16,6 @@ import java.util.HashSet;
 
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
-import static adventure.type.VerbType.NORD;
 
 
 /**
@@ -46,21 +45,21 @@ public class PrisonBreakGame extends GameDescription {
     }
 
     private void initVerbs() {
-        TokenVerb nord = new TokenVerb(NORD);
-        nord.setAlias(new HashSet<>(Arrays.asList("N", "Nord")));
+        TokenVerb nord = new TokenVerb(VerbType.NORD);
+        nord.setAlias(new HashSet<>(Collections.singletonList("Nord")));
         getTokenVerbs().add(nord);
 
 
         TokenVerb sud = new TokenVerb(VerbType.SOUTH);
-        sud.setAlias(new HashSet<>(Arrays.asList("S", "Sud")));
+        sud.setAlias(new HashSet<>(Collections.singletonList("Sud")));
         getTokenVerbs().add(sud);
 
         TokenVerb est = new TokenVerb(VerbType.EAST);
-        est.setAlias(new HashSet<>(Arrays.asList("E", "Est")));
+        est.setAlias(new HashSet<>(Collections.singletonList("Est")));
         getTokenVerbs().add(est);
 
         TokenVerb ovest = new TokenVerb(VerbType.WEST);
-        ovest.setAlias(new HashSet<>(Arrays.asList("O", "Ovest")));
+        ovest.setAlias(new HashSet<>(Collections.singletonList("Ovest")));
         getTokenVerbs().add(ovest);
 
         TokenVerb inventory = new TokenVerb(VerbType.INVENTORY);
@@ -810,18 +809,6 @@ public class PrisonBreakGame extends GameDescription {
                 Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
         setObjectNotAssignedRoom(roomObject);
 
-        TokenObject nordObject = new TokenObject(NORD_OBJ, "Nord", new HashSet<>(Arrays.asList("Nord", "N")));
-        setObjectNotAssignedRoom(nordObject);
-
-        TokenObject southObject = new TokenObject(SOUTH_OBJ, "Sud", new HashSet<>(Arrays.asList("Sud", "S")));
-        setObjectNotAssignedRoom(southObject);
-
-        TokenObject estObject = new TokenObject(EAST_OBJ, "Est", new HashSet<>(Arrays.asList("Est", "E")));
-        setObjectNotAssignedRoom(estObject);
-
-        TokenObject ovestObject = new TokenObject(WEST_OBJ, "Ovest", new HashSet<>(Arrays.asList("Ovest", "O")));
-        setObjectNotAssignedRoom(ovestObject);
-
     }
 
     @Override
@@ -834,7 +821,7 @@ public class PrisonBreakGame extends GameDescription {
         try {
             object = getCorrectObject(p.getObject());
 
-            if (p.getVerb().getVerbType().equals(NORD)) {
+            if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
                     move = true;
@@ -1330,27 +1317,6 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con cosa vuoi giocare esattamente???");
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
-                }
-            } else if (p.getVerb().getVerbType().equals(VerbType.WALK)) {
-                if ((object != null)) {
-                    switch (object.getId()) {
-                        case NORD_OBJ:
-                            if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
-                                setCurrentRoom(getCurrentRoom().getNorth());
-                                move = true;
-                            } else {
-                                noroom = true;
-                            }
-                            break;
-                        case SOUTH_OBJ:
-
-                            break;
-                        case EAST_OBJ:
-                            break;
-                        case WEST_OBJ:
-                            break;
-                    }
-
                 }
             }
 

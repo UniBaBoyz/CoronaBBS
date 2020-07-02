@@ -1,5 +1,6 @@
 package adventure.games.prisonbreak;
 
+import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.type.Inventory;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
@@ -33,5 +34,24 @@ public class TokenPerson extends TokenObject {
 
     public Inventory getInventory() {
         return inventory;
+    }
+
+    @Override
+    public String getDescription() {
+        StringBuilder objects = new StringBuilder(this.getName() + "possiede: ");
+
+        try {
+            if (!(getInventory().isEmpty())) {
+
+                for (TokenObject obj : getInventory().getObjects()) {
+                    objects.append(obj.getName()).append(", ");
+                }
+                return super.getDescription() + "\n" + objects.substring(0, objects.length() - 2);
+            }
+        } catch (InventoryEmptyException ignored) {
+
+        }
+
+        return super.getDescription();
     }
 }

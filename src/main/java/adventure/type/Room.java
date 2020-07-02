@@ -1,8 +1,5 @@
 package adventure.type;
 
-import adventure.exceptions.inventoryException.InventoryEmptyException;
-import adventure.games.prisonbreak.TokenPerson;
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -49,11 +46,6 @@ public class Room {
         for (TokenObject obj : objects) {
             if (obj instanceof TokenObjectContainer && obj.isOpenable() && obj.isOpen()) {
                 allObjects.addAll(((TokenObjectContainer) obj).getObjects());
-            } else if (obj instanceof TokenPerson) {
-                try {
-                    allObjects.addAll(((TokenPerson) obj).getInventory().getObjects());
-                } catch (InventoryEmptyException ignored) {
-                }
             }
         }
 
