@@ -68,7 +68,7 @@ public class ParserIta extends Parser {
         scanner.setObjects(objects);
         scanner.setArticles(new HashSet<>(Arrays.asList("il", "lo", "l'", "la", "i", "gli", "le", "un", "uno", "una",
                 "un'", "del", "dello", "della", "dei", "degli", "delle", "dall'", "dal", "dell'", "sul", "sulla",
-                "sull'", "sullo", "sui", "su", "sulle", "sugli")));
+                "sull'", "sullo", "sui", "su", "sulle", "sugli", "a", "con")));
         scanner.setAdjectives(adjectives);
         scanner.setJunctions(new HashSet<>(Arrays.asList("e", "dopodiche", "dopodiché", "dopodiche'", "dopodichè",
                 "successivamente", "poi")));
