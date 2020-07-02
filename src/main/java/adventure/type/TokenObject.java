@@ -24,6 +24,7 @@ public class TokenObject extends Token {
     private boolean pushable = false;
     private boolean eatable = false;
     private boolean turnOnAble = false;
+    private boolean playable = false;
     private boolean sit = false; //indica se si può sedere su un oggetto
     private boolean given = false;
     private boolean eat = false;
@@ -115,6 +116,14 @@ public class TokenObject extends Token {
 
     public void setPickupable(boolean pickupable) {
         this.pickupable = pickupable;
+    }
+
+    public boolean isPlayable() {
+        return playable;
+    }
+
+    public void setPlayable(boolean playable) {
+        this.playable = playable;
     }
 
     public boolean isPushable() {

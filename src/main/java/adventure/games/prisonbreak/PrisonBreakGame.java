@@ -604,6 +604,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Un semplice pallone da basket.");
         ball.setPickupable(true);
         ball.setUsable(true);
+        ball.setPlayable(true);
         basket.setObject(ball);
         getRooms().forEach(room -> room.setObjectsUsableHere(ball));
 
@@ -705,6 +706,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject basketObject = new TokenObject(BASKET_OBJECT, "Canestri", new HashSet<>(
                 Arrays.asList("Canestri", "Canestro", "Basket")),
                 "Ottimi per giocare a basket e perdere tempo!!!");
+        basketObject.setPlayable(true);
         basket.setObject(basketObject);
 
         TokenObject blackboard = new TokenObject(BLACKBOARD, "Lavagna",
@@ -927,8 +929,6 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null && object.isUsable() && getCurrentRoom().isObjectUsableHere(object)
                         && (getInventory().contains(object) || getCurrentRoom().containsObject(object))) {
 
-                    object.setUsed(true);
-
                     if (object.getId() == SCREW) {
                         getObject(SINK).setPushable(true);
                         getInventory().remove(object);
@@ -976,6 +976,7 @@ public class PrisonBreakGame extends GameDescription {
                         } else {
                             getObject(BUTTON_GENERATOR).setPush(true);
                             getRoom(DOOR_ISOLATION).setLocked(false);
+                            getObject(LIGHTS).setOn(false);
                             out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                     " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                     " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
@@ -993,6 +994,7 @@ public class PrisonBreakGame extends GameDescription {
                                 "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
                                 "nient’altro di particolare!");
                     }
+                    object.setUsed(true);
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
@@ -1103,6 +1105,7 @@ public class PrisonBreakGame extends GameDescription {
                                 out.println("Il pulsante è già stato premuto! Fai in fretta!!!");
                             } else {
                                 object.setPush(true);
+                                getObject(LIGHTS).setOn(false);
                                 getObject(GENERATOR_OBJ).setUsable(true);
                                 getRoom(DOOR_ISOLATION).setLocked(false);
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
@@ -1325,6 +1328,21 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vuoi accendere esattamente???");
                 } else if (!object.isTurnOnAble()) {
                     out.println("Come puoi accendere questo oggetto???");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
+                if ((object != null && object.isPlayable())
+                        || (object == null && getCurrentRoom().getId() == BASKET_CAMP)) {
+                    // ball case
+                    if (getCurrentRoom().getId() == BASKET_CAMP) {
+                        // ball play
+                        out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
+                    } else {
+                        out.println("Vuoi giocare con il tuo amico immaginario??");
+                    }
+                } else if (object == null) {
+                    out.println("Con cosa vuoi giocare esattamente???");
+                } else if (!object.isTurnOnAble()) {
+                    out.println("Non puoi giocare con questo oggetto!!!");
                 }
             }
 
