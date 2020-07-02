@@ -909,19 +909,23 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
                                 "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
                                 "sposti il lavandino e vedi un passaggio segreto");
+                        object.setUsed(true);
 
                     } else if (object.getId() == SCOTCH) {
                         getInventory().remove(object);
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                                 "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
+                        object.setUsed(true);
 
                     } else if (object.getId() == TOOLS) {
                         out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                                 "ti senti già più forte!");
+                        object.setUsed(true);
 
                     } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
+                        object.setUsed(true);
 
                     } else if (object.getId() == SCALPEL) {
                         getInventory().remove(object);
@@ -931,19 +935,24 @@ public class PrisonBreakGame extends GameDescription {
                                 "alla panchina.");
                         getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
                                 " nelle vicinanze.");
+                        object.setUsed(true);
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
+                        TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
                         getRoom(PASSAGE_NORTH).setLocked(false);
                         getInventory().remove(object);
-                        out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per" +
+                        getRoom(AIR_DUCT_NORTH).getObjects().remove(destroyableGate);
+                        out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
                                 "fortuna sei riuscito a rompere la grata");
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
                                 "non ti sembri manchi la persona più importante???");
+                        object.setUsed(true);
 
                     } else if (object.getId() == SINK || object.getId() == SINK_BROTHER) {
                         out.println("Decidi di lavarti le mani e il viso, l’igiene prima di tutto!");
+                        object.setUsed(true);
                     } else if (object.getId() == GENERATOR_OBJ) {
                         if (object.isUsed() || getObject(BUTTON_GENERATOR).isPush()) {
                             out.println("Il generatore è gia stato usato, fai in fretta!!");
@@ -954,12 +963,14 @@ public class PrisonBreakGame extends GameDescription {
                             out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                     " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                     " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                            object.setUsed(true);
                         }
 
                     } else if (object.getId() == ACID) {
                         getRoom(ENDGAME).setLocked(false);
                         getInventory().remove(object);
                         out.println("La finestra adesso presenta un buco, sarebbe meglio infilarsi dentro!");
+                        object.setUsed(true);
 
                     } else if (object.getId() == COMBINATION) {
                         getInventory().remove(object);
@@ -967,25 +978,24 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
                                 "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
                                 "nient’altro di particolare!");
+                        object.setUsed(true);
                     }
-                    object.setUsed(true);
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
                     } else if (!object.isUsable()) {
-                        if (object.getId() == HACKSAW
-                                && !getObject(TOOLS).isUsed()
-                                && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
-                            out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre " +
-                                    "della grata! In realtà la colpa non è totalmente del seghetto ma anche la tua " +
-                                    "poiché sei molto stanco e hai poca forza nelle braccia!");
-                        }
                         out.println("Mi dispiace ma questo oggetto non si può utilizzare");
                     } else if (!getCurrentRoom().isObjectUsableHere(object)) {
                         out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
                     } else if (!getInventory().contains(object) && !getCurrentRoom().containsObject(object)) {
                         out.println("Io non vedo nessun oggetto di questo tipo qui!");
                     }
+                }
+
+                if (object != null && object.getId() == HACKSAW && !getObject(TOOLS).isUsed() && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
+                    out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre " +
+                            "della grata! In realtà la colpa non è totalmente del seghetto ma anche la tua " +
+                            "poiché sei molto stanco e hai poca forza nelle braccia!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.OPEN)) {
