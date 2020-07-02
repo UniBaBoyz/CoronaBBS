@@ -637,7 +637,6 @@ public class PrisonBreakGame extends GameDescription {
                 "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro " +
                         "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
         substances.setPickupable(true);
-        substances.setUsable(true);
         substances.setMixable(true);
         infirmary.setObject(substances);
 
@@ -948,13 +947,6 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                                 "ti senti già più forte!");
 
-                    } else if (object.getId() == COMBINATION) {
-                        getInventory().remove(object);
-                        getRoom(ISOLATION).setLocked(false);
-                        out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
-                                "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
-                                "nient’altro di particolare!");
-
                     } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
 
@@ -969,13 +961,37 @@ public class PrisonBreakGame extends GameDescription {
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(PASSAGE_NORTH).setLocked(false);
+                        getInventory().remove(object);
+                        out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per" +
+                                "fortuna sei riuscito a rompere la grata");
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
                                 "non ti sembri manchi la persona più importante???");
 
+                    } else if (object.getId() == SINK || object.getId() == SINK_BROTHER) {
+                        out.println("Decidi di lavarti le mani e il viso, l’igiene prima di tutto!");
+                    } else if (object.getId() == GENERATOR_OBJ) {
+                        if (object.isUsed() || getObject(BUTTON_GENERATOR).isPush()) {
+                            out.println("Il generatore è gia stato usato, fai in fretta!!");
+                        } else {
+                            getObject(BUTTON_GENERATOR).setPush(true);
+                            getRoom(DOOR_ISOLATION).setLocked(false);
+                            out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
+                                    " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
+                                    " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                        }
+                    } else if (object.getId() == ACID) {
+                        getRoom(ENDGAME).setLocked(false);
+                        getInventory().remove(object);
+                        out.println("La finestra adesso presenta un buco, sarebbe meglio infilarsi dentro!");
+                    } else if (object.getId() == COMBINATION) {
+                        getInventory().remove(object);
+                        getRoom(ISOLATION).setLocked(false);
+                        out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
+                                "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
+                                "nient’altro di particolare!");
                     }
-
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
@@ -1058,9 +1074,7 @@ public class PrisonBreakGame extends GameDescription {
                         }
 
                     } else if (object.getId() == SINK) {
-                        // sink case
                         if (getCurrentRoom().getId() == CELL) {
-                            // sink pushed
                             if (object.isPush()) {
                                 out.println("Il Lavandino è già stato spostato!");
                             } else {
@@ -1071,7 +1085,6 @@ public class PrisonBreakGame extends GameDescription {
                         }
 
                     } else if (object.getId() == PICTURE) {
-                        // picture case
                         if (getCurrentRoom().getId() == INFIRMARY) {
                             // picture pushed
                             if (object.isPush()) {
@@ -1083,7 +1096,6 @@ public class PrisonBreakGame extends GameDescription {
                             }
                         }
                     } else if (object.getId() == BUTTON_GENERATOR) {
-                        // botton case
                         if (getCurrentRoom().getId() == GENERATOR) {
                             // botton pushed
                             if (object.isPush()) {
@@ -1105,6 +1117,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!(getCurrentRoom().containsObject(object))) {
                     out.println("Forse non ci vedi bene, quell'oggetto non è presente in questa stanza!!!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.EAT)) {
                 if (object != null && object.isEatable() && (getInventory().contains(object)
                         || getCurrentRoom().containsObject(object))) {
@@ -1124,6 +1137,7 @@ public class PrisonBreakGame extends GameDescription {
                         || getCurrentRoom().containsObject(object))) {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
                 if (object == null) {
                     // in piedi
@@ -1137,6 +1151,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     out.println("Non penso che questa cosa si possa fare ?!?");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.SIT_DOWN)) {
                 if (object != null && object.isSit() && getCurrentRoom().containsObject(object)) {
                     // bed case
@@ -1164,6 +1179,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!getCurrentRoom().containsObject(object)) {
                     out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.CLIMB)) {
 
                 if (getCurrentRoom().getId() == LOBBY) {
@@ -1184,6 +1200,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!getCurrentRoom().containsObject(object)) {
                     out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.GET_OFF)) {
 
                 if (getCurrentRoom().getId() == LADDERS) {
@@ -1196,6 +1213,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     out.println("Non puoi bucare il pavimento!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.ENTER)) {
 
                 if (getCurrentRoom().getId() == CELL && getObject(SINK).isPush()) {
@@ -1210,6 +1228,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     out.println("Non puoi entrare lì!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.EXIT)) {
                 if (getCurrentRoom().getId() == FRONTBENCH && !getInventory().contains(getObject(SCALPEL))) {
                     setCurrentRoom(getCurrentRoom().getNorth());
@@ -1218,6 +1237,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else {
                     out.println("Perchè scappare?? Ma soprattutto da cosa??? Fifone!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.MAKE)) {
                 TokenObject substances = getObject(SUBSTANCES);
                 if ((object != null
