@@ -13,7 +13,7 @@ public enum VerbType {
     OPEN,
     CLOSE,
     PUSH,
-    PULL, //TODO
+    PULL,
     WALK,
     STAND_UP,
     SIT_DOWN,

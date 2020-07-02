@@ -30,7 +30,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CELL));
+        setCurrentRoom(getRoom(CANTEEN));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -533,6 +533,8 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(
                         Collections.singletonList(
                                 new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))));
+        jennyBello.setSpeakable(true);
+        canteen.setObject(jennyBello);
 
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
@@ -767,6 +769,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
+        drug.setPickupable(true);
         try {
             jennyBello.getInventory().add(drug);
         } catch (InventoryFullException ignored) {
@@ -795,6 +798,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
                         "della stanza");
         combination.setUsable(true);
+        combination.setInsertable(true);
         setObjectNotAssignedRoom(combination);
         doorIsolation.setObjectsUsableHere(combination);
 
@@ -972,14 +976,13 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("La finestra adesso presenta un buco, sarebbe meglio infilarsi dentro!");
                         object.setUsed(true);
 
-                    } else if (object.getId() == COMBINATION) {
+                    } else if (object.getId() == COMBINATION && !object.isUsed()) {
                         getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
-                        out.println("la porta si apre e ti trovi dentro il luogo dove si trovano le celle isolamento. " +
-                                "Ci sono tre lunghi corridoi, uno a est, uno a ovest e l’altro a nord! Non noti " +
-                                "nient’altro di particolare!");
-                        object.setUsed(true);
+                        out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
+                                " tornare indietro anche se hai poco tempo a disposizione!");
                     }
+                    object.setUsed(true);
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
@@ -1044,7 +1047,8 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
-            } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)) {
+            } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)
+                    || p.getVerb().getVerbType().equals(VerbType.PULL)) {
                 if (object != null && object.isPushable() && getCurrentRoom().containsObject(object)) {
                     if (object.getId() == LADDER) {
                         // ladder case
