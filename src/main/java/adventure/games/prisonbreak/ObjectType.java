@@ -44,5 +44,9 @@ public class ObjectType {
     public static final int DESTROYABLE_GRATE = 37;
     public static final int ROOM_OBJ = 38;
     public static final int LIGHTS = 39;
-    public static final int PERSON = 39;
+    public static final int PERSON = 40;
+    public static final int NORD_OBJ = 41;
+    public static final int SOUTH_OBJ = 42;
+    public static final int EAST_OBJ = 43;
+    public static final int WEST_OBJ = 44;
 }

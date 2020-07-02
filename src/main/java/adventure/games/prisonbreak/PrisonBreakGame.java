@@ -16,6 +16,7 @@ import java.util.HashSet;
 
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
+import static adventure.type.VerbType.NORD;
 
 
 /**
@@ -45,13 +46,10 @@ public class PrisonBreakGame extends GameDescription {
     }
 
     private void initVerbs() {
-        TokenVerb nord = new TokenVerb(VerbType.NORD);
+        TokenVerb nord = new TokenVerb(NORD);
         nord.setAlias(new HashSet<>(Arrays.asList("N", "Nord")));
         getTokenVerbs().add(nord);
 
-        TokenVerb inventory = new TokenVerb(VerbType.INVENTORY);
-        inventory.setAlias(new HashSet<>(Arrays.asList("Inv", "I", "Inventario")));
-        getTokenVerbs().add(inventory);
 
         TokenVerb sud = new TokenVerb(VerbType.SOUTH);
         sud.setAlias(new HashSet<>(Arrays.asList("S", "Sud")));
@@ -64,6 +62,10 @@ public class PrisonBreakGame extends GameDescription {
         TokenVerb ovest = new TokenVerb(VerbType.WEST);
         ovest.setAlias(new HashSet<>(Arrays.asList("O", "Ovest")));
         getTokenVerbs().add(ovest);
+
+        TokenVerb inventory = new TokenVerb(VerbType.INVENTORY);
+        inventory.setAlias(new HashSet<>(Arrays.asList("Inv", "I", "Inventario")));
+        getTokenVerbs().add(inventory);
 
         TokenVerb end = new TokenVerb(VerbType.END);
         end.setAlias(new HashSet<>(Arrays.asList("End", "Exit", "Fine", "Esci", "Muori", "Ammazzati", "Ucciditi",
@@ -595,8 +597,7 @@ public class PrisonBreakGame extends GameDescription {
 
         try {
             jennyBello.getInventory().add(hacksaw);
-        } catch (InventoryFullException e) {
-            e.getMessage();
+        } catch (InventoryFullException ignored) {
         }
 
         TokenObject substances = new TokenObject(SUBSTANCES, "Sostanze chimiche",
@@ -769,8 +770,7 @@ public class PrisonBreakGame extends GameDescription {
                         "anno di più!");
         try {
             jennyBello.getInventory().add(drug);
-        } catch (InventoryFullException e) {
-            e.getMessage();
+        } catch (InventoryFullException ignored) {
         }
 
         TokenObject videogame = new TokenObject(VIDEOGAME, "Videogame", new HashSet<>(Arrays.asList("Videogame",
@@ -779,8 +779,7 @@ public class PrisonBreakGame extends GameDescription {
                         "per giocare anche a videogiochi migliori!");
         try {
             jennyBello.getInventory().add(videogame);
-        } catch (InventoryFullException e) {
-            e.getMessage();
+        } catch (InventoryFullException ignored) {
         }
 
         TokenObject acid = new TokenObject(ACID, "Acido", new HashSet<>(Collections.singletonList("Acido")),
@@ -810,6 +809,19 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject roomObject = new TokenObject(ROOM_OBJ, "Stanza", new HashSet<>(
                 Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
         setObjectNotAssignedRoom(roomObject);
+
+        TokenObject nordObject = new TokenObject(NORD_OBJ, "Nord", new HashSet<>(Arrays.asList("Nord", "N")));
+        setObjectNotAssignedRoom(nordObject);
+
+        TokenObject southObject = new TokenObject(SOUTH_OBJ, "Sud", new HashSet<>(Arrays.asList("Sud", "S")));
+        setObjectNotAssignedRoom(southObject);
+
+        TokenObject estObject = new TokenObject(EAST_OBJ, "Est", new HashSet<>(Arrays.asList("Est", "E")));
+        setObjectNotAssignedRoom(estObject);
+
+        TokenObject ovestObject = new TokenObject(WEST_OBJ, "Ovest", new HashSet<>(Arrays.asList("Ovest", "O")));
+        setObjectNotAssignedRoom(ovestObject);
+
     }
 
     @Override
@@ -822,7 +834,7 @@ public class PrisonBreakGame extends GameDescription {
         try {
             object = getCorrectObject(p.getObject());
 
-            if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
+            if (p.getVerb().getVerbType().equals(NORD)) {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
                     move = true;
@@ -1318,6 +1330,27 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con cosa vuoi giocare esattamente???");
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.WALK)) {
+                if ((object != null)) {
+                    switch (object.getId()) {
+                        case NORD_OBJ:
+                            if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
+                                setCurrentRoom(getCurrentRoom().getNorth());
+                                move = true;
+                            } else {
+                                noroom = true;
+                            }
+                            break;
+                        case SOUTH_OBJ:
+
+                            break;
+                        case EAST_OBJ:
+                            break;
+                        case WEST_OBJ:
+                            break;
+                    }
+
                 }
             }
 
