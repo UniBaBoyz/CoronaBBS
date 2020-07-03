@@ -1,5 +1,8 @@
 package adventure.type;
 
+import adventure.exceptions.inventoryException.InventoryEmptyException;
+import adventure.games.prisonbreak.TokenPerson;
+
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -46,6 +49,12 @@ public class Room {
         for (TokenObject obj : objects) {
             if (obj instanceof TokenObjectContainer && obj.isOpenable() && obj.isOpen()) {
                 allObjects.addAll(((TokenObjectContainer) obj).getObjects());
+            } else if (obj instanceof TokenPerson) {
+                try {
+                    allObjects.addAll(((TokenPerson) obj).getInventory().getObjects());
+                } catch (InventoryEmptyException ignored) {
+
+                }
             }
         }
 
@@ -91,10 +100,23 @@ public class Room {
     }
 
     public String getLook() {
-        if (!getObjects().isEmpty()) {
+        Set<TokenObject> objects = getObjects();
+        if (!objects.isEmpty()) {
+
+            //Doesn't look the objects that have each person in the room
+            for (TokenObject obj : getObjects()) {
+                if (obj instanceof TokenPerson) {
+                    try {
+                        objects.removeAll(((TokenPerson) obj).getInventory().getObjects());
+                    } catch (InventoryEmptyException ignored) {
+
+                    }
+                }
+            }
+
             StringBuilder objectsDescription = new StringBuilder("Puoi notare: \n");
 
-            for (TokenObject obj : getObjects()) {
+            for (TokenObject obj : objects) {
                 objectsDescription.append(obj.getName())
                         .append(", ");
             }

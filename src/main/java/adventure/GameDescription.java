@@ -87,7 +87,7 @@ public abstract class GameDescription {
 
         try {
             objects.addAll(getInventory().getObjects());
-        } catch (InventoryEmptyException e) {
+        } catch (InventoryEmptyException ignored) {
 
         }
 

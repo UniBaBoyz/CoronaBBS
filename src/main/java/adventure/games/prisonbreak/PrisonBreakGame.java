@@ -613,7 +613,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject medicine = new TokenObject(MEDICINE, "Farmaco",
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
-        medicine.setGive(true);
+        medicine.setGiveable(true);
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
@@ -633,13 +633,13 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' presente un letto a castello molto scomodo e pieno di polvere!");
-        bed.setSit(true);
+        bed.setSitable(true);
         cell.setObject(bed);
 
         TokenObject bedBrother = new TokenObject(BED_BROTHER, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
-        bed.setSit(true);
+        bed.setSitable(true);
         brotherCell.setObject(bedBrother);
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
@@ -656,7 +656,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject water = new TokenObject(WATER, "Water",
                 new HashSet<>(Arrays.asList("Water", "Cesso", "Gabinetto", "Tazza", "Wc")),
                 "Un water qualunque, senza nessun particolare, non penso sia bello osservarlo");
-        water.setSit(true);
+        water.setSitable(true);
         cell.setObject(water);
         brotherCell.setObject(water);
 
@@ -866,7 +866,10 @@ public class PrisonBreakGame extends GameDescription {
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
                 if (object != null
-                        && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object))) {
+                        && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object)
+                        || getCurrentRoom().getObjects().stream()
+                        .anyMatch(obj -> obj instanceof TokenPerson
+                                && ((TokenPerson) obj).getInventory().contains(object)))) {
                     out.println(object.getDescription());
                 } else if (getCurrentRoom().getLook() != null && (object == null || object.getId() == ROOM_OBJ)) {
                     out.println(getCurrentRoom().getLook());
@@ -994,7 +997,8 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 }
 
-                if (object != null && object.getId() == HACKSAW && !getObject(TOOLS).isUsed() && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
+                if (object != null && object.getId() == HACKSAW
+                        && !getObject(TOOLS).isUsed() && getCurrentRoom().isObjectUsableHere(getObject(HACKSAW))) {
                     out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre " +
                             "della grata! In realtà la colpa non è totalmente del seghetto ma anche la tua " +
                             "poiché sei molto stanco e hai poca forza nelle braccia!");
@@ -1129,6 +1133,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
 
+                //TODO
             } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
                 if (object == null) {
                     // in piedi
@@ -1143,8 +1148,9 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non penso che questa cosa si possa fare ?!?");
                 }
 
+                //TODO
             } else if (p.getVerb().getVerbType().equals(VerbType.SIT_DOWN)) {
-                if (object != null && object.isSit() && getCurrentRoom().containsObject(object)) {
+                if (object != null && object.isSitable() && getCurrentRoom().containsObject(object)) {
                     // bed case
                     if (object.getId() == BED || object.getId() == BED_BROTHER) {
                         if (isStandUp() || !isBed()) {
@@ -1165,7 +1171,7 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 } else if (object == null) {
                     out.println("Sedersi sul pavimento non mi sembra una buona idea!");
-                } else if (!object.isSit()) {
+                } else if (!object.isSitable()) {
                     out.println("Con quell'oggetto puoi fare altro ma di certo non sederti!");
                 } else if (!getCurrentRoom().containsObject(object)) {
                     out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
@@ -1331,7 +1337,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
                 }
-            }  else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
+            } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
                 if ((object != null && object.isInsertable())) {
                     if (getCurrentRoom().getId() == DOOR_ISOLATION) {
                         getInventory().remove(object);

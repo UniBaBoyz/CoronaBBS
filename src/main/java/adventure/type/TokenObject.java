@@ -18,7 +18,7 @@ public class TokenObject extends Token {
     private String description;
     private boolean openable = false;
     private boolean pickupable = false;
-    private boolean give = false;
+    private boolean giveable = false;
     private boolean mixable = false;
     private boolean usable = false;
     private boolean pushable = false;
@@ -27,13 +27,14 @@ public class TokenObject extends Token {
     private boolean playable = false;
     private boolean speakable = false;
     private boolean insertable = false;
-    private boolean sit = false; //indica se si può sedere su un oggetto
-    private boolean given = false;
+    private boolean sitable = false; //To able to sit down on an object
     private boolean open = false;
+    private boolean given = false;
+    private boolean used = false;
     private boolean push = false;
     private boolean on = true;
     private boolean climb = false;
-    private boolean used = false;
+    private boolean sit = false;
 
     public TokenObject(int id, String name, Set<String> alias) {
         super(TokenType.OBJECT);
@@ -143,12 +144,12 @@ public class TokenObject extends Token {
         this.pushable = pushable;
     }
 
-    public boolean isSit() {
-        return sit;
+    public boolean isSitable() {
+        return sitable;
     }
 
-    public void setSit(boolean sit) {
-        this.sit = sit;
+    public void setSitable(boolean sitable) {
+        this.sitable = sitable;
     }
 
     public boolean isOpen() {
@@ -207,12 +208,12 @@ public class TokenObject extends Token {
         this.on = on;
     }
 
-    public boolean isGive() {
-        return give;
+    public boolean isGiveable() {
+        return giveable;
     }
 
-    public void setGive(boolean give) {
-        this.give = give;
+    public void setGiveable(boolean giveable) {
+        this.giveable = giveable;
     }
 
     public boolean isGiven() {
@@ -229,6 +230,14 @@ public class TokenObject extends Token {
 
     public void setPush(boolean push) {
         this.push = push;
+    }
+
+    public boolean isSit() {
+        return sit;
+    }
+
+    public void setSit(boolean sit) {
+        this.sit = sit;
     }
 
     public int getId() {
