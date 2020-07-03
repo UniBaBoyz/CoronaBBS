@@ -32,7 +32,7 @@ public class Inventory {
         if (list.isEmpty()) {
             throw new InventoryEmptyException();
         }
-        return true;
+        return false;
     }
 
     public boolean contains(TokenObject o) {

@@ -38,7 +38,7 @@ public class TokenPerson extends TokenObject {
 
     @Override
     public String getDescription() {
-        StringBuilder objects = new StringBuilder(this.getName() + "possiede: ");
+        StringBuilder objects = new StringBuilder(this.getName() + " possiede: ");
 
         try {
             if (!(getInventory().isEmpty())) {
