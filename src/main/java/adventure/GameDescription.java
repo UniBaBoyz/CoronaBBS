@@ -22,7 +22,6 @@ public abstract class GameDescription {
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
-    private boolean standUp = true; //TODO ELIMINARE SE SI CREA LA CLASSE PERSONAGGIO
 
     public static int getIncreaseScore() {
         return INCREASE_SCORE;
@@ -70,14 +69,6 @@ public abstract class GameDescription {
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
-    }
-
-    public boolean isStandUp() {
-        return standUp;
-    }
-
-    public void setStandUp(boolean standUp) {
-        this.standUp = standUp;
     }
 
     public abstract void nextMove(ParserOutput p, PrintStream out);

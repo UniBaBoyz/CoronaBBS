@@ -23,25 +23,15 @@ import static adventure.games.prisonbreak.RoomType.*;
  */
 public class PrisonBreakGame extends GameDescription {
 
-    private boolean bed = false;
-
     public PrisonBreakGame() {
         initVerbs();
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CANTEEN));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
-    }
-
-    public boolean isBed() {
-        return bed;
-    }
-
-    public void setBed(boolean bed) {
-        this.bed = bed;
     }
 
     private void initVerbs() {
@@ -1134,13 +1124,16 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
                 }
 
-                //TODO
             } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
                 if (object == null) {
-                    // in piedi
-                    if (!isStandUp()) {
-                        setStandUp(true);
-                        setBed(false);
+                    //On foot
+                    if (getCurrentRoom().getObjects().stream()
+                            .anyMatch(obj -> obj.isSitable() && obj.isSit())) {
+                        getCurrentRoom().getObjects().stream()
+                                .filter(obj -> obj.isSitable() && obj.isSit())
+                                .findFirst()
+                                .orElse(null)
+                                .setSit(false);
                         out.println("Oplà! Ti sei alzato!");
                     } else {
                         out.println("Sei così basso che non ti accorgi di stare già in piedi???");
@@ -1149,26 +1142,35 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non penso che questa cosa si possa fare ?!?");
                 }
 
-                //TODO
             } else if (p.getVerb().getVerbType().equals(VerbType.SIT_DOWN)) {
                 if (object != null && object.isSitable() && getCurrentRoom().containsObject(object)) {
-                    // bed case
+
+                    //Bed case
                     if (object.getId() == BED || object.getId() == BED_BROTHER) {
-                        if (isStandUp() || !isBed()) {
-                            setStandUp(false);
-                            setBed(true);
+                        if (getCurrentRoom().getObjects().stream()
+                                .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() != WATER)) {
                             out.println("Buonanotte fiorellino!");
                         } else {
                             out.println("Sei talmente stanco che nemmeno ti accorgi che sei già seduto???");
                         }
+
+                        //Water case
                     } else if (object.getId() == WATER) {
-                        if (isStandUp() || isBed()) {
-                            setStandUp(false);
-                            setBed(false);
+                        if (getCurrentRoom().getObjects().stream()
+                                .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() == WATER)) {
                             out.println("Proprio ora devi farlo?");
                         } else {
                             out.println("Sei già seduto! Ricordati di tirare lo scarico!");
                         }
+                    }
+                    object.setSit(true);
+                    if (getCurrentRoom().getObjects().stream()
+                            .filter(obj -> obj.isSitable() && obj.isSit()).count() > 1) {
+                        getCurrentRoom().getObjects().stream()
+                                .filter(obj -> obj.isSitable() && obj.isSit() && obj.getId() != object.getId())
+                                .findFirst()
+                                .orElse(null)
+                                .setSit(false);
                     }
                 } else if (object == null) {
                     out.println("Sedersi sul pavimento non mi sembra una buona idea!");
