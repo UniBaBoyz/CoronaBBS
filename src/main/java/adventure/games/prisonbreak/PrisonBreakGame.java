@@ -12,12 +12,15 @@ import adventure.parser.ParserOutput;
 import adventure.type.*;
 
 import java.io.PrintStream;
+import java.nio.channels.SelectableChannel;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
+import static adventure.utils.Utils.AFTER_FOUGHT;
+import static adventure.utils.Utils.FOUGHT_SCORE;
 
 
 /**
@@ -30,7 +33,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(INFIRMARY));
+        setCurrentRoom(getRoom(FRONTBENCH));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -99,6 +102,11 @@ public class PrisonBreakGame extends GameDescription {
         talk.setAlias(new HashSet<>(Arrays.asList("Parla", "Chiacchiera", "Comunica", "Dialoga", "Conversa",
                 "Ascolta", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
         getTokenVerbs().add(talk);
+
+        TokenVerb faceUp = new TokenVerb(VerbType.FACE_UP);
+        faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Attacca", "Mena", "Azzuffati", "Litiga",
+                "Scontrati", "Lotta", "Combatti")));
+        getTokenVerbs().add(faceUp);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
         ask.setAlias(new HashSet<>(Arrays.asList("Chiedi", "Domanda", "Desidero")));
@@ -391,14 +399,6 @@ public class PrisonBreakGame extends GameDescription {
                         "perche' la panchina e' la loro. Cosa scegli di fare?");
         frontBench.setLook("Vedi il gruppo di neri che ti fissa aspettando una tua mossa, non credo sia l’idea " +
                 "migliore restare lì impalato.");
-
-        Room brawl = new Room(BRAWL, "Rissa", "Sai benissimo che in un carcere non si possono" +
-                " comprare panchine e ti avvicini nuovamente con l’intendo di prendere l’oggetto. Il gruppetto " +
-                "ti blocca e il piu' grosso di loro ti tira un pugno contro il viso... \n Perdendo i sensi" +
-                " non ti ricordi piu' nulla e ti svegli in infermeria.");
-        brawl.setLook("");
-
-
         //maps
         cell.setEast(corridor);
         cell.setWest(passage);
@@ -423,8 +423,6 @@ public class PrisonBreakGame extends GameDescription {
         bench.setNorth(garden);
         bench.setSouth(frontBench);
         frontBench.setNorth(bench);
-        frontBench.setSouth(brawl);
-        brawl.setNorth(frontBench);
         gym.setWest(lobbySouth);
         lobbyEnd.setEast(canteen);
         lobbyEnd.setWest(otherCell);
@@ -490,7 +488,6 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(wall);
         getRooms().add(bench);
         getRooms().add(frontBench);
-        getRooms().add(brawl);
         getRooms().add(lobbySouth);
         getRooms().add(otherCell);
         getRooms().add(gym);
@@ -535,7 +532,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
         screw.setUsable(true);
-        bench.setObject(screw);
+        frontBench.setObject(screw);
         cell.setObjectsUsableHere(screw);
 
         TokenObject scotch = new TokenObject(SCOTCH, "Scotch", new HashSet<>(Arrays.asList("Scotch", "Nastro")),
@@ -580,7 +577,7 @@ public class PrisonBreakGame extends GameDescription {
         scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.setObject(scalpel);
-        brawl.setObjectsUsableHere(scalpel);
+        frontBench.setObjectsUsableHere(scalpel);
 
         TokenObject hacksaw = new TokenObject(HACKSAW, "Seghetto",
                 new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
@@ -903,6 +900,8 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
 
+                } else if (object.getId() == SCREW && !object.isPickupable()) {
+                    out.println("Non puoi prendere quella vita se prima non affronti il gruppetto dei detenuti!");
                 } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!object.isPickupable()) {
@@ -966,7 +965,7 @@ public class PrisonBreakGame extends GameDescription {
                                 "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                                 "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
                                 "alla panchina.");
-                        getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
+                        getRoom(FRONTBENCH).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
                                 " nelle vicinanze.");
                         increaseScore();
                         object.setUsed(true);
@@ -1465,6 +1464,8 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non puoi accettare una cosa che non hai chiesto!!!");
                 } else if (getObject(HACKSAW).isAccept()) {
                     out.println("Ormai hai già accettato! Ci avresti potuto pensare prima!");
+                } else if (getCurrentRoom().getId() != CANTEEN) {
+                    out.println("Cosa vuoi accettare? Nulla???");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
                 if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN
@@ -1478,6 +1479,35 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non puoi rifiutare una cosa che non hai chiesto!!!");
                 } else if (getObject(HACKSAW).isAccept() || getInventory().contains(getObject(HACKSAW))) {
                     out.println("Ormai hai già accettato! Ci avresti potuto pensare prima!");
+                } else if (getCurrentRoom().getId() != CANTEEN) {
+                    out.println("Cosa vuoi rifiutare? Nulla???");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.FACE_UP)) {
+                if (getCurrentRoom().getId() == FRONTBENCH && getScore() < FOUGHT_SCORE) {
+                    out.println("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
+                            "nuovamente con l’intendo di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
+                            "di loro ti tira un pugno contro il viso... Perdendo i sensi non ti ricordi piu' nulla e" +
+                            " ti svegli in infermeria.");
+                    setCurrentRoom(getRoom(INFIRMARY));
+                    increaseScore();
+                    getObject(SCREW).setPickupable(true);
+                    move = true;
+                } else if (getCurrentRoom().getId() == FRONTBENCH
+                        && getScore() < AFTER_FOUGHT
+                        && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
+                    increaseScore();
+                    getInventory().remove(getObject(SCALPEL));
+                    getObject(SCALPEL).setUsed(true);
+                    out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
+                            "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
+                            "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
+                            " alla panchina.");
+                    getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
+                    getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+                            "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+                } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() >= AFTER_FOUGHT
+                        || getObject(SCALPEL).isUsed()) {
+                    out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
                 }
             }
 

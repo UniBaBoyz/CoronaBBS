@@ -36,5 +36,6 @@ public enum VerbType {
     EAT,
     PLAY,
     ASK,
+    FACE_UP,
     DESTROY, //TODO
 }
