@@ -30,7 +30,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CELL));
+        setCurrentRoom(getRoom(CANTEEN));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -97,7 +97,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
         talk.setAlias(new HashSet<>(Arrays.asList("Parla", "Chiacchiera", "Comunica", "Dialoga", "Conversa",
-                "Affronta", "Ascolta", "Chiedi", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
+                "Affronta", "Ascolta", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
         getTokenVerbs().add(talk);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
@@ -887,7 +887,15 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
-                if (object != null && object.isPickupable()
+                if (object != null && object.equals(getObject(HACKSAW)) && object.isAccept()) {
+                    TokenObject hacksaw = getObject(HACKSAW);
+                    TokenPerson genny = (TokenPerson) getObject(GENNY_BELLO);
+                    //TODO Togliere dalla stanza corrente senza buggare il getObject
+                    getCurrentRoom().getObjects().remove(hacksaw);
+                    genny.getInventory().remove(hacksaw);
+                    getInventory().add(object);
+                    out.println("Hai preso " + object.getName() + "!");
+                } else if (object != null && object.isPickupable()
                         && getCurrentRoom().containsObject(object)) {
                     if (object.getId() == SCALPEL || object.getId() == SCOTCH || object.getId() == SCREW) {
                         increaseScore();
@@ -895,14 +903,6 @@ public class PrisonBreakGame extends GameDescription {
                     getCurrentRoom().getObjects().remove(object);
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
-                }
-                if (object != null && object.equals(getObject(HACKSAW)) && object.isAccept()) {
-                    object.setAccept(false);
-                    TokenObject hacksaw = getObject(HACKSAW);
-                    TokenPerson genny = (TokenPerson)getObject(GENNY_BELLO);
-                    //TODO Togliere dalla stanza corrente senza buggare il getObject
-                    getCurrentRoom().getObjects().remove(hacksaw);
-                    genny.getInventory().remove(hacksaw);
 
                 } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
@@ -1453,7 +1453,9 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non sembra la soluzione giusta!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.ACCEPT)) {
-                if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN) {
+                if (getObject(HACKSAW).isAsked()
+                        && getCurrentRoom().getId() == CANTEEN
+                        && !getObject(HACKSAW).isAccept()) {
                     out.println("Gli racconti tutto il piano segreto di fuga, il detenuto capisce che questo è " +
                             "il miglior piano che abbia sentito fin ora e accetta subito dandoti il seghetto e " +
                             "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla mia cella!");
@@ -1462,9 +1464,12 @@ public class PrisonBreakGame extends GameDescription {
                     getObject(HACKSAW).setAccept(true);
                 } else if (!getObject(HACKSAW).isAsked()) {
                     out.println("Non puoi accettare una cosa che non hai chiesto!!!");
+                } else if (getObject(HACKSAW).isAccept()) {
+                    out.println("Ormai hai già accettato! Ci avresti potuto pensare prima!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
-                if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN) {
+                if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN
+                        && !getObject(HACKSAW).isAccept() && !getInventory().contains(getObject(HACKSAW)) ) {
                     out.println("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
                             "a ricontrattare!");
                     getObject(HACKSAW).setPickupable(false);
@@ -1472,6 +1477,8 @@ public class PrisonBreakGame extends GameDescription {
                     getObject(HACKSAW).setAccept(false);
                 } else if (!getObject(HACKSAW).isAsked()) {
                     out.println("Non puoi rifiutare una cosa che non hai chiesto!!!");
+                } else if (getObject(HACKSAW).isAccept() || getInventory().contains(getObject(HACKSAW))) {
+                    out.println("Ormai hai già accettato! Ci avresti potuto pensare prima!");
                 }
             }
 

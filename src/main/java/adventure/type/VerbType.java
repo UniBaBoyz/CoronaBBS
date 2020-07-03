@@ -22,11 +22,11 @@ public enum VerbType {
     EXIT,
     ENTER,
     PICK_UP,
-    TALK_TO, //TODO
+    TALK_TO,
     GIVE, //TODO
-    DECLINE, //TODO
-    ACCEPT, //TODO
-    PUT_IN, //TODO
+    DECLINE,
+    ACCEPT,
+    PUT_IN,
     MAKE,
     REMOVE,
     USE,
