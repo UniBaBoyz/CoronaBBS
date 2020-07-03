@@ -33,7 +33,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(FRONTBENCH));
+        setCurrentRoom(getRoom(AIR_DUCT_NORTH));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -104,8 +104,8 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(talk);
 
         TokenVerb faceUp = new TokenVerb(VerbType.FACE_UP);
-        faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Attacca", "Mena", "Azzuffati", "Litiga",
-                "Scontrati", "Lotta", "Combatti")));
+        faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Affrontali", "Attacca", "Mena", "Azzuffati", "Litiga",
+                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali")));
         getTokenVerbs().add(faceUp);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
@@ -901,7 +901,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Hai preso " + object.getName() + "!");
 
                 } else if (object.getId() == SCREW && !object.isPickupable()) {
-                    out.println("Non puoi prendere quella vita se prima non affronti il gruppetto dei detenuti!");
+                    out.println("Non puoi prendere quella vite se prima non affronti il gruppetto dei detenuti!");
                 } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!object.isPickupable()) {
@@ -972,7 +972,7 @@ public class PrisonBreakGame extends GameDescription {
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
-                        getRoom(PASSAGE_NORTH).setLocked(false);
+                        getRoom(INFIRMARY).setLocked(false);
                         getInventory().remove(object);
                         getRoom(AIR_DUCT_NORTH).removeObject(destroyableGate);
                         out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
@@ -1508,6 +1508,45 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() >= AFTER_FOUGHT
                         || getObject(SCALPEL).isUsed()) {
                     out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
+                if (object != null
+                        && object.getId() == DESTROYABLE_GRATE
+                        && getCurrentRoom().getId() == AIR_DUCT_NORTH
+                        && getInventory().contains(getObject(HACKSAW))
+                        && getObject(TOOLS).isUsed()
+                        && getObject(MEDICINE).isGiven()
+                        && !getObject(HACKSAW).isUsed()) {
+                    out.println("La tua squadra è al completo e riesci ad intrufolarti nell’infermeria tramite" +
+                            " il vecchio condotto d’aria nascosto dietro il quadro di Trump!\nSei riuscito a rompere" +
+                            " la grata!");
+                    getRoom(INFIRMARY).setLocked(false);
+                    TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
+                    getInventory().remove(getObject(HACKSAW));
+                    getObject(HACKSAW).setUsed(true);
+                    increaseScore();
+                    getRoom(AIR_DUCT_NORTH).removeObject(destroyableGate);
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    move = true;
+                } else if (object == null) {
+                    out.println("Cosa vuoi rompere???");
+                } else if (object.getId() != DESTROYABLE_GRATE) {
+                    out.println("Non puoi distruggere questo oggetto!");
+                } else if (getCurrentRoom().getId() != AIR_DUCT_NORTH) {
+                    out.println("Non puoi distruggere niente qui!");
+                } else if (!getInventory().contains(getObject(HACKSAW))) {
+                    out.println("Come puoi rompere la grata? Non hai nessun oggetto utile!");
+                } else if (!getObject(TOOLS).isUsed()) {
+                    out.println("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre della grata! " +
+                            "In realtà la colpa non è totalmente del seghetto ma anche la tua poichè sei molto stanco " +
+                            "e hai poca forza nelle braccia!");
+                } else if (!getObject(MEDICINE).isGiven()) {
+                    out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
+                            "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria. " +
+                            "Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi " +
+                            "la persona più importante???");
+                } else if (!getObject(HACKSAW).isUsed()) {
+                    out.println("Hai già usato quell'oggetto! Non puoi più rompere nulla!");
                 }
             }
 
