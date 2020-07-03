@@ -27,14 +27,17 @@ public class TokenObject extends Token {
     private boolean playable = false;
     private boolean speakable = false;
     private boolean insertable = false;
+    private boolean askable = false;
     private boolean sitable = false; //To able to sit down on an object
     private boolean open = false;
     private boolean given = false;
     private boolean used = false;
     private boolean push = false;
     private boolean on = true;
+    private boolean accept = false;
     private boolean climb = false;
     private boolean sit = false;
+    private boolean asked = false;
 
     public TokenObject(int id, String name, Set<String> alias) {
         super(TokenType.OBJECT);
@@ -94,6 +97,22 @@ public class TokenObject extends Token {
 
     public void setOpenable(boolean openable) {
         this.openable = openable;
+    }
+
+    public boolean isAccept() {
+        return accept;
+    }
+
+    public void setAccept(boolean accept) {
+        this.accept = accept;
+    }
+
+    public boolean isAsked() {
+        return asked;
+    }
+
+    public void setAsked(boolean asked) {
+        this.asked = asked;
     }
 
     public boolean isInsertable() {
@@ -158,6 +177,14 @@ public class TokenObject extends Token {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean isAskable() {
+        return askable;
+    }
+
+    public void setAskable(boolean askable) {
+        this.askable = askable;
     }
 
     public boolean isMixable() {

@@ -100,6 +100,10 @@ public class PrisonBreakGame extends GameDescription {
                 "Affronta", "Ascolta", "Chiedi", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
         getTokenVerbs().add(talk);
 
+        TokenVerb ask = new TokenVerb(VerbType.ASK);
+        ask.setAlias(new HashSet<>(Arrays.asList("Chiedi", "Domanda")));
+        getTokenVerbs().add(ask);
+
         TokenVerb eat = new TokenVerb(VerbType.EAT);
         eat.setAlias(new HashSet<>(Arrays.asList("Mangia", "Pranza", "Cena", "Divora")));
         getTokenVerbs().add(eat);
@@ -584,8 +588,8 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto", "Distrutto",
                         "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Aggiustato",
                         "Sistemato", "Riparato"))))));
-        hacksaw.setPickupable(true);
         hacksaw.setUsable(true);
+        hacksaw.setAskable(true);
         airDuctNorth.setObjectsUsableHere(hacksaw);
 
         try {
@@ -761,7 +765,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi con te per" +
                         " acquistarla! \nTi ricordo che il tuo piano è fuggire di prigione e non rimanerci qualche " +
                         "anno di più!");
-        drug.setPickupable(true);
+        drug.setAskable(true);
         try {
             GennyBello.getInventory().add(drug);
         } catch (InventoryFullException ignored) {
@@ -771,6 +775,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Gioco", "Videogioco")),
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
+        videogame.setAskable(true);
         try {
             GennyBello.getInventory().add(videogame);
         } catch (InventoryFullException ignored) {
@@ -890,6 +895,15 @@ public class PrisonBreakGame extends GameDescription {
                     getCurrentRoom().getObjects().remove(object);
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
+                }
+                if (object != null && object.equals(getObject(HACKSAW)) && object.isAccept()) {
+                    object.setAccept(false);
+                    TokenObject hacksaw = getObject(HACKSAW);
+                    TokenPerson genny = (TokenPerson)getObject(GENNY_BELLO);
+                    //TODO Togliere dalla stanza corrente senza buggare il getObject
+                    getCurrentRoom().getObjects().remove(hacksaw);
+                    genny.getInventory().remove(hacksaw);
+
                 } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (!object.isPickupable()) {
@@ -1411,6 +1425,53 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Vuoi parlare da solo???");
                 } else if (!object.isSpeakable()) {
                     out.println("Parlare con quell'oggetto non sembra essere la soluzione migliore!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.ASK)) {
+                if ((object != null && object.isAskable())) {
+                    if (getCurrentRoom().getId() == CANTEEN) {
+                        if (object.equals(getObject(DRUG))) {
+                            out.println("Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi " +
+                                    "con te per acquistarla! Ti ricordo che il tuo piano è fuggire di prigione e non " +
+                                    "rimanerci qualche anno di più!");
+                        } else if (object.equals(getObject(VIDEOGAME))) {
+                            out.println("Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione" +
+                                    " avrai molto tempo per giocare anche a videogiochi migliori!");
+                        } else if (object.equals(getObject(HACKSAW)) && !object.isAsked()) {
+                            out.println("Il detenuto ti dice che a tutti quelli che ha venduto un seghetto avevano " +
+                                    "sempre un piano di fuga per evadere di prigione che però non sono mai andati a " +
+                                    "buon fine essendo un carcere di massima sicurezza ( in effetti con un seghetto " +
+                                    "in prigione non hai tante alternative), In cambio gli dovrai confessare tutto " +
+                                    "il tuo piano di fuga e farlo fuggire insieme a te, cosa scegli???");
+                            object.setAsked(true);
+                        } else if (object.isAsked()) {
+                            out.println("Hai già chiesto per quell'oggetto!!!");
+                        }
+                    }
+                } else if (object == null) {
+                    out.println("Cosa devi chiedere?");
+                } else if (!object.isAskable()) {
+                    out.println("Non sembra la soluzione giusta!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.ACCEPT)) {
+                if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN) {
+                    out.println("Gli racconti tutto il piano segreto di fuga, il detenuto capisce che questo è " +
+                            "il miglior piano che abbia sentito fin ora e accetta subito dandoti il seghetto e " +
+                            "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla mia cella!");
+                    out.println("Ora puoi prendere il seghetto da Genny!");
+                    getObject(HACKSAW).setPickupable(true);
+                    getObject(HACKSAW).setAccept(true);
+                } else if (!getObject(HACKSAW).isAsked()) {
+                    out.println("Non puoi accettare una cosa che non hai chiesto!!!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
+                if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN) {
+                    out.println("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
+                            "a ricontrattare!");
+                    getObject(HACKSAW).setPickupable(false);
+                    getObject(HACKSAW).setAsked(false);
+                    getObject(HACKSAW).setAccept(false);
+                } else if (!getObject(HACKSAW).isAsked()) {
+                    out.println("Non puoi rifiutare una cosa che non hai chiesto!!!");
                 }
             }
 
