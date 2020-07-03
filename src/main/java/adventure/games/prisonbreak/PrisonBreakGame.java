@@ -527,14 +527,14 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(endGame);
         getRooms().add(windowInfirmary);
 
-        TokenPerson jennyBello = new TokenPerson(PERSON, "Jenny",
-                new HashSet<>(Arrays.asList("Jenny", "Bello")),
+        TokenPerson GennyBello = new TokenPerson(PERSON, "Genny Bello",
+                new HashSet<>(Collections.singletonList("Genny")),
                 "E' un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
                 new HashSet<>(
                         Collections.singletonList(
                                 new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))));
-        jennyBello.setSpeakable(true);
-        canteen.setObject(jennyBello);
+        GennyBello.setSpeakable(true);
+        canteen.setObject(GennyBello);
 
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
@@ -597,7 +597,7 @@ public class PrisonBreakGame extends GameDescription {
         airDuctNorth.setObjectsUsableHere(hacksaw);
 
         try {
-            jennyBello.getInventory().add(hacksaw);
+            GennyBello.getInventory().add(hacksaw);
         } catch (InventoryFullException ignored) {
         }
 
@@ -771,7 +771,7 @@ public class PrisonBreakGame extends GameDescription {
                         "anno di più!");
         drug.setPickupable(true);
         try {
-            jennyBello.getInventory().add(drug);
+            GennyBello.getInventory().add(drug);
         } catch (InventoryFullException ignored) {
         }
 
@@ -780,7 +780,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione avrai molto tempo " +
                         "per giocare anche a videogiochi migliori!");
         try {
-            jennyBello.getInventory().add(videogame);
+            GennyBello.getInventory().add(videogame);
         } catch (InventoryFullException ignored) {
         }
 
