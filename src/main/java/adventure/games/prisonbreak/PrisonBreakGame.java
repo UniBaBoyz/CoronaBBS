@@ -30,7 +30,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CANTEEN));
+        setCurrentRoom(getRoom(DOOR_ISOLATION));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -824,7 +824,7 @@ public class PrisonBreakGame extends GameDescription {
 
         try {
             object = getCorrectObject(p.getObject());
-
+            getInventory().add(getObject(SCOTCH));
             if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
@@ -1331,6 +1331,20 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con cosa vuoi giocare esattamente???");
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
+                }
+            }  else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
+                if ((object != null && object.isInsertable())) {
+                    if (getCurrentRoom().getId() == DOOR_ISOLATION) {
+                        getInventory().remove(object);
+                        getRoom(ISOLATION).setLocked(false);
+                        getObject(COMBINATION).setUsed(true);
+                        out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
+                                " tornare indietro anche se hai poco tempo a disposizione!");
+                    }
+                } else if (object == null) {
+                    out.println("Con cosa vuoi inserire??");
+                } else if (!object.isInsertable()) {
+                    out.println("Ho paura di quello che vuoi fare!!!");
                 }
             }
 
