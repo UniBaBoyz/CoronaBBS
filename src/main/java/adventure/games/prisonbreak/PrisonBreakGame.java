@@ -1,6 +1,8 @@
 package adventure.games.prisonbreak;
 
 import adventure.GameDescription;
+import adventure.exceptions.LockedRoomException;
+import adventure.exceptions.NotAccessibleRoomException;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
@@ -48,7 +50,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenVerb nord = new TokenVerb(VerbType.NORD);
         nord.setAlias(new HashSet<>(Collections.singletonList("Nord")));
         getTokenVerbs().add(nord);
-
 
         TokenVerb sud = new TokenVerb(VerbType.SOUTH);
         sud.setAlias(new HashSet<>(Collections.singletonList("Sud")));
@@ -814,13 +815,15 @@ public class PrisonBreakGame extends GameDescription {
                 Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
         setObjectNotAssignedRoom(roomObject);
 
+        TokenObject scoreObject = new TokenObject(SCORE_OBJ, "Punteggio", new HashSet<>(
+                Arrays.asList("Punteggio", "Punti", "Score")));
+        setObjectNotAssignedRoom(scoreObject);
     }
 
     @Override
     public void nextMove(ParserOutput p, PrintStream out) {
         TokenObject object;
         boolean move = false;
-        boolean noroom = false;
         boolean mixed = false;
 
         try {
@@ -829,32 +832,40 @@ public class PrisonBreakGame extends GameDescription {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
                     move = true;
-                } else {
-                    noroom = true;
+                } else if (getCurrentRoom().getNorth() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getNorth().isLocked()) {
+                    throw new LockedRoomException();
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.SOUTH)) {
                 if (getCurrentRoom().getSouth() != null && !getCurrentRoom().getSouth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getSouth());
                     move = true;
-                } else {
-                    noroom = true;
+                } else if (getCurrentRoom().getSouth() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getSouth().isLocked()) {
+                    throw new LockedRoomException();
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.EAST)) {
                 if (getCurrentRoom().getEast() != null && !getCurrentRoom().getEast().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getEast());
                     move = true;
-                } else {
-                    noroom = true;
+                } else if (getCurrentRoom().getEast() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getEast().isLocked()) {
+                    throw new LockedRoomException();
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.WEST)) {
                 if (getCurrentRoom().getWest() != null && !getCurrentRoom().getWest().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getWest());
                     move = true;
-                } else {
-                    noroom = true;
+                } else if (getCurrentRoom().getWest() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getWest().isLocked()) {
+                    throw new LockedRoomException();
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.INVENTORY)) {
@@ -874,6 +885,8 @@ public class PrisonBreakGame extends GameDescription {
                     out.println(object.getDescription());
                 } else if (getCurrentRoom().getLook() != null && (object == null || object.getId() == ROOM_OBJ)) {
                     out.println(getCurrentRoom().getLook());
+                } else if (object != null && object.getId() == SCORE_OBJ) {
+                    out.println("Non male, attualmente il tuo punteggio è " + getScore());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
                 }
@@ -881,6 +894,9 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
                 if (object != null && object.isPickupable()
                         && getCurrentRoom().containsObject(object)) {
+                    if (object.getId() == SCALPEL || object.getId() == SCOTCH || object.getId() == SCREW) {
+                        increaseScore();
+                    }
                     getCurrentRoom().getObjects().remove(object);
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
@@ -916,6 +932,7 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
                                 "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
                                 "sposti il lavandino e vedi un passaggio segreto");
+                        increaseScore();
                         object.setUsed(true);
 
                     } else if (object.getId() == SCOTCH) {
@@ -923,11 +940,17 @@ public class PrisonBreakGame extends GameDescription {
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                                 "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
+                        increaseScore();
                         object.setUsed(true);
 
                     } else if (object.getId() == TOOLS) {
                         out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                                 "ti senti già più forte!");
+
+                        if (!object.isUsed()) {
+                            increaseScore();
+                        }
+
                         object.setUsed(true);
 
                     } else if (object.getId() == BALL) {
@@ -942,6 +965,7 @@ public class PrisonBreakGame extends GameDescription {
                                 "alla panchina.");
                         getRoom(BRAWL).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
                                 " nelle vicinanze.");
+                        increaseScore();
                         object.setUsed(true);
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
@@ -955,6 +979,8 @@ public class PrisonBreakGame extends GameDescription {
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                         out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
                                 "non ti sembri manchi la persona più importante???");
+                        increaseScore();
+                        increaseScore();
                         object.setUsed(true);
 
                     } else if (object.getId() == SINK || object.getId() == SINK_BROTHER) {
@@ -970,6 +996,7 @@ public class PrisonBreakGame extends GameDescription {
                             out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                     " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                     " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                            increaseScore();
                             object.setUsed(true);
                         }
 
@@ -977,6 +1004,10 @@ public class PrisonBreakGame extends GameDescription {
                         getRoom(ENDGAME).setLocked(false);
                         getInventory().remove(object);
                         out.println("La finestra adesso presenta un buco, sarebbe meglio infilarsi dentro!");
+                        increaseScore();
+                        increaseScore();
+                        increaseScore();
+                        increaseScore();
                         object.setUsed(true);
 
                     } else if (object.getId() == COMBINATION && !object.isUsed()) {
@@ -984,8 +1015,10 @@ public class PrisonBreakGame extends GameDescription {
                         getRoom(ISOLATION).setLocked(false);
                         out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
+                        increaseScore();
+                        object.setUsed(true);
                     }
-                    object.setUsed(true);
+
                 } else {
                     if (object == null) {
                         out.println("Sei sicuro di non voler usare niente?");
@@ -1060,10 +1093,12 @@ public class PrisonBreakGame extends GameDescription {
                             getRoom(SECRET_PASSAGE).setObject(object);
                             getRoom(PASSAGE_SOUTH).getObjects().remove(object);
                             out.println("La scala è stata spinta fino alla stanza a nord!");
+                            increaseScore();
                         } else if (getCurrentRoom().getId() == SECRET_PASSAGE) {
                             getRoom(PASSAGE_NORTH).setObject(object);
                             getRoom(SECRET_PASSAGE).getObjects().remove(object);
                             out.println("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!");
+                            increaseScore();
                         } else {
                             out.println("La scala è bloccata! Non esiste alcun modo per spostarla!");
                         }
@@ -1076,6 +1111,8 @@ public class PrisonBreakGame extends GameDescription {
                                 object.setPush(true);
                                 getRoom(SECRET_PASSAGE).setLocked(false);
                                 out.println("Oissà!");
+                                increaseScore();
+                                increaseScore();
                             }
                         }
 
@@ -1103,6 +1140,8 @@ public class PrisonBreakGame extends GameDescription {
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                         " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                         " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                                increaseScore();
+                                increaseScore();
                             }
                         }
                     }
@@ -1251,23 +1290,27 @@ public class PrisonBreakGame extends GameDescription {
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
+                        increaseScore();
                     } else if (!object.equals(getObject(ACID)) && getInventory().getObjects().contains(object)) {
                         getInventory().remove(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
+                        increaseScore();
                     } else if (getCurrentRoom().getObjects().contains(substances)
                             && object.equals(getObject(ACID))) {
                         getCurrentRoom().getObjects().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
+                        increaseScore();
                     } else if (getInventory().getObjects().contains(substances)
                             && object.equals(getObject(ACID))) {
                         getInventory().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
+                        increaseScore();
                     }
                     if (mixed || !getInventory().getObjects().contains(getObject(ACID))) {
                         out.println("Hai creato un acido corrosivo, attento alle mani!");
@@ -1296,6 +1339,8 @@ public class PrisonBreakGame extends GameDescription {
                             out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                     " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                     " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                            increaseScore();
+                            increaseScore();
                         }
                     } else {
                         out.println("Non puoi spegnere nulla qui!");
@@ -1346,6 +1391,7 @@ public class PrisonBreakGame extends GameDescription {
                         getObject(COMBINATION).setUsed(true);
                         out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
+                        increaseScore();
                     }
                 } else if (object == null) {
                     out.println("Con cosa vuoi inserire??");
@@ -1366,13 +1412,16 @@ public class PrisonBreakGame extends GameDescription {
                 }
             }
 
-            if (noroom) {
-                out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri per oltrepassare i muri...");
-            } else if (move) {
+            if (move) {
                 out.println(getCurrentRoom().getName());
                 out.println("================================================");
                 out.println(getCurrentRoom().getDescription());
             }
+
+        } catch (NotAccessibleRoomException e) {
+            out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri per oltrepassare i muri...");
+        } catch (LockedRoomException e) {
+            out.println("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
         } catch (InventoryEmptyException e) {
             out.println("L'inventario è vuoto!");
         } catch (InventoryFullException e) {

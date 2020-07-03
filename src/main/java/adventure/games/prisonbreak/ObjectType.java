@@ -45,4 +45,5 @@ public class ObjectType {
     public static final int ROOM_OBJ = 38;
     public static final int LIGHTS = 39;
     public static final int GENNY_BELLO = 40;
+    public static final int SCORE_OBJ = 41;
 }
