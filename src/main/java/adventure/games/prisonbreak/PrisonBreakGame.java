@@ -30,7 +30,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(DOOR_ISOLATION));
+        setCurrentRoom(getRoom(CANTEEN));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -824,7 +824,6 @@ public class PrisonBreakGame extends GameDescription {
 
         try {
             object = getCorrectObject(p.getObject());
-            getInventory().add(getObject(SCOTCH));
             if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
                 if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
@@ -1345,6 +1344,18 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con cosa vuoi inserire??");
                 } else if (!object.isInsertable()) {
                     out.println("Ho paura di quello che vuoi fare!!!");
+                }
+            } else if (p.getVerb().getVerbType().equals(VerbType.TALK_TO)) {
+                if ((object != null && object.isSpeakable())) {
+                    if (getCurrentRoom().getId() == CANTEEN) {
+                        out.println("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
+                                "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
+                                "per averne uno quindi sarei costretto a trattare.");
+                    }
+                } else if (object == null) {
+                    out.println("Vuoi parlare da solo???");
+                } else if (!object.isSpeakable()) {
+                    out.println("Parlare con quell'oggetto non sembra essere la soluzione migliore!");
                 }
             }
 
