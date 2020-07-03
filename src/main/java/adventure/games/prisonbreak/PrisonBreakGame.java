@@ -12,7 +12,6 @@ import adventure.parser.ParserOutput;
 import adventure.type.*;
 
 import java.io.PrintStream;
-import java.nio.channels.SelectableChannel;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -33,10 +32,17 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(AIR_DUCT_NORTH));
+        setCurrentRoom(getRoom(BROTHER_CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
+
+        try {
+            getInventory().add(getObject(MEDICINE));
+            getInventory().add(getObject(HACKSAW));
+        } catch (InventoryFullException ignored) {
+
+        }
     }
 
     private void initVerbs() {
@@ -304,7 +310,7 @@ public class PrisonBreakGame extends GameDescription {
         gym.setLook("Intorno a te vedi tanti attrezzi per poterti allenare e aumentare la tua forza.");
 
         Room outIsolation = new Room(OUT_ISOLATION, "Fuori cella isolamento",
-                "Sei di fronte la cella di isolamento dove e' collocato tuo fratello. " +
+                "Sei di fronte all'entrata dell'isolamento dove e' collocata la cella di tuo fratello. " +
                         "Essendo in un carcere di massima sicurezza, la porta e' controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
                 "puo' essere aperta solo tramite un PIN segreto.");
@@ -373,9 +379,9 @@ public class PrisonBreakGame extends GameDescription {
                 .setLook("Avvicinandoti a questa senti la voce di tuo fratello, hai trovato la sua cella!!!");
 
         Room brotherCell = new Room(BROTHER_CELL, "Cella fratello",
-                "Sei nella cella di tuo fratello, l’aspetto della cella e' ripugnante.");
-        brotherCell.setLook("Di fronte a te, tuo fratello con un’aria contenta di vederti ma allo stesso tempo " +
-                "sorpresa!");
+                "Sei vicino alla cella di tuo fratello, l’aspetto della cella e' ripugnante.");
+        brotherCell.setLook("Di fronte a te, attraverso le sbarre, c'è tuo fratello con un’aria contenta di vederti," +
+                " ma allo stesso tempo sorpresa!");
 
         Room endGame = new Room(ENDGAME, "Fine", "Decidi di fuggire dalla finestra. Tu e tutta" +
                 " la tua squadra usate il lungo cavo che collega la finestra al grande muro della prigione. Arrivati" +
@@ -519,15 +525,26 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(endGame);
         getRooms().add(windowInfirmary);
 
-        TokenPerson GennyBello = new TokenPerson(GENNY_BELLO, "Genny Bello",
+        TokenPerson gennyBello = new TokenPerson(GENNY_BELLO, "Genny Bello",
                 new HashSet<>(Collections.singletonList("Genny")),
                 "E' un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
                 new HashSet<>(
                         Collections.singletonList(
                                 new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))),
                 3);
-        GennyBello.setSpeakable(true);
-        canteen.setObject(GennyBello);
+        gennyBello.setSpeakable(true);
+        canteen.setObject(gennyBello);
+
+        TokenPerson brother = new TokenPerson(BROTHER, "Tuo fratello Lincoln",
+                new HashSet<>(Arrays.asList("Lincoln", "fratello")),
+                "E' tuo fratello! Non ho nient'altro da dirti che già non sai." +
+                        "Dovresti già sapere tutto su di lui!",
+                new HashSet<>(
+                        Collections.singletonList(
+                                new TokenAdjective(new HashSet<>(Collections.singletonList("mio"))))),
+                0);
+        brother.setSpeakable(true);
+        brotherCell.setObject(brother);
 
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
@@ -590,7 +607,7 @@ public class PrisonBreakGame extends GameDescription {
         airDuctNorth.setObjectsUsableHere(hacksaw);
 
         try {
-            GennyBello.getInventory().add(hacksaw);
+            gennyBello.getInventory().add(hacksaw);
         } catch (InventoryFullException ignored) {
         }
 
@@ -605,7 +622,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject medicine = new TokenObject(MEDICINE, "Farmaco",
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
-        medicine.setGiveable(true);
         setObjectNotAssignedRoom(medicine);
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
@@ -764,7 +780,7 @@ public class PrisonBreakGame extends GameDescription {
                         "anno di più!");
         drug.setAskable(true);
         try {
-            GennyBello.getInventory().add(drug);
+            gennyBello.getInventory().add(drug);
         } catch (InventoryFullException ignored) {
         }
 
@@ -774,7 +790,7 @@ public class PrisonBreakGame extends GameDescription {
                         "per giocare anche a videogiochi migliori!");
         videogame.setAskable(true);
         try {
-            GennyBello.getInventory().add(videogame);
+            gennyBello.getInventory().add(videogame);
         } catch (InventoryFullException ignored) {
         }
 
@@ -1338,6 +1354,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isMixable()) {
                     out.println("Non è una cosa che si può fare");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.TURN_OFF)) {
                 if (object != null && object.isTurnOnAble()) {
                     // lights case
@@ -1364,6 +1381,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isTurnOnAble()) {
                     out.println("Come puoi spegnere questo oggetto???");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.TURN_ON)) {
                 if (object != null && object.isTurnOnAble()) {
                     // lights case
@@ -1382,6 +1400,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isTurnOnAble()) {
                     out.println("Come puoi accendere questo oggetto???");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
                 if ((object != null && object.isPlayable())
                         || (object == null && getCurrentRoom().getId() == BASKET_CAMP)) {
@@ -1397,6 +1416,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
                 if ((object != null && object.isInsertable())) {
                     if (getCurrentRoom().getId() == DOOR_ISOLATION) {
@@ -1412,6 +1432,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isInsertable()) {
                     out.println("Ho paura di quello che vuoi fare!!!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.TALK_TO)) {
                 if ((object != null && object.isSpeakable())) {
                     if (getCurrentRoom().getId() == CANTEEN) {
@@ -1424,6 +1445,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isSpeakable()) {
                     out.println("Parlare con quell'oggetto non sembra essere la soluzione migliore!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.ASK)) {
                 if ((object != null && object.isAskable())) {
                     if (getCurrentRoom().getId() == CANTEEN) {
@@ -1450,6 +1472,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!object.isAskable()) {
                     out.println("Non sembra la soluzione giusta!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.ACCEPT)) {
                 if (getObject(HACKSAW).isAsked()
                         && getCurrentRoom().getId() == CANTEEN
@@ -1467,6 +1490,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getCurrentRoom().getId() != CANTEEN) {
                     out.println("Cosa vuoi accettare? Nulla???");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
                 if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN
                         && !getObject(HACKSAW).isAccept() && !getInventory().contains(getObject(HACKSAW))) {
@@ -1482,6 +1506,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getCurrentRoom().getId() != CANTEEN) {
                     out.println("Cosa vuoi rifiutare? Nulla???");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.FACE_UP)) {
                 if (getCurrentRoom().getId() == FRONTBENCH && getScore() < FOUGHT_SCORE) {
                     out.println("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
@@ -1548,6 +1573,36 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (!getObject(HACKSAW).isUsed()) {
                     out.println("Hai già usato quell'oggetto! Non puoi più rompere nulla!");
                 }
+
+                //TODO se vuole camminare dentro la cella bisogna far uscire il messaggio "Non hai ancora il potere di allargare le sbarre o oltrepassarle"
+                //TODO togliere letto fratello e tutti gli oggetti all'interno della cella del fratello poichè è di fronte alla cella e non all'interno
+            } else if (p.getVerb().getVerbType().equals(VerbType.GIVE)) {
+                if (object != null && getCurrentRoom().getId() == BROTHER_CELL
+                        && object.getId() == MEDICINE && getInventory().contains(object)) {
+                    out.println("Sai benissimo che tuo fratello ha una forte allergia alle ortiche" +
+                            " e che non potrebbe prendere quel farmaco. Tu decidi di darlo ugualmente " +
+                            "in modo che il tuo piano venga attuato!");
+                    getInventory().remove(object);
+                    object.setGiven(true);
+                    out.println("Appena dato il farmaco decidi di fuggire fuori dalla cella isolamento prima" +
+                            " che le luci si accendano e le guardie ti scoprano!!!");
+                    setCurrentRoom(getRoom(OUT_ISOLATION));
+                    move = true;
+                    out.println("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
+                            " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n");
+                    getCurrentRoom().setLook("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
+                            "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
+                    increaseScore();
+
+                    //FIXME Da sistemare il locked della porta di isolamento
+                    getRoom(DOOR_ISOLATION).setLocked(true);
+                } else if (object == null) {
+                    out.println("Cosa vuoi dare di preciso?");
+                } else if (object instanceof TokenPerson) {
+                    out.println("Una persona non è un oggetto che si può regalare!!!");
+                } else {
+                    out.println("Non puoi dare quest'oggetto a nessuno imbecille!");
+                }
             }
 
             if (move) {
@@ -1581,7 +1636,7 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.PULL
                     || p.getVerb().getVerbType() == VerbType.PUSH
                     || p.getVerb().getVerbType() == VerbType.MAKE) {
-                out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
+                out.println("Lo vedi solo nei tuoi sogni!");
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
             }
