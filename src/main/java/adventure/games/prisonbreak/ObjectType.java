@@ -41,9 +41,9 @@ public class ObjectType {
     public final static int ACID = 34;
     public final static int COMBINATION = 35;
     public final static int AIR_DUCT_OLD = 36;
-    public static final int DESTROYABLE_GRATE = 37;
-    public static final int ROOM_OBJ = 38;
-    public static final int LIGHTS = 39;
-    public static final int GENNY_BELLO = 40;
-    public static final int SCORE_OBJ = 41;
+    public final static int DESTROYABLE_GRATE = 37;
+    public final static int ROOM_OBJ = 38;
+    public final static int LIGHTS = 39;
+    public final static int GENNY_BELLO = 40;
+    public final static int SCORE_OBJ = 41;
 }

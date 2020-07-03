@@ -30,7 +30,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(CANTEEN));
+        setCurrentRoom(getRoom(INFIRMARY));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -97,11 +97,11 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
         talk.setAlias(new HashSet<>(Arrays.asList("Parla", "Chiacchiera", "Comunica", "Dialoga", "Conversa",
-                "Affronta", "Ascolta", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
+                "Ascolta", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));
         getTokenVerbs().add(talk);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
-        ask.setAlias(new HashSet<>(Arrays.asList("Chiedi", "Domanda")));
+        ask.setAlias(new HashSet<>(Arrays.asList("Chiedi", "Domanda", "Desidero")));
         getTokenVerbs().add(ask);
 
         TokenVerb eat = new TokenVerb(VerbType.EAT);
@@ -605,11 +605,11 @@ public class PrisonBreakGame extends GameDescription {
         substances.setMixable(true);
         infirmary.setObject(substances);
 
-        //TODO da mettere nell'inventario nella prima fase del gioco
         TokenObject medicine = new TokenObject(MEDICINE, "Farmaco",
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
         medicine.setGiveable(true);
+        setObjectNotAssignedRoom(medicine);
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
@@ -887,12 +887,11 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
-                if (object != null && object.equals(getObject(HACKSAW)) && object.isAccept()) {
-                    TokenObject hacksaw = getObject(HACKSAW);
-                    TokenPerson genny = (TokenPerson) getObject(GENNY_BELLO);
-                    //TODO Togliere dalla stanza corrente senza buggare il getObject
-                    getCurrentRoom().getObjects().remove(hacksaw);
-                    genny.getInventory().remove(hacksaw);
+                if (object != null && object.getId() == HACKSAW && object.isAccept()
+                        && ((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(object)) {
+
+                    //There is the need of the remove's operation from the room of the TokenPerson's objects
+                    getCurrentRoom().removeObject(getObject(HACKSAW));
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
                 } else if (object != null && object.isPickupable()
@@ -900,7 +899,7 @@ public class PrisonBreakGame extends GameDescription {
                     if (object.getId() == SCALPEL || object.getId() == SCOTCH || object.getId() == SCREW) {
                         increaseScore();
                     }
-                    getCurrentRoom().getObjects().remove(object);
+                    getCurrentRoom().removeObject(object);
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
 
@@ -976,7 +975,7 @@ public class PrisonBreakGame extends GameDescription {
                         TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
                         getRoom(PASSAGE_NORTH).setLocked(false);
                         getInventory().remove(object);
-                        getRoom(AIR_DUCT_NORTH).getObjects().remove(destroyableGate);
+                        getRoom(AIR_DUCT_NORTH).removeObject(destroyableGate);
                         out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
                                 "fortuna sei riuscito a rompere la grata");
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
@@ -1095,12 +1094,12 @@ public class PrisonBreakGame extends GameDescription {
                         // ladder case
                         if (getCurrentRoom().getId() == PASSAGE_SOUTH) {
                             getRoom(SECRET_PASSAGE).setObject(object);
-                            getRoom(PASSAGE_SOUTH).getObjects().remove(object);
+                            getRoom(PASSAGE_SOUTH).removeObject(object);
                             out.println("La scala è stata spinta fino alla stanza a nord!");
                             increaseScore();
                         } else if (getCurrentRoom().getId() == SECRET_PASSAGE) {
                             getRoom(PASSAGE_NORTH).setObject(object);
-                            getRoom(SECRET_PASSAGE).getObjects().remove(object);
+                            getRoom(SECRET_PASSAGE).removeObject(object);
                             out.println("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!");
                             increaseScore();
                         } else {
@@ -1162,7 +1161,7 @@ public class PrisonBreakGame extends GameDescription {
                         || getCurrentRoom().containsObject(object))) {
                     // food case
                     if (getCurrentRoom().getObjects().contains(object)) {
-                        getCurrentRoom().getObjects().remove(object);
+                        getCurrentRoom().removeObject(object);
                         out.println("Gnam Gnam...");
                     } else if (getInventory().getObjects().contains(object)) {
                         getInventory().remove(object);
@@ -1297,31 +1296,31 @@ public class PrisonBreakGame extends GameDescription {
                         && object.isMixable()
                         && (getInventory().contains(object)
                         || getCurrentRoom().containsObject(object)))
-                        || ((object != null && object.equals(getObject(ACID)))
+                        || ((object != null && object.getId() == ACID))
                         && (getInventory().contains(substances)
-                        || getCurrentRoom().containsObject(substances)))) {
+                        || getCurrentRoom().containsObject(substances))) {
 
-                    if (getCurrentRoom().getObjects().contains(object) && !(object.equals(getObject(ACID)))) {
-                        getCurrentRoom().getObjects().remove(object);
+                    if (getCurrentRoom().getObjects().contains(object) && !(object.getId() == ACID)) {
+                        getCurrentRoom().removeObject(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
                         increaseScore();
-                    } else if (!object.equals(getObject(ACID)) && getInventory().getObjects().contains(object)) {
+                    } else if (object.getId() != ACID && getInventory().getObjects().contains(object)) {
                         getInventory().remove(object);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
                         increaseScore();
                     } else if (getCurrentRoom().getObjects().contains(substances)
-                            && object.equals(getObject(ACID))) {
-                        getCurrentRoom().getObjects().remove(substances);
+                            && object.getId() == ACID) {
+                        getCurrentRoom().removeObject(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
                         mixed = true;
                         increaseScore();
                     } else if (getInventory().getObjects().contains(substances)
-                            && object.equals(getObject(ACID))) {
+                            && object.getId() == ACID) {
                         getInventory().remove(substances);
                         getInventory().add(getObject(ACID));
                         getObjectNotAssignedRoom().remove(getObject(ACID));
@@ -1419,7 +1418,7 @@ public class PrisonBreakGame extends GameDescription {
                     if (getCurrentRoom().getId() == CANTEEN) {
                         out.println("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
                                 "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
-                                "per averne uno quindi sarei costretto a trattare.");
+                                "per averne uno quindi sarai costretto a trattare.");
                     }
                 } else if (object == null) {
                     out.println("Vuoi parlare da solo???");
@@ -1429,18 +1428,18 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.ASK)) {
                 if ((object != null && object.isAskable())) {
                     if (getCurrentRoom().getId() == CANTEEN) {
-                        if (object.equals(getObject(DRUG))) {
+                        if (object.getId() == DRUG) {
                             out.println("Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi " +
                                     "con te per acquistarla! Ti ricordo che il tuo piano è fuggire di prigione e non " +
                                     "rimanerci qualche anno di più!");
-                        } else if (object.equals(getObject(VIDEOGAME))) {
+                        } else if (object.getId() == VIDEOGAME) {
                             out.println("Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione" +
                                     " avrai molto tempo per giocare anche a videogiochi migliori!");
-                        } else if (object.equals(getObject(HACKSAW)) && !object.isAsked()) {
+                        } else if (object.getId() == HACKSAW && !object.isAsked()) {
                             out.println("Il detenuto ti dice che a tutti quelli che ha venduto un seghetto avevano " +
                                     "sempre un piano di fuga per evadere di prigione che però non sono mai andati a " +
                                     "buon fine essendo un carcere di massima sicurezza ( in effetti con un seghetto " +
-                                    "in prigione non hai tante alternative), In cambio gli dovrai confessare tutto " +
+                                    "in prigione non hai tante alternative). In cambio gli dovrai confessare tutto " +
                                     "il tuo piano di fuga e farlo fuggire insieme a te, cosa scegli???");
                             object.setAsked(true);
                         } else if (object.isAsked()) {
@@ -1458,7 +1457,7 @@ public class PrisonBreakGame extends GameDescription {
                         && !getObject(HACKSAW).isAccept()) {
                     out.println("Gli racconti tutto il piano segreto di fuga, il detenuto capisce che questo è " +
                             "il miglior piano che abbia sentito fin ora e accetta subito dandoti il seghetto e " +
-                            "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla mia cella!");
+                            "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla tua cella!");
                     out.println("Ora puoi prendere il seghetto da Genny!");
                     getObject(HACKSAW).setPickupable(true);
                     getObject(HACKSAW).setAccept(true);
@@ -1469,7 +1468,7 @@ public class PrisonBreakGame extends GameDescription {
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
                 if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN
-                        && !getObject(HACKSAW).isAccept() && !getInventory().contains(getObject(HACKSAW)) ) {
+                        && !getObject(HACKSAW).isAccept() && !getInventory().contains(getObject(HACKSAW))) {
                     out.println("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
                             "a ricontrattare!");
                     getObject(HACKSAW).setPickupable(false);

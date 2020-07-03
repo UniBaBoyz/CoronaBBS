@@ -149,7 +149,7 @@ public class FireHouseGame extends GameDescription {
                 if (p.getObject() != null) {
                     if (p.getObject().isPickupable()) {
                         getInventory().add(p.getObject());
-                        getCurrentRoom().getObjects().remove(p.getObject());
+                        getCurrentRoom().removeObject(p.getObject());
                         out.println("Hai raccolto: " + p.getObject().getDescription());
                     } else {
                         out.println("Non puoi raccogliere questo oggetto.");

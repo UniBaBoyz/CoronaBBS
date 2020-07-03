@@ -1,6 +1,7 @@
 package adventure.type;
 
 import adventure.exceptions.inventoryException.InventoryEmptyException;
+import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.games.prisonbreak.TokenPerson;
 
 import java.util.HashSet;
@@ -63,6 +64,21 @@ public class Room {
 
     public void setObjects(Set<TokenObject> objects) {
         this.objects.addAll(objects);
+    }
+
+    public void removeObject(TokenObject object) {
+        for (TokenObject obj : getObjects()) {
+            if (obj instanceof TokenPerson) {
+                if (((TokenPerson) obj).getInventory().contains(object)) {
+                    try {
+                        ((TokenPerson) obj).getInventory().remove(object);
+                    } catch (ObjectNotFoundInInventoryException ignored) {
+
+                    }
+                }
+            }
+        }
+        getObjects().remove(object);
     }
 
     public String getName() {
