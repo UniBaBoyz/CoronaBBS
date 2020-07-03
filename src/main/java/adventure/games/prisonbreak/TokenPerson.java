@@ -10,7 +10,7 @@ import java.util.Set;
 public class TokenPerson extends TokenObject {
 
     private boolean followHero = false;
-    private Inventory inventory = new Inventory(3);
+    private Inventory inventory;
 
     public TokenPerson(int id, String name, Set<String> alias) {
         super(id, name, alias);
@@ -22,6 +22,12 @@ public class TokenPerson extends TokenObject {
 
     public TokenPerson(int id, String name, Set<String> alias, String description, Set<TokenAdjective> adjectives) {
         super(id, name, alias, description, adjectives);
+    }
+
+    public TokenPerson(int id, String name, Set<String> alias, String description,
+                       Set<TokenAdjective> adjectives, int dimensionInventory) {
+        super(id, name, alias, description, adjectives);
+        inventory = new Inventory(dimensionInventory);
     }
 
     public boolean isFollowHero() {

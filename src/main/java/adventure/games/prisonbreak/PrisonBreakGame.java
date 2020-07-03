@@ -527,12 +527,13 @@ public class PrisonBreakGame extends GameDescription {
         getRooms().add(endGame);
         getRooms().add(windowInfirmary);
 
-        TokenPerson GennyBello = new TokenPerson(PERSON, "Genny Bello",
+        TokenPerson GennyBello = new TokenPerson(GENNY_BELLO, "Genny Bello",
                 new HashSet<>(Collections.singletonList("Genny")),
                 "E' un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
                 new HashSet<>(
                         Collections.singletonList(
-                                new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))));
+                                new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))),
+                3);
         GennyBello.setSpeakable(true);
         canteen.setObject(GennyBello);
 
@@ -859,9 +860,9 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.INVENTORY)) {
                 if (!getInventory().isEmpty()) {
                     out.println("Nel tuo inventario ci sono:");
-                }
-                for (TokenObject o : getInventory().getObjects()) {
-                    out.println(o.getName() + ": " + o.getDescription());
+                    for (TokenObject o : getInventory().getObjects()) {
+                        out.println(o.getName() + ": " + o.getDescription());
+                    }
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
