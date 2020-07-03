@@ -23,10 +23,6 @@ public abstract class GameDescription {
     private Room currentRoom;
     private int score = 0;
 
-    public static int getIncreaseScore() {
-        return INCREASE_SCORE;
-    }
-
     public Set<Room> getRooms() {
         return rooms;
     }
@@ -122,7 +118,6 @@ public abstract class GameDescription {
         return score;
     }
 
-    //FIXME guarda stanza non funge
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
         if (tokenObjects.stream()
                 .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object)
