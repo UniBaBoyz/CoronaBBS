@@ -32,17 +32,10 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(BROTHER_CELL));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
-
-        try {
-            getInventory().add(getObject(MEDICINE));
-            getInventory().add(getObject(HACKSAW));
-        } catch (InventoryFullException ignored) {
-
-        }
     }
 
     private void initVerbs() {
@@ -622,6 +615,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject medicine = new TokenObject(MEDICINE, "Farmaco",
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
+        medicine.setGiveable(true);
         setObjectNotAssignedRoom(medicine);
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
