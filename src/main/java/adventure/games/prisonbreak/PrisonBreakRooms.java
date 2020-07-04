@@ -1,15 +1,17 @@
 package adventure.games.prisonbreak;
 
+import adventure.games.GameRooms;
 import adventure.type.Room;
 
 import static adventure.games.prisonbreak.RoomType.*;
 
-public class PrisonBreakRooms {
+public class PrisonBreakRooms implements GameRooms {
 
     private final PrisonBreakGame game;
 
     public PrisonBreakRooms(PrisonBreakGame game) {
         this.game = game;
+        initRooms();
     }
 
     public void initRooms() {
@@ -266,108 +268,61 @@ public class PrisonBreakRooms {
         cell20.setLook("Meglio non perdere tempo qui!");
 
         //Maps
-        mainCell17.setEast(corridorSouth);
-        mainCell17.setWest(passage);
-        corridorSouth.setWest(mainCell17);
-        corridorSouth.setNorth(corridor);
-        corridor.setSouth(corridorSouth);
-        corridor.setNorth(corridorNorth);
-        corridor.setWest(cell18);
-        cell18.setEast(corridor);
-        cell18.setNorth(corridorNorth);
-        cell18.setSouth(corridorSouth);
-        corridorNorth.setWest(cell19);
-        corridorNorth.setNorth(ladders);
-        corridorNorth.setSouth(corridorSouth);
-        cell19.setNorth(ladders);
-        cell19.setEast(corridorNorth);
-        cell19.setSouth(corridorSouth);
-        ladders.setSouth(corridorNorth);
-        ladders.setEast(lobby);
-        lobby.setWest(ladders);
-        lobby.setEast(garden);
-        lobby.setSouth(lobbySouth);
-        lobbySouth.setEast(gym);
-        lobbySouth.setNorth(lobby);
-        lobbySouth.setWest(cell20);
-        cell20.setEast(lobbySouth);
-        cell20.setNorth(lobby);
-        lobbySouth.setSouth(lobbyEnd);
-        garden.setEast(wall);
-        garden.setWest(lobby);
-        garden.setNorth(basket);
-        garden.setSouth(bench);
-        basket.setSouth(garden);
-        wall.setWest(garden);
-        bench.setNorth(garden);
-        bench.setSouth(frontBench);
-        frontBench.setNorth(bench);
-        gym.setWest(lobbySouth);
-        lobbyEnd.setEast(canteen);
-        lobbyEnd.setWest(cell21);
-        lobbyEnd.setNorth(lobbySouth);
-        lobbyEnd.setSouth(outIsolation);
-        cell21.setEast(lobbyEnd);
-        cell21.setNorth(lobbySouth);
-        cell21.setSouth(outIsolation);
-        canteen.setWest(lobbyEnd);
-        outIsolation.setNorth(lobbyEnd);
-        outIsolation.setEast(doorIsolation);
-        outIsolation.setWest(cell22);
-        cell22.setEast(outIsolation);
-        cell22.setNorth(lobbyEnd);
-        doorIsolation.setWest(outIsolation);
-        doorIsolation.setEast(isolation);
-        isolation.setWest(doorIsolation);
-        isolation.setEast(isolationCorridorEast);
-        isolation.setNorth(isolationCorridorNorth);
-        isolation.setSouth(isolationCorridorSouth);
-        isolationCorridorEast.setEast(isolationCorridorEastEast);
-        isolationCorridorEast.setWest(isolation);
-        isolationCorridorEastEast.setEast(isolationCorridorEastEastEast);
-        isolationCorridorEastEast.setWest(isolationCorridorEast);
-        isolationCorridorEastEastEast.setWest(isolationCorridorEastEast);
-        isolationCorridorNorth.setNorth(isolationCorridorNorthNorth);
-        isolationCorridorNorth.setSouth(isolation);
-        isolationCorridorNorthNorth.setNorth(isolationCorridorNorthNorthNorth);
-        isolationCorridorNorthNorth.setSouth(isolationCorridorNorth);
-        isolationCorridorNorthNorthNorth.setSouth(isolationCorridorNorthNorth);
-        isolationCorridorSouth.setNorth(isolation);
-        isolationCorridorSouth.setSouth(isolationCorridorSouthSouth);
-        isolationCorridorSouthSouth.setNorth(isolationCorridorSouth);
-        isolationCorridorSouthSouth.setSouth(isolationCorridorSouthSouthSouth);
-        isolationCorridorSouthSouthSouth.setNorth(isolationCorridorSouthSouth);
-        isolationCorridorSouthSouthSouth.setEast(brotherCell);
-        brotherCell.setWest(isolationCorridorSouthSouthSouth);
-        brotherCell.setNorth(isolationCorridorSouthSouth);
-        passage.setEast(mainCell17);
-        passage.setNorth(passageNorth);
-        passage.setSouth(passageSouth);
-        passageSouth.setNorth(passage);
-        passageSouth.setSouth(generator);
-        generator.setNorth(passageSouth);
-        passageNorth.setSouth(passage);
-        passageNorth.setNorth(onLadder);
-        onLadder.setSouth(passageNorth);
-        onLadder.setNorth(airDuct);
-        airDuct.setSouth(onLadder);
-        airDuct.setEast(airDuctEast);
-        airDuct.setNorth(airDuctNorth);
-        airDuct.setWest(airDuctWest);
-        airDuctEast.setSouth(grateCell);
-        airDuctEast.setWest(airDuct);
-        airDuctWest.setEast(airDuct);
-        airDuctNorth.setSouth(airDuct);
-        airDuctNorth.setEast(airDuctInfirmary);
-        grateCell.setNorth(airDuctEast);
-        airDuctInfirmary.setWest(airDuctNorth);
-        airDuctInfirmary.setEast(infirmary);
-        infirmary.setWest(airDuctInfirmary);
-        infirmary.setNorth(windowInfirmary);
-        windowInfirmary.setSouth(infirmary);
-        windowInfirmary.setNorth(endGame);
+        createLinks(mainCell17, null, null, corridorSouth, passage);
+        createLinks(corridorSouth, corridor, null, null, mainCell17);
+        createLinks(corridor, corridorNorth, corridorSouth, null, cell18);
+        createLinks(cell18, corridorNorth, corridorSouth, corridor, null);
+        createLinks(corridorNorth, ladders, corridorSouth, null, cell19);
+        createLinks(cell19, ladders, corridorSouth, corridorNorth, null);
+        createLinks(ladders, null, corridorNorth, lobby, null);
+        createLinks(lobby, null, lobbySouth, garden, ladders);
+        createLinks(lobbySouth, lobby, lobbyEnd, gym, cell20);
+        createLinks(lobbyEnd, lobbySouth, outIsolation, canteen, cell21);
+        createLinks(cell20, lobby, null, lobbySouth, null);
+        createLinks(garden, basket, bench, wall, lobby);
+        createLinks(basket, null, garden, null, null);
+        createLinks(wall, null, null, null, garden);
+        createLinks(bench, garden, frontBench, null, null);
+        createLinks(frontBench, bench, null, null, null);
+        createLinks(gym, null, null, null, lobbySouth);
+        createLinks(cell21, lobbySouth, outIsolation, lobbyEnd, null);
+        createLinks(canteen, null, null, null, lobbyEnd);
+        createLinks(outIsolation, lobbyEnd, null, doorIsolation, cell22);
+        createLinks(cell22, lobbyEnd, null, outIsolation, null);
+        createLinks(doorIsolation, null, null, isolation, outIsolation);
+        createLinks(isolation, isolationCorridorNorth, isolationCorridorSouth, isolationCorridorEast, doorIsolation);
+        createLinks(isolationCorridorEast, null, null, isolationCorridorEastEast, isolation);
+        createLinks(isolationCorridorEastEast, null, null, isolationCorridorEastEastEast, isolationCorridorEast);
+        createLinks(isolationCorridorEastEastEast, null, null, null, isolationCorridorEastEast);
+        createLinks(isolationCorridorNorth, isolationCorridorNorthNorth, isolation, null, null);
+        createLinks(isolationCorridorNorthNorth, isolationCorridorNorthNorthNorth, isolationCorridorNorth, null, null);
+        createLinks(isolationCorridorNorthNorthNorth, null, isolationCorridorNorthNorth, null, null);
+        createLinks(isolationCorridorSouth, isolation, isolationCorridorSouthSouth, null, null);
+        createLinks(isolationCorridorSouthSouth, isolationCorridorSouth, isolationCorridorSouthSouthSouth, null, null);
+        createLinks(isolationCorridorSouthSouthSouth, isolationCorridorSouthSouth, null, brotherCell, null);
+        createLinks(brotherCell, isolationCorridorSouthSouth, null, null, isolationCorridorSouthSouthSouth);
+        createLinks(passage, passageNorth, passageSouth, mainCell17, null);
+        createLinks(passageSouth, passage, generator, null, null);
+        createLinks(generator, passageSouth, null, null, null);
+        createLinks(passageNorth, onLadder, passage, null, null);
+        createLinks(onLadder, airDuct, passageNorth, null, null);
+        createLinks(airDuct, airDuctNorth, onLadder, airDuctEast, airDuctWest);
+        createLinks(airDuctEast, null, grateCell, null, airDuct);
+        createLinks(airDuctWest, null, null, airDuct, null);
+        createLinks(airDuctNorth, null, airDuct, airDuctInfirmary, null);
+        createLinks(grateCell, airDuctEast, null, null, null);
+        createLinks(airDuctInfirmary, null, null, infirmary, airDuctNorth);
+        createLinks(infirmary, windowInfirmary, null, null, airDuctInfirmary);
+        createLinks(windowInfirmary, endGame, infirmary, null, null);
 
         //Create graph
         this.game.createRooms(mainCell17);
+    }
+
+    private void createLinks(Room root, Room north, Room south, Room east, Room west) {
+        root.setNorth(north);
+        root.setSouth(south);
+        root.setEast(east);
+        root.setWest(west);
     }
 }

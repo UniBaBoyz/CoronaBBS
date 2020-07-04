@@ -1,4 +1,4 @@
-package adventure.games;
+package adventure.games.firehouse;
 
 /**
  * ATTENZIONE: La descrizione del gioco è fatta in modo che qualsiasi gioco

@@ -1,5 +1,6 @@
 package adventure.games.prisonbreak;
 
+import adventure.games.GameVerbs;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
@@ -7,22 +8,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class PrisonBreakVerbs {
+public class PrisonBreakVerbs implements GameVerbs {
 
     private final PrisonBreakGame game;
 
     public PrisonBreakVerbs(PrisonBreakGame game) {
         this.game = game;
-        initVerbs();
-    }
-
-    public void initVerbs() {
         initMovementVerbs();
         initBasicVerbs();
         initAdvancedVerbs();
     }
 
-    private void initMovementVerbs() {
+    public void initMovementVerbs() {
         TokenVerb nord = new TokenVerb(VerbType.NORD);
         nord.setAlias(new HashSet<>(Collections.singletonList("Nord")));
         game.getTokenVerbs().add(nord);
@@ -41,7 +38,7 @@ public class PrisonBreakVerbs {
 
     }
 
-    private void initBasicVerbs() {
+    public void initBasicVerbs() {
         TokenVerb look = new TokenVerb(VerbType.LOOK_AT);
         look.setAlias(new HashSet<>(Arrays.asList("Osserva", "Guarda", "Vedi", "Trova", "Cerca", "Descrivi",
                 "Controlla", "Leggi")));
@@ -93,7 +90,7 @@ public class PrisonBreakVerbs {
         game.getTokenVerbs().add(end);
     }
 
-    private void initAdvancedVerbs() {
+    public void initAdvancedVerbs() {
         TokenVerb make = new TokenVerb(VerbType.MAKE);
         make.setAlias(new HashSet<>(Arrays.asList("Fai", "Crea", "Prepara", "Inventa", "Mischia", "Mescola", "Produci",
                 "Realizza", "Genera", "Componi", "Origina")));

@@ -1,4 +1,4 @@
-package adventure;
+package adventure.games;
 
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;

@@ -1,6 +1,5 @@
 package adventure.games.prisonbreak;
 
-import adventure.GameDescription;
 import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
@@ -8,6 +7,7 @@ import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
+import adventure.games.GameDescription;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.TokenObject;

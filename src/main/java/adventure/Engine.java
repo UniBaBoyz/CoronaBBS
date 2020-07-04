@@ -5,6 +5,7 @@ package adventure;
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
+import adventure.games.GameDescription;
 import adventure.games.prisonbreak.PrisonBreakGame;
 import adventure.parser.Parser;
 import adventure.parser.ParserIta;

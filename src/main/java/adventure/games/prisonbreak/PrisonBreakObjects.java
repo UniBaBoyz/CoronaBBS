@@ -1,6 +1,7 @@
 package adventure.games.prisonbreak;
 
 import adventure.exceptions.inventoryException.InventoryFullException;
+import adventure.games.GameObjects;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
 import adventure.type.TokenObject;
@@ -13,7 +14,7 @@ import java.util.HashSet;
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 
-public class PrisonBreakObjects {
+public class PrisonBreakObjects implements GameObjects {
 
     private final PrisonBreakGame game;
 
