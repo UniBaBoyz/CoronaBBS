@@ -834,6 +834,16 @@ public class PrisonBreakGame extends GameDescription {
                 Arrays.asList("Punteggio", "Punti", "Score")));
         setObjectNotAssignedRoom(scoreObject);
 
+        TokenObject poster = new TokenObject(POSTER, "Poster di Rita Hayworth", new HashSet<>(
+                Arrays.asList("Poster", "Manifesto", "Affisso")),
+                "Non ti sembra di aver visto questo poster da qualche altra parte?\nCoincidenze? " +
+                        "Io non credo, utilizzare questo poster ti darà dei suggerimenti per portare a termine la " +
+                        "tua missione, non abusarne molto mi raccomando!",
+                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Rita", "Hayworth"))))));
+        mainCell17.getObjects().add(poster);
+        poster.setUsable(true);
+        mainCell17.setObjectsUsableHere(poster);
+
         TokenObject cot = new TokenObject(COT, "Lettino",
                 new HashSet<>(Arrays.asList("Lettino", "Letto", "Barella", "Brandina", "Lettuccio")),
                 "E' presente un letto a castello molto scomodo e pieno di polvere!");
@@ -846,6 +856,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject object;
         boolean move = false;
         boolean mixed = false;
+        boolean faced_up = false;
 
         try {
             object = getCorrectObject(p.getObject());
@@ -984,8 +995,8 @@ public class PrisonBreakGame extends GameDescription {
                         getObject(SINK).setPushable(true);
                         getInventory().remove(object);
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
-                                "grande forza visto che le viti si svitano facilmente. Appena hai tolto l’ultima vite, " +
-                                "sposti il lavandino e vedi un passaggio segreto");
+                                "grande forza visto che le viti si svitano facilmente. Adesso che hai rimosso tuttte le " +
+                                "viti, noti che il lavandino non è ben fissato");
                         increaseScore();
                         object.setUsed(true);
 
@@ -1068,6 +1079,34 @@ public class PrisonBreakGame extends GameDescription {
                                 " tornare indietro anche se hai poco tempo a disposizione!");
                         increaseScore();
                         object.setUsed(true);
+                    } else if (object.getId() == POSTER) {
+                        // DON'T CHANGE THE ORDER
+                        if (false) {
+                            //TODO AGGIUNGERE SUGGERIMENTO CON LO SCONTRO
+                        } else if (!getObject(SCALPEL).isUsed()) {
+                            out.println("Eccoti un consiglio: Dovresti andare nel giardino e utilizzare per bene quel " +
+                                    "bisturi, coraggio prendi la tua vendetta!");
+                        } else if (!getInventory().contains(getObject(SCREW)) && !getObject(SCREW).isUsed()) {
+                            out.println("Adesso dovresti prendere la vite, ti servirà molto per portare al termine" +
+                                    "la tua missione!");
+                        } else if (getInventory().contains(getObject(SCREW))) {
+                            out.println("Dovresti provare ad utilizzare la vite che hai in questa stanza, chissà cosa " +
+                                    "potrà capitare...");
+                        } else if (getObject(SCREW).isUsed() && !getObject(SINK).isPush()) {
+                            out.println("I tuoi genitori hanno anche figli normali? Come fai a non comprendere che è " +
+                                    "necessario spostare il lavandino!!");
+                        } else if (((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(getObject(HACKSAW))) {
+                            out.println("Dovresti cercare un utensile per rompere quelle grate che ti impediscono il " +
+                                    "passaggio!");
+                        } else if(!getObject(HACKSAW).isUsed() && !getObject(TOOLS).isUsed()) {
+                            out.println("Adesso che hai il seghetto dovresti aumentare un pò la tua massa muscolare");
+                        } else if(!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
+                            out.println("Ti vedo in forma adesso, ora sarai sicuramente in grado di distruggere " +
+                                    "quella grata che è presente nel condotto d'aria");
+                        } else if(!getObject(GENERATOR_OBJ).isUsed()) {
+                            out.println("Ti consiglio di cercare un pò nel condotto d'aria e spegnere il generatore" +
+                                    "ci vorrà un pò di buio per salvare tuo fratello");
+                        } // TODO CONTINUARE
                     }
 
                 } else {
@@ -1565,6 +1604,7 @@ public class PrisonBreakGame extends GameDescription {
                     increaseScore();
                     getObject(SCREW).setPickupable(true);
                     move = true;
+                    faced_up = true;
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
                 out.println("Non puoi usare quell'oggetto per uscire!");
@@ -1672,8 +1712,7 @@ public class PrisonBreakGame extends GameDescription {
                 out.println(getCurrentRoom().getDescription());
             }
 
-        } catch (
-                NotAccessibleRoomException e) {
+        } catch (NotAccessibleRoomException e) {
             if (getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(VerbType.EAST)
                     || getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(VerbType.WEST)) {
                 out.println("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!");
@@ -1681,8 +1720,7 @@ public class PrisonBreakGame extends GameDescription {
                 out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri" +
                         " per oltrepassare i muri...");
             }
-        } catch (
-                LockedRoomException e) {
+        } catch (LockedRoomException e) {
             if (getObject(MEDICINE).isGiven()) {
                 out.println("Non perdere ulteriore tempo, bisogna completare il piano!");
             } else if (getCurrentRoom().getEast() != null && getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
@@ -1692,21 +1730,16 @@ public class PrisonBreakGame extends GameDescription {
             } else {
                 out.println("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
             }
-        } catch (
-                InventoryEmptyException e) {
+        } catch (InventoryEmptyException e) {
             out.println("L'inventario è vuoto!");
-        } catch (
-                InventoryFullException e) {
+        } catch (InventoryFullException e) {
             out.println("Non puoi mettere più elementi nel tuo inventario!");
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
-        } catch (
-                ObjectNotFoundInInventoryException e) {
+        } catch (ObjectNotFoundInInventoryException e) {
             out.println("Non hai questo oggetto nell'inventario, energumeno");
-        } catch (
-                ObjectsAmbiguityException e) {
+        } catch (ObjectsAmbiguityException e) {
             out.println("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
-        } catch (
-                ObjectNotFoundInRoomException e) {
+        } catch (ObjectNotFoundInRoomException e) {
             if (p.getVerb().getVerbType() == VerbType.PICK_UP
                     || p.getVerb().getVerbType() == VerbType.USE
                     || p.getVerb().getVerbType() == VerbType.REMOVE
@@ -1722,10 +1755,8 @@ public class PrisonBreakGame extends GameDescription {
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
             }
-        } catch (
-                Exception e) {
+        } catch (Exception e) {
             out.println("Qualcosa è andato storto....");
-            out.println(e.getMessage());
         }
     }
 }
