@@ -44,4 +44,5 @@ public class RoomType {
     public static final int WINDOW_INFIRMARY = 37;
     public static final int FRONTBENCH = 38;
     public static final int GRATE_CELL = 39;
+    public static final int AIR_DUCT_INFIRMARY = 40;
 }

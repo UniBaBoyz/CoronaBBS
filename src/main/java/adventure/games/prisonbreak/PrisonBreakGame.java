@@ -32,16 +32,10 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(BROTHER_CELL));
+        setCurrentRoom(getRoom(CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
-
-        try {
-            getInventory().add(getObject(MEDICINE));
-        } catch (InventoryFullException ignored) {
-
-        }
     }
 
     private void initVerbs() {
@@ -190,6 +184,7 @@ public class PrisonBreakGame extends GameDescription {
         TokenVerb destroy = new TokenVerb(VerbType.DESTROY);
         destroy.setAlias(new HashSet<>(Arrays.asList("Spezza", "Distruggi", "Fracassa", "Sgretola", "Rompi",
                 "Frantuma", "Corrodi")));
+        getTokenVerbs().add(destroy);
     }
 
     private void initRooms() {
@@ -286,6 +281,11 @@ public class PrisonBreakGame extends GameDescription {
         Room airDuctNorth = new Room(AIR_DUCT_NORTH, "Condotto d'aria", "Vedi una grossa grata e " +
                 "senti delle voci simili a quelle che sentivi quando eri in infermeria.");
         airDuctNorth.setLook("Sembra la strada giusta!");
+
+        Room airDuctInfirmary = new Room(AIR_DUCT_INFIRMARY, "Condotto d'aria", "Ti trovi nell'ultimo" +
+                " tratto del condotto d'aria, sei quasi arrivato in infermeria");
+        airDuctInfirmary.setLook("Dal condotto d'aria riesci a vedere tuo fratello nell'infermeria che ti aspetta!");
+        airDuctInfirmary.setLocked(true);
 
         Room airDuctWest = new Room(AIR_DUCT_WEST, "Condotto d'aria",
                 " Il condotto si fa sempre piu' stretto e non riesci piu' a passare! " +
@@ -506,9 +506,11 @@ public class PrisonBreakGame extends GameDescription {
         airDuctEast.setWest(airDuct);
         airDuctWest.setEast(airDuct);
         airDuctNorth.setSouth(airDuct);
-        airDuctNorth.setEast(infirmary);
+        airDuctNorth.setEast(airDuctInfirmary);
         grateCell.setNorth(airDuctEast);
-        infirmary.setWest(airDuctNorth);
+        airDuctInfirmary.setWest(airDuctNorth);
+        airDuctInfirmary.setEast(infirmary);
+        infirmary.setWest(airDuctInfirmary);
         infirmary.setNorth(windowInfirmary);
         windowInfirmary.setSouth(infirmary);
         windowInfirmary.setNorth(endGame);
@@ -965,15 +967,13 @@ public class PrisonBreakGame extends GameDescription {
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
-                        getRoom(INFIRMARY).setLocked(false);
+                        getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
                         getInventory().remove(object);
                         getRoom(AIR_DUCT_NORTH).removeObject(destroyableGate);
                         out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
                                 "fortuna sei riuscito a rompere la grata");
                         out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                                 "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
-                        out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
-                                "non ti sembri manchi la persona più importante???");
                         increaseScore();
                         increaseScore();
                         object.setUsed(true);
@@ -1518,19 +1518,17 @@ public class PrisonBreakGame extends GameDescription {
                         && getCurrentRoom().getId() == AIR_DUCT_NORTH
                         && getInventory().contains(getObject(HACKSAW))
                         && getObject(TOOLS).isUsed()
-                        && getObject(MEDICINE).isGiven()
                         && !getObject(HACKSAW).isUsed()) {
-                    out.println("La tua squadra è al completo e riesci ad intrufolarti nell’infermeria tramite" +
-                            " il vecchio condotto d’aria nascosto dietro il quadro di Trump!\nSei riuscito a rompere" +
-                            " la grata!");
-                    getRoom(INFIRMARY).setLocked(false);
-                    TokenObject destroyableGate = getObject(DESTROYABLE_GRATE);
-                    getInventory().remove(getObject(HACKSAW));
-                    getObject(HACKSAW).setUsed(true);
+                    TokenObject hacksaw = getObject(HACKSAW);
+                    getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
+                    getInventory().remove(hacksaw);
+                    getRoom(AIR_DUCT_NORTH).removeObject(object);
+                    out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
+                            "fortuna sei riuscito a rompere la grata");
+                    out.println("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
+                            "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
                     increaseScore();
-                    getRoom(AIR_DUCT_NORTH).removeObject(destroyableGate);
-                    setCurrentRoom(getCurrentRoom().getNorth());
-                    move = true;
+                    increaseScore();
                 } else if (object == null) {
                     out.println("Cosa vuoi rompere???");
                 } else if (object.getId() != DESTROYABLE_GRATE) {
@@ -1553,6 +1551,7 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
                 //TODO se vuole camminare dentro la cella bisogna far uscire il messaggio "Non hai ancora il potere di allargare le sbarre o oltrepassarle"
+                //TODO togliere letto fratello e tutti gli oggetti all'interno della cella del fratello poichè è di fronte alla cella e non all'interno
             } else if (p.getVerb().getVerbType().equals(VerbType.GIVE)) {
                 if (object != null && getCurrentRoom().getId() == BROTHER_CELL
                         && object.getId() == MEDICINE) {
@@ -1571,6 +1570,9 @@ public class PrisonBreakGame extends GameDescription {
                             "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
 
                     //Lock the other rooms to lead the user to the end of the game
+                    getRoom(INFIRMARY).setLocked(false);
+
+                    //FIXME Da sistemare il locked della porta di isolamento
                     getRoom(DOOR_ISOLATION).setLocked(true);
                     getRoom(CANTEEN).setLocked(true);
                     getRoom(GYM).setLocked(true);
@@ -1602,6 +1604,10 @@ public class PrisonBreakGame extends GameDescription {
         } catch (LockedRoomException e) {
             if (getObject(MEDICINE).isGiven()) {
                 out.println("Non perdere ulteriore tempo, bisogna completare il piano!");
+            } else if (getCurrentRoom().getEast() != null && getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
+                    && getCurrentRoom().getEast().getId() == INFIRMARY) {
+                out.println("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
+                        "non ti sembri manchi la persona più importante???");
             } else {
                 out.println("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
             }
