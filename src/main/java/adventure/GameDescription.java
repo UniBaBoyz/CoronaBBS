@@ -8,8 +8,7 @@ import adventure.parser.ParserOutput;
 import adventure.type.*;
 
 import java.io.PrintStream;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Corona-Extra
@@ -134,5 +133,38 @@ public abstract class GameDescription {
         return tokenObjects.stream()
                 .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object)))
                 .findFirst().orElse(null);
+    }
+
+    public void createRooms(Room root) {
+        Set<Room> visited = new LinkedHashSet<>();
+        Queue<Room> queue = new LinkedList<>();
+
+        queue.add(root);
+        visited.add(root);
+
+        while (!queue.isEmpty()) {
+            Room vertex = queue.poll();
+            List<Room> link = new ArrayList<>();
+            if (vertex.getNorth() != null) {
+                link.add(vertex.getNorth());
+            }
+            if (vertex.getSouth() != null) {
+                link.add(vertex.getSouth());
+            }
+            if (vertex.getEast() != null) {
+                link.add(vertex.getEast());
+            }
+            if (vertex.getWest() != null) {
+                link.add(vertex.getWest());
+            }
+            for (Room v : link) {
+                if (!visited.contains(v)) {
+                    visited.add(v);
+                    queue.add(v);
+                }
+            }
+        }
+
+        rooms.addAll(visited);
     }
 }

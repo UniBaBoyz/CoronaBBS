@@ -193,9 +193,9 @@ public class PrisonBreakGame extends GameDescription {
     }
 
     private void initRooms() {
-        Room cell = new Room(CELL, "Cella 17", "Ti trovi nella tua cella 17, al momento sei da solo" +
+        Room mainCell = new Room(CELL, "Cella 17", "Ti trovi nella tua cella 17, al momento sei da solo" +
                 " visto che sei l’ultimo arrivato.");
-        cell.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, al momento aperta visto " +
+        mainCell.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, al momento aperta visto " +
                 "che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
 
         Room corridor = new Room(CORRIDOR, "Corridoio", "Ti trovi nel corridoio del carcere che si" +
@@ -404,6 +404,16 @@ public class PrisonBreakGame extends GameDescription {
                         "Meglio non svegliarlo. Shhhhhhh!");
         grateCell.setLook("Meglio non perdere tempo qui!");
 
+        Room cell18 = new Room(OTHER_CELL, "Cella detenuto", "La cella e' controllata da un " +
+                "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
+                "di mandare a rotoli il piano!!!");
+        cell18.setLook("Meglio non perdere tempo qui!");
+
+        Room cell19 = new Room(OTHER_CELL, "Cella detenuto", "La cella e' controllata da un " +
+                "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
+                "di mandare a rotoli il piano!!!");
+        cell19.setLook("Meglio non perdere tempo qui!");
+
         Room cell20 = new Room(OTHER_CELL, "Cella detenuto", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
@@ -419,15 +429,11 @@ public class PrisonBreakGame extends GameDescription {
                 "di mandare a rotoli il piano!!!");
         cell20.setLook("Meglio non perdere tempo qui!");
 
-        Room cell23 = new Room(OTHER_CELL, "Cella detenuto", "La cella e' controllata da un " +
-                "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
-                "di mandare a rotoli il piano!!!");
-        cell20.setLook("Meglio non perdere tempo qui!");
-
-        //maps
-        cell.setEast(corridor);
-        cell.setWest(passage);
-        corridor.setWest(cell);
+        //Maps
+        //TODO Aggiungere altro corridoio e altre celle
+        mainCell.setEast(corridor);
+        mainCell.setWest(passage);
+        corridor.setWest(mainCell);
         corridor.setNorth(ladders);
         ladders.setSouth(corridor);
         ladders.setEast(lobby);
@@ -437,6 +443,7 @@ public class PrisonBreakGame extends GameDescription {
         lobbySouth.setEast(gym);
         lobbySouth.setNorth(lobby);
         lobbySouth.setWest(cell20);
+        cell20.setEast(lobbySouth);
         lobbySouth.setSouth(lobbyEnd);
         garden.setEast(wall);
         garden.setWest(lobby);
@@ -449,13 +456,15 @@ public class PrisonBreakGame extends GameDescription {
         frontBench.setNorth(bench);
         gym.setWest(lobbySouth);
         lobbyEnd.setEast(canteen);
-        lobbyEnd.setWest(cell20);
+        lobbyEnd.setWest(cell21);
+        cell21.setEast(lobbyEnd);
         lobbyEnd.setNorth(lobbySouth);
         lobbyEnd.setSouth(outIsolation);
         canteen.setWest(lobbyEnd);
         outIsolation.setNorth(lobbyEnd);
         outIsolation.setEast(doorIsolation);
-        outIsolation.setWest(cell20);
+        outIsolation.setWest(cell22);
+        cell22.setEast(outIsolation);
         doorIsolation.setWest(outIsolation);
         doorIsolation.setEast(isolation);
         isolation.setWest(doorIsolation);
@@ -479,7 +488,7 @@ public class PrisonBreakGame extends GameDescription {
         isolationCorridorSouthSouthSouth.setNorth(isolationCorridorSouthSouth);
         isolationCorridorSouthSouthSouth.setEast(brotherCell);
         brotherCell.setWest(isolationCorridorSouthSouthSouth);
-        passage.setEast(cell);
+        passage.setEast(mainCell);
         passage.setNorth(passageNorth);
         passage.setSouth(passageSouth);
         passageSouth.setNorth(passage);
@@ -504,45 +513,7 @@ public class PrisonBreakGame extends GameDescription {
         windowInfirmary.setSouth(infirmary);
         windowInfirmary.setNorth(endGame);
 
-        getRooms().add(cell);
-        getRooms().add(corridor);
-        getRooms().add(ladders);
-        getRooms().add(lobby);
-        getRooms().add(garden);
-        getRooms().add(basket);
-        getRooms().add(wall);
-        getRooms().add(bench);
-        getRooms().add(frontBench);
-        getRooms().add(lobbySouth);
-        getRooms().add(cell20);
-        getRooms().add(gym);
-        getRooms().add(canteen);
-        getRooms().add(lobbyEnd);
-        getRooms().add(outIsolation);
-        getRooms().add(doorIsolation);
-        getRooms().add(isolation);
-        getRooms().add(isolationCorridorNorth);
-        getRooms().add(isolationCorridorSouth);
-        getRooms().add(isolationCorridorEast);
-        getRooms().add(isolationCorridorNorthNorth);
-        getRooms().add(isolationCorridorSouthSouth);
-        getRooms().add(isolationCorridorEastEast);
-        getRooms().add(isolationCorridorNorthNorthNorth);
-        getRooms().add(isolationCorridorSouthSouthSouth);
-        getRooms().add(isolationCorridorEastEastEast);
-        getRooms().add(brotherCell);
-        getRooms().add(passage);
-        getRooms().add(passageSouth);
-        getRooms().add(generator);
-        getRooms().add(passageNorth);
-        getRooms().add(onLadder);
-        getRooms().add(airDuct);
-        getRooms().add(airDuctEast);
-        getRooms().add(airDuctWest);
-        getRooms().add(airDuctNorth);
-        getRooms().add(infirmary);
-        getRooms().add(endGame);
-        getRooms().add(windowInfirmary);
+        createRooms(mainCell);
 
         TokenPerson gennyBello = new TokenPerson(GENNY_BELLO, "Genny Bello",
                 new HashSet<>(Collections.singletonList("Genny")),
@@ -569,7 +540,7 @@ public class PrisonBreakGame extends GameDescription {
                 "E' una semplice vite con inciso il numero di serie: 11121147.");
         screw.setUsable(true);
         frontBench.setObject(screw);
-        cell.setObjectsUsableHere(screw);
+        mainCell.setObjectsUsableHere(screw);
 
         TokenObject scotch = new TokenObject(SCOTCH, "Scotch", new HashSet<>(Arrays.asList("Scotch", "Nastro")),
                 "E' un semplice scotch, dimenticato li forse da qualche operaio!");
@@ -591,7 +562,7 @@ public class PrisonBreakGame extends GameDescription {
                         " servirà a nulla.");
         food.setEatable(true);
         food.setPickupable(true);
-        cell.setObject(food);
+        mainCell.setObject(food);
 
         TokenObject ball = new TokenObject(BALL, "Pallone",
                 new HashSet<>(Arrays.asList("Palla", "Pallone", "Basketball")),
@@ -649,45 +620,31 @@ public class PrisonBreakGame extends GameDescription {
                 "E' un piccolo lavandino fissato al muro con delle viti arruginite... Ha un aspetto " +
                         "malandato!");
         sink.setUsable(true);
-        cell.setObject(sink);
-        cell.setObjectsUsableHere(sink);
-
-        TokenObject sinkBrother = new TokenObject(SINK_BROTHER, "Lavandino",
-                new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
-                "E' un piccolo lavandino posto nella stanza di tuo fratello");
-        sinkBrother.setUsable(true);
-        brotherCell.setObject(sinkBrother);
-        brotherCell.setObjectsUsableHere(sinkBrother);
+        mainCell.setObject(sink);
+        mainCell.setObjectsUsableHere(sink);
 
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' presente un letto a castello molto scomodo e pieno di polvere!");
         bed.setSitable(true);
-        cell.setObject(bed);
-
-        TokenObject bedBrother = new TokenObject(BED_BROTHER, "Letto",
-                new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
-                "E' un letto in legno molto vecchio e sembra anche molto scomodo!");
-        bed.setSitable(true);
-        brotherCell.setObject(bedBrother);
+        mainCell.setObject(bed);
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
                 new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
                 "E' un semplice tavolo in legno, molto piccolo e molto sporco!");
-        cell.setObject(table);
+        mainCell.setObject(table);
 
         TokenObject windowCell = new TokenObject(WINDOW_CELL, "Finestra",
                 new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
                 "E' una piccola finestra sbarrata dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!");
-        cell.setObject(windowCell);
+        mainCell.setObject(windowCell);
 
         TokenObject water = new TokenObject(WATER, "Water",
                 new HashSet<>(Arrays.asList("Water", "Cesso", "Gabinetto", "Tazza", "Wc")),
                 "Un water qualunque, senza nessun particolare, non penso sia bello osservarlo");
         water.setSitable(true);
-        cell.setObject(water);
-        brotherCell.setObject(water);
+        mainCell.setObject(water);
 
         TokenObject railing = new TokenObject(RAILING, "Ringhiera",
                 new HashSet<>(Arrays.asList("Ringhiera", "Scorrimano")),
@@ -936,10 +893,10 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
 
-                } else if (object.getId() == SCREW && !object.isPickupable()) {
-                    out.println("Non puoi prendere quella vite se prima non affronti il gruppetto dei detenuti!");
                 } else if (object == null) {
                     out.println("Cosa vorresti prendere di preciso?");
+                } else if (object.getId() == SCREW && !object.isPickupable()) {
+                    out.println("Non puoi prendere quella vite se prima non affronti il gruppetto dei detenuti!");
                 } else if (!object.isPickupable()) {
                     out.println("Non e' certo un oggetto che si può prendere imbecille!");
                 } else if (getInventory().contains(object)) {
@@ -1021,7 +978,7 @@ public class PrisonBreakGame extends GameDescription {
                         increaseScore();
                         object.setUsed(true);
 
-                    } else if (object.getId() == SINK || object.getId() == SINK_BROTHER) {
+                    } else if (object.getId() == SINK) {
                         out.println("Decidi di lavarti le mani e il viso, l’igiene prima di tutto!");
                         object.setUsed(true);
                     } else if (object.getId() == GENERATOR_OBJ) {
@@ -1233,7 +1190,7 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null && object.isSitable() && getCurrentRoom().containsObject(object)) {
 
                     //Bed case
-                    if (object.getId() == BED || object.getId() == BED_BROTHER) {
+                    if (object.getId() == BED) {
                         if (getCurrentRoom().getObjects().stream()
                                 .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() != WATER)) {
                             out.println("Buonanotte fiorellino!");
@@ -1453,6 +1410,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Ho paura di quello che vuoi fare!!!");
                 }
 
+                //TODO aggiungere possibilità di parlare con fratello
             } else if (p.getVerb().getVerbType().equals(VerbType.TALK_TO)) {
                 if ((object != null && object.isSpeakable())) {
                     if (getCurrentRoom().getId() == CANTEEN) {
@@ -1595,7 +1553,6 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
                 //TODO se vuole camminare dentro la cella bisogna far uscire il messaggio "Non hai ancora il potere di allargare le sbarre o oltrepassarle"
-                //TODO togliere letto fratello e tutti gli oggetti all'interno della cella del fratello poichè è di fronte alla cella e non all'interno
             } else if (p.getVerb().getVerbType().equals(VerbType.GIVE)) {
                 if (object != null && getCurrentRoom().getId() == BROTHER_CELL
                         && object.getId() == MEDICINE) {
@@ -1612,10 +1569,19 @@ public class PrisonBreakGame extends GameDescription {
                             " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n");
                     getCurrentRoom().setLook("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
                             "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
-                    increaseScore();
 
-                    //FIXME Da sistemare il locked della porta di isolamento
+                    //Lock the other rooms to lead the user to the end of the game
                     getRoom(DOOR_ISOLATION).setLocked(true);
+                    getRoom(CANTEEN).setLocked(true);
+                    getRoom(GYM).setLocked(true);
+                    getRoom(GARDEN).setLocked(true);
+
+                    //Set the description of the principal cell
+                    getRoom(CELL).setDescription("Sei arrivato alla tua cella , ad aspettarti puntuale " +
+                            "c’è il tuo amichetto Genny. È ora di attuare il piano!");
+                    getRoom(CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano e scappare via da qui!");
+
+                    increaseScore();
                 } else if (object == null) {
                     out.println("Cosa vuoi dare di preciso?");
                 } else if (object instanceof TokenPerson) {
@@ -1636,7 +1602,7 @@ public class PrisonBreakGame extends GameDescription {
         } catch (LockedRoomException e) {
             if (getObject(MEDICINE).isGiven()) {
                 out.println("Non perdere ulteriore tempo, bisogna completare il piano!");
-            } else if () {
+            } else {
                 out.println("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
             }
         } catch (InventoryEmptyException e) {
