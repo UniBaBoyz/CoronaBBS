@@ -834,7 +834,11 @@ public class PrisonBreakGame extends GameDescription {
                 Arrays.asList("Punteggio", "Punti", "Score")));
         setObjectNotAssignedRoom(scoreObject);
 
-        //TODO Aggiungere Poster Rita Hayworth nella cella
+        TokenObject cot = new TokenObject(COT, "Lettino",
+                new HashSet<>(Arrays.asList("Lettino", "Letto", "Barella", "Brandina", "Lettuccio")),
+                "E' presente un letto a castello molto scomodo e pieno di polvere!");
+        cot.setSitable(true);
+        infirmary.setObject(cot);
     }
 
     @Override
@@ -916,12 +920,33 @@ public class PrisonBreakGame extends GameDescription {
                     getCurrentRoom().removeObject(getObject(HACKSAW));
                     getInventory().add(object);
                     out.println("Hai preso " + object.getName() + "!");
+                } else if (object != null
+                        && object.getId() == SCALPEL
+                        && getCurrentRoom().getId() == INFIRMARY
+                        && !object.isTaken()) {
+
+                    getCurrentRoom().removeObject(object);
+                    getInventory().add(object);
+                    object.setTaken(true);
+                    increaseScore();
+                    out.println("Hai preso " + object.getName() + "!");
+                    out.println("Fai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
+                            "alla porta, riesci a prendere il bisturi con te e l’infermiera ti dice che sei guarito" +
+                            " e puoi ritornare nella cella visto che l’ora d’aria è finita\n");
+                    setCurrentRoom(getRoom(MAIN_CELL));
+                    getInventory().add(getObject(MEDICINE));
+                    out.println(getCurrentRoom().getName());
+                    out.println("Caspita gli antidolorifici ti hanno fatto dormire molto e ti risvegli nella tua " +
+                            "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
+                            "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n");
+                    out.println(getCurrentRoom().getDescription());
+
                 } else if (object != null && object.isPickupable()
                         && getCurrentRoom().containsObject(object)) {
 
-                    //FIXME se lascia e riprende questi oggetti, il punteggio aumenta sempre
-                    if (object.getId() == SCALPEL || object.getId() == SCOTCH || object.getId() == SCREW) {
+                    if ((object.getId() == SCOTCH || object.getId() == SCREW) && !object.isTaken()) {
                         increaseScore();
+                        object.setTaken(true);
                     }
                     getCurrentRoom().removeObject(object);
                     getInventory().add(object);
@@ -1236,6 +1261,13 @@ public class PrisonBreakGame extends GameDescription {
                             out.println("Proprio ora devi farlo?");
                         } else {
                             out.println("Sei già seduto! Ricordati di tirare lo scarico!");
+                        }
+                    } else if (object.getId() == COT) {
+                        if (getCurrentRoom().getObjects().stream()
+                                .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() == COT)) {
+                            out.println("Non sembra il momento di riposarti!");
+                        } else {
+                            out.println("Sei già sdraiato sul lettino!");
                         }
                     }
                     object.setSit(true);
