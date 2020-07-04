@@ -935,11 +935,10 @@ public class PrisonBreakGame extends GameDescription {
                             " e puoi ritornare nella cella visto che l’ora d’aria è finita\n");
                     setCurrentRoom(getRoom(MAIN_CELL));
                     getInventory().add(getObject(MEDICINE));
-                    out.println(getCurrentRoom().getName());
                     out.println("Caspita gli antidolorifici ti hanno fatto dormire molto e ti risvegli nella tua " +
                             "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
                             "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n");
-                    out.println(getCurrentRoom().getDescription());
+                    move = true;
 
                 } else if (object != null && object.isPickupable()
                         && getCurrentRoom().containsObject(object)) {
