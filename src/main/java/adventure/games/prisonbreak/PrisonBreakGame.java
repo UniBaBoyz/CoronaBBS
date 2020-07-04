@@ -913,6 +913,8 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Hai preso " + object.getName() + "!");
                 } else if (object != null && object.isPickupable()
                         && getCurrentRoom().containsObject(object)) {
+
+                    //FIXME se lascia e riprende questi oggetti, il punteggio aumenta sempre
                     if (object.getId() == SCALPEL || object.getId() == SCOTCH || object.getId() == SCREW) {
                         increaseScore();
                     }
