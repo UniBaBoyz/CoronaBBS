@@ -28,15 +28,37 @@ import static adventure.utils.Utils.FOUGHT_SCORE;
 public class PrisonBreakGame extends GameDescription {
 
     public PrisonBreakGame() {
-        new PrisonBreakVerbs(this);
-        new PrisonBreakRooms(this);
-        new PrisonBreakObjects(this);
+        initMovementVerbs();
+        initBasicVerbs();
+        initAdvancedVerbs();
+        initRooms();
+        initObjects();
 
         //Set starting room
         setCurrentRoom(getRoom(MAIN_CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
+    }
+
+    public void initMovementVerbs() {
+        new PrisonBreakVerbs(this).initMovementVerbs();
+    }
+
+    public void initBasicVerbs() {
+        new PrisonBreakVerbs(this).initBasicVerbs();
+    }
+
+    public void initAdvancedVerbs() {
+        new PrisonBreakVerbs(this).initAdvancedVerbs();
+    }
+
+    public void initObjects() {
+        new PrisonBreakObjects(this).initObjects();
+    }
+
+    public void initRooms() {
+        new PrisonBreakRooms(this);
     }
 
     @Override
