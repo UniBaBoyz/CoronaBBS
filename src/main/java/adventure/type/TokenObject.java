@@ -25,7 +25,6 @@ public class TokenObject extends Token {
     private boolean eatable = false;
     private boolean turnOnAble = false;
     private boolean playable = false;
-    private boolean speakable = false;
     private boolean insertable = false;
     private boolean askable = false;
     private boolean sitable = false; //To able to sit down on an object
@@ -193,14 +192,6 @@ public class TokenObject extends Token {
 
     public void setMixable(boolean mixable) {
         this.mixable = mixable;
-    }
-
-    public boolean isSpeakable() {
-        return speakable;
-    }
-
-    public void setSpeakable(boolean speakable) {
-        this.speakable = speakable;
     }
 
     public boolean isEatable() {

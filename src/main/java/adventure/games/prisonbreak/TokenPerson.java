@@ -9,8 +9,9 @@ import java.util.Set;
 
 public class TokenPerson extends TokenObject {
 
-    private boolean followHero = false;
     private Inventory inventory;
+    private boolean followHero = false;
+    private boolean speakable = false;
 
     public TokenPerson(int id, String name, Set<String> alias) {
         super(id, name, alias);
@@ -30,6 +31,10 @@ public class TokenPerson extends TokenObject {
         inventory = new Inventory(dimensionInventory);
     }
 
+    public Inventory getInventory() {
+        return inventory;
+    }
+
     public boolean isFollowHero() {
         return followHero;
     }
@@ -38,8 +43,12 @@ public class TokenPerson extends TokenObject {
         this.followHero = followHero;
     }
 
-    public Inventory getInventory() {
-        return inventory;
+    public boolean isSpeakable() {
+        return speakable;
+    }
+
+    public void setSpeakable(boolean speakable) {
+        this.speakable = speakable;
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.*;
  * @author Corona-Extra
  */
 public abstract class GameDescription {
-    private static final int INCREASE_SCORE = 5;
+    private static final int INCREASE_SCORE = 10;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
