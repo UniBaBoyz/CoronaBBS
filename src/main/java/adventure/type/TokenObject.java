@@ -82,8 +82,8 @@ public class TokenObject extends Token {
         return adjectives;
     }
 
-    public void setAdjectives(Set<String> adjectives) {
-        adjectives.addAll(adjectives);
+    public void setAdjectives(Set<TokenAdjective> adjectives) {
+        this.adjectives.addAll(adjectives);
     }
 
     public void setAdjective(TokenAdjective adjective) {
