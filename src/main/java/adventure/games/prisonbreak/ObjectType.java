@@ -15,9 +15,7 @@ public class ObjectType {
     public final static int SUBSTANCES = 8;
     public final static int MEDICINE = 9;
     public final static int SINK = 10;
-    public final static int SINK_BROTHER = 11;
-    public final static int BED = 12;
-    public final static int BED_BROTHER = 13;
+    public final static int BED = 11;
     public final static int TABLE = 14;
     public final static int WINDOW_CELL = 15;
     public final static int WATER = 16;
