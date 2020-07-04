@@ -15,7 +15,6 @@ public class PrisonBreakRooms implements GameRooms {
     }
 
     public void initRooms() {
-
         Room mainCell17 = new Room(MAIN_CELL, "Cella n.ro 17", "Ti trovi nella tua cella 17," +
                 " al momento sei da solo" + " visto che sei l’ultimo arrivato.");
         mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, " +
