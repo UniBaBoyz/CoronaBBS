@@ -130,12 +130,11 @@ public abstract class GameDescription {
                     .findFirst()
                     .orElse(null);
         } else if (tokenObjects.stream()
-                .filter(o -> getObjectNotAssignedRoom().contains(o)).count() > 1) {
+                .filter(o -> getObjectNotAssignedRoom().contains(o)).count() >= 1) {
             correctObject = tokenObjects.stream()
                     .filter(o -> getObjectNotAssignedRoom().contains(o))
                     .findFirst()
                     .orElse(null);
-            //FIXME GUARDA MEDICINA
         } else if (tokenObjects.stream()
                 .noneMatch(object -> getCurrentRoom().containsObject(object)
                         || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object))
