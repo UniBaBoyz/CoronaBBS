@@ -33,6 +33,7 @@ public class TokenObject extends Token {
     private boolean used = false;
     private boolean push = false;
     private boolean on = true;
+    private boolean taken = false;
     private boolean accept = false;
     private boolean climb = false;
     private boolean sit = false;
@@ -96,6 +97,14 @@ public class TokenObject extends Token {
 
     public void setOpenable(boolean openable) {
         this.openable = openable;
+    }
+
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
     }
 
     public boolean isAccept() {
