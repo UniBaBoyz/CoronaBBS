@@ -32,7 +32,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(INFIRMARY));
+        setCurrentRoom(getRoom(FRONTBENCH));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -741,7 +741,7 @@ public class PrisonBreakGame extends GameDescription {
                 "Non sei un campione di arrampicata o salto in alto, " +
                         "perché perdere tempo qui!",
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(
-                        Arrays.asList("Nuovo", "Recente", "Migliorato"))),
+                                Arrays.asList("Nuovo", "Recente", "Migliorato"))),
                         new TokenAdjective(new HashSet<>(Collections.singletonList("D'aria"))))));
         infirmary.setObject(newAirDuct);
 
@@ -1564,23 +1564,26 @@ public class PrisonBreakGame extends GameDescription {
                     increaseScore();
                     getObject(SCREW).setPickupable(true);
                     move = true;
-                } else if (getCurrentRoom().getId() == FRONTBENCH
-                        && getScore() < AFTER_FOUGHT
-                        && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
-                    increaseScore();
-                    getInventory().remove(getObject(SCALPEL));
-                    getObject(SCALPEL).setUsed(true);
-                    out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
-                            "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
-                            "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
-                            " alla panchina.");
-                    getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
-                    getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
-                            "ci sei solo tu nelle vicinanze. A terra noti la vite!");
-                } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() >= AFTER_FOUGHT
-                        || getObject(SCALPEL).isUsed()) {
-                    out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
                 }
+            } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
+                out.println("Non puoi usare quell'oggetto per uscire!");
+            } else if (getCurrentRoom().getId() == FRONTBENCH
+                    && getScore() <= AFTER_FOUGHT
+                    && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
+                increaseScore();
+                setObjectNotAssignedRoom(getObject(SCALPEL));
+                getInventory().remove(getObject(SCALPEL));
+                getObject(SCALPEL).setUsed(true);
+                out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
+                        "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
+                        "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
+                        " alla panchina.");
+                getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
+                getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+                        "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+            } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() > AFTER_FOUGHT
+                    || getObject(SCALPEL).isUsed()) {
+                out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
             } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
                 if (object != null
                         && object.getId() == DESTROYABLE_GRATE
@@ -1668,7 +1671,8 @@ public class PrisonBreakGame extends GameDescription {
                 out.println(getCurrentRoom().getDescription());
             }
 
-        } catch (NotAccessibleRoomException e) {
+        } catch (
+                NotAccessibleRoomException e) {
             if (getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(VerbType.EAST)
                     || getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(VerbType.WEST)) {
                 out.println("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!");
@@ -1676,7 +1680,8 @@ public class PrisonBreakGame extends GameDescription {
                 out.println("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri" +
                         " per oltrepassare i muri...");
             }
-        } catch (LockedRoomException e) {
+        } catch (
+                LockedRoomException e) {
             if (getObject(MEDICINE).isGiven()) {
                 out.println("Non perdere ulteriore tempo, bisogna completare il piano!");
             } else if (getCurrentRoom().getEast() != null && getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
@@ -1686,16 +1691,21 @@ public class PrisonBreakGame extends GameDescription {
             } else {
                 out.println("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
             }
-        } catch (InventoryEmptyException e) {
+        } catch (
+                InventoryEmptyException e) {
             out.println("L'inventario è vuoto!");
-        } catch (InventoryFullException e) {
+        } catch (
+                InventoryFullException e) {
             out.println("Non puoi mettere più elementi nel tuo inventario!");
             out.println("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
-        } catch (ObjectNotFoundInInventoryException e) {
+        } catch (
+                ObjectNotFoundInInventoryException e) {
             out.println("Non hai questo oggetto nell'inventario, energumeno");
-        } catch (ObjectsAmbiguityException e) {
+        } catch (
+                ObjectsAmbiguityException e) {
             out.println("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
-        } catch (ObjectNotFoundInRoomException e) {
+        } catch (
+                ObjectNotFoundInRoomException e) {
             if (p.getVerb().getVerbType() == VerbType.PICK_UP
                     || p.getVerb().getVerbType() == VerbType.USE
                     || p.getVerb().getVerbType() == VerbType.REMOVE
@@ -1711,8 +1721,10 @@ public class PrisonBreakGame extends GameDescription {
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
             }
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             out.println("Qualcosa è andato storto....");
+            out.println(e.getMessage());
         }
     }
 }
