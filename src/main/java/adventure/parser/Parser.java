@@ -7,6 +7,7 @@ import adventure.type.TokenObject;
 import adventure.type.TokenVerb;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Corona-Extra
@@ -118,6 +119,10 @@ public abstract class Parser {
         return isAdjective;
     }
 
+    private Set<TokenObject> getObjectWithAdjective(Set<TokenObject> object, TokenAdjective adjective) {
+        return object.stream().filter(o -> o.getAdjectives().contains(adjective)).collect(Collectors.toSet());
+    }
+
     public List<ParserOutput> generateParserOutput(Iterator<List<Set<Token>>> sentences) throws InputErrorException {
         List<ParserOutput> parserOutputs = new ArrayList<>(); //For each sentence a ParserOutput is created
         List<Set<Token>> sentence;
@@ -134,6 +139,8 @@ public abstract class Parser {
             // Check if the adjective refers to the exact object
             if (!object.isEmpty() && adjective != null && !isCorrectAdjective(object, adjective)) {
                 throw new InputErrorException();
+            } else if(!object.isEmpty() && adjective != null && isCorrectAdjective(object, adjective)){
+                object = getObjectWithAdjective(object, adjective);
             }
 
             parserOutputs.add(new ParserOutput(verb, object, adjective));

@@ -118,11 +118,24 @@ public abstract class GameDescription {
     }
 
     public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
-        if (tokenObjects.stream()
-                .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object)
-                        || getObjectNotAssignedRoom().contains(object)))
-                .count() > 1) {
+        long countObjectRoomAndInventory = tokenObjects.stream()
+                .filter(o -> (getCurrentRoom().containsObject(o) || getInventory().contains(o))).count();
+        TokenObject correctObject = null;
+
+        if (countObjectRoomAndInventory > 1) {
             throw new ObjectsAmbiguityException();
+        } else if (countObjectRoomAndInventory == 1) {
+            correctObject = tokenObjects.stream()
+                    .filter(o -> (getCurrentRoom().containsObject(o) || getInventory().contains(o)))
+                    .findFirst()
+                    .orElse(null);
+        } else if (tokenObjects.stream()
+                .filter(o -> getObjectNotAssignedRoom().contains(o)).count() > 1) {
+            correctObject = tokenObjects.stream()
+                    .filter(o -> getObjectNotAssignedRoom().contains(o))
+                    .findFirst()
+                    .orElse(null);
+            //FIXME GUARDA MEDICINA
         } else if (tokenObjects.stream()
                 .noneMatch(object -> getCurrentRoom().containsObject(object)
                         || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object))
@@ -130,9 +143,7 @@ public abstract class GameDescription {
             throw new ObjectNotFoundInRoomException();
         }
 
-        return tokenObjects.stream()
-                .filter(object -> (getCurrentRoom().containsObject(object) || getInventory().contains(object) || getObjectNotAssignedRoom().contains(object)))
-                .findFirst().orElse(null);
+        return correctObject;
     }
 
     public void createRooms(Room root) {

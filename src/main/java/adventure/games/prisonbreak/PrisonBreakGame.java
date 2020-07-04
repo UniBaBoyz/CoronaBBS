@@ -32,7 +32,7 @@ public class PrisonBreakGame extends GameDescription {
         initRooms();
 
         //Set starting room
-        setCurrentRoom(getRoom(MAIN_CELL));
+        setCurrentRoom(getRoom(INFIRMARY));
 
         //Set Inventory
         setInventory(new Inventory(5));
@@ -617,9 +617,8 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject hacksaw = new TokenObject(HACKSAW, "Seghetto",
                 new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
                 "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.",
-                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto", "Distrutto",
-                        "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Aggiustato",
-                        "Sistemato", "Riparato"))))));
+                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto",
+                        "Distrutto", "Devastato", "Spaccato"))))));
         hacksaw.setUsable(true);
         hacksaw.setAskable(true);
         airDuctNorth.setObjectsUsableHere(hacksaw);
@@ -737,11 +736,13 @@ public class PrisonBreakGame extends GameDescription {
         wardrobe.add(gown);
         infirmary.setObject(wardrobe);
 
-        // TODO SCEGLIERE SE ELIMINARE IL CONDOTTO NUOVO DALL' INFERMERIA
         TokenObject newAirDuct = new TokenObject(NEW_AIR_DUCT_INFIRMARY, "Condotto d'aria nuovo",
                 new HashSet<>(Arrays.asList("Condotto", "Passaggio")),
                 "Non sei un campione di arrampicata o salto in alto, " +
-                        "perché perdere tempo qui!");
+                        "perché perdere tempo qui!",
+                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(
+                        Arrays.asList("Nuovo", "Recente", "Migliorato"))),
+                        new TokenAdjective(new HashSet<>(Collections.singletonList("D'aria"))))));
         infirmary.setObject(newAirDuct);
 
         TokenObject grate = new TokenObject(GRATE, "Grata", new HashSet<>(Arrays.asList("Grata", "Grate")),
@@ -816,12 +817,14 @@ public class PrisonBreakGame extends GameDescription {
         setObjectNotAssignedRoom(combination);
         doorIsolation.setObjectsUsableHere(combination);
 
-        TokenObject airDuctOld = new TokenObject(AIR_DUCT_OLD, "Condotto d'aria vecchio", new HashSet<>(
+        TokenObject oldAirDuct = new TokenObject(OLD_AIR_DUCT, "Condotto d'aria vecchio", new HashSet<>(
                 Arrays.asList("Condotto d'aria vecchio", "Condotto d'aria", "Condotto", "Indotto")),
                 "Dietro al quadro vedi un condotto d’aria dall’aspetto vecchiotto, " +
                         "sembra quasi che non serva più perché ne hanno costruito un altro… " +
-                        "Perché nasconderlo?");
-        setObjectNotAssignedRoom(airDuctOld);
+                        "Perché nasconderlo?",
+                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Vecchio", "Anziano",
+                        "Decrepito", "Antico", "Vetusto", "Antiquato", "Disusato", "Obsoleto", "Consumato"))))));
+        setObjectNotAssignedRoom(oldAirDuct);
 
         TokenObject roomObject = new TokenObject(ROOM_OBJ, "Stanza", new HashSet<>(
                 Arrays.asList("Stanza", "Camera", "Ambiente", "Locale")));
@@ -1143,8 +1146,9 @@ public class PrisonBreakGame extends GameDescription {
                                 out.println("Il quadro è già stato spostato!");
                             } else {
                                 object.setPush(true);
-                                getCurrentRoom().setObject(getObject(AIR_DUCT_OLD));
-                                out.println(getObject(AIR_DUCT_OLD).getDescription());
+                                getCurrentRoom().setObject(getObject(OLD_AIR_DUCT));
+                                getObjectNotAssignedRoom().remove(getObject(OLD_AIR_DUCT));
+                                out.println(getObject(OLD_AIR_DUCT).getDescription());
                             }
                         }
                     } else if (object.getId() == BUTTON_GENERATOR) {
@@ -1595,6 +1599,7 @@ public class PrisonBreakGame extends GameDescription {
                             " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n");
                     getCurrentRoom().setLook("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
                             "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
+
                     getRoom(INFIRMARY).setLocked(false);
 
                     //Lock the other rooms to lead the user to the end of the game
