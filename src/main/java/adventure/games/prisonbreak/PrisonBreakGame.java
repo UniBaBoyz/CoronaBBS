@@ -655,7 +655,9 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
                 "E' presente un letto a castello molto scomodo e pieno di polvere!");
         bed.setSitable(true);
+        bed.setUsable(true);
         mainCell17.setObject(bed);
+        mainCell17.setObjectsUsableHere(bed);
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
                 new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
@@ -1084,6 +1086,9 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
                         increaseScore();
+                        object.setUsed(true);
+                    } else if (object.getId() == BED) {
+                        out.println("Buona notte fiorellino!");
                         object.setUsed(true);
                     } else if (object.getId() == POSTER) {
 
