@@ -18,8 +18,6 @@ import java.util.HashSet;
 
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
-import static adventure.utils.Utils.AFTER_FOUGHT;
-import static adventure.utils.Utils.FOUGHT_SCORE;
 
 
 /**
@@ -245,14 +243,14 @@ public class PrisonBreakGame extends GameDescription {
                 "indietro!");
 
         Room bench = new Room(BENCH, "Panchine", "Tutte le panchine sono occupati da un gruppo " +
-                "di detenuti che ti guardano con aria sospetta.");
-        bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una dove a terra puoi " +
-                "notare un oggetto di metallo simile ad una vite. Vai a nord per tornare indietro!");
+                "di detenuti che ti guardano con aria sospetta. C'è qualcosa a terra in lontananza...guarda meglio.");
+        bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una panchina, dove a terra " +
+                "puoi notare un oggetto di metallo simile ad una vite. Vai a nord per tornare indietro!");
 
         Room infirmary = new Room(INFIRMARY, "Infermeria", "E' una classica infermeria e ti trovi" +
                 " sdraiato sul tuo letto. Decidi di alzarti senza far rumore!");
         infirmary.setLook("Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
-                "voci nel corridoio.");
+                "voci nel corridoio. A nord vedi una finestra che si affaccia sul cortile.");
         infirmary.setLocked(true);
 
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
@@ -399,15 +397,9 @@ public class PrisonBreakGame extends GameDescription {
         endGame.setLook("");
         endGame.setLocked(true);
 
-        Room windowInfirmary = new Room(WINDOW_INFIRMARY, "Finestra infermeria",
-                "La finestra e' sbarrata e non sembra possibile aprirla! " +
-                        "Puoi notare un lungo cavo che porta fino al muro della prigione!");
-        windowInfirmary.setLook("Non noti nient'altro di particolare!");
-
         Room frontBench = new Room(FRONTBENCH, "Di fronte alle panchine",
-                "Ti avvicini alla panchina per controllare meglio l’oggetto ma vieni subito fermato " +
-                        "da un gruppo di neri che con aria minacciosa ti chiedono di allontanarti " +
-                        "perche' la panchina e' la loro. Cosa scegli di fare?");
+                "Ti avvicini alla panchina, ma vieni subito fermato da un gruppo di neri che con aria" +
+                        " minacciosa ti chiedono di allontanarti perche' la panchina e' la loro. Cosa scegli di fare?");
         frontBench.setLook("Vedi il gruppo di neri che ti fissa aspettando una tua mossa, non credo sia l’idea " +
                 "migliore restare lì impalato. Scegli se affrontarli oppure scappare!!!");
 
@@ -539,9 +531,8 @@ public class PrisonBreakGame extends GameDescription {
         airDuctInfirmary.setWest(airDuctNorth);
         airDuctInfirmary.setEast(infirmary);
         infirmary.setWest(airDuctInfirmary);
-        infirmary.setNorth(windowInfirmary);
-        windowInfirmary.setSouth(infirmary);
-        windowInfirmary.setNorth(endGame);
+        infirmary.setNorth(endGame);
+        endGame.setSouth(infirmary);
 
         createRooms(mainCell17);
 
@@ -633,7 +624,9 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject substances = new TokenObject(SUBSTANCES, "Sostanze chimiche",
                 new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Oggetti")),
                 "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro " +
-                        "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!");
+                        "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!",
+                new HashSet<>(Collections.singletonList(
+                        new TokenAdjective(new HashSet<>(Collections.singletonList("Chimiche"))))));
         substances.setPickupable(true);
         substances.setMixable(true);
         infirmary.setObject(substances);
@@ -679,6 +672,8 @@ public class PrisonBreakGame extends GameDescription {
                 "Sei troppo giovane per camminare appoggiato ad una ringhiera e troppo giovane " +
                         "per buttarti, ti prego non farlo!!!");
         corridorNorth.setObject(railing);
+        corridorSouth.setObject(railing);
+        corridor.setObject(railing);
 
         TokenObject door = new TokenObject(DOOR_GARDEN, "Porta d'ingresso",
                 new HashSet<>(Arrays.asList("Porta", "Portone", "Ingresso", "Soglia")),
@@ -848,7 +843,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject cot = new TokenObject(COT, "Lettino",
                 new HashSet<>(Arrays.asList("Lettino", "Letto", "Barella", "Brandina", "Lettuccio")),
-                "E' presente un letto a castello molto scomodo e pieno di polvere!");
+                "E' solo un lettino ospedaliero un po' malandato!");
         cot.setSitable(true);
         infirmary.setObject(cot);
     }
@@ -944,9 +939,10 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Hai preso " + object.getName() + "!");
                     out.println("Fai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
                             "alla porta, riesci a prendere il bisturi con te e l’infermiera ti dice che sei guarito" +
-                            " e puoi ritornare nella cella visto che l’ora d’aria è finita\n");
+                            " e puoi ritornare nella cella visto che l’ora d’aria è finita.\n");
                     setCurrentRoom(getRoom(MAIN_CELL));
                     getInventory().add(getObject(MEDICINE));
+                    out.println("Zzzzzz.....\n");
                     out.println("Caspita gli antidolorifici ti hanno fatto dormire molto e ti risvegli nella tua " +
                             "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
                             "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n");
@@ -1035,7 +1031,14 @@ public class PrisonBreakGame extends GameDescription {
                                 " nelle vicinanze.");
                         increaseScore();
                         object.setUsed(true);
-
+                        out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
+                                "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
+                                "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
+                                " alla panchina.");
+                        getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
+                        getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+                                "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+                        getObject(SCREW).setPickupable(true);
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
                         setObjectNotAssignedRoom(object);
@@ -1409,7 +1412,7 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Perchè scappare?? Ma soprattutto da cosa??? Fifone!");
                 }
 
-                //TODO NON FAR CREARE L' ACIDO LA PRIMA VOLTA IN INFERMERIA
+                //TODO NON FAR CREARE L'ACIDO LA PRIMA VOLTA IN INFERMERIA
             } else if (p.getVerb().getVerbType().equals(VerbType.MAKE)) {
                 TokenObject substances = getObject(SUBSTANCES);
                 if ((object != null
