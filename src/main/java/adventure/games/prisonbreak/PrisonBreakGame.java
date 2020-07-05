@@ -94,7 +94,8 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(turnOff);
 
         TokenVerb push = new TokenVerb(VerbType.PUSH);
-        push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia", "Pigia", "Togli", "Sposta")));
+        push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia",
+                "Pigia", "Togli", "Sposta")));
         getTokenVerbs().add(push);
 
         TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
@@ -173,8 +174,8 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(give);
 
         TokenVerb make = new TokenVerb(VerbType.MAKE);
-        make.setAlias(new HashSet<>(Arrays.asList("Fai", "Crea", "Prepara", "Inventa", "Mischia", "Mescola", "Produci",
-                "Realizza", "Genera", "Componi", "Origina")));
+        make.setAlias(new HashSet<>(Arrays.asList("Fai", "Crea", "Prepara", "Inventa",
+                "Mischia", "Mescola", "Produci", "Realizza", "Genera", "Componi", "Origina")));
         getTokenVerbs().add(make);
 
         TokenVerb remove = new TokenVerb(VerbType.REMOVE);
@@ -190,8 +191,8 @@ public class PrisonBreakGame extends GameDescription {
     private void initRooms() {
         Room mainCell17 = new Room(MAIN_CELL, "Cella n.ro 17", "Ti trovi nella tua cella 17," +
                 " al momento sei da solo" + " visto che sei l’ultimo arrivato.");
-        mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, al momento aperta visto " +
-                "che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
+        mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est," +
+                " al momento aperta visto che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
 
         Room corridorNorth = new Room(CORRIDOR_NORTH, "Corridoio nord",
                 "Ti trovi nel corridoio del carcere che si estende da sud verso nord.");
@@ -214,8 +215,9 @@ public class PrisonBreakGame extends GameDescription {
 
         Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
                 "intravedere a est il giardino.");
-        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite la scalinata" +
-                " al piano superiore oppure andare nel giardino a est. L’atrio si estende ancora verso sud.");
+        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite " +
+                "la scalinata al piano superiore oppure andare nel giardino a est. L’atrio si estende ancora " +
+                "verso sud.");
 
         Room lobbySouth = new Room(LOBBY_SOUTH, "Atrio", "Ti trovi a sud del grosso atrio di ingresso." +
                 " Puoi notare che l'atrio prosegue sia a nord che a sud!");
@@ -227,7 +229,7 @@ public class PrisonBreakGame extends GameDescription {
         lobbyEnd.setLook("Non c'è nulla di particolare! Puoi ritornare indietro verso nord!");
 
         Room garden = new Room(GARDEN, "Giardino", "Sei in un ampio giardino verde illuminato " +
-                "dal sole, dietro di te il grosso atrio.");
+                "dal sole. Alla tua sinistra il grosso atrio.");
         garden.setLook("Guardando a nord puoi notare un grosso campo da basket, avanti a te a est un grosso muro " +
                 "che separa il giardino dall’esterno con due enormi torri sulle quali ci sono le guardie come vedetta," +
                 " a sud invece tre grosse panchine dove puoi sederti e rilassarti.");
@@ -360,7 +362,8 @@ public class PrisonBreakGame extends GameDescription {
         isolationCorridorEastEast
                 .setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
 
-        Room isolationCorridorEastEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST_EAST, "Corridoio est isolamento",
+        Room isolationCorridorEastEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST_EAST,
+                "Corridoio est isolamento",
                 "Il corridoio termina con una grossa parete di fronte e te, hai visto tutte le celle, " +
                         "ma di tuo fratello nemmeno l’ombra, te l’avevo detto io!!!");
         isolationCorridorEastEastEast.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
@@ -853,7 +856,8 @@ public class PrisonBreakGame extends GameDescription {
                 "Non ti sembra di aver visto questo poster da qualche altra parte?\nCoincidenze? " +
                         "Io non credo, utilizzare questo poster ti darà dei suggerimenti per portare a termine la " +
                         "tua missione, non abusarne molto mi raccomando!",
-                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Rita", "Hayworth"))))));
+                new HashSet<>(Collections.singletonList(
+                        new TokenAdjective(new HashSet<>(Arrays.asList("Rita", "Hayworth"))))));
         mainCell17.getObjects().add(poster);
         poster.setUsable(true);
         mainCell17.setObjectsUsableHere(poster);
@@ -1058,7 +1062,7 @@ public class PrisonBreakGame extends GameDescription {
                                 " alla panchina.");
                         getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
                         getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
-                                "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+                                "ci sei solo tu nelle vicinanze.");
                         getObject(SCREW).setPickupable(true);
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
@@ -1140,7 +1144,8 @@ public class PrisonBreakGame extends GameDescription {
                         } else if (!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
                             out.println("Ti vedo in forma adesso, ora sarai sicuramente in grado di distruggere " +
                                     "quella grata che è presente nel condotto d'aria");
-                        } else if (getObject(HACKSAW).isUsed() && !getObject(SCOTCH).isUsed() && !getInventory().contains(getObject(SCOTCH))) {
+                        } else if (getObject(HACKSAW).isUsed() && !getObject(SCOTCH).isUsed()
+                                && !getInventory().contains(getObject(SCOTCH))) {
                             out.println("Nel condotto d'aria c'è qualcosa che ti tornerà utile più tardi!");
                         } else if (!getObject(GENERATOR_OBJ).isUsed() && !getObject(MEDICINE).isGiven()) {
                             out.println("Ti consiglio di cercare un pò nel condotto d'aria e spegnere il generatore" +
@@ -1282,8 +1287,8 @@ public class PrisonBreakGame extends GameDescription {
                                 getObject(GENERATOR_OBJ).setUsable(true);
                                 getRoom(DOOR_ISOLATION).setLocked(false);
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
-                                        " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
-                                        " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
+                                        " la tua, peccato che i poliziotti prevedono queste bravate e hanno un " +
+                                        "generatore di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                                 increaseScore();
                                 increaseScore();
                             }
@@ -1538,9 +1543,9 @@ public class PrisonBreakGame extends GameDescription {
             } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
                 if ((object != null && object.isPlayable())
                         || (object == null && getCurrentRoom().getId() == BASKET_CAMP)) {
-                    // ball case
+                    //Ball case
                     if (getCurrentRoom().getId() == BASKET_CAMP) {
-                        // ball play
+                        //Ball play
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
                     } else {
                         out.println("Vuoi giocare con il tuo amico immaginario??");
@@ -1552,19 +1557,19 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
-                if ((object != null && object.isInsertable())) {
+                if (object != null && object.isInsertable()) {
                     if (getCurrentRoom().getId() == DOOR_ISOLATION) {
                         getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
-                        getObject(COMBINATION).setUsed(true);
+                        object.setUsed(true);
                         out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
                         increaseScore();
+                    } else {
+                        out.println("Non puoi inserire nulla qui!");
                     }
                 } else if (object == null) {
                     out.println("Con cosa vuoi inserire??");
-                } else if (!getCurrentRoom().containsObject(object)) {
-                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isInsertable()) {
                     out.println("Ho paura di quello che vuoi fare!!!");
                 }
@@ -1661,7 +1666,8 @@ public class PrisonBreakGame extends GameDescription {
                     increaseScore();
                     move = true;
                     counterFaceUp++;
-                } else if (getCurrentRoom().getId() == FRONTBENCH && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL)) && counterFaceUp == 1) {
+                } else if (getCurrentRoom().getId() == FRONTBENCH && !getObject(SCALPEL).isUsed()
+                        && getInventory().contains(getObject(SCALPEL)) && counterFaceUp == 1) {
                     increaseScore();
                     setObjectNotAssignedRoom(getObject(SCALPEL));
                     getInventory().remove(getObject(SCALPEL));
@@ -1673,7 +1679,7 @@ public class PrisonBreakGame extends GameDescription {
                             " alla panchina.");
                     getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
                     getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
-                            "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+                            "ci sei solo tu nelle vicinanze.");
                     counterFaceUp++;
                 } else if (getCurrentRoom().getId() != FRONTBENCH || getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
                     out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
