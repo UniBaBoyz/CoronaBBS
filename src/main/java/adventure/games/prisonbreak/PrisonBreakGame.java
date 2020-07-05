@@ -105,7 +105,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb faceUp = new TokenVerb(VerbType.FACE_UP);
         faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Affrontali", "Attacca", "Mena", "Azzuffati", "Litiga",
-                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali", "Picchia")));
+                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali", "Picchia", "Picchiali")));
         getTokenVerbs().add(faceUp);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
@@ -117,8 +117,11 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(eat);
 
         TokenVerb play = new TokenVerb(VerbType.PLAY);
-        play.setAlias(new HashSet<>(Arrays.asList("Gioca", "Allenati")));
+        play.setAlias(new HashSet<>(Arrays.asList("Gioca", "Divertiti", "Giocherella")));
         getTokenVerbs().add(play);
+
+        TokenVerb workOut = new TokenVerb(VerbType.WORK_OUT);
+        workOut.setAlias(new HashSet<>(Arrays.asList("Allenati", "Allena")));
 
         TokenVerb walk = new TokenVerb(VerbType.WALK);
         walk.setAlias(new HashSet<>(Arrays.asList("Cammina", "Corri", "Vai", "Muoviti", "Striscia", "Avvicinati",
@@ -1554,6 +1557,26 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Con cosa vuoi giocare esattamente???");
                 } else if (!object.isTurnOnAble()) {
                     out.println("Non puoi giocare con questo oggetto!!!");
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.WORK_OUT)) {
+                if (getCurrentRoom().getId() == GYM
+                        || (getCurrentRoom().getId() == GYM && object != null && object.getId() == TOOLS)) {
+                    out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
+                            "ti senti già più forte!");
+
+                    if (!object.isUsed()) {
+                        increaseScore();
+                    }
+
+                    object.setUsed(true);
+                } else if (getCurrentRoom().getId() != GYM
+                        || (getCurrentRoom().getId() != GYM && object != null && object.getId() == TOOLS)) {
+                    out.println("Ti sembra un posto dove potersi allenare?!!");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else {
+                    out.println("Non ci si può allenare con quest'oggetto!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
