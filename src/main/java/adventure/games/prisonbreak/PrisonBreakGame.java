@@ -643,6 +643,7 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
                 "E' un medicinale per alleviare i dolori.");
         setObjectNotAssignedRoom(medicine);
+        medicine.setPickupable(true);
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
@@ -1052,8 +1053,13 @@ public class PrisonBreakGame extends GameDescription {
                                 "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                                 "sarebbe veramente stupido) e vanno via con un'aria di vendetta. Ora sei solo vicino " +
                                 "alla panchina.");
-                        getRoom(FRONTBENCH).setLook("E' una grossa panchina in legno un po' malandata, ci sei solo tu" +
-                                " nelle vicinanze.");
+                        getRoom(FRONTBENCH).setDescription("Sei solo vicino alla panchina!");
+                        getRoom(FRONTBENCH).setLook("E' una grossa panchina in legno un po' malandata, " +
+                                "ci sei solo tu nelle vicinanze.");
+                        getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei" +
+                                "solo tu qui.");
+                        getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
+
                         increaseScore();
                         object.setUsed(true);
                         out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
@@ -1064,6 +1070,7 @@ public class PrisonBreakGame extends GameDescription {
                         getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                                 "ci sei solo tu nelle vicinanze.");
                         getObject(SCREW).setPickupable(true);
+                        counterFaceUp++;
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
                         setObjectNotAssignedRoom(object);
@@ -1136,10 +1143,12 @@ public class PrisonBreakGame extends GameDescription {
                         } else if (getObject(SCREW).isUsed() && !getObject(SINK).isPush()) {
                             out.println("I tuoi genitori hanno anche figli normali? Come fai a non comprendere che è " +
                                     "necessario spostare il lavandino!!");
-                        } else if (((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(getObject(HACKSAW))) {
+                        } else if (((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(getObject(HACKSAW)) &&
+                                !getInventory().contains(getObject(HACKSAW))) {
                             out.println("Dovresti cercare un utensile per rompere quelle grate che ti impediscono il " +
                                     "passaggio!");
-                        } else if (!getObject(HACKSAW).isUsed() && !getObject(TOOLS).isUsed()) {
+                        } else if (!getObject(HACKSAW).isUsed() && !getObject(TOOLS).isUsed() &&
+                                getInventory().contains(getObject(HACKSAW))) {
                             out.println("Adesso che hai il seghetto dovresti aumentare un pò la tua massa muscolare");
                         } else if (!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
                             out.println("Ti vedo in forma adesso, ora sarai sicuramente in grado di distruggere " +
@@ -1149,7 +1158,7 @@ public class PrisonBreakGame extends GameDescription {
                             out.println("Nel condotto d'aria c'è qualcosa che ti tornerà utile più tardi!");
                         } else if (!getObject(GENERATOR_OBJ).isUsed() && !getObject(MEDICINE).isGiven()) {
                             out.println("Ti consiglio di cercare un pò nel condotto d'aria e spegnere il generatore" +
-                                    "ci vorrà un pò di buio per salvare tuo fratello");
+                                    " ci vorrà un pò di buio per salvare tuo fratello");
                         } else if (getObject(GENERATOR_OBJ).isUsed() && !getObject(MEDICINE).isGiven()) {
                             out.println("Adesso che la prigione è buia potrai andare vicino alla porta d'isolamento e " +
                                     "usare quello scotch che hai preso precedentemente");
@@ -1284,7 +1293,7 @@ public class PrisonBreakGame extends GameDescription {
                             } else {
                                 object.setPush(true);
                                 getObject(LIGHTS).setOn(false);
-                                getObject(GENERATOR_OBJ).setUsable(true);
+                                getObject(GENERATOR_OBJ).setUsed(true);
                                 getRoom(DOOR_ISOLATION).setLocked(false);
                                 out.println("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
                                         " la tua, peccato che i poliziotti prevedono queste bravate e hanno un " +
@@ -1583,7 +1592,7 @@ public class PrisonBreakGame extends GameDescription {
                     } else if (getCurrentRoom().getId() == BROTHER_CELL) {
                         out.println("Tuo fratello ti chiede il motivo della tua presenza nel carcere e tu gli " +
                                 "racconti tutto il piano segreto per la fuga cosicché tuo fratello non venga " +
-                                "giustiziato ingiustamente. \n " +
+                                "giustiziato ingiustamente.\n" +
                                 "Tuo fratello sembra al quanto felice e ti ringrazia enormemente di aver creato tutto" +
                                 " questo piano per salvarlo! \n" +
                                 "Il piano consiste nel far andare tuo fratello in qualche modo in infermeria!");
@@ -1680,6 +1689,9 @@ public class PrisonBreakGame extends GameDescription {
                     getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
                     getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze.");
+                    getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei" +
+                            "solo tu qui.");
+                    getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
                     counterFaceUp++;
                 } else if (getCurrentRoom().getId() != FRONTBENCH || getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
                     out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
