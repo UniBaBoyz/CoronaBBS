@@ -122,6 +122,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb workOut = new TokenVerb(VerbType.WORK_OUT);
         workOut.setAlias(new HashSet<>(Arrays.asList("Allenati", "Allena")));
+        getTokenVerbs().add(workOut);
 
         TokenVerb walk = new TokenVerb(VerbType.WALK);
         walk.setAlias(new HashSet<>(Arrays.asList("Cammina", "Corri", "Vai", "Muoviti", "Striscia", "Avvicinati",
