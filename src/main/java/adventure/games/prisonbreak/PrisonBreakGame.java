@@ -104,7 +104,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb faceUp = new TokenVerb(VerbType.FACE_UP);
         faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Affrontali", "Attacca", "Mena", "Azzuffati", "Litiga",
-                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali")));
+                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali", "Picchia")));
         getTokenVerbs().add(faceUp);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
