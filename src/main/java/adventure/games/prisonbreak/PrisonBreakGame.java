@@ -1041,9 +1041,9 @@ public class PrisonBreakGame extends GameDescription {
 
                         if (!object.isUsed()) {
                             increaseScore();
+                            object.setUsed(true);
                         }
 
-                        object.setUsed(true);
 
                     } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
@@ -1566,11 +1566,11 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                             "ti senti già più forte!");
 
-                    if (!object.isUsed()) {
+                    if (!getObject(TOOLS).isUsed()) {
                         increaseScore();
+                        getObject(TOOLS).setUsed(true);
                     }
 
-                    object.setUsed(true);
                 } else if (getCurrentRoom().getId() != GYM
                         || (getCurrentRoom().getId() != GYM && object != null && object.getId() == TOOLS)) {
                     out.println("Ti sembra un posto dove potersi allenare?!!");
@@ -1839,7 +1839,9 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.EAT
                     || p.getVerb().getVerbType() == VerbType.PULL
                     || p.getVerb().getVerbType() == VerbType.PUSH
-                    || p.getVerb().getVerbType() == VerbType.MAKE) {
+                    || p.getVerb().getVerbType() == VerbType.MAKE
+                    || p.getVerb().getVerbType() == VerbType.PLAY
+                    || p.getVerb().getVerbType() == VerbType.WORK_OUT) {
                 out.println("Lo vedi solo nei tuoi sogni!");
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
