@@ -992,6 +992,7 @@ public class PrisonBreakGame extends GameDescription {
 
                     if (object.getId() == SCREW) {
                         getObject(SINK).setPushable(true);
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         out.println("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino non aveva una " +
                                 "grande forza visto che le viti si svitano facilmente. Adesso che hai rimosso tuttte le " +
@@ -1000,6 +1001,7 @@ public class PrisonBreakGame extends GameDescription {
                         object.setUsed(true);
 
                     } else if (object.getId() == SCOTCH) {
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         getInventory().add(getObject(COMBINATION));
                         out.println("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
@@ -1022,6 +1024,7 @@ public class PrisonBreakGame extends GameDescription {
                         object.setUsed(true);
 
                     } else if (object.getId() == SCALPEL) {
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e capito " +
                                 "il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
@@ -1034,6 +1037,7 @@ public class PrisonBreakGame extends GameDescription {
 
                     } else if (object.getId() == HACKSAW && getObject(TOOLS).isUsed()) {
                         getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         getRoom(AIR_DUCT_NORTH).removeObject(getObject(DESTROYABLE_GRATE));
                         out.println("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
@@ -1063,6 +1067,7 @@ public class PrisonBreakGame extends GameDescription {
 
                     } else if (object.getId() == ACID) {
                         getRoom(ENDGAME).setLocked(false);
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         out.println("Adesso la finestra presenta un buco, sarebbe meglio infilarsi dentro!");
                         increaseScore();
@@ -1072,6 +1077,7 @@ public class PrisonBreakGame extends GameDescription {
                         object.setUsed(true);
 
                     } else if (object.getId() == COMBINATION && !object.isUsed()) {
+                        setObjectNotAssignedRoom(object);
                         getInventory().remove(object);
                         getRoom(ISOLATION).setLocked(false);
                         out.println("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
@@ -1079,6 +1085,9 @@ public class PrisonBreakGame extends GameDescription {
                         increaseScore();
                         object.setUsed(true);
                     } else if (object.getId() == POSTER) {
+
+                        object.setUsable(true);
+
                         // DON'T CHANGE THE ORDER
                         if (false) {
                             //TODO AGGIUNGERE SUGGERIMENTO CON LO SCONTRO
@@ -1102,10 +1111,26 @@ public class PrisonBreakGame extends GameDescription {
                         } else if (!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
                             out.println("Ti vedo in forma adesso, ora sarai sicuramente in grado di distruggere " +
                                     "quella grata che è presente nel condotto d'aria");
-                        } else if (!getObject(GENERATOR_OBJ).isUsed()) {
+                        } else if (getObject(HACKSAW).isUsed() && !getObject(SCOTCH).isUsed() && !getInventory().contains(getObject(SCOTCH))) {
+                            out.println("Nel condotto d'aria c'è qualcosa che ti tornerà utile più tardi!");
+                        } else if (!getObject(GENERATOR_OBJ).isUsed() && !getObject(MEDICINE).isGiven()) {
                             out.println("Ti consiglio di cercare un pò nel condotto d'aria e spegnere il generatore" +
                                     "ci vorrà un pò di buio per salvare tuo fratello");
-                        } // TODO CONTINUARE
+                        } else if (getObject(GENERATOR_OBJ).isUsed() && !getObject(MEDICINE).isGiven()) {
+                            out.println("Adesso che la prigione è buia potrai andare vicino alla porta d'isolamento e " +
+                                    "usare quello scotch che hai preso precedentemente");
+                        } else if (getObject(SCOTCH).isUsed() && !getObject(MEDICINE).isGiven()) {
+                            out.println("Dovresti usare quella combinazione che hai ottenuto utilizzando lo scotch" +
+                                    "nella stanza che precede l'isolamento, fai in fretta il tempo a tua disposizione" +
+                                    "sta per scadere!!!!");
+                        } else if (getObject(COMBINATION).isUsed() && !getObject(MEDICINE).isGiven()) {
+                            out.println("Cosa ci fai qui?? Dovresti dare la medicina a tuo fratello!!!!");
+                        } else if (getObject(MEDICINE).isGiven()) {
+                            out.println("Il tuo piano è quasi terminato, vai con Genny Bello in infermeria passando dal" +
+                                    "passaggio segreto! Buona fortuna, te ne servirà molta!!!!!!!!!");
+                        } else {
+                            out.println("Mi dispiace ma non ho suggerimenti da darti attualmente!!");
+                        }
                     }
 
                 } else {
