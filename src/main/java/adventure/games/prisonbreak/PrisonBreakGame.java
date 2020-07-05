@@ -105,7 +105,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenVerb faceUp = new TokenVerb(VerbType.FACE_UP);
         faceUp.setAlias(new HashSet<>(Arrays.asList("Affronta", "Affrontali", "Attacca", "Mena", "Azzuffati", "Litiga",
-                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali", "Picchia")));
+                "Scontrati", "Lotta", "Combatti", "Attaccali", "Menali", "Picchia", "Picchiali")));
         getTokenVerbs().add(faceUp);
 
         TokenVerb ask = new TokenVerb(VerbType.ASK);
@@ -117,8 +117,12 @@ public class PrisonBreakGame extends GameDescription {
         getTokenVerbs().add(eat);
 
         TokenVerb play = new TokenVerb(VerbType.PLAY);
-        play.setAlias(new HashSet<>(Arrays.asList("Gioca", "Allenati")));
+        play.setAlias(new HashSet<>(Arrays.asList("Gioca", "Divertiti", "Giocherella")));
         getTokenVerbs().add(play);
+
+        TokenVerb workOut = new TokenVerb(VerbType.WORK_OUT);
+        workOut.setAlias(new HashSet<>(Arrays.asList("Allenati", "Allena")));
+        getTokenVerbs().add(workOut);
 
         TokenVerb walk = new TokenVerb(VerbType.WALK);
         walk.setAlias(new HashSet<>(Arrays.asList("Cammina", "Corri", "Vai", "Muoviti", "Striscia", "Avvicinati",
@@ -1038,9 +1042,9 @@ public class PrisonBreakGame extends GameDescription {
 
                         if (!object.isUsed()) {
                             increaseScore();
+                            object.setUsed(true);
                         }
 
-                        object.setUsed(true);
 
                     } else if (object.getId() == BALL) {
                         out.println("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
@@ -1565,6 +1569,26 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Non puoi giocare con questo oggetto!!!");
                 }
 
+            } else if (p.getVerb().getVerbType().equals(VerbType.WORK_OUT)) {
+                if (getCurrentRoom().getId() == GYM
+                        || (getCurrentRoom().getId() == GYM && object != null && object.getId() == TOOLS)) {
+                    out.println("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
+                            "ti senti già più forte!");
+
+                    if (!getObject(TOOLS).isUsed()) {
+                        increaseScore();
+                        getObject(TOOLS).setUsed(true);
+                    }
+
+                } else if (getCurrentRoom().getId() != GYM
+                        || (getCurrentRoom().getId() != GYM && object != null && object.getId() == TOOLS)) {
+                    out.println("Ti sembra un posto dove potersi allenare?!!");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else {
+                    out.println("Non ci si può allenare con quest'oggetto!");
+                }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
                 if (object != null && object.isInsertable()) {
                     if (getCurrentRoom().getId() == DOOR_ISOLATION) {
@@ -1827,7 +1851,9 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.EAT
                     || p.getVerb().getVerbType() == VerbType.PULL
                     || p.getVerb().getVerbType() == VerbType.PUSH
-                    || p.getVerb().getVerbType() == VerbType.MAKE) {
+                    || p.getVerb().getVerbType() == VerbType.MAKE
+                    || p.getVerb().getVerbType() == VerbType.PLAY
+                    || p.getVerb().getVerbType() == VerbType.WORK_OUT) {
                 out.println("Lo vedi solo nei tuoi sogni!");
             } else {
                 out.println("Hai fumato qualcosa per caso?!");
