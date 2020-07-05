@@ -965,6 +965,8 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vorresti prendere di preciso?");
                 } else if (object.getId() == SCREW && !object.isPickupable()) {
                     out.println("Non puoi prendere quella vite se prima non affronti il gruppetto dei detenuti!");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isPickupable()) {
                     out.println("Non e' certo un oggetto che si può prendere imbecille!");
                 } else if (getInventory().contains(object)) {
@@ -1148,10 +1150,10 @@ public class PrisonBreakGame extends GameDescription {
                         out.println("Sei sicuro di non voler usare niente?");
                     } else if (!object.isUsable()) {
                         out.println("Mi dispiace ma questo oggetto non si può utilizzare");
-                    } else if (!getCurrentRoom().isObjectUsableHere(object)) {
-                        out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
                     } else if (!getInventory().contains(object) && !getCurrentRoom().containsObject(object)) {
                         out.println("Io non vedo nessun oggetto di questo tipo qui!");
+                    } else if (!getCurrentRoom().isObjectUsableHere(object)) {
+                        out.println("C’è tempo e luogo per ogni cosa, ma non ora.");
                     }
                 }
 
@@ -1179,13 +1181,13 @@ public class PrisonBreakGame extends GameDescription {
                     object.setOpen(true);
                 } else if (object == null) {
                     out.println("Cosa vorresti aprire di preciso?");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isOpenable()) {
                     out.println("Sei serio? Vorresti veramente aprirlo?!");
                     out.println("Sei fuori di testa!");
                 } else if (object.isOpen()) {
                     out.println("E' gia' aperto testa di merda!");
-                } else {
-                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
@@ -1199,13 +1201,13 @@ public class PrisonBreakGame extends GameDescription {
 
                 } else if (object == null) {
                     out.println("Cosa vorresti chiudere di preciso?");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isOpenable()) {
                     out.println("Sei serio? Vorresti veramente chiuderlo?!");
                     out.println("Sei fuori di testa!");
                 } else if (!object.isOpen()) {
                     out.println("E' gia' chiuso testa di merda!");
-                } else {
-                    out.println("Questo oggetto lo vedi solo nei tuoi sogni!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)
@@ -1272,10 +1274,10 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 } else if (object == null) {
                     out.println("Cosa vuoi spostare? L'aria?!?");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isPushable()) {
                     out.println("Puoi essere anche Hulk ma quell'oggetto non si può spostare!!!");
-                } else if (!(getCurrentRoom().containsObject(object))) {
-                    out.println("Forse non ci vedi bene, quell'oggetto non è presente in questa stanza!!!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.EAT)) {
@@ -1291,11 +1293,11 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 } else if (object == null) {
                     out.println("Cosa vuoi mangiare??? Sembra non ci sia nulla di commestibile");
-                } else if (!object.isEatable()) {
-                    out.println("Sei veramente sicuro??? Non mi sembra una buona idea!");
                 } else if (!(getInventory().contains(object)
                         || getCurrentRoom().containsObject(object))) {
                     out.println("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?");
+                } else if (!object.isEatable()) {
+                    out.println("Sei veramente sicuro??? Non mi sembra una buona idea!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.STAND_UP)) {
@@ -1353,10 +1355,10 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 } else if (object == null) {
                     out.println("Sedersi sul pavimento non mi sembra una buona idea!");
-                } else if (!object.isSitable()) {
-                    out.println("Con quell'oggetto puoi fare altro ma di certo non sederti!");
                 } else if (!getCurrentRoom().containsObject(object)) {
                     out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
+                } else if (!object.isSitable()) {
+                    out.println("Con quell'oggetto puoi fare altro ma di certo non sederti!");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.CLIMB)) {
@@ -1464,6 +1466,8 @@ public class PrisonBreakGame extends GameDescription {
 
                 } else if (object == null) {
                     out.println("Cosa vuoi creare esattamente?");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    out.println("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
                 } else if (!object.isMixable()) {
                     out.println("Non è una cosa che si può fare");
                 }
@@ -1542,6 +1546,8 @@ public class PrisonBreakGame extends GameDescription {
                     }
                 } else if (object == null) {
                     out.println("Con cosa vuoi inserire??");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (!object.isInsertable()) {
                     out.println("Ho paura di quello che vuoi fare!!!");
                 }
@@ -1677,6 +1683,8 @@ public class PrisonBreakGame extends GameDescription {
                     increaseScore();
                 } else if (object == null) {
                     out.println("Cosa vuoi rompere???");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
                 } else if (object.getId() != DESTROYABLE_GRATE) {
                     out.println("Non puoi distruggere questo oggetto!");
                 } else if (getCurrentRoom().getId() != AIR_DUCT_NORTH) {
