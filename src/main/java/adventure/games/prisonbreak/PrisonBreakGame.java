@@ -1097,12 +1097,12 @@ public class PrisonBreakGame extends GameDescription {
                         } else if (((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(getObject(HACKSAW))) {
                             out.println("Dovresti cercare un utensile per rompere quelle grate che ti impediscono il " +
                                     "passaggio!");
-                        } else if(!getObject(HACKSAW).isUsed() && !getObject(TOOLS).isUsed()) {
+                        } else if (!getObject(HACKSAW).isUsed() && !getObject(TOOLS).isUsed()) {
                             out.println("Adesso che hai il seghetto dovresti aumentare un pò la tua massa muscolare");
-                        } else if(!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
+                        } else if (!getObject(HACKSAW).isUsed() && getObject(TOOLS).isUsed()) {
                             out.println("Ti vedo in forma adesso, ora sarai sicuramente in grado di distruggere " +
                                     "quella grata che è presente nel condotto d'aria");
-                        } else if(!getObject(GENERATOR_OBJ).isUsed()) {
+                        } else if (!getObject(GENERATOR_OBJ).isUsed()) {
                             out.println("Ti consiglio di cercare un pò nel condotto d'aria e spegnere il generatore" +
                                     "ci vorrà un pò di buio per salvare tuo fratello");
                         } // TODO CONTINUARE
@@ -1593,10 +1593,11 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vuoi rifiutare? Nulla???");
                 }
 
+                //TODO eliminare punteggio
             } else if (p.getVerb().getVerbType().equals(VerbType.FACE_UP)) {
                 if (getCurrentRoom().getId() == FRONTBENCH && getScore() < FOUGHT_SCORE) {
                     out.println("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
-                            "nuovamente con l’intendo di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
+                            "nuovamente con l’intento di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
                             "di loro ti tira un pugno contro il viso... Perdendo i sensi non ti ricordi piu' nulla e" +
                             " ti svegli in infermeria.");
                     setCurrentRoom(getRoom(INFIRMARY));
@@ -1604,26 +1605,26 @@ public class PrisonBreakGame extends GameDescription {
                     getObject(SCREW).setPickupable(true);
                     move = true;
                     faced_up = true;
+                } else if (getCurrentRoom().getId() == FRONTBENCH
+                        && getScore() <= AFTER_FOUGHT
+                        && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
+                    increaseScore();
+                    setObjectNotAssignedRoom(getObject(SCALPEL));
+                    getInventory().remove(getObject(SCALPEL));
+                    getObject(SCALPEL).setUsed(true);
+                    out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
+                            "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
+                            "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
+                            " alla panchina.");
+                    getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
+                    getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+                            "ci sei solo tu nelle vicinanze. A terra noti la vite!");
+                } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() > AFTER_FOUGHT
+                        || getObject(SCALPEL).isUsed()) {
+                    out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
                 }
             } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
                 out.println("Non puoi usare quell'oggetto per uscire!");
-            } else if (getCurrentRoom().getId() == FRONTBENCH
-                    && getScore() <= AFTER_FOUGHT
-                    && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
-                increaseScore();
-                setObjectNotAssignedRoom(getObject(SCALPEL));
-                getInventory().remove(getObject(SCALPEL));
-                getObject(SCALPEL).setUsed(true);
-                out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
-                        "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
-                        "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
-                        " alla panchina.");
-                getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
-                getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
-                        "ci sei solo tu nelle vicinanze. A terra noti la vite!");
-            } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() > AFTER_FOUGHT
-                    || getObject(SCALPEL).isUsed()) {
-                out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
             } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
                 if (object != null
                         && object.getId() == DESTROYABLE_GRATE
