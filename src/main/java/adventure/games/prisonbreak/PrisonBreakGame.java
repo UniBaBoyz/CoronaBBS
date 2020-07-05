@@ -27,6 +27,8 @@ import static adventure.utils.Utils.FOUGHT_SCORE;
  */
 public class PrisonBreakGame extends GameDescription {
 
+    private short counterFaceUp = 0;
+
     public PrisonBreakGame() {
         initVerbs();
         initRooms();
@@ -856,7 +858,6 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject object;
         boolean move = false;
         boolean mixed = false;
-        boolean faced_up = false;
 
         try {
             object = getCorrectObject(p.getObject());
@@ -1089,9 +1090,10 @@ public class PrisonBreakGame extends GameDescription {
                         object.setUsable(true);
 
                         // DON'T CHANGE THE ORDER
-                        if (false) {
-                            //TODO AGGIUNGERE SUGGERIMENTO CON LO SCONTRO
-                        } else if (!getObject(SCALPEL).isUsed()) {
+                        if (counterFaceUp == 0) {
+                            out.println("Sei appena arrivato in carcere, perché non ti fai conoscere prendendo parte ad " +
+                                    "una rissa in giardino?");
+                        } else if (!getObject(SCALPEL).isUsed() && counterFaceUp == 1) {
                             out.println("Eccoti un consiglio: Dovresti andare nel giardino e utilizzare per bene quel " +
                                     "bisturi, coraggio prendi la tua vendetta!");
                         } else if (!getInventory().contains(getObject(SCREW)) && !getObject(SCREW).isUsed()) {
@@ -1618,25 +1620,22 @@ public class PrisonBreakGame extends GameDescription {
                     out.println("Cosa vuoi rifiutare? Nulla???");
                 }
 
-                //TODO eliminare punteggio
             } else if (p.getVerb().getVerbType().equals(VerbType.FACE_UP)) {
-                if (getCurrentRoom().getId() == FRONTBENCH && getScore() < FOUGHT_SCORE) {
+                if (getCurrentRoom().getId() == FRONTBENCH && counterFaceUp == 0) {
                     out.println("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
                             "nuovamente con l’intento di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
                             "di loro ti tira un pugno contro il viso... Perdendo i sensi non ti ricordi piu' nulla e" +
                             " ti svegli in infermeria.");
                     setCurrentRoom(getRoom(INFIRMARY));
                     increaseScore();
-                    getObject(SCREW).setPickupable(true);
                     move = true;
-                    faced_up = true;
-                } else if (getCurrentRoom().getId() == FRONTBENCH
-                        && getScore() <= AFTER_FOUGHT
-                        && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL))) {
+                    counterFaceUp++;
+                } else if (getCurrentRoom().getId() == FRONTBENCH && !getObject(SCALPEL).isUsed() && getInventory().contains(getObject(SCALPEL)) && counterFaceUp == 1) {
                     increaseScore();
                     setObjectNotAssignedRoom(getObject(SCALPEL));
                     getInventory().remove(getObject(SCALPEL));
                     getObject(SCALPEL).setUsed(true);
+                    getObject(SCREW).setPickupable(true);
                     out.println("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
                             "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                             "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
@@ -1644,12 +1643,14 @@ public class PrisonBreakGame extends GameDescription {
                     getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
                     getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze. A terra noti la vite!");
-                } else if (getCurrentRoom().getId() != FRONTBENCH || getScore() > AFTER_FOUGHT
-                        || getObject(SCALPEL).isUsed()) {
+                    counterFaceUp++;
+                } else if (getCurrentRoom().getId() != FRONTBENCH || getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
                     out.println("Ehi John Cena, non puoi affrontare nessuno qui!!!");
                 }
+
             } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
                 out.println("Non puoi usare quell'oggetto per uscire!");
+
             } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
                 if (object != null
                         && object.getId() == DESTROYABLE_GRATE
