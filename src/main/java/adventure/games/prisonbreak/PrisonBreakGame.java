@@ -572,7 +572,8 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject tools = new TokenObject(TOOLS, "Attrezzi",
                 new HashSet<>(Arrays.asList("Attrezzi", "Manubri", "Pesi")),
-                "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!");
+                "Sono degli attrezzi da palestra, ottimi per allenarsi e aumentare la forza!",
+                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Pesanti", "Pesante"))))));
         tools.setUsable(true);
         gym.setObject(tools);
         gym.setObjectsUsableHere(tools);
@@ -580,7 +581,9 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject food = new TokenObject(FOOD, "Cibo",
                 new HashSet<>(Arrays.asList("Cibo", "Pranzo", "Cena", "Piatto")),
                 "C'è solo il tuo pranzo che emana un odore non buonissimo, puoi mangiarlo anche se non" +
-                        " servirà a nulla.");
+                        " servirà a nulla.",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Puzzolente",
+                        "Maleodorante", "Fetido", "Lezzo", "Nauseante", "Pestilenziale"))))));
         food.setEatable(true);
         food.setPickupable(true);
         mainCell17.setObject(food);
@@ -596,12 +599,14 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject ladder = new TokenObject(LADDER, "Scala", new HashSet<>(Arrays.asList("Scala", "Scaletta")),
                 "E' solo una scala in legno, sembra molto leggera e facile da spostare. " +
-                        "La scala sembra non portare da nessuna parte!");
+                        "La scala sembra non portare da nessuna parte!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Leggera", "Leggero"))))));
         ladder.setPushable(true);
         passageSouth.setObject(ladder);
 
         TokenObject scalpel = new TokenObject(SCALPEL, "Bisturi", new HashSet<>(Arrays.asList("Bisturi", "Lama")),
-                "Un semplice bisturi per effettuare operazioni mediche!");
+                "Un semplice bisturi per effettuare operazioni mediche!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Tagliente", "Affilato", "Acuminato"))))));
         scalpel.setPickupable(true);
         scalpel.setUsable(true);
         infirmary.setObject(scalpel);
@@ -610,8 +615,8 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject hacksaw = new TokenObject(HACKSAW, "Seghetto",
                 new HashSet<>(Arrays.asList("Seghetto", "Sega", "Taglierino")),
                 "E’ un seghetto molto affilato, potresti riuscire a rompere qualcosa.",
-                new HashSet<>(Collections.singletonList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto",
-                        "Distrutto", "Devastato", "Spaccato"))))));
+                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Rotto",
+                        "Distrutto", "Devastato", "Spaccato"))), new TokenAdjective(new HashSet<>(Arrays.asList("Tagliente", "Affilato", "Acuminato"))))));
         hacksaw.setUsable(true);
         hacksaw.setAskable(true);
         airDuctNorth.setObjectsUsableHere(hacksaw);
@@ -639,14 +644,17 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject sink = new TokenObject(SINK, "Lavandino",
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
                 "E' un piccolo lavandino fissato al muro con delle viti arruginite... Ha un aspetto " +
-                        "malandato!");
+                        "malandato!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Piccolo", "Esiguo", "Minuscolo"))))));
         sink.setUsable(true);
         mainCell17.setObject(sink);
         mainCell17.setObjectsUsableHere(sink);
 
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
-                "E' presente un letto a castello molto scomodo e pieno di polvere!");
+                "E' presente un letto a castello molto scomodo e pieno di polvere!",
+                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Scomodo", "Fastidioso"))),
+                        new TokenAdjective(new HashSet<>(Arrays.asList("Polveroso", "Impolverato", "Sporco", "Sudicio"))))));
         bed.setSitable(true);
         bed.setUsable(true);
         mainCell17.setObject(bed);
@@ -654,13 +662,16 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
                 new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
-                "E' un semplice tavolo in legno, molto piccolo e molto sporco!");
+                "E' un semplice tavolo in legno, molto piccolo e molto sporco!",
+                new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Piccolo", "Esiguo", "Minuscolo"))),
+                        new TokenAdjective(new HashSet<>(Arrays.asList("Polveroso", "Impolverato", "Sporco", "Sudicio"))))));
         mainCell17.setObject(table);
 
         TokenObject windowCell = new TokenObject(WINDOW_CELL, "Finestra",
                 new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
                 "E' una piccola finestra sbarrata dalla quale puoi osservare il cortile della prigione! " +
-                        "Bel panorama!!!");
+                        "Bel panorama!!!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Piccola", "Esigua", "Minuscola"))))));
         mainCell17.setObject(windowCell);
 
         TokenObject water = new TokenObject(WATER, "Water",
@@ -679,7 +690,9 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject door = new TokenObject(DOOR_GARDEN, "Porta d'ingresso",
                 new HashSet<>(Arrays.asList("Porta", "Portone", "Ingresso", "Soglia")),
-                "E' una grande porta che separa giardino e atrio. E' sempre aperta e non puoi chiuderla!");
+                "E' una grande porta che separa giardino e atrio. E' sempre aperta e non puoi chiuderla!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Grande", "Gigante",
+                        "Enorme", "Mastodontica", "Voluminosa"))))));
         garden.setObject(door);
         lobby.setObject(door);
 
@@ -697,7 +710,9 @@ public class PrisonBreakGame extends GameDescription {
         TokenObject windowsInfirmary = new TokenObject(WINDOWS_INFIRMARY, "Finestra",
                 new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
                 "La finestra è sbarrata non sembra possibile aprirla! Puoi notare un lungo cavo che porta" +
-                        " fino al muro della prigione!");
+                        " fino al muro della prigione!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Sbarrata", "Serrata",
+                        "Ostruita", "Barricata"))))));
         infirmary.setObject(windowsInfirmary);
 
         TokenObject tableInfirmary = new TokenObject(TABLE_INFIRMARY, "Tavolo",
@@ -719,7 +734,7 @@ public class PrisonBreakGame extends GameDescription {
                 new HashSet<>(Arrays.asList("Porta", "Soglia", "Ingresso", "Portone")),
                 "La porta è chiusa, su un foglietto puoi leggere che potrai uscire solo quando" +
                         " l’infermiere verrà a dirtelo. Mi dispiace devi attendere, puoi continuare a controllare " +
-                        "la stanza. ");
+                        "la stanza.");
         infirmary.setObject(doorInfirmary);
 
         TokenObjectContainer wardrobe = new TokenObjectContainer(WARDROBE, "Armadio",
@@ -731,7 +746,7 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject gown = new TokenObject(GOWN, "Camici",
                 new HashSet<>(Arrays.asList("Camici", "Camice", "Vestito", "Vestiti")),
-                "Che combinazione non esiste uno della tua misura, che peccato!!! È inutile prenderne un altro");
+                "Che combinazione non esiste uno della tua misura, che peccato!!!");
         wardrobe.add(gown);
         infirmary.setObject(wardrobe);
 
@@ -845,7 +860,9 @@ public class PrisonBreakGame extends GameDescription {
 
         TokenObject cot = new TokenObject(COT, "Lettino",
                 new HashSet<>(Arrays.asList("Lettino", "Letto", "Barella", "Brandina", "Lettuccio")),
-                "E' solo un lettino ospedaliero un po' malandato!");
+                "E' solo un lettino ospedaliero un po' malandato!",
+                new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Malandato",
+                        "Malconcio", "Sciupato", "Usurato"))))));
         cot.setSitable(true);
         infirmary.setObject(cot);
     }
