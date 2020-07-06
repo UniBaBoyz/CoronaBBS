@@ -1,5 +1,6 @@
 package adventure.games.prisonbreak;
 
+import adventure.games.GameDescription;
 import adventure.games.VerbsInterface;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
@@ -10,23 +11,14 @@ import java.util.HashSet;
 
 public class PrisonBreakVerbs implements VerbsInterface {
 
-    private final PrisonBreakGame game;
-
-    public PrisonBreakVerbs(PrisonBreakGame game) {
-        this.game = game;
-        initMovementVerbs();
-        initBasicVerbs();
-        initAdvancedVerbs();
-    }
-
     @Override
-    public void initVerbs() {
-        initMovementVerbs();
-        initBasicVerbs();
-        initAdvancedVerbs();
+    public void initVerbs(GameDescription game) {
+        initMovementVerbs(game);
+        initBasicVerbs(game);
+        initAdvancedVerbs(game);
     }
 
-    private void initMovementVerbs() {
+    private void initMovementVerbs(GameDescription game) {
         TokenVerb nord = new TokenVerb(VerbType.NORD);
         nord.setAlias(new HashSet<>(Collections.singletonList("Nord")));
         game.getTokenVerbs().add(nord);
@@ -45,7 +37,7 @@ public class PrisonBreakVerbs implements VerbsInterface {
 
     }
 
-    private void initBasicVerbs() {
+    private void initBasicVerbs(GameDescription game) {
 
         TokenVerb look = new TokenVerb(VerbType.LOOK_AT);
         look.setAlias(new HashSet<>(Arrays.asList("Osserva", "Guarda", "Vedi", "Trova", "Cerca", "Descrivi",
@@ -99,7 +91,7 @@ public class PrisonBreakVerbs implements VerbsInterface {
         game.getTokenVerbs().add(use);
     }
 
-    private void initAdvancedVerbs() {
+    private void initAdvancedVerbs(GameDescription game) {
         TokenVerb talk = new TokenVerb(VerbType.TALK_TO);
         talk.setAlias(new HashSet<>(Arrays.asList("Parla", "Chiacchiera", "Comunica", "Dialoga", "Conversa",
                 "Ascolta", "Grida", "Urla", "Mormora", "Sussurra", "Bisbiglia", "Conferisci")));

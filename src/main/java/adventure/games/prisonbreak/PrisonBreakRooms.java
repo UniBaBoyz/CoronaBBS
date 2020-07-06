@@ -1,5 +1,6 @@
 package adventure.games.prisonbreak;
 
+import adventure.games.GameDescription;
 import adventure.games.RoomsInterface;
 import adventure.type.Room;
 
@@ -7,15 +8,8 @@ import static adventure.games.prisonbreak.RoomType.*;
 
 public class PrisonBreakRooms implements RoomsInterface {
 
-    private final PrisonBreakGame game;
-
-    public PrisonBreakRooms(PrisonBreakGame game) {
-        this.game = game;
-        initRooms();
-    }
-
     @Override
-    public void initRooms() {
+    public void initRooms(GameDescription game) {
         Room mainCell17 = new Room(MAIN_CELL, "Cella n.ro 17", "Ti trovi nella tua cella 17," +
                 " al momento sei da solo" + " visto che sei l’ultimo arrivato.");
         mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est," +
@@ -312,7 +306,7 @@ public class PrisonBreakRooms implements RoomsInterface {
         createLinks(endGame, null, infirmary, null, null);
 
         //Create graph
-        this.game.createRooms(mainCell17);
+        game.createRooms(mainCell17);
     }
 
     private void createLinks(Room root, Room north, Room south, Room east, Room west) {
