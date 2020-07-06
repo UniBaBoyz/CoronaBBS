@@ -1,10 +1,17 @@
 package adventure.games.prisonbreak;
 
+import adventure.exceptions.LockedRoomException;
+import adventure.exceptions.NotAccessibleRoomException;
+import adventure.exceptions.inventoryException.InventoryEmptyException;
+import adventure.exceptions.inventoryException.InventoryFullException;
+import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
+import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.games.GameDescription;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 import adventure.type.TokenObject;
+import adventure.type.TokenObjectContainer;
 import adventure.type.VerbType;
 
 import static adventure.games.prisonbreak.ObjectType.*;
@@ -38,10 +45,142 @@ public class PrisonBreakGame extends GameDescription {
 
     @Override
     public String nextMove(ParserOutput p) {
+        StringBuilder response = new StringBuilder();
+        TokenObject object;
+        boolean move = false;
+        boolean mixed = false;
 
+        try {
+            object = getCorrectObject(p.getObject());
+            if (p.getVerb().getVerbType().equals(VerbType.NORD)) {
+                if (getCurrentRoom().getNorth() != null && !getCurrentRoom().getNorth().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    move = true;
+                } else if (getCurrentRoom().getNorth() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getNorth().isLocked()) {
+                    throw new LockedRoomException();
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.SOUTH)) {
+                if (getCurrentRoom().getSouth() != null && !getCurrentRoom().getSouth().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getSouth());
+                    move = true;
+                } else if (getCurrentRoom().getSouth() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getSouth().isLocked()) {
+                    throw new LockedRoomException();
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.EAST)) {
+                if (getCurrentRoom().getEast() != null && !getCurrentRoom().getEast().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getEast());
+                    move = true;
+                } else if (getCurrentRoom().getEast() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getEast().isLocked()) {
+                    throw new LockedRoomException();
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.WEST)) {
+                if (getCurrentRoom().getWest() != null && !getCurrentRoom().getWest().isLocked()) {
+                    setCurrentRoom(getCurrentRoom().getWest());
+                    move = true;
+                } else if (getCurrentRoom().getWest() == null) {
+                    throw new NotAccessibleRoomException();
+                } else if (getCurrentRoom().getWest().isLocked()) {
+                    throw new LockedRoomException();
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.INVENTORY)) {
+                if (!getInventory().isEmpty()) {
+                    response.append("Nel tuo inventario ci sono:\n");
+                    for (TokenObject o : getInventory().getObjects()) {
+                        response.append(o.getName()).append(": ").append(o.getDescription()).append("\n");
+                    }
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.LOOK_AT)) {
+                if (object != null
+                        && (getInventory().contains(object) || getCurrentRoom().getObjects().contains(object)
+                        || getCurrentRoom().getObjects().stream()
+                        .anyMatch(obj -> obj instanceof TokenPerson
+                                && ((TokenPerson) obj).getInventory().contains(object)))) {
+                    response.append(object.getDescription()).append("\n");
+                } else if (getCurrentRoom().getLook() != null && (object == null || object.getId() == ROOM_OBJ)) {
+                    response.append(getCurrentRoom().getLook()).append("\n");
+                } else if (object != null && object.getId() == SCORE_OBJ) {
+                    //TODO cambiare frase in base allo score
+                    response.append("Non male, attualmente il tuo punteggio è ").append(getScore()).append("\n");
+                } else {
+                    response.append("Non c'è niente di interessante qui.\n");
+                }
+
+            } else if (p.getVerb().getVerbType().equals(VerbType.PICK_UP)) {
+                if (object != null && object.getId() == HACKSAW && object.isAccept()
+                        && ((TokenPerson) getObject(GENNY_BELLO)).getInventory().contains(object)) {
+
+                    //There is the need of the remove's operation from the room of the TokenPerson's objects
+                    getCurrentRoom().removeObject(getObject(HACKSAW));
+                    getInventory().add(object);
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
+                } else if (object != null
+                        && object.getId() == SCALPEL
+                        && getCurrentRoom().getId() == INFIRMARY
+                        && !object.isTaken()) {
+
+                    getCurrentRoom().removeObject(object);
+                    getInventory().add(object);
+                    object.setTaken(true);
+                    increaseScore();
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
+                    response.append("Fai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
+                            "alla porta, riesci a prendere il bisturi con te e l’infermiera ti dice che sei guarito" +
+                            " e puoi ritornare nella cella visto che l’ora d’aria è finita.\n\n");
+                    setCurrentRoom(getRoom(MAIN_CELL));
+                    getInventory().add(getObject(MEDICINE));
+                    response.append("Zzzzzz.....\n\n");
+                    response.append("Caspita gli antidolorifici ti hanno fatto dormire molto e ti risvegli nella tua " +
+                            "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
+                            "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n\n");
+                    move = true;
+
+                } else if (object != null && object.isPickupable()
+                        && getCurrentRoom().containsObject(object)) {
+
+                    if ((object.getId() == SCOTCH || object.getId() == SCREW) && !object.isTaken()) {
+                        increaseScore();
+                        object.setTaken(true);
+                    }
+                    getCurrentRoom().removeObject(object);
+                    getInventory().add(object);
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
+
+                } else if (object == null) {
+                    response.append("Cosa vorresti prendere di preciso?\n");
+                } else if (object.getId() == SCREW && !object.isPickupable()) {
+                    response.append("Non puoi prendere quella vite se prima non affronti il gruppetto dei detenuti!\n");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else if (!object.isPickupable()) {
+                    response.append("Non e' certo un oggetto che si può prendere imbecille!\n");
+                } else if (getInventory().contains(object)) {
+                    response.append("Guarda bene nella tua borsa, cretino!\n");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.REMOVE)) {
+                if (object != null && getInventory().contains(object)) {
+                    getCurrentRoom().setObject(object);
+                    getInventory().remove(object);
+                    response.append("Hai lasciato a terra ").append(object.getName()).append("!\n");
 
+                } else if (object == null) {
+                    response.append("Cosa vorresti rimuovere dall'inventario?\n");
+                } else {
+                    response.append("L'inventario non ha questo oggetto!\n");
+                    response.append("L'avrai sicuramente scordato da qualche parte!\n");
+                    response.append("Che pazienzaaa!!\n");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.USE)) {
                 if (object != null && object.isUsable() && getCurrentRoom().isObjectUsableHere(object)
@@ -230,14 +369,120 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.OPEN)) {
+                if (object != null
+                        && object.isOpenable()
+                        && !object.isOpen()
+                        && (getCurrentRoom().containsObject(object))) {
+                    if (!(object instanceof TokenObjectContainer)) {
+                        response.append("Hai aperto ").append(object.getName()).append("!\n");
+                    } else if (!object.isOpen()) {
+                        response.append("Hai aperto ").append(object.getName()).append("!\n");
+                        response.append("Contiene: \n");
+                        for (TokenObject obj : ((TokenObjectContainer) object).getObjects()) {
+                            response.append(obj.getName()).append(": ").append(obj.getDescription()).append("\n");
+                        }
+                    }
+                    object.setOpen(true);
+                } else if (object == null) {
+                    response.append("Cosa vorresti aprire di preciso?\n");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else if (!object.isOpenable()) {
+                    response.append("Sei serio? Vorresti veramente aprirlo?!\n");
+                    response.append("Sei fuori di testa!\n");
+                } else if (object.isOpen()) {
+                    response.append("E' gia' aperto testa di merda!\n");
+                }
 
+            } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
+                if (object != null
+                        && object.isOpenable()
+                        && object.isOpen()
+                        && (getCurrentRoom().containsObject(object))) {
 
-    } else if (p.getVerb().getVerbType().equals(VerbType.CLOSE)) {
+                    response.append("Hai chiuso ").append(object.getName()).append("!\n");
+                    object.setOpen(false);
 
+                } else if (object == null) {
+                    response.append("Cosa vorresti chiudere di preciso?\n");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else if (!object.isOpenable()) {
+                    response.append("Sei serio? Vorresti veramente chiuderlo?!\n");
+                    response.append("Sei fuori di testa!\n");
+                } else if (!object.isOpen()) {
+                    response.append("E' gia' chiuso testa di merda!\n");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUSH)
                     || p.getVerb().getVerbType().equals(VerbType.PULL)) {
+                if (object != null && object.isPushable() && getCurrentRoom().containsObject(object)) {
+                    if (object.getId() == LADDER) {
+                        // ladder case
+                        if (getCurrentRoom().getId() == PASSAGE_SOUTH) {
+                            getRoom(SECRET_PASSAGE).setObject(object);
+                            getRoom(PASSAGE_SOUTH).removeObject(object);
+                            response.append("La scala è stata spinta fino alla stanza a nord!\n");
+                            increaseScore();
+                        } else if (getCurrentRoom().getId() == SECRET_PASSAGE) {
+                            getRoom(PASSAGE_NORTH).setObject(object);
+                            getRoom(SECRET_PASSAGE).removeObject(object);
+                            response.append("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!\n");
+                            increaseScore();
+                        } else {
+                            response.append("La scala è bloccata! Non esiste alcun modo per spostarla!\n");
+                        }
 
+                    } else if (object.getId() == SINK) {
+                        if (getCurrentRoom().getId() == MAIN_CELL) {
+                            if (object.isPush()) {
+                                response.append("Il Lavandino è già stato spostato!\n");
+                            } else {
+                                object.setPush(true);
+                                getRoom(SECRET_PASSAGE).setLocked(false);
+                                response.append("Oissà!\n");
+                                increaseScore();
+                                increaseScore();
+                            }
+                        }
+
+                    } else if (object.getId() == PICTURE) {
+                        if (getCurrentRoom().getId() == INFIRMARY) {
+                            // picture pushed
+                            if (object.isPush()) {
+                                response.append("Il quadro è già stato spostato!\n");
+                            } else {
+                                object.setPush(true);
+                                getCurrentRoom().setObject(getObject(OLD_AIR_DUCT));
+                                getObjectNotAssignedRoom().remove(getObject(OLD_AIR_DUCT));
+                                response.append(getObject(OLD_AIR_DUCT).getDescription()).append("\n");
+                            }
+                        }
+                    } else if (object.getId() == BUTTON_GENERATOR) {
+                        if (getCurrentRoom().getId() == GENERATOR) {
+                            // botton pushed
+                            if (object.isPush()) {
+                                response.append("Il pulsante è già stato premuto! Fai in fretta!!!\n");
+                            } else {
+                                object.setPush(true);
+                                getObject(LIGHTS).setOn(false);
+                                getObject(GENERATOR_OBJ).setUsed(true);
+                                getRoom(DOOR_ISOLATION).setLocked(false);
+                                response.append("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
+                                        " la tua, peccato che i poliziotti prevedono queste bravate e hanno un " +
+                                        "generatore di corrente ausiliario che si attiverà dopo un minuto dal blackout!\n");
+                                increaseScore();
+                                increaseScore();
+                            }
+                        }
+                    }
+                } else if (object == null) {
+                    response.append("Cosa vuoi spostare? L'aria?!?\n");
+                } else if (!getCurrentRoom().containsObject(object)) {
+                    throw new ObjectNotFoundInRoomException();
+                } else if (!object.isPushable()) {
+                    response.append("Puoi essere anche Hulk ma quell'oggetto non si può spostare!!!\n");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.EAT)) {
                 if (object != null && object.isEatable() && (getInventory().contains(object)
@@ -431,11 +676,52 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.TURN_OFF)) {
+                if (object != null && object.isTurnOnAble()) {
+                    // lights case
+                    if (getCurrentRoom().getId() == GENERATOR) {
+                        // lights turnOFF
+                        if (!object.isOn()) {
+                            response.append("Il pulsante è già stato premuto! Fai in fretta!!!\n");
+                        } else {
+                            getObject(BUTTON_GENERATOR).setPush(true);
+                            getObject(GENERATOR_OBJ).setUsable(true);
+                            object.setOn(false);
+                            getRoom(DOOR_ISOLATION).setLocked(false);
+                            response.append("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
+                                    " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
+                                    " di corrente ausiliario che si attiverà dopo un minuto dal blackout!\n");
+                            increaseScore();
+                            increaseScore();
+                        }
+                    } else {
+                        response.append("Non puoi spegnere nulla qui!\n");
+                    }
+                } else if (object == null) {
+                    response.append("Cosa vuoi spegnere esattamente???\n");
+                } else if (!object.isTurnOnAble()) {
+                    response.append("Come puoi spegnere questo oggetto???\n");
+                }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.TURN_ON)) {
+                if (object != null && object.isTurnOnAble()) {
+                    // lights case
+                    if (getCurrentRoom().getId() == GENERATOR) {
+                        // lights turnOFF
+                        if (object.isOn()) {
+                            response.append("Le luci sono già accese!\n");
+                        } else {
+                            response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!\n");
+                        }
+                    } else {
+                        response.append("Non puoi accendere nulla qui!\n");
+                    }
+                } else if (object == null) {
+                    response.append("Cosa vuoi accendere esattamente???\n");
+                } else if (!object.isTurnOnAble()) {
+                    response.append("Come puoi accendere questo oggetto???\n");
+                }
 
-
-    } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
+            } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
                 if ((object != null && object.isPlayable())
                         || (object == null && getCurrentRoom().getId() == BASKET_CAMP)) {
                     //Ball case
@@ -604,6 +890,7 @@ public class PrisonBreakGame extends GameDescription {
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
+                response.append("Non puoi usare quell'oggetto per uscire!\n");
 
             } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
                 if (object != null
