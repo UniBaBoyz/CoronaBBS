@@ -111,7 +111,7 @@ public class PrisonBreakGame extends GameDescription {
                     response.append(getCurrentRoom().getLook()).append("\n");
                 } else if (object != null && object.getId() == SCORE_OBJ) {
                     //TODO cambiare frase in base allo score
-                    response.append("Non male, attualmente il tuo punteggio è " + getScore()).append("\n");
+                    response.append("Non male, attualmente il tuo punteggio è ").append(getScore()).append("\n");
                 } else {
                     response.append("Non c'è niente di interessante qui.\n");
                 }
@@ -123,7 +123,7 @@ public class PrisonBreakGame extends GameDescription {
                     //There is the need of the remove's operation from the room of the TokenPerson's objects
                     getCurrentRoom().removeObject(getObject(HACKSAW));
                     getInventory().add(object);
-                    response.append("Hai preso " + object.getName() + "!\n");
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
                 } else if (object != null
                         && object.getId() == SCALPEL
                         && getCurrentRoom().getId() == INFIRMARY
@@ -133,7 +133,7 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().add(object);
                     object.setTaken(true);
                     increaseScore();
-                    response.append("Hai preso " + object.getName() + "!\n");
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
                     response.append("Fai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
                             "alla porta, riesci a prendere il bisturi con te e l’infermiera ti dice che sei guarito" +
                             " e puoi ritornare nella cella visto che l’ora d’aria è finita.\n\n");
@@ -154,7 +154,7 @@ public class PrisonBreakGame extends GameDescription {
                     }
                     getCurrentRoom().removeObject(object);
                     getInventory().add(object);
-                    response.append("Hai preso " + object.getName() + "!\n");
+                    response.append("Hai preso ").append(object.getName()).append("!\n");
 
                 } else if (object == null) {
                     response.append("Cosa vorresti prendere di preciso?\n");
@@ -374,12 +374,12 @@ public class PrisonBreakGame extends GameDescription {
                         && !object.isOpen()
                         && (getCurrentRoom().containsObject(object))) {
                     if (!(object instanceof TokenObjectContainer)) {
-                        response.append("Hai aperto " + object.getName() + "!\n");
+                        response.append("Hai aperto ").append(object.getName()).append("!\n");
                     } else if (!object.isOpen()) {
-                        response.append("Hai aperto " + object.getName() + "!\n");
+                        response.append("Hai aperto ").append(object.getName()).append("!\n");
                         response.append("Contiene: \n");
                         for (TokenObject obj : ((TokenObjectContainer) object).getObjects()) {
-                            response.append(obj.getName() + ": " + obj.getDescription()).append("\n");
+                            response.append(obj.getName()).append(": ").append(obj.getDescription()).append("\n");
                         }
                     }
                     object.setOpen(true);
@@ -400,7 +400,7 @@ public class PrisonBreakGame extends GameDescription {
                         && object.isOpen()
                         && (getCurrentRoom().containsObject(object))) {
 
-                    response.append("Hai chiuso " + object.getName() + "!\n");
+                    response.append("Hai chiuso ").append(object.getName()).append("!\n");
                     object.setOpen(false);
 
                 } else if (object == null) {
