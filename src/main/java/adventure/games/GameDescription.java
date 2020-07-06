@@ -13,6 +13,7 @@ import java.util.*;
  * @author Corona-Extra
  */
 public abstract class GameDescription {
+    private String introduction;
     private static final int INCREASE_SCORE = 10;
     private ObjectsInterface gameObjects;
     private RoomsInterface gameRooms;
@@ -28,6 +29,14 @@ public abstract class GameDescription {
         this.gameObjects = gameObjects;
         this.gameRooms = gameRooms;
         this.gameVerbs = gameVerbs;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 
     public ObjectsInterface getGameObjects() {

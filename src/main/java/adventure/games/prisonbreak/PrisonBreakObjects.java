@@ -31,8 +31,6 @@ public class PrisonBreakObjects implements ObjectsInterface {
             initObjectsPassageSouth(game);
             initObjectsCorridor(game);
             initObjectsNotAssignedRoom(game);
-        } else {
-
         }
     }
 
