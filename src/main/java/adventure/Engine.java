@@ -47,11 +47,11 @@ public class Engine {
                 if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                         && p.getObject().isEmpty()) {
                     view.getjTextArea1().append("Addio!\n");
-                    view.dispose();
+                    view.getJframe().dispose();
                     break;
                 } else {
                     view.getjTextArea1().append(game.nextMove(p) + "\n");
-                    view.getjTextArea1().append("================================================\n");
+                    view.getjTextArea1().append("===============================================\n");
                 }
             }
         } catch (LexicalErrorException e) {
@@ -156,7 +156,7 @@ public class Engine {
 
     public void run() {
         view.getjTextArea1().append(game.getCurrentRoom().getName() + "\n");
-        view.getjTextArea1().append("================================================\n");
+        view.getjTextArea1().append("===============================================\n");
         view.getjTextArea1().append(game.getCurrentRoom().getDescription() + "\n");
     }
 

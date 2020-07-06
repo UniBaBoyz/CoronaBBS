@@ -15,9 +15,7 @@ public class MainClass {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                view.setVisible(true);
-                ViewTemp v = new ViewTemp();
-                v.setWindowVisible();
+                view.getJframe().setVisible(true);
             }
         });
 
