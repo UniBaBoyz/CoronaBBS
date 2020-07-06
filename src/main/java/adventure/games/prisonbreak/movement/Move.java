@@ -185,38 +185,41 @@ class Move {
             }
 
             if (move) {
+                response.append("=============================================================================" +
+                        "====\n");
                 response.append(game.getCurrentRoom().getName()).append("\n");
-                response.append("================================================\n");
-                response.append(game.getCurrentRoom().getDescription()).append("\n");
+                response.append("=============================================================================" +
+                        "====\n");
+                response.append(game.getCurrentRoom().getDescription());
             }
 
         } catch (NotAccessibleRoomException e) {
             if (game.getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(EAST)
                     || game.getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(WEST)) {
-                response.append("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!\n");
+                response.append("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!");
             } else {
                 response.append("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri" +
-                        " per oltrepassare i muri...\n");
+                        " per oltrepassare i muri...");
             }
         } catch (LockedRoomException e) {
             if (game.getObject(MEDICINE).isGiven()) {
-                response.append("Non perdere ulteriore tempo, bisogna completare il piano!\n");
+                response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
             } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
                     && game.getCurrentRoom().getEast().getId() == INFIRMARY) {
                 response.append("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
-                        "non ti sembri manchi la persona più importante???\n");
+                        "non ti sembri manchi la persona più importante???");
             } else {
-                response.append("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!\n");
+                response.append("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
             }
         } catch (InventoryEmptyException e) {
-            response.append("L'inventario è vuoto!\n");
+            response.append("L'inventario è vuoto!");
         } catch (InventoryFullException e) {
-            response.append("Non puoi mettere più elementi nel tuo inventario!\n");
-            response.append("!!!!Non hai mica la borsa di Mary Poppins!!!!!\n");
+            response.append("Non puoi mettere più elementi nel tuo inventario!");
+            response.append("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
         } catch (ObjectNotFoundInInventoryException e) {
-            response.append("Non hai questo oggetto nell'inventario, energumeno\n");
+            response.append("Non hai questo oggetto nell'inventario, energumeno");
         } catch (ObjectsAmbiguityException e) {
-            response.append("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!\n");
+            response.append("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
         } catch (ObjectNotFoundInRoomException e) {
             if (p.getVerb().getVerbType() == PICK_UP
                     || p.getVerb().getVerbType() == USE
@@ -231,12 +234,12 @@ class Move {
                     || p.getVerb().getVerbType() == MAKE
                     || p.getVerb().getVerbType() == PLAY
                     || p.getVerb().getVerbType() == WORK_OUT) {
-                response.append("Lo vedi solo nei tuoi sogni!\n");
+                response.append("Lo vedi solo nei tuoi sogni!");
             } else {
-                response.append("Hai fumato qualcosa per caso?!\n");
+                response.append("Hai fumato qualcosa per caso?!");
             }
         } catch (Exception e) {
-            response.append("Qualcosa è andato storto....\n");
+            response.append("Qualcosa è andato storto....");
         }
 
         return response.toString();

@@ -46,22 +46,31 @@ public class Engine {
             for (ParserOutput p : listParser) {
                 if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                         && p.getObject().isEmpty()) {
-                    view.getjTextArea1().append("Addio!\n");
+                    view.getjTextArea2().setText(Integer.toString(game.getScore()));
+                    view.getjTextArea1().append("Addio!");
                     view.getJframe().dispose();
                     break;
                 } else {
+                    view.getjTextArea2().setText(Integer.toString(game.getScore()));
                     view.getjTextArea1().append(game.nextMove(p) + "\n");
-                    view.getjTextArea1().append("===============================================\n");
+                    view.getjTextArea1().append("====================================================================" +
+                            "=============\n");;
                 }
             }
         } catch (LexicalErrorException e) {
             view.getjTextArea1().append("Non ho capito!\n");
             view.getjTextArea1().append("C'e' qualche parola che non conosco.\n");
+            view.getjTextArea1().append("=============================================================================" +
+                    "====\n");
         } catch (SyntaxErrorException e) {
             view.getjTextArea1().append("Non ho capito!\n");
             view.getjTextArea1().append("Dovresti ripassare un po' la grammatica!\n");
+            view.getjTextArea1().append("=============================================================================" +
+                    "====\n");
         } catch (InputErrorException e) {
             view.getjTextArea1().append("Non ho capito!\n");
+            view.getjTextArea1().append("=============================================================================" +
+                    "====\n");
         } catch (Exception e) {
             view.getjTextArea1().append(e.toString() + "\n");
             e.getMessage();
@@ -155,9 +164,23 @@ public class Engine {
     }
 
     public void run() {
+        view.getjTextArea1().append("===========================================================================" +
+                "======\n");;
+        view.getjTextArea1().append("\t\t BENVENUTO IN PRISON BREAK!!!\n");
+        view.getjTextArea1().append("===========================================================================" +
+                "======\n");;
+        view.getjTextArea1().append("Sei stato arrestato per aver commesso una rapina nella banca centrale di New York!" +
+                "La corte giudiziaria ti ha dato 3 anni di carcere e sotto tua richiesta sei stato collocato nel carcere di maggiore sicurezza di New York." +
+                "Tutto fa parte di un tuo malefico piano: salvare tuo fratello imprigionato all'interno dello stesso carcere, accusato ingiustamente di aver commesso un omicidio." +
+                "Il tempo non è dalla tua parte, domani tuo fratello sarà giustiziato, riuscirai a evadere insieme a lui dal carcere senza farti scoprire o uccidere???\n");
+        view.getjTextArea1().append("===========================================================================" +
+                "======\n");;
         view.getjTextArea1().append(game.getCurrentRoom().getName() + "\n");
-        view.getjTextArea1().append("===============================================\n");
+        view.getjTextArea1().append("===========================================================================" +
+                "======\n");;
         view.getjTextArea1().append(game.getCurrentRoom().getDescription() + "\n");
+        view.getjTextArea1().append("=============================================================================" +
+                "====\n");;
         view.getjTextArea2().setText(Integer.toString(game.getScore()));
     }
 
