@@ -14,8 +14,6 @@ import adventure.type.TokenObject;
 import adventure.type.TokenObjectContainer;
 import adventure.type.VerbType;
 
-import java.io.PrintStream;
-
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 
@@ -30,13 +28,19 @@ public class PrisonBreakGame extends GameDescription {
     public PrisonBreakGame() {
         super(new PrisonBreakObjects(), new PrisonBreakRooms(), new PrisonBreakVerbs());
 
-
+        init();
 
         //Set starting room
         setCurrentRoom(getRoom(MAIN_CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
+    }
+
+    private void init() {
+        getGameVerbs().initVerbs(this);
+        getGameRooms().initRooms(this);
+        getGameObjects().initObjects(this);
     }
 
     @Override
@@ -370,12 +374,12 @@ public class PrisonBreakGame extends GameDescription {
                         && !object.isOpen()
                         && (getCurrentRoom().containsObject(object))) {
                     if (!(object instanceof TokenObjectContainer)) {
-                        response.append("Hai aperto " + object.getName() + "!");
+                        response.append("Hai aperto " + object.getName() + "!\n");
                     } else if (!object.isOpen()) {
-                        response.append("Hai aperto " + object.getName() + "!");
+                        response.append("Hai aperto " + object.getName() + "!\n");
                         response.append("Contiene: ");
                         for (TokenObject obj : ((TokenObjectContainer) object).getObjects()) {
-                            response.append(obj.getName() + ": " + obj.getDescription());
+                            response.append(obj.getName() + ": " + obj.getDescription() + "\n");
                         }
                     }
                     object.setOpen(true);
@@ -396,7 +400,7 @@ public class PrisonBreakGame extends GameDescription {
                         && object.isOpen()
                         && (getCurrentRoom().containsObject(object))) {
 
-                    response.append("Hai chiuso " + object.getName() + "!");
+                    response.append("Hai chiuso " + object.getName() + "!\n");
                     object.setOpen(false);
 
                 } else if (object == null) {

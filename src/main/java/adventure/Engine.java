@@ -56,7 +56,7 @@ public class Engine {
                         endGame = true;
                         break;
                     } else {
-                        game.nextMove(p);
+                        System.out.println(game.nextMove(p));
                         System.out.println("================================================");
                     }
                 }

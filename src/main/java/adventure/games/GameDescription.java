@@ -7,7 +7,6 @@ import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
 import adventure.type.*;
 
-import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -15,20 +14,32 @@ import java.util.*;
  */
 public abstract class GameDescription {
     private static final int INCREASE_SCORE = 10;
+    private ObjectsInterface gameObjects;
+    private RoomsInterface gameRooms;
+    private VerbsInterface gameVerbs;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
-    private ObjectsInterface gameObjects;
-    private RoomsInterface gameRooms;
-    private VerbsInterface gameVerbs;
 
     public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs) {
         this.gameObjects = gameObjects;
         this.gameRooms = gameRooms;
         this.gameVerbs = gameVerbs;
+    }
+
+    public ObjectsInterface getGameObjects() {
+        return gameObjects;
+    }
+
+    public RoomsInterface getGameRooms() {
+        return gameRooms;
+    }
+
+    public VerbsInterface getGameVerbs() {
+        return gameVerbs;
     }
 
     public Set<Room> getRooms() {
