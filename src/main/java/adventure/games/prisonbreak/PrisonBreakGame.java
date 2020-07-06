@@ -697,9 +697,9 @@ public class PrisonBreakGame extends GameDescription {
                         response.append("Non puoi spegnere nulla qui!\n");
                     }
                 } else if (object == null) {
-                    response.append("Cosa vuoi spegnere esattamente???");
+                    response.append("Cosa vuoi spegnere esattamente???\n");
                 } else if (!object.isTurnOnAble()) {
-                    response.append("Come puoi spegnere questo oggetto???");
+                    response.append("Come puoi spegnere questo oggetto???\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.TURN_ON)) {
@@ -708,17 +708,17 @@ public class PrisonBreakGame extends GameDescription {
                     if (getCurrentRoom().getId() == GENERATOR) {
                         // lights turnOFF
                         if (object.isOn()) {
-                            response.append("Le luci sono già accese!");
+                            response.append("Le luci sono già accese!\n");
                         } else {
-                            response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
+                            response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!\n");
                         }
                     } else {
-                        response.append("Non puoi accendere nulla qui!");
+                        response.append("Non puoi accendere nulla qui!\n");
                     }
                 } else if (object == null) {
-                    response.append("Cosa vuoi accendere esattamente???");
+                    response.append("Cosa vuoi accendere esattamente???\n");
                 } else if (!object.isTurnOnAble()) {
-                    response.append("Come puoi accendere questo oggetto???");
+                    response.append("Come puoi accendere questo oggetto???\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PLAY)) {
@@ -727,21 +727,21 @@ public class PrisonBreakGame extends GameDescription {
                     //Ball case
                     if (getCurrentRoom().getId() == BASKET_CAMP) {
                         //Ball play
-                        response.append("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.");
+                        response.append("Il tempo è denaro, non penso sia il momento adatto per mettersi a giocare.\n");
                     } else {
-                        response.append("Vuoi giocare con il tuo amico immaginario??");
+                        response.append("Vuoi giocare con il tuo amico immaginario??\n");
                     }
                 } else if (object == null) {
-                    response.append("Con cosa vuoi giocare esattamente???");
+                    response.append("Con cosa vuoi giocare esattamente???\n");
                 } else if (!object.isTurnOnAble()) {
-                    response.append("Non puoi giocare con questo oggetto!!!");
+                    response.append("Non puoi giocare con questo oggetto!!!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.WORK_OUT)) {
                 if (getCurrentRoom().getId() == GYM
                         || (getCurrentRoom().getId() == GYM && object != null && object.getId() == TOOLS)) {
                     response.append("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
-                            "ti senti già più forte!");
+                            "ti senti già più forte!\n");
 
                     if (!getObject(TOOLS).isUsed()) {
                         increaseScore();
@@ -750,11 +750,11 @@ public class PrisonBreakGame extends GameDescription {
 
                 } else if (getCurrentRoom().getId() != GYM
                         || (getCurrentRoom().getId() != GYM && object != null && object.getId() == TOOLS)) {
-                    response.append("Ti sembra un posto dove potersi allenare?!!");
+                    response.append("Ti sembra un posto dove potersi allenare?!!\n");
                 } else if (!getCurrentRoom().containsObject(object)) {
                     throw new ObjectNotFoundInRoomException();
                 } else {
-                    response.append("Non ci si può allenare con quest'oggetto!");
+                    response.append("Non ci si può allenare con quest'oggetto!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.PUT_IN)) {
@@ -764,15 +764,15 @@ public class PrisonBreakGame extends GameDescription {
                         getRoom(ISOLATION).setLocked(false);
                         object.setUsed(true);
                         response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
-                                " tornare indietro anche se hai poco tempo a disposizione!");
+                                " tornare indietro anche se hai poco tempo a disposizione!\n");
                         increaseScore();
                     } else {
-                        response.append("Non puoi inserire nulla qui!");
+                        response.append("Non puoi inserire nulla qui!\n");
                     }
                 } else if (object == null) {
-                    response.append("Con cosa vuoi inserire??");
+                    response.append("Con cosa vuoi inserire??\n");
                 } else if (!object.isInsertable()) {
-                    response.append("Ho paura di quello che vuoi fare!!!");
+                    response.append("Ho paura di quello che vuoi fare!!!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.TALK_TO)) {
@@ -780,20 +780,20 @@ public class PrisonBreakGame extends GameDescription {
                     if (getCurrentRoom().getId() == CANTEEN) {
                         response.append("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
                                 "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
-                                "per averne uno quindi sarai costretto a trattare.");
+                                "per averne uno quindi sarai costretto a trattare.\n");
                     } else if (getCurrentRoom().getId() == BROTHER_CELL) {
                         response.append("Tuo fratello ti chiede il motivo della tua presenza nel carcere e tu gli " +
                                 "racconti tutto il piano segreto per la fuga cosicché tuo fratello non venga " +
-                                "giustiziato ingiustamente.\n" +
+                                "giustiziato ingiustamente.\n\n" +
                                 "Tuo fratello sembra al quanto felice e ti ringrazia enormemente di aver creato tutto" +
-                                " questo piano per salvarlo! \n" +
+                                " questo piano per salvarlo! \n\n" +
                                 "Il piano consiste nel far andare tuo fratello in qualche modo in infermeria!");
                         getObject(MEDICINE).setGiveable(true);
                     }
                 } else if (object == null) {
-                    response.append("Vuoi parlare da solo???");
+                    response.append("Vuoi parlare da solo???\n");
                 } else {
-                    response.append("Parlare con quell'oggetto non sembra essere la soluzione migliore!");
+                    response.append("Parlare con quell'oggetto non sembra essere la soluzione migliore!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.ASK)) {
@@ -802,25 +802,25 @@ public class PrisonBreakGame extends GameDescription {
                         if (object.getId() == DRUG) {
                             response.append("Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi " +
                                     "con te per acquistarla! Ti ricordo che il tuo piano è fuggire di prigione e non " +
-                                    "rimanerci qualche anno di più!");
+                                    "rimanerci qualche anno di più!\n");
                         } else if (object.getId() == VIDEOGAME) {
                             response.append("Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione" +
-                                    " avrai molto tempo per giocare anche a videogiochi migliori!");
+                                    " avrai molto tempo per giocare anche a videogiochi migliori!\n");
                         } else if (object.getId() == HACKSAW && !object.isAsked()) {
                             response.append("Il detenuto ti dice che a tutti quelli che ha venduto un seghetto avevano " +
                                     "sempre un piano di fuga per evadere di prigione che però non sono mai andati a " +
                                     "buon fine essendo un carcere di massima sicurezza ( in effetti con un seghetto " +
                                     "in prigione non hai tante alternative). In cambio gli dovrai confessare tutto " +
-                                    "il tuo piano di fuga e farlo fuggire insieme a te, cosa scegli???");
+                                    "il tuo piano di fuga e farlo fuggire insieme a te, cosa scegli???\n");
                             object.setAsked(true);
                         } else if (object.isAsked()) {
-                            response.append("Hai già chiesto per quell'oggetto!!!");
+                            response.append("Hai già chiesto per quell'oggetto!!!\n");
                         }
                     }
                 } else if (object == null) {
-                    response.append("Cosa devi chiedere?");
+                    response.append("Cosa devi chiedere?\n");
                 } else if (!object.isAskable()) {
-                    response.append("Non sembra la soluzione giusta!");
+                    response.append("Non sembra la soluzione giusta!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.ACCEPT)) {
@@ -829,32 +829,32 @@ public class PrisonBreakGame extends GameDescription {
                         && !getObject(HACKSAW).isAccept()) {
                     response.append("Gli racconti tutto il piano segreto di fuga, il detenuto capisce che questo è " +
                             "il miglior piano che abbia sentito fin ora e accetta subito dandoti il seghetto e " +
-                            "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla tua cella!");
-                    response.append("Ora puoi prendere il seghetto da Genny!");
+                            "si unisce a te. Gli dici di incontrarsi stanotte alle 21:00 di fronte alla tua cella!\n");
+                    response.append("Ora puoi prendere il seghetto da Genny!\n");
                     getObject(HACKSAW).setPickupable(true);
                     getObject(HACKSAW).setAccept(true);
                 } else if (!getObject(HACKSAW).isAsked()) {
-                    response.append("Non puoi accettare una cosa che non hai chiesto!!!");
+                    response.append("Non puoi accettare una cosa che non hai chiesto!!!\n");
                 } else if (getObject(HACKSAW).isAccept()) {
-                    response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
+                    response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!\n");
                 } else if (getCurrentRoom().getId() != CANTEEN) {
-                    response.append("Cosa vuoi accettare? Nulla???");
+                    response.append("Cosa vuoi accettare? Nulla???\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.DECLINE)) {
                 if (getObject(HACKSAW).isAsked() && getCurrentRoom().getId() == CANTEEN
                         && !getObject(HACKSAW).isAccept() && !getInventory().contains(getObject(HACKSAW))) {
                     response.append("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
-                            "a ricontrattare!");
+                            "a ricontrattare!\n");
                     getObject(HACKSAW).setPickupable(false);
                     getObject(HACKSAW).setAsked(false);
                     getObject(HACKSAW).setAccept(false);
                 } else if (!getObject(HACKSAW).isAsked()) {
-                    response.append("Non puoi rifiutare una cosa che non hai chiesto!!!");
+                    response.append("Non puoi rifiutare una cosa che non hai chiesto!!!\n");
                 } else if (getObject(HACKSAW).isAccept() || getInventory().contains(getObject(HACKSAW))) {
-                    response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
+                    response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!\n");
                 } else if (getCurrentRoom().getId() != CANTEEN) {
-                    response.append("Cosa vuoi rifiutare? Nulla???");
+                    response.append("Cosa vuoi rifiutare? Nulla???\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.FACE_UP)) {
@@ -862,7 +862,7 @@ public class PrisonBreakGame extends GameDescription {
                     response.append("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
                             "nuovamente con l’intento di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
                             "di loro ti tira un pugno contro il viso... Perdendo i sensi non ti ricordi piu' nulla e" +
-                            " ti svegli in infermeria.");
+                            " ti svegli in infermeria.\n");
                     setCurrentRoom(getRoom(INFIRMARY));
                     increaseScore();
                     move = true;
@@ -877,7 +877,7 @@ public class PrisonBreakGame extends GameDescription {
                     response.append("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
                             "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
                             "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
-                            " alla panchina.");
+                            " alla panchina.\n");
                     getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
                     getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze.");
@@ -886,11 +886,11 @@ public class PrisonBreakGame extends GameDescription {
                     getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
                     counterFaceUp++;
                 } else if (getCurrentRoom().getId() != FRONTBENCH || getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
-                    response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!");
+                    response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.END)) {
-                response.append("Non puoi usare quell'oggetto per uscire!");
+                response.append("Non puoi usare quell'oggetto per uscire!\n");
 
             } else if (p.getVerb().getVerbType().equals(VerbType.DESTROY)) {
                 if (object != null
@@ -903,32 +903,32 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().remove(getObject(HACKSAW));
                     getRoom(AIR_DUCT_NORTH).removeObject(object);
                     response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
-                            "fortuna sei riuscito a rompere la grata");
+                            "fortuna sei riuscito a rompere la grata\n");
                     response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
-                            "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
+                            "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.\n");
                     increaseScore();
                     increaseScore();
                 } else if (object == null) {
-                    response.append("Cosa vuoi rompere???");
+                    response.append("Cosa vuoi rompere???\n");
                 } else if (!getCurrentRoom().containsObject(object)) {
                     throw new ObjectNotFoundInRoomException();
                 } else if (object.getId() != DESTROYABLE_GRATE) {
-                    response.append("Non puoi distruggere questo oggetto!");
+                    response.append("Non puoi distruggere questo oggetto!\n");
                 } else if (getCurrentRoom().getId() != AIR_DUCT_NORTH) {
-                    response.append("Non puoi distruggere niente qui!");
+                    response.append("Non puoi distruggere niente qui!\n");
                 } else if (!getInventory().contains(getObject(HACKSAW))) {
-                    response.append("Come puoi rompere la grata? Non hai nessun oggetto utile!");
+                    response.append("Come puoi rompere la grata? Non hai nessun oggetto utile!\n");
                 } else if (!getObject(TOOLS).isUsed()) {
                     response.append("Il seghetto sembra molto arrugginito e non riesci a tagliare le sbarre della grata! " +
                             "In realtà la colpa non è totalmente del seghetto ma anche la tua poichè sei molto stanco " +
-                            "e hai poca forza nelle braccia!");
+                            "e hai poca forza nelle braccia!\n");
                 } else if (!getObject(MEDICINE).isGiven()) {
                     response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                             "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria. " +
                             "Avrebbe più senso proseguire solo se la tua squadra è al completo… non ti sembri manchi " +
-                            "la persona più importante???");
+                            "la persona più importante???\n");
                 } else if (!getObject(HACKSAW).isUsed()) {
-                    response.append("Hai già usato quell'oggetto! Non puoi più rompere nulla!");
+                    response.append("Hai già usato quell'oggetto! Non puoi più rompere nulla!\n");
                 }
 
             } else if (p.getVerb().getVerbType().equals(VerbType.GIVE)) {
@@ -937,14 +937,14 @@ public class PrisonBreakGame extends GameDescription {
                     getInventory().remove(object);
                     response.append("Sai benissimo che tuo fratello ha una forte allergia alle ortiche" +
                             " e che non potrebbe prendere quel farmaco. Tu decidi di darlo ugualmente " +
-                            "in modo che il tuo piano venga attuato!");
+                            "in modo che il tuo piano venga attuato!\n");
                     object.setGiven(true);
                     response.append("Appena dato il farmaco decidi di fuggire fuori dalla cella isolamento prima" +
-                            " che le luci si accendano e le guardie ti scoprano!!!");
+                            " che le luci si accendano e le guardie ti scoprano!!!\n");
                     setCurrentRoom(getRoom(OUT_ISOLATION));
                     move = true;
                     response.append("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
-                            " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n");
+                            " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n\n");
                     getCurrentRoom().setLook("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
                             "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
 
@@ -967,47 +967,47 @@ public class PrisonBreakGame extends GameDescription {
                     increaseScore();
                     increaseScore();
                 } else if (object == null) {
-                    response.append("Cosa vuoi dare di preciso?");
+                    response.append("Cosa vuoi dare di preciso?\n");
                 } else if (object instanceof TokenPerson) {
-                    response.append("Una persona non è un oggetto che si può regalare!!!");
+                    response.append("Una persona non è un oggetto che si può regalare!!!\n");
                 } else {
-                    response.append("Non puoi dare quest'oggetto a nessuno imbecille!");
+                    response.append("Non puoi dare quest'oggetto a nessuno imbecille!\n");
                 }
             }
 
             if (move) {
-                response.append(getCurrentRoom().getName());
-                response.append("================================================");
-                response.append(getCurrentRoom().getDescription());
+                response.append(getCurrentRoom().getName()).append("\n");
+                response.append("================================================\n");
+                response.append(getCurrentRoom().getDescription()).append("\n");
             }
 
         } catch (NotAccessibleRoomException e) {
             if (getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(VerbType.EAST)
                     || getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(VerbType.WEST)) {
-                response.append("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!");
+                response.append("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!\n");
             } else {
                 response.append("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri" +
-                        " per oltrepassare i muri...");
+                        " per oltrepassare i muri...\n");
             }
         } catch (LockedRoomException e) {
             if (getObject(MEDICINE).isGiven()) {
-                response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
+                response.append("Non perdere ulteriore tempo, bisogna completare il piano!\n");
             } else if (getCurrentRoom().getEast() != null && getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
                     && getCurrentRoom().getEast().getId() == INFIRMARY) {
                 response.append("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
-                        "non ti sembri manchi la persona più importante???");
+                        "non ti sembri manchi la persona più importante???\n");
             } else {
-                response.append("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!");
+                response.append("Questa stanza è bloccata, dovrai fare qualcosa per sbloccarla!!\n");
             }
         } catch (InventoryEmptyException e) {
-            response.append("L'inventario è vuoto!");
+            response.append("L'inventario è vuoto!\n");
         } catch (InventoryFullException e) {
-            response.append("Non puoi mettere più elementi nel tuo inventario!");
-            response.append("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
+            response.append("Non puoi mettere più elementi nel tuo inventario!\n");
+            response.append("!!!!Non hai mica la borsa di Mary Poppins!!!!!\n");
         } catch (ObjectNotFoundInInventoryException e) {
-            response.append("Non hai questo oggetto nell'inventario, energumeno");
+            response.append("Non hai questo oggetto nell'inventario, energumeno\n");
         } catch (ObjectsAmbiguityException e) {
-            response.append("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
+            response.append("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!\n");
         } catch (ObjectNotFoundInRoomException e) {
             if (p.getVerb().getVerbType() == VerbType.PICK_UP
                     || p.getVerb().getVerbType() == VerbType.USE
@@ -1022,12 +1022,12 @@ public class PrisonBreakGame extends GameDescription {
                     || p.getVerb().getVerbType() == VerbType.MAKE
                     || p.getVerb().getVerbType() == VerbType.PLAY
                     || p.getVerb().getVerbType() == VerbType.WORK_OUT) {
-                response.append("Lo vedi solo nei tuoi sogni!");
+                response.append("Lo vedi solo nei tuoi sogni!\n");
             } else {
-                response.append("Hai fumato qualcosa per caso?!");
+                response.append("Hai fumato qualcosa per caso?!\n");
             }
         } catch (Exception e) {
-            response.append("Qualcosa è andato storto....");
+            response.append("Qualcosa è andato storto....\n");
         }
         return response.toString();
     }
