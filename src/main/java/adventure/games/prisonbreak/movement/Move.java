@@ -16,181 +16,169 @@ import static adventure.games.prisonbreak.ObjectType.MEDICINE;
 import static adventure.games.prisonbreak.RoomType.*;
 import static adventure.type.VerbType.*;
 
-public class ControllerMove {
-    private static ControllerMove instance;
-    private StringBuilder response = new StringBuilder();
+class Move {
+    private ControllerMovement controller;
     private PrisonBreakGame game;
+    private StringBuilder response = new StringBuilder();
     private TokenObject object;
     private boolean move = false;
     private boolean mixed = false;
     private short counterFaceUp = 0;
 
-    private ControllerMove() {
-    }
-
-    public static ControllerMove getInstance() {
-        if (instance == null) {
-            instance = new ControllerMove();
-        }
-        return instance;
-    }
-
-    public PrisonBreakGame getGame() {
-        return game;
-    }
-
-    public void setGame(PrisonBreakGame game) {
+    Move(ControllerMovement controller, PrisonBreakGame game) {
+        this.controller = controller;
         this.game = game;
     }
 
-    public StringBuilder getResponse() {
+    PrisonBreakGame getGame() {
+        return game;
+    }
+
+    StringBuilder getResponse() {
         return response;
     }
 
-    public TokenObject getObject() {
+    TokenObject getObject() {
         return object;
     }
 
-    public void setMove(boolean move) {
+    void setMove(boolean move) {
         this.move = move;
     }
 
-    public boolean isMixed() {
+    boolean isMixed() {
         return mixed;
     }
 
-    public void setMixed(boolean mixed) {
+    void setMixed(boolean mixed) {
         this.mixed = mixed;
     }
 
-    public short getCounterFaceUp() {
+    short getCounterFaceUp() {
         return counterFaceUp;
     }
 
-    public void increaseCounterFaceUp() {
+    void increaseCounterFaceUp() {
         this.counterFaceUp++;
     }
 
-    public String nextMove(ParserOutput p) {
+    String nextMove(ParserOutput p) {
         response = new StringBuilder();
         try {
             object = game.getCorrectObject(p.getObject());
 
             if (isMovementVerb(p.getVerb().getVerbType())) {
-                MovementVerbs movement = new MovementVerbs();
 
                 switch (p.getVerb().getVerbType()) {
                     case NORD:
-                        movement.nord();
+                        controller.getMovementVerbs().nord();
                         break;
                     case SOUTH:
-                        movement.south();
+                        controller.getMovementVerbs().south();
                         break;
                     case EAST:
-                        movement.east();
+                        controller.getMovementVerbs().east();
                         break;
                     case WEST:
-                        movement.west();
+                        controller.getMovementVerbs().west();
                         break;
                 }
 
             } else if (isBasicVerb(p.getVerb().getVerbType())) {
-                BasicVerbs movement = new BasicVerbs();
 
                 switch (p.getVerb().getVerbType()) {
                     case INVENTORY:
-                        movement.inventory();
+                        controller.getBasicVerbs().inventory();
                         break;
                     case LOOK_AT:
-                        movement.lookAt();
+                        controller.getBasicVerbs().lookAt();
                         break;
                     case PICK_UP:
-                        movement.pickUp();
+                        controller.getBasicVerbs().pickUp();
                         break;
                     case REMOVE:
-                        movement.remove();
+                        controller.getBasicVerbs().remove();
                         break;
                     case USE:
-                        movement.use();
+                        controller.getBasicVerbs().use();
                         break;
                     case OPEN:
-                        movement.open();
+                        controller.getBasicVerbs().open();
                         break;
                     case CLOSE:
-                        movement.close();
+                        controller.getBasicVerbs().close();
                         break;
                     case PUSH:
                     case PULL:
-                        movement.pushAndPull();
+                        controller.getBasicVerbs().pushAndPull();
                         break;
                     case TURN_ON:
-                        movement.turnOn();
+                        controller.getBasicVerbs().turnOn();
                         break;
                     case TURN_OFF:
-                        movement.turnOff();
+                        controller.getBasicVerbs().turnOff();
                         break;
                     case END:
-                        movement.end();
+                        controller.getBasicVerbs().end();
                         break;
                 }
 
             } else if (isAdvancedVerb(p.getVerb().getVerbType())) {
-                AdvancedVerbs movement = new AdvancedVerbs();
 
                 switch (p.getVerb().getVerbType()) {
                     case EAT:
-                        movement.eat();
+                        controller.getAdvancedVerbs().eat();
                         break;
                     case STAND_UP:
-                        movement.standUp();
+                        controller.getAdvancedVerbs().standUp();
                         break;
                     case SIT_DOWN:
-                        movement.sitDown();
+                        controller.getAdvancedVerbs().sitDown();
                         break;
                     case CLIMB:
-                        movement.climb();
+                        controller.getAdvancedVerbs().climb();
                         break;
                     case GET_OFF:
-                        movement.getOff();
+                        controller.getAdvancedVerbs().getOff();
                         break;
                     case ENTER:
-                        movement.enter();
+                        controller.getAdvancedVerbs().enter();
                         break;
                     case EXIT:
-                        movement.exit();
+                        controller.getAdvancedVerbs().exit();
                         break;
                     case MAKE:
-                        movement.make();
+                        controller.getAdvancedVerbs().make();
                         break;
                     case PLAY:
-                        movement.play();
+                        controller.getAdvancedVerbs().play();
                         break;
                     case WORK_OUT:
-                        movement.workOut();
+                        controller.getAdvancedVerbs().workOut();
                         break;
                     case PUT_IN:
-                        movement.putIn();
+                        controller.getAdvancedVerbs().putIn();
                         break;
                     case TALK_TO:
-                        movement.talkTo();
+                        controller.getAdvancedVerbs().talkTo();
                         break;
                     case ASK:
-                        movement.ask();
+                        controller.getAdvancedVerbs().ask();
                         break;
                     case ACCEPT:
-                        movement.accept();
+                        controller.getAdvancedVerbs().accept();
                         break;
                     case DECLINE:
-                        movement.decline();
+                        controller.getAdvancedVerbs().decline();
                         break;
                     case FACE_UP:
-                        movement.faceUp();
+                        controller.getAdvancedVerbs().faceUp();
                         break;
                     case DESTROY:
-                        movement.destroy();
+                        controller.getAdvancedVerbs().destroy();
                         break;
                     case GIVE:
-                        movement.give();
+                        controller.getAdvancedVerbs().give();
                         break;
                 }
             }
@@ -253,17 +241,17 @@ public class ControllerMove {
         return response.toString();
     }
 
-    private boolean isMovementVerb(VerbType verb) {
+    boolean isMovementVerb(VerbType verb) {
         return verb.equals(NORD) || verb.equals(SOUTH) || verb.equals(EAST) || verb.equals(WEST);
     }
 
-    private boolean isBasicVerb(VerbType verb) {
+    boolean isBasicVerb(VerbType verb) {
         return verb.equals(LOOK_AT) || verb.equals(PICK_UP) || verb.equals(OPEN) || verb.equals(CLOSE)
                 || verb.equals(INVENTORY) || verb.equals(REMOVE) || verb.equals(PULL) || verb.equals(TURN_ON)
                 || verb.equals(TURN_OFF) || verb.equals(END) || verb.equals(PUSH) || verb.equals(USE);
     }
 
-    private boolean isAdvancedVerb(VerbType verb) {
+    boolean isAdvancedVerb(VerbType verb) {
         return verb.equals(EAT) || verb.equals(STAND_UP) || verb.equals(SIT_DOWN) || verb.equals(CLIMB)
                 || verb.equals(GET_OFF) || verb.equals(ENTER) || verb.equals(EXIT) || verb.equals(MAKE)
                 || verb.equals(PLAY) || verb.equals(WORK_OUT) || verb.equals(PUT_IN) || verb.equals(TALK_TO)

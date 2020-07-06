@@ -1,7 +1,7 @@
 package adventure.games.prisonbreak;
 
 import adventure.games.GameDescription;
-import adventure.games.prisonbreak.movement.ControllerMove;
+import adventure.games.prisonbreak.movement.ControllerMovement;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 
@@ -12,6 +12,8 @@ import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
  * @author Corona-Extra
  */
 public class PrisonBreakGame extends GameDescription {
+
+    private ControllerMovement movement;
 
     public PrisonBreakGame() {
         super(new PrisonBreakObjects(), new PrisonBreakRooms(), new PrisonBreakVerbs());
@@ -29,11 +31,11 @@ public class PrisonBreakGame extends GameDescription {
         getGameVerbs().initVerbs(this);
         getGameRooms().initRooms(this);
         getGameObjects().initObjects(this);
-        ControllerMove.getInstance().setGame(this);
+        this.movement = new ControllerMovement(this);
     }
 
     @Override
     public String nextMove(ParserOutput p) {
-        return ControllerMove.getInstance().nextMove(p);
+        return movement.nextMove(p);
     }
 }

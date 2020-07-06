@@ -13,11 +13,21 @@ import static adventure.games.prisonbreak.RoomType.*;
 
 class AdvancedVerbs {
 
-    private final PrisonBreakGame game = ControllerMove.getInstance().getGame();
-    private final TokenObject object = ControllerMove.getInstance().getObject();
-    private final StringBuilder response = ControllerMove.getInstance().getResponse();
-    private final boolean mixed = ControllerMove.getInstance().isMixed();
-    private final short counterFaceUp = ControllerMove.getInstance().getCounterFaceUp();
+    private final Move movement;
+    private final PrisonBreakGame game;
+    private final TokenObject object;
+    private final StringBuilder response;
+    private final boolean mixed;
+    private final short counterFaceUp;
+
+    AdvancedVerbs(ControllerMovement controller) {
+        movement = controller.getMove();
+        game = movement.getGame();
+        object = movement.getObject();
+        response = movement.getResponse();
+        mixed = movement.isMixed();
+        counterFaceUp = movement.getCounterFaceUp();
+    }
 
     void eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
         if (object != null && object.isEatable() && (game.getInventory().contains(object)
@@ -106,12 +116,12 @@ class AdvancedVerbs {
     void climb() {
         if (game.getCurrentRoom().getId() == LOBBY) {
             game.setCurrentRoom(game.getCurrentRoom().getWest());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
         } else if (object != null && game.getCurrentRoom().containsObject(object)) {
             if (object.getId() == LADDER && game.getCurrentRoom().getId() == PASSAGE_NORTH) {
                 game.getRoom(ON_LADDER).setLocked(false);
                 game.setCurrentRoom(game.getCurrentRoom().getNorth());
-                ControllerMove.getInstance().setMove(true);
+                movement.setMove(true);
             } else if (object.getId() != LADDER) {
                 response.append("Non puoi salire su quell'oggetto\n");
             } else {
@@ -127,10 +137,10 @@ class AdvancedVerbs {
     void getOff() {
         if (game.getCurrentRoom().getId() == LADDERS) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
         } else if (game.getCurrentRoom().getId() == AIR_DUCT) {
             game.setCurrentRoom(game.getCurrentRoom().getSouth());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
             response.append("Usi la scala per scendere!\n");
         } else {
             response.append("Non puoi bucare il pavimento!\n");
@@ -140,13 +150,13 @@ class AdvancedVerbs {
     void enter() {
         if (game.getCurrentRoom().getId() == MAIN_CELL && game.getObject(SINK).isPush()) {
             game.setCurrentRoom(game.getCurrentRoom().getWest());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
         } else if (game.getCurrentRoom().getId() == ON_LADDER) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
         } else if (game.getCurrentRoom().getId() == DOOR_ISOLATION) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
         } else {
             response.append("Non puoi entrare lì!\n");
         }
@@ -155,7 +165,7 @@ class AdvancedVerbs {
     void exit() {
         if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getInventory().contains(game.getObject(SCALPEL))) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
             response.append("Decidi di fuggire, ma prima o poi il pericolo dovrai affrontarlo!\n\n");
         } else {
             response.append("Perchè scappare?? Ma soprattutto da cosa??? Fifone!\n");
@@ -177,27 +187,27 @@ class AdvancedVerbs {
                 game.getCurrentRoom().removeObject(object);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                ControllerMove.getInstance().setMixed(true);
+                movement.setMixed(true);
                 game.increaseScore();
             } else if (object.getId() != ACID && game.getInventory().getObjects().contains(object)) {
                 game.getInventory().remove(object);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                ControllerMove.getInstance().setMixed(true);
+                movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getCurrentRoom().getObjects().contains(substances)
                     && object.getId() == ACID) {
                 game.getCurrentRoom().removeObject(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                ControllerMove.getInstance().setMixed(true);
+                movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getInventory().getObjects().contains(substances)
                     && object.getId() == ACID) {
                 game.getInventory().remove(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                ControllerMove.getInstance().setMixed(true);
+                movement.setMixed(true);
                 game.increaseScore();
             }
             if (mixed || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
@@ -367,8 +377,8 @@ class AdvancedVerbs {
                     " ti svegli in infermeria.\n");
             game.setCurrentRoom(game.getRoom(INFIRMARY));
             game.increaseScore();
-            ControllerMove.getInstance().setMove(true);
-            ControllerMove.getInstance().increaseCounterFaceUp();
+            movement.setMove(true);
+            movement.increaseCounterFaceUp();
         } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
                 && game.getInventory().contains(game.getObject(SCALPEL)) && counterFaceUp == 1) {
             game.increaseScore();
@@ -386,7 +396,7 @@ class AdvancedVerbs {
             game.getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei" +
                     "solo tu qui.");
             game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
-            ControllerMove.getInstance().increaseCounterFaceUp();
+            movement.increaseCounterFaceUp();
         } else if (game.getCurrentRoom().getId() != FRONTBENCH || game.getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!\n");
         }
@@ -443,7 +453,7 @@ class AdvancedVerbs {
             response.append("Appena dato il farmaco decidi di fuggire fuori dalla cella isolamento prima" +
                     " che le luci si accendano e le guardie ti scoprano!!!\n");
             game.setCurrentRoom(game.getRoom(OUT_ISOLATION));
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
             response.append("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +
                     " e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!\n\n");
             game.getCurrentRoom().setLook("Sono le 20:55 hai esattamente 5 minuti per tornare alla tua cella" +

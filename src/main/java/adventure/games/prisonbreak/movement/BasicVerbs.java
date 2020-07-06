@@ -14,10 +14,19 @@ import static adventure.games.prisonbreak.RoomType.*;
 
 class BasicVerbs {
 
-    private final PrisonBreakGame game = ControllerMove.getInstance().getGame();
-    private final TokenObject object = ControllerMove.getInstance().getObject();
-    private final StringBuilder response = ControllerMove.getInstance().getResponse();
-    private final short counterFaceUp = ControllerMove.getInstance().getCounterFaceUp();
+    private final Move movement;
+    private final PrisonBreakGame game;
+    private final TokenObject object;
+    private final StringBuilder response;
+    private final short counterFaceUp;
+
+    BasicVerbs(ControllerMovement controller) {
+        movement = controller.getMove();
+        game = movement.getGame();
+        object = movement.getObject();
+        response = movement.getResponse();
+        counterFaceUp = movement.getCounterFaceUp();
+    }
 
     void inventory() throws InventoryEmptyException {
         if (!game.getInventory().isEmpty()) {
@@ -77,7 +86,7 @@ class BasicVerbs {
             response.append("Caspita gli antidolorifici ti hanno fatto dormire molto e ti risvegli nella tua " +
                     "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
                     "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n\n");
-            ControllerMove.getInstance().setMove(true);
+            movement.setMove(true);
 
         } else if (object != null && object.isPickupable() && game.getCurrentRoom().containsObject(object)) {
 
@@ -187,7 +196,7 @@ class BasicVerbs {
                     game.getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze.");
                     game.getObject(SCREW).setPickupable(true);
-                    ControllerMove.getInstance().increaseCounterFaceUp();
+                    movement.increaseCounterFaceUp();
                     break;
 
                 case HACKSAW:
