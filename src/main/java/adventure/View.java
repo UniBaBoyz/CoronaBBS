@@ -138,6 +138,7 @@ public class View {
         jTextArea1.setWrapStyleWord(true);
 
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jframe.setMinimumSize(new Dimension(720, 500));
 
         jScrollPane1.setViewportView(inputField);
 

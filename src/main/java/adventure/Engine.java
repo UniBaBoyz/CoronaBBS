@@ -158,6 +158,7 @@ public class Engine {
         view.getjTextArea1().append(game.getCurrentRoom().getName() + "\n");
         view.getjTextArea1().append("===============================================\n");
         view.getjTextArea1().append(game.getCurrentRoom().getDescription() + "\n");
+        view.getjTextArea2().setText(Integer.toString(game.getScore()));
     }
 
 }
