@@ -148,9 +148,9 @@ class BasicVerbs {
                     game.getObject(SINK).setPushable(true);
                     game.setObjectNotAssignedRoom(movement.getObject());
                     game.getInventory().remove(movement.getObject());
-                    response.append("Decidi di usare il cacciavite, chiunque abbia fissato quel lavandino " +
-                            "non aveva una grande forza visto che le viti si svitano facilmente. Adesso che hai " +
-                            "rimosso tuttte le viti, noti che il lavandino non è ben fissato\n");
+                    response.append("Decidi di usare la vite per smontare il lavandino. Chiunque abbia fissato " +
+                            "quel lavandino non aveva una grande forza visto che le viti si svitano facilmente." +
+                            " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato\n");
                     game.increaseScore();
                     movement.getObject().setUsed(true);
                     break;

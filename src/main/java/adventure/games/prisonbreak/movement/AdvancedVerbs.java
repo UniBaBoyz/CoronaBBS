@@ -28,7 +28,8 @@ class AdvancedVerbs {
 
 
     String eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
-        if (movement.getObject() != null && movement.getObject().isEatable() && (game.getInventory().contains(movement.getObject())
+        if (movement.getObject() != null && movement.getObject().isEatable()
+                && (game.getInventory().contains(movement.getObject())
                 || game.getCurrentRoom().containsObject(movement.getObject()))) {
             //Food case
             if (game.getCurrentRoom().getObjects().contains(movement.getObject())) {
@@ -69,7 +70,8 @@ class AdvancedVerbs {
     }
 
     String sitDown() {
-        if (movement.getObject() != null && movement.getObject().isSitable() && game.getCurrentRoom().containsObject(movement.getObject())) {
+        if (movement.getObject() != null && movement.getObject().isSitable()
+                && game.getCurrentRoom().containsObject(movement.getObject())) {
 
             //Bed case
             if (movement.getObject().getId() == BED) {
@@ -167,7 +169,8 @@ class AdvancedVerbs {
     }
 
     String exit() {
-        if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getInventory().contains(game.getObject(SCALPEL))) {
+        if (game.getCurrentRoom().getId() == FRONTBENCH
+                && !game.getInventory().contains(game.getObject(SCALPEL))) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
             response.append("Decidi di fuggire, ma prima o poi il pericolo dovrai affrontarlo!\n\n");
@@ -188,13 +191,15 @@ class AdvancedVerbs {
                 && (game.getInventory().contains(substances)
                 || game.getCurrentRoom().containsObject(substances))) {
 
-            if (game.getCurrentRoom().getObjects().contains(movement.getObject()) && !(movement.getObject().getId() == ACID)) {
+            if (game.getCurrentRoom().getObjects().contains(movement.getObject())
+                    && !(movement.getObject().getId() == ACID)) {
                 game.getCurrentRoom().removeObject(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
-            } else if (movement.getObject().getId() != ACID && game.getInventory().getObjects().contains(movement.getObject())) {
+            } else if (movement.getObject().getId() != ACID
+                    && game.getInventory().getObjects().contains(movement.getObject())) {
                 game.getInventory().remove(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
@@ -252,7 +257,8 @@ class AdvancedVerbs {
 
     String workOut() throws ObjectNotFoundInRoomException {
         if (game.getCurrentRoom().getId() == GYM
-                || (game.getCurrentRoom().getId() == GYM && movement.getObject() != null && movement.getObject().getId() == TOOLS)) {
+                || (game.getCurrentRoom().getId() == GYM && movement.getObject() != null
+                && movement.getObject().getId() == TOOLS)) {
             response.append("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                     "ti senti già più forte!\n");
 
@@ -262,7 +268,8 @@ class AdvancedVerbs {
             }
 
         } else if (game.getCurrentRoom().getId() != GYM
-                || (game.getCurrentRoom().getId() != GYM && movement.getObject() != null && movement.getObject().getId() == TOOLS)) {
+                || (game.getCurrentRoom().getId() != GYM && movement.getObject() != null
+                && movement.getObject().getId() == TOOLS)) {
             response.append("Ti sembra un posto dove potersi allenare?!!\n");
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
@@ -410,7 +417,9 @@ class AdvancedVerbs {
                     "solo tu qui.");
             game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
             movement.increaseCounterFaceUp();
-        } else if (game.getCurrentRoom().getId() != FRONTBENCH || game.getObject(SCALPEL).isUsed() || movement.getCounterFaceUp() >= 2) {
+        } else if (game.getCurrentRoom().getId() != FRONTBENCH
+                || game.getObject(SCALPEL).isUsed()
+                || movement.getCounterFaceUp() >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!\n");
         }
         return response.toString();
@@ -458,7 +467,8 @@ class AdvancedVerbs {
     }
 
     String give() throws ObjectNotFoundInInventoryException {
-        if (movement.getObject() != null && movement.getObject().isGiveable() && game.getCurrentRoom().getId() == BROTHER_CELL
+        if (movement.getObject() != null && movement.getObject().isGiveable()
+                && game.getCurrentRoom().getId() == BROTHER_CELL
                 && movement.getObject().getId() == MEDICINE) {
             game.getInventory().remove(movement.getObject());
             response.append("Sai benissimo che tuo fratello ha una forte allergia alle ortiche" +
@@ -485,7 +495,8 @@ class AdvancedVerbs {
             //Set the description of the principal cell
             game.getRoom(MAIN_CELL).setDescription("Sei arrivato alla tua cella , ad aspettarti puntuale " +
                     "c’è il tuo amichetto Genny. È ora di attuare il piano!");
-            game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano e scappare via da qui!");
+            game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano " +
+                    "e scappare via da qui!");
             game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
                     "nell'infermeria che ti aspetta!");
 
