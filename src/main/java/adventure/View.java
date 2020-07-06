@@ -28,6 +28,7 @@ public class View {
     private JSeparator jSeparator2;
     private JTextArea jTextArea1;
     private JTextArea jTextArea2;
+    private JTextField score;
     private JTextField inputField;
 
     public JFrame getJframe() {
@@ -132,12 +133,12 @@ public class View {
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         jframe.addWindowListener(new WindowsListener());
-        jframe.setLocationRelativeTo(null); // Used to center the window
 
         jTextArea1.setLineWrap(true);
         jTextArea1.setWrapStyleWord(true);
 
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jframe.setMinimumSize(new Dimension(720, 500));
 
         jScrollPane1.setViewportView(inputField);
 
@@ -147,6 +148,11 @@ public class View {
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
 
         buttonLook.setText("Guarda");
 
@@ -163,11 +169,6 @@ public class View {
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
-
         jLabel1.setText("SCORE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(jframe.getContentPane());
@@ -180,9 +181,9 @@ public class View {
                                         .addComponent(jScrollPane1)
                                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(jScrollPane3, GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                               .addComponent(jScrollPane3, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(buttonNorth, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(buttonSouth, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(buttonWest, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,12 +191,13 @@ public class View {
                                                 .addComponent(buttonInventory, GroupLayout.Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(buttonLook, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(buttonEnter, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jSeparator2, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addComponent(jSeparator1, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(jSeparator2, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(jSeparator1, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                 .addComponent(jLabel1)
                                                 .addGap(34, 34, 34))))
         );
+
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -230,6 +232,7 @@ public class View {
         );
 
         jframe.pack();
+        jframe.setLocationRelativeTo(null); // Used to center the window
     }
 
     public void disposeWindow() {
