@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package adventure;
 
 import javax.swing.*;
@@ -15,7 +10,7 @@ import java.awt.*;
  */
 public class View extends javax.swing.JFrame {
 
-    private JButton buttonInvio;
+    private JButton buttonEnter;
     private JButton buttonLook;
     private JButton buttonInventory;
     private JButton buttonSouth;
@@ -30,10 +25,10 @@ public class View extends javax.swing.JFrame {
     private JSeparator jSeparator2;
     private JTextArea jTextArea1;
     private JTextArea jTextArea2;
-    private JTextField jTextField1;
+    private JTextField inputField;
 
-    public JButton getButtonInvio() {
-        return buttonInvio;
+    public JButton getButtonEnter() {
+        return buttonEnter;
     }
 
     public JButton getButtonLook() {
@@ -44,7 +39,7 @@ public class View extends javax.swing.JFrame {
         return buttonInventory;
     }
 
-    public JButton getjButtonSouth() {
+    public JButton getButtonSouth() {
         return buttonSouth;
     }
 
@@ -68,8 +63,8 @@ public class View extends javax.swing.JFrame {
         return jTextArea1;
     }
 
-    public JTextField getjTextField1() {
-        return jTextField1;
+    public JTextField getInputField() {
+        return inputField;
     }
 
     /**
@@ -88,22 +83,22 @@ public class View extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextField1 = new javax.swing.JTextField();
-        buttonInvio = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        buttonLook = new javax.swing.JButton();
-        buttonInventory = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JSeparator();
-        buttonSouth = new javax.swing.JButton();
-        buttonEast = new javax.swing.JButton();
-        buttonWest = new javax.swing.JButton();
-        buttonNorth = new javax.swing.JButton();
-        jSeparator2 = new javax.swing.JSeparator();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new JScrollPane();
+        inputField = new JTextField();
+        buttonEnter = new JButton();
+        jScrollPane2 = new JScrollPane();
+        jTextArea1 = new JTextArea();
+        buttonLook = new JButton();
+        buttonInventory = new JButton();
+        jSeparator1 = new JSeparator();
+        buttonSouth = new JButton();
+        buttonEast = new JButton();
+        buttonWest = new JButton();
+        buttonNorth = new JButton();
+        jSeparator2 = new JSeparator();
+        jScrollPane3 = new JScrollPane();
+        jTextArea2 = new JTextArea();
+        jLabel1 = new JLabel();
 
         DefaultCaret caret = (DefaultCaret)jTextArea1.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -113,9 +108,9 @@ public class View extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(jTextField1);
+        jScrollPane1.setViewportView(inputField);
 
-        buttonInvio.setText("Invio");
+        buttonEnter.setText("Invio");
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
@@ -163,7 +158,7 @@ public class View extends javax.swing.JFrame {
                         .addComponent(buttonSouth, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(buttonInventory, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(buttonLook, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(buttonInvio, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(buttonEnter, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -199,7 +194,7 @@ public class View extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonInvio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(buttonEnter, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 

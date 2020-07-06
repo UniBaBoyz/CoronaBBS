@@ -70,12 +70,27 @@ public class Engine {
     }
 
     private void manageEvent() {
+        actionListenerButtonNorth();
         actionListenerButtonSouth();
-        actionListenerButtonInvio();
+        actionListenerButtonEast();
+        actionListenerButtonWest();
+        actionListenerButtonInventory();
+        actionListenerButtonLook();
+        actionListenerButtonEnter();
+        actionListenerInputField();
+    }
+
+    private void actionListenerButtonNorth() {
+        view.getButtonNorth().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Nord");
+            }
+        });
     }
 
     private void actionListenerButtonSouth() {
-        view.getjButtonSouth().addActionListener(new ActionListener() {
+        view.getButtonSouth().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 input("Sud");
@@ -83,12 +98,58 @@ public class Engine {
         });
     }
 
-    private void actionListenerButtonInvio() {
-        view.getButtonInvio().addActionListener(new ActionListener() {
+    private void actionListenerButtonEast() {
+        view.getButtonEast().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Est");
+            }
+        });
+    }
+
+    private void actionListenerButtonWest() {
+        view.getButtonWest().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Ovest");
+            }
+        });
+    }
+
+    private void actionListenerButtonInventory() {
+        view.getButtonInventory().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Inventario");
+            }
+        });
+    }
+
+    private void actionListenerButtonLook() {
+        view.getButtonLook().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Guarda");
+            }
+        });
+    }
+
+    private void actionListenerButtonEnter() {
+        view.getButtonEnter().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ev) {
-                input(view.getjTextField1().getText());
-                view.getjTextField1().setText("");
+                input(view.getInputField().getText());
+                view.getInputField().setText("");
+            }
+        });
+    }
+
+    private void actionListenerInputField() {
+        view.getInputField().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                input(view.getInputField().getText());
+                view.getInputField().setText("");
             }
         });
     }
