@@ -6,16 +6,11 @@ import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
 import adventure.games.GameDescription;
-import adventure.games.prisonbreak.PrisonBreakGame;
 import adventure.parser.Parser;
-import adventure.parser.ParserIta;
 import adventure.parser.ParserOutput;
 import adventure.type.VerbType;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * ATTENZIONE: l'Engine è molto spartano, in realtà demanda la logica alla
@@ -54,7 +49,7 @@ public class Engine {
                     view.getjTextArea2().setText(Integer.toString(game.getScore()));
                     view.getjTextArea1().append(game.nextMove(p) + "\n");
                     view.getjTextArea1().append("====================================================================" +
-                            "=============\n");;
+                            "=============\n");
                 }
             }
         } catch (LexicalErrorException e) {
@@ -90,97 +85,61 @@ public class Engine {
     }
 
     private void actionListenerButtonNorth() {
-        view.getButtonNorth().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Nord");
-            }
-        });
+        view.getButtonNorth().addActionListener(e -> input("Nord"));
     }
 
     private void actionListenerButtonSouth() {
-        view.getButtonSouth().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Sud");
-            }
-        });
+        view.getButtonSouth().addActionListener(e -> input("Sud"));
     }
 
     private void actionListenerButtonEast() {
-        view.getButtonEast().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Est");
-            }
-        });
+        view.getButtonEast().addActionListener(e -> input("Est"));
     }
 
     private void actionListenerButtonWest() {
-        view.getButtonWest().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Ovest");
-            }
-        });
+        view.getButtonWest().addActionListener(e -> input("Ovest"));
     }
 
     private void actionListenerButtonInventory() {
-        view.getButtonInventory().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Inventario");
-            }
-        });
+        view.getButtonInventory().addActionListener(e -> input("Inventario"));
     }
 
     private void actionListenerButtonLook() {
-        view.getButtonLook().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input("Guarda");
-            }
-        });
+        view.getButtonLook().addActionListener(e -> input("Guarda"));
     }
 
     private void actionListenerButtonEnter() {
-        view.getButtonEnter().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                input(view.getInputField().getText());
-                view.getInputField().setText("");
-            }
+        view.getButtonEnter().addActionListener(ev -> {
+            input(view.getInputField().getText());
+            view.getInputField().setText("");
         });
     }
 
     private void actionListenerInputField() {
-        view.getInputField().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ev) {
-                input(view.getInputField().getText());
-                view.getInputField().setText("");
-            }
+        view.getInputField().addActionListener(ev -> {
+            input(view.getInputField().getText());
+            view.getInputField().setText("");
         });
     }
 
     public void run() {
         view.getjTextArea1().append("===========================================================================" +
-                "======\n");;
+                "======\n");
         view.getjTextArea1().append("\t\t BENVENUTO IN PRISON BREAK!!!\n");
         view.getjTextArea1().append("===========================================================================" +
-                "======\n");;
+                "======\n");
         view.getjTextArea1().append("Sei stato arrestato per aver commesso una rapina nella banca centrale di New York! " +
                 "La corte giudiziaria ti ha dato 3 anni di carcere e sotto tua richiesta sei stato collocato nel carcere di maggiore sicurezza di New York. " +
                 "Tutto fa parte di un tuo malefico piano: salvare tuo fratello imprigionato all'interno dello stesso carcere, accusato ingiustamente di aver commesso un omicidio. " +
                 "Il tempo non è dalla tua parte, domani tuo fratello sarà giustiziato, riuscirai a evadere insieme a lui dal carcere senza farti scoprire o uccidere???\n");
         view.getjTextArea1().append("===========================================================================" +
-                "======\n");;
+                "======\n");
         view.getjTextArea1().append(game.getCurrentRoom().getName() + "\n");
         view.getjTextArea1().append("===========================================================================" +
-                "======\n");;
+                "======\n");
         view.getjTextArea1().append(game.getCurrentRoom().getDescription() + "\n");
         view.getjTextArea1().append("=============================================================================" +
-                "====\n");;
+                "====\n");
         view.getjTextArea2().setText(Integer.toString(game.getScore()));
     }
 

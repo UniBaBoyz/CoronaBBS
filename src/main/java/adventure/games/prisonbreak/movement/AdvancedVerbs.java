@@ -313,6 +313,9 @@ class AdvancedVerbs {
                         " questo piano per salvarlo! \n\n" +
                         "Il piano consiste nel far andare tuo fratello in qualche modo in infermeria!");
                 game.getObject(MEDICINE).setGiveable(true);
+            } else if (movement.getObject().getId() == GENNY_BELLO
+                    && ((TokenPerson) movement.getObject()).isFollowHero()) {
+                response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!\n");
             }
         } else if (movement.getObject() == null) {
             response.append("Vuoi parlare da solo???");
@@ -413,7 +416,7 @@ class AdvancedVerbs {
             game.getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
             game.getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
                     "ci sei solo tu nelle vicinanze.");
-            game.getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei" +
+            game.getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei " +
                     "solo tu qui.");
             game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
             movement.increaseCounterFaceUp();

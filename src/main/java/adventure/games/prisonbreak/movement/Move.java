@@ -8,10 +8,12 @@ import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryExceptio
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.games.prisonbreak.PrisonBreakGame;
+import adventure.games.prisonbreak.TokenPerson;
 import adventure.parser.ParserOutput;
 import adventure.type.TokenObject;
 import adventure.type.VerbType;
 
+import static adventure.games.prisonbreak.ObjectType.GENNY_BELLO;
 import static adventure.games.prisonbreak.ObjectType.MEDICINE;
 import static adventure.games.prisonbreak.RoomType.*;
 import static adventure.type.VerbType.*;
@@ -191,6 +193,17 @@ class Move {
                 response.append("=============================================================================" +
                         "====\n");
                 response.append(game.getCurrentRoom().getDescription());
+                response.append("================================================\n");
+                response.append(game.getCurrentRoom().getDescription()).append("\n");
+                if (((TokenPerson) game.getObject(GENNY_BELLO)).isFollowHero()) {
+                    game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
+                    //TODO bloccare le stanze che fanno tornare indietro
+                }
+                if (game.getObject(MEDICINE).isGiven() && game.getCurrentRoom().getId() == MAIN_CELL) {
+                    ((TokenPerson) game.getObject(GENNY_BELLO)).setFollowHero(true);
+                    game.getCurrentRoom().getEast().setLocked(true);
+                    game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
+                }
             }
 
         } catch (NotAccessibleRoomException e) {
