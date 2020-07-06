@@ -942,6 +942,7 @@ public class PrisonBreakGame extends GameDescription {
                 } else if (getCurrentRoom().getLook() != null && (object == null || object.getId() == ROOM_OBJ)) {
                     out.println(getCurrentRoom().getLook());
                 } else if (object != null && object.getId() == SCORE_OBJ) {
+                    //TODO cambiare frase in base allo score
                     out.println("Non male, attualmente il tuo punteggio è " + getScore());
                 } else {
                     out.println("Non c'è niente di interessante qui.");
