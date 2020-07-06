@@ -1,6 +1,7 @@
 package adventure.games.prisonbreak;
 
 import adventure.exceptions.inventoryException.InventoryFullException;
+import adventure.games.GameDescription;
 import adventure.games.ObjectsInterface;
 import adventure.type.Room;
 import adventure.type.TokenAdjective;
@@ -16,23 +17,16 @@ import static adventure.games.prisonbreak.RoomType.*;
 
 public class PrisonBreakObjects implements ObjectsInterface {
 
-    private final PrisonBreakGame game;
-
-    public PrisonBreakObjects(PrisonBreakGame game) {
-        this.game = game;
-        initObjects();
-    }
-
     @Override
-    public void initObjects() {
+    public void initObjects(GameDescription game) {
         if (!game.getRooms().isEmpty()) {
             initPerson();
-            initObjectsCell17(this.game.getRoom(MAIN_CELL));
-            initObjectsGym(this.game.getRoom(GYM));
-            initObjectsInfirmary(this.game.getRoom(INFIRMARY));
-            initObjectsFrontBench(this.game.getRoom(FRONTBENCH));
-            initObjectsGenerator(this.game.getRoom(GENERATOR));
-            initObjectsBasket(this.game.getRoom(BASKET_CAMP));
+            initObjectsCell17(game.getRoom(MAIN_CELL));
+            initObjectsGym(game.getRoom(GYM));
+            initObjectsInfirmary(game.getRoom(INFIRMARY));
+            initObjectsFrontBench(game.getRoom(FRONTBENCH));
+            initObjectsGenerator(game.getRoom(GENERATOR));
+            initObjectsBasket(game.getRoom(BASKET_CAMP));
             initDoorGarden(this.game.getRoom(GARDEN), this.game.getRoom(LOBBY));
             initObjectsAirDuct(this.game.getRoom(AIR_DUCT_NORTH),
                     this.game.getRoom(AIR_DUCT_EAST),

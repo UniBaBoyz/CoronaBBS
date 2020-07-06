@@ -2,5 +2,5 @@ package adventure.games;
 
 public interface VerbsInterface {
 
-    void initVerbs();
+    void initVerbs(Class<? extends GameDescription> game);
 }

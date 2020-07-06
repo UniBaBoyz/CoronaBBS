@@ -28,6 +28,9 @@ public class PrisonBreakGame extends GameDescription {
     private short counterFaceUp = 0;
 
     public PrisonBreakGame() {
+        super(new PrisonBreakObjects(), new PrisonBreakRooms(), new PrisonBreakVerbs());
+
+
 
         //Set starting room
         setCurrentRoom(getRoom(MAIN_CELL));
@@ -165,7 +168,7 @@ public class PrisonBreakGame extends GameDescription {
                 if (object != null && getInventory().contains(object)) {
                     getCurrentRoom().setObject(object);
                     getInventory().remove(object);
-                    response.append("Hai lasciato a terra " + object.getName() + "!");
+                    response.append("Hai lasciato a terra ").append(object.getName()).append("!");
 
                 } else if (object == null) {
                     response.append("Cosa vorresti rimuovere dall'inventario?");

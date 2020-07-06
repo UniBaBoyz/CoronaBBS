@@ -2,5 +2,5 @@ package adventure.games;
 
 public interface ObjectsInterface {
 
-    void initObjects();
+    void initObjects(Class<? extends GameDescription> game);
 }
