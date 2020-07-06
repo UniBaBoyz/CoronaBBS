@@ -9,6 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * @author Corona-Extra
+ */
 public class PrisonBreakVerbs implements VerbsInterface {
 
     @Override

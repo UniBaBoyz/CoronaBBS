@@ -7,6 +7,9 @@ import adventure.type.TokenObject;
 
 import java.util.Set;
 
+/**
+ * @author Corona-Extra
+ */
 public class TokenPerson extends TokenObject {
 
     private Inventory inventory;

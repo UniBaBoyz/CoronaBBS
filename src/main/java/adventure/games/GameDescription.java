@@ -26,9 +26,17 @@ public abstract class GameDescription {
     private int score = 0;
 
     public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs) {
-        this.gameObjects = gameObjects;
         this.gameRooms = gameRooms;
+        this.gameObjects = gameObjects;
         this.gameVerbs = gameVerbs;
+
+        init();
+    }
+
+    private void init() {
+        getGameVerbs().initVerbs(this);
+        getGameRooms().initRooms(this);
+        getGameObjects().initObjects(this);
     }
 
     public String getIntroduction() {

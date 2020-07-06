@@ -18,6 +18,9 @@ import static adventure.games.prisonbreak.ObjectType.MEDICINE;
 import static adventure.games.prisonbreak.RoomType.*;
 import static adventure.type.VerbType.*;
 
+/**
+ * @author Corona-Extra
+ */
 class Move {
     private ControllerMovement controller;
     private PrisonBreakGame game;

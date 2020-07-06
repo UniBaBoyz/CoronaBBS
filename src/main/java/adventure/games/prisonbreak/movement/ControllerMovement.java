@@ -3,6 +3,9 @@ package adventure.games.prisonbreak.movement;
 import adventure.games.prisonbreak.PrisonBreakGame;
 import adventure.parser.ParserOutput;
 
+/**
+ * @author Corona-Extra
+ */
 public class ControllerMovement {
     private final PrisonBreakGame game;
     private final Move move;

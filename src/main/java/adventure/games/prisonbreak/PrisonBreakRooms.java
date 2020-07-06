@@ -6,6 +6,9 @@ import adventure.type.Room;
 
 import static adventure.games.prisonbreak.RoomType.*;
 
+/**
+ * @author Corona-Extra
+ */
 public class PrisonBreakRooms implements RoomsInterface {
 
     @Override

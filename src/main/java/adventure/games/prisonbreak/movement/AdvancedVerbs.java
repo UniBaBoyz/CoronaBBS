@@ -11,6 +11,9 @@ import adventure.type.TokenObject;
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 
+/**
+ * @author Corona-Extra
+ */
 class AdvancedVerbs {
 
     private final Move movement;
@@ -25,7 +28,6 @@ class AdvancedVerbs {
     void resetResponse() {
         response = new StringBuilder();
     }
-
 
     String eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
         if (movement.getObject() != null && movement.getObject().isEatable()
@@ -436,6 +438,7 @@ class AdvancedVerbs {
                 && game.getObject(TOOLS).isUsed()
                 && !game.getObject(HACKSAW).isUsed()) {
             game.getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
+            game.setObjectNotAssignedRoom(game.getObject(HACKSAW));
             game.getInventory().remove(game.getObject(HACKSAW));
             game.getRoom(AIR_DUCT_NORTH).removeObject(movement.getObject());
             response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +

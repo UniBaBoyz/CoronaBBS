@@ -13,11 +13,13 @@ import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
  */
 public class PrisonBreakGame extends GameDescription {
 
-    private ControllerMovement movement;
+    private final ControllerMovement movement;
     private boolean firstTime = false;
 
     public PrisonBreakGame() {
         super(new PrisonBreakObjects(), new PrisonBreakRooms(), new PrisonBreakVerbs());
+        this.movement = new ControllerMovement(this);
+
         String introduction = "===========================================================================" +
                 "======\n" + "\t\t BENVENUTO IN PRISON BREAK!!!\n" + "=====================================" +
                 "============================================\n" + "Sei stato arrestato per aver commesso una" +
@@ -27,11 +29,7 @@ public class PrisonBreakGame extends GameDescription {
                 "carcere, accusato ingiustamente di aver commesso un omicidio. Il tempo non è dalla tua parte, " +
                 "domani tuo fratello sarà giustiziato, riuscirai a evadere insieme a lui dal carcere senza farti " +
                 "scoprire o uccidere???\n" + "====================================================================" +
-                "=============\n" + getCurrentRoom().getName() + "\n" + "======================================" +
-                "===========================================\n" + getCurrentRoom().getDescription() + "\n" +
-                "=============================================================================" +
-                "====\n";
-        init();
+                "=============\n";
         setIntroduction(introduction);
 
         //Set starting room
@@ -39,13 +37,6 @@ public class PrisonBreakGame extends GameDescription {
 
         //Set Inventory
         setInventory(new Inventory(5));
-    }
-
-    private void init() {
-        getGameVerbs().initVerbs(this);
-        getGameRooms().initRooms(this);
-        getGameObjects().initObjects(this);
-        this.movement = new ControllerMovement(this);
     }
 
     @Override

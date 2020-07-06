@@ -1,5 +1,8 @@
 package adventure.exceptions.objectsException;
 
+/**
+ * @author Corona-Extra
+ */
 public class ObjectNotFoundInRoomException extends ObjectsException {
 
     @Override

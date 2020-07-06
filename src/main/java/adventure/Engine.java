@@ -1,7 +1,5 @@
 package adventure;
 
-//fixme import prisonbreak.games.FireHouseGame;
-
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
@@ -13,10 +11,6 @@ import adventure.type.VerbType;
 import java.util.List;
 
 /**
- * ATTENZIONE: l'Engine è molto spartano, in realtà demanda la logica alla
- * classe che implementa GameDescription e si occupa di gestire I/O sul
- * terminale.
- *
  * @author Corona-Extra
  */
 public class Engine {
@@ -41,7 +35,6 @@ public class Engine {
             for (ParserOutput p : listParser) {
                 if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                         && p.getObject().isEmpty()) {
-                    view.getjTextArea2().setText(Integer.toString(game.getScore()));
                     view.getjTextArea1().append("Addio!");
                     view.getJframe().dispose();
                     break;
@@ -126,6 +119,12 @@ public class Engine {
         if (game.getIntroduction() != null) {
             view.getjTextArea1().append(game.getIntroduction());
         }
+
+        view.getjTextArea1().append(game.getCurrentRoom().getName() +
+                "\n" + "======================================" +
+                "===========================================\n" +
+                game.getCurrentRoom().getDescription() + "\n" +
+                "=================================================================================\n");
     }
 
 }

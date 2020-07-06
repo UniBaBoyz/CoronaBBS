@@ -14,6 +14,9 @@ import java.util.HashSet;
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 
+/**
+ * @author Corona-Extra
+ */
 public class PrisonBreakObjects implements ObjectsInterface {
 
     @Override

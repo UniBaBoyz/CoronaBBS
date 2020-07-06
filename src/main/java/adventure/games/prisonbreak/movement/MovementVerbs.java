@@ -4,6 +4,9 @@ import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
 import adventure.games.prisonbreak.PrisonBreakGame;
 
+/**
+ * @author Corona-Extra
+ */
 class MovementVerbs {
 
     private final Move movement;

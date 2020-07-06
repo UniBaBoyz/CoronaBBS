@@ -5,9 +5,12 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.ImageObserver;
+import java.awt.image.ImageProducer;
+import java.net.URL;
 
 /**
- * @author mstel
+ * @author Corona-Extra
  */
 public class View {
 
@@ -139,6 +142,8 @@ public class View {
 
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
+        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
+        jframe.setIconImage(imageIcon.getImage());
 
         jScrollPane1.setViewportView(inputField);
 

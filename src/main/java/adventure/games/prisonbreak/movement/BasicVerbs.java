@@ -12,6 +12,9 @@ import adventure.type.TokenObjectContainer;
 import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 
+/**
+ * @author Corona-Extra
+ */
 class BasicVerbs {
 
     private final Move movement;
@@ -91,6 +94,10 @@ class BasicVerbs {
                     "cella privo di qualsiasi dolore! Prima di andare via l’infermiera ti ha dato qualche " +
                     "medicinale tra cui un medicinale all’ortica. Guarda nel tuo inventario!\n\n");
             movement.setMove(true);
+            game.getRoom(INFIRMARY).setDescription("Sul lettino dell'infermeria c'è tuo fratello" +
+                    " leggermente dolorante");
+            game.getRoom(INFIRMARY).setLook("Nell'aria c'e' molta tensione, sarebbe meglio a cercare " +
+                    "una via di fuga!!!!!!");
 
         } else if (movement.getObject() != null && movement.getObject().isPickupable()
                 && game.getCurrentRoom().containsObject(movement.getObject())) {
@@ -274,7 +281,7 @@ class BasicVerbs {
                     break;
 
                 case POSTER:
-                    movement.getObject().setUsable(true);
+                    movement.getObject().setUsed(true);
 
                     // DON'T CHANGE THE ORDER
                     if (movement.getCounterFaceUp() == 0) {
