@@ -12,6 +12,8 @@ import adventure.parser.ParserIta;
 import adventure.parser.ParserOutput;
 import adventure.type.VerbType;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Scanner;
 
@@ -24,54 +26,77 @@ import java.util.Scanner;
  */
 public class Engine {
     private final GameDescription game;
-    private View view;
+    private final View view;
+    private final Parser parser;
 
-    public Engine(GameDescription game, View view) {
+    public Engine(GameDescription game, View view, Parser parser) {
         this.game = game;
         this.view = view;
+        this.parser = parser;
+        manageEvent();
+    }
+
+    public Parser getParser() {
+        return parser;
+    }
+
+    private void input(String string) {
+        try {
+            List<ParserOutput> listParser = parser.parse(string);
+            for (ParserOutput p : listParser) {
+                if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
+                        && p.getObject().isEmpty()) {
+                    view.getjTextArea1().append("Addio!\n");
+                    view.dispose();
+                    break;
+                } else {
+                    view.getjTextArea1().append(game.nextMove(p) + "\n");
+                    view.getjTextArea1().append("================================================\n");
+                }
+            }
+        } catch (LexicalErrorException e) {
+            view.getjTextArea1().append("Non ho capito!\n");
+            view.getjTextArea1().append("C'e' qualche parola che non conosco.\n");
+        } catch (SyntaxErrorException e) {
+            view.getjTextArea1().append("Non ho capito!\n");
+            view.getjTextArea1().append("Dovresti ripassare un po' la grammatica!\n");
+        } catch (InputErrorException e) {
+            view.getjTextArea1().append("Non ho capito!\n");
+        } catch (Exception e) {
+            view.getjTextArea1().append(e.toString() + "\n");
+            e.getMessage();
+            e.printStackTrace();
+        }
     }
 
     private void manageEvent() {
+        actionListenerButtonSouth();
+        actionListenerButtonInvio();
+    }
 
+    private void actionListenerButtonSouth() {
+        view.getjButtonSouth().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input("Sud");
+            }
+        });
+    }
+
+    private void actionListenerButtonInvio() {
+        view.getButtonInvio().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ev) {
+                input(view.getjTextField1().getText());
+                view.getjTextField1().setText("");
+            }
+        });
     }
 
     public void run() {
-        boolean endGame = false;
-        Parser parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
-        List<ParserOutput> listParser;
-        System.out.println(game.getCurrentRoom().getName());
-        System.out.println("================================================");
-        System.out.println(game.getCurrentRoom().getDescription());
-        Scanner scanner = new Scanner(System.in, "UTF-8");
-        while (!endGame && scanner.hasNextLine()) {
-            String input = scanner.nextLine();
-            try {
-                listParser = parser.parse(input);
-                for (ParserOutput p : listParser) {
-                    if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
-                            && p.getObject().isEmpty()) {
-                        System.out.println("Addio!");
-                        endGame = true;
-                        break;
-                    } else {
-                        System.out.println(game.nextMove(p));
-                        System.out.println("================================================");
-                    }
-                }
-            } catch (LexicalErrorException le) {
-                System.out.println("Non ho capito!");
-                System.out.println("C'e' qualche parola che non conosco.");
-            } catch (SyntaxErrorException se) {
-                System.out.println("Non ho capito!");
-                System.out.println("Dovresti ripassare un po' la grammatica!");
-            } catch (InputErrorException ie) {
-                System.out.println("Non ho capito!");
-            } catch (Exception e) {
-                System.out.println(e.toString());
-                e.getMessage();
-                e.printStackTrace();
-            }
-        }
+        view.getjTextArea1().append(game.getCurrentRoom().getName() + "\n");
+        view.getjTextArea1().append("================================================\n");
+        view.getjTextArea1().append(game.getCurrentRoom().getDescription() + "\n");
     }
 
 }
