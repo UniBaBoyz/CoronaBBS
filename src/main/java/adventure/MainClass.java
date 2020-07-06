@@ -16,6 +16,8 @@ public class MainClass {
             @Override
             public void run() {
                 view.setVisible(true);
+                ViewTemp v = new ViewTemp();
+                v.setWindowVisible();
             }
         });
 
