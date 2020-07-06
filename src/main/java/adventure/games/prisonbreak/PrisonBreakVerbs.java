@@ -118,11 +118,6 @@ public class PrisonBreakVerbs implements VerbsInterface {
         workOut.setAlias(new HashSet<>(Arrays.asList("Allenati", "Allena")));
         game.getTokenVerbs().add(workOut);
 
-        /*TokenVerb walk = new TokenVerb(VerbType.WALK);
-        walk.setAlias(new HashSet<>(Arrays.asList("Cammina", "Corri", "Vai", "Muoviti", "Striscia", "Avvicinati",
-                "Avanza", "Prosegui")));
-        game.getTokenVerbs().add(walk);*/
-
         TokenVerb standUp = new TokenVerb(VerbType.STAND_UP);
         standUp.setAlias(new HashSet<>(Arrays.asList("Alzati", "Svegliati")));
         game.getTokenVerbs().add(standUp);

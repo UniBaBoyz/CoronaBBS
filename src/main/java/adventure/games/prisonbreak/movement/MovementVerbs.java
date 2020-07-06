@@ -3,9 +3,9 @@ package adventure.games.prisonbreak.movement;
 import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
 
-public class MovementVerbs {
+class MovementVerbs {
 
-    public void moveNord() throws NotAccessibleRoomException, LockedRoomException {
+    void nord() throws NotAccessibleRoomException, LockedRoomException {
         if (ControllerMove.getInstance().getGame().getCurrentRoom().getNorth() != null
                 && !ControllerMove.getInstance().getGame().getCurrentRoom().getNorth().isLocked()) {
             ControllerMove.getInstance().getGame().setCurrentRoom(
@@ -18,7 +18,7 @@ public class MovementVerbs {
         }
     }
 
-    public void moveSouth() throws NotAccessibleRoomException, LockedRoomException {
+    void south() throws NotAccessibleRoomException, LockedRoomException {
         if (ControllerMove.getInstance().getGame().getCurrentRoom().getSouth() != null
                 && !ControllerMove.getInstance().getGame().getCurrentRoom().getSouth().isLocked()) {
             ControllerMove.getInstance().getGame().setCurrentRoom(
@@ -31,7 +31,7 @@ public class MovementVerbs {
         }
     }
 
-    public void moveEast() throws NotAccessibleRoomException, LockedRoomException {
+    void east() throws NotAccessibleRoomException, LockedRoomException {
         if (ControllerMove.getInstance().getGame().getCurrentRoom().getEast() != null
                 && !ControllerMove.getInstance().getGame().getCurrentRoom().getEast().isLocked()) {
             ControllerMove.getInstance().getGame().setCurrentRoom(
@@ -44,7 +44,7 @@ public class MovementVerbs {
         }
     }
 
-    public void moveWest() throws NotAccessibleRoomException, LockedRoomException {
+    void west() throws NotAccessibleRoomException, LockedRoomException {
         if (ControllerMove.getInstance().getGame().getCurrentRoom().getWest() != null
                 && !ControllerMove.getInstance().getGame().getCurrentRoom().getWest().isLocked()) {
             ControllerMove.getInstance().getGame().setCurrentRoom(
