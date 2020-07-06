@@ -2,57 +2,52 @@ package adventure.games.prisonbreak.movement;
 
 import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
+import adventure.games.prisonbreak.PrisonBreakGame;
 
 class MovementVerbs {
 
+    private final PrisonBreakGame game = ControllerMove.getInstance().getGame();
+
     void nord() throws NotAccessibleRoomException, LockedRoomException {
-        if (ControllerMove.getInstance().getGame().getCurrentRoom().getNorth() != null
-                && !ControllerMove.getInstance().getGame().getCurrentRoom().getNorth().isLocked()) {
-            ControllerMove.getInstance().getGame().setCurrentRoom(
-                    ControllerMove.getInstance().getGame().getCurrentRoom().getNorth());
+        if (game.getCurrentRoom().getNorth() != null && !game.getCurrentRoom().getNorth().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getNorth());
             ControllerMove.getInstance().setMove(true);
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getNorth() == null) {
+        } else if (game.getCurrentRoom().getNorth() == null) {
             throw new NotAccessibleRoomException();
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getNorth().isLocked()) {
+        } else if (game.getCurrentRoom().getNorth().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void south() throws NotAccessibleRoomException, LockedRoomException {
-        if (ControllerMove.getInstance().getGame().getCurrentRoom().getSouth() != null
-                && !ControllerMove.getInstance().getGame().getCurrentRoom().getSouth().isLocked()) {
-            ControllerMove.getInstance().getGame().setCurrentRoom(
-                    ControllerMove.getInstance().getGame().getCurrentRoom().getSouth());
+        if (game.getCurrentRoom().getSouth() != null && !game.getCurrentRoom().getSouth().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getSouth());
             ControllerMove.getInstance().setMove(true);
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getSouth() == null) {
+        } else if (game.getCurrentRoom().getSouth() == null) {
             throw new NotAccessibleRoomException();
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getSouth().isLocked()) {
+        } else if (game.getCurrentRoom().getSouth().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void east() throws NotAccessibleRoomException, LockedRoomException {
-        if (ControllerMove.getInstance().getGame().getCurrentRoom().getEast() != null
-                && !ControllerMove.getInstance().getGame().getCurrentRoom().getEast().isLocked()) {
-            ControllerMove.getInstance().getGame().setCurrentRoom(
-                    ControllerMove.getInstance().getGame().getCurrentRoom().getEast());
+        if (game.getCurrentRoom().getEast() != null && !game.getCurrentRoom().getEast().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getEast());
             ControllerMove.getInstance().setMove(true);
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getEast() == null) {
+        } else if (game.getCurrentRoom().getEast() == null) {
             throw new NotAccessibleRoomException();
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getEast().isLocked()) {
+        } else if (game.getCurrentRoom().getEast().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void west() throws NotAccessibleRoomException, LockedRoomException {
-        if (ControllerMove.getInstance().getGame().getCurrentRoom().getWest() != null
-                && !ControllerMove.getInstance().getGame().getCurrentRoom().getWest().isLocked()) {
-            ControllerMove.getInstance().getGame().setCurrentRoom(
-                    ControllerMove.getInstance().getGame().getCurrentRoom().getWest());
+        if (game.getCurrentRoom().getWest() != null && !game.getCurrentRoom().getWest().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getWest());
             ControllerMove.getInstance().setMove(true);
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getWest() == null) {
+        } else if (game.getCurrentRoom().getWest() == null) {
             throw new NotAccessibleRoomException();
-        } else if (ControllerMove.getInstance().getGame().getCurrentRoom().getWest().isLocked()) {
+        } else if (game.getCurrentRoom().getWest().isLocked()) {
             throw new LockedRoomException();
         }
     }

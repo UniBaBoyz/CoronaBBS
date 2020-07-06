@@ -18,7 +18,7 @@ import static adventure.type.VerbType.*;
 
 public class ControllerMove {
     private static ControllerMove instance;
-    private final StringBuilder response = new StringBuilder();
+    private StringBuilder response = new StringBuilder();
     private PrisonBreakGame game;
     private TokenObject object;
     private boolean move = false;
@@ -72,6 +72,7 @@ public class ControllerMove {
     }
 
     public String nextMove(ParserOutput p) {
+        response = new StringBuilder();
         try {
             object = game.getCorrectObject(p.getObject());
 
