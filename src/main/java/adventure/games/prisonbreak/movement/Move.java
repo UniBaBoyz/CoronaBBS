@@ -88,38 +88,38 @@ class Move {
 
                 switch (p.getVerb().getVerbType()) {
                     case INVENTORY:
-                        controller.getBasicVerbs().inventory();
+                        response.append(controller.getBasicVerbs().inventory());
                         break;
                     case LOOK_AT:
-                        controller.getBasicVerbs().lookAt();
+                        response.append(controller.getBasicVerbs().lookAt());
                         break;
                     case PICK_UP:
-                        controller.getBasicVerbs().pickUp();
+                        response.append(controller.getBasicVerbs().pickUp());
                         break;
                     case REMOVE:
-                        controller.getBasicVerbs().remove();
+                        response.append(controller.getBasicVerbs().remove());
                         break;
                     case USE:
-                        controller.getBasicVerbs().use();
+                        response.append(controller.getBasicVerbs().use());
                         break;
                     case OPEN:
-                        controller.getBasicVerbs().open();
+                        response.append(controller.getBasicVerbs().open());
                         break;
                     case CLOSE:
-                        controller.getBasicVerbs().close();
+                        response.append(controller.getBasicVerbs().close());
                         break;
                     case PUSH:
                     case PULL:
-                        controller.getBasicVerbs().pushAndPull();
+                        response.append(controller.getBasicVerbs().pushAndPull());
                         break;
                     case TURN_ON:
-                        controller.getBasicVerbs().turnOn();
+                        response.append(controller.getBasicVerbs().turnOn());
                         break;
                     case TURN_OFF:
-                        controller.getBasicVerbs().turnOff();
+                        response.append(controller.getBasicVerbs().turnOff());
                         break;
                     case END:
-                        controller.getBasicVerbs().end();
+                        response.append(controller.getBasicVerbs().end());
                         break;
                 }
 
@@ -127,58 +127,58 @@ class Move {
 
                 switch (p.getVerb().getVerbType()) {
                     case EAT:
-                        controller.getAdvancedVerbs().eat();
+                        response.append(controller.getAdvancedVerbs().eat());
                         break;
                     case STAND_UP:
-                        controller.getAdvancedVerbs().standUp();
+                        response.append(controller.getAdvancedVerbs().standUp());
                         break;
                     case SIT_DOWN:
-                        controller.getAdvancedVerbs().sitDown();
+                        response.append(controller.getAdvancedVerbs().sitDown());
                         break;
                     case CLIMB:
-                        controller.getAdvancedVerbs().climb();
+                        response.append(controller.getAdvancedVerbs().climb());
                         break;
                     case GET_OFF:
-                        controller.getAdvancedVerbs().getOff();
+                        response.append(controller.getAdvancedVerbs().getOff());
                         break;
                     case ENTER:
-                        controller.getAdvancedVerbs().enter();
+                        response.append(controller.getAdvancedVerbs().enter());
                         break;
                     case EXIT:
-                        controller.getAdvancedVerbs().exit();
+                        response.append(controller.getAdvancedVerbs().exit());
                         break;
                     case MAKE:
-                        controller.getAdvancedVerbs().make();
+                        response.append(controller.getAdvancedVerbs().make());
                         break;
                     case PLAY:
-                        controller.getAdvancedVerbs().play();
+                        response.append(controller.getAdvancedVerbs().play());
                         break;
                     case WORK_OUT:
-                        controller.getAdvancedVerbs().workOut();
+                        response.append(controller.getAdvancedVerbs().workOut());
                         break;
                     case PUT_IN:
-                        controller.getAdvancedVerbs().putIn();
+                        response.append(controller.getAdvancedVerbs().putIn());
                         break;
                     case TALK_TO:
-                        controller.getAdvancedVerbs().talkTo();
+                        response.append(controller.getAdvancedVerbs().talkTo());
                         break;
                     case ASK:
-                        controller.getAdvancedVerbs().ask();
+                        response.append(controller.getAdvancedVerbs().ask());
                         break;
                     case ACCEPT:
-                        controller.getAdvancedVerbs().accept();
+                        response.append(controller.getAdvancedVerbs().accept());
                         break;
                     case DECLINE:
-                        controller.getAdvancedVerbs().decline();
+                        response.append(controller.getAdvancedVerbs().decline());
                         break;
                     case FACE_UP:
-                        controller.getAdvancedVerbs().faceUp();
+                        response.append(controller.getAdvancedVerbs().faceUp());
                         break;
                     case DESTROY:
-                        controller.getAdvancedVerbs().destroy();
+                        response.append(controller.getAdvancedVerbs().destroy());
                         break;
                     case GIVE:
-                        controller.getAdvancedVerbs().give();
+                        response.append(controller.getAdvancedVerbs().give());
                         break;
                 }
             }

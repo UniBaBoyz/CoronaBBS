@@ -16,7 +16,7 @@ class AdvancedVerbs {
     private final Move movement;
     private final PrisonBreakGame game;
     private final TokenObject object;
-    private final StringBuilder response;
+    private StringBuilder response = new StringBuilder();
     private final boolean mixed;
     private final short counterFaceUp;
 
@@ -24,12 +24,16 @@ class AdvancedVerbs {
         movement = controller.getMove();
         game = movement.getGame();
         object = movement.getObject();
-        response = movement.getResponse();
         mixed = movement.isMixed();
         counterFaceUp = movement.getCounterFaceUp();
     }
 
-    void eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
+    void resetResponse() {
+        response = new StringBuilder();
+    }
+
+
+    String eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
         if (object != null && object.isEatable() && (game.getInventory().contains(object)
                 || game.getCurrentRoom().containsObject(object))) {
             //Food case
@@ -48,9 +52,10 @@ class AdvancedVerbs {
         } else if (!object.isEatable()) {
             response.append("Sei veramente sicuro??? Non mi sembra una buona idea!\n");
         }
+        return response.toString();
     }
 
-    void standUp() {
+    String standUp() {
         if (object == null) {
             //On foot
             if (game.getCurrentRoom().getObjects().stream()
@@ -66,9 +71,10 @@ class AdvancedVerbs {
         } else {
             response.append("Non penso che questa cosa si possa fare ?!?\n");
         }
+        return response.toString();
     }
 
-    void sitDown() {
+    String sitDown() {
         if (object != null && object.isSitable() && game.getCurrentRoom().containsObject(object)) {
 
             //Bed case
@@ -111,9 +117,10 @@ class AdvancedVerbs {
         } else if (!object.isSitable()) {
             response.append("Con quell'oggetto puoi fare altro ma di certo non sederti!\n");
         }
+        return response.toString();
     }
 
-    void climb() {
+    String climb() {
         if (game.getCurrentRoom().getId() == LOBBY) {
             game.setCurrentRoom(game.getCurrentRoom().getWest());
             movement.setMove(true);
@@ -132,9 +139,10 @@ class AdvancedVerbs {
         } else if (!game.getCurrentRoom().containsObject(object)) {
             response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!\n");
         }
+        return response.toString();
     }
 
-    void getOff() {
+    String getOff() {
         if (game.getCurrentRoom().getId() == LADDERS) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
@@ -145,9 +153,10 @@ class AdvancedVerbs {
         } else {
             response.append("Non puoi bucare il pavimento!\n");
         }
+        return response.toString();
     }
 
-    void enter() {
+    String enter() {
         if (game.getCurrentRoom().getId() == MAIN_CELL && game.getObject(SINK).isPush()) {
             game.setCurrentRoom(game.getCurrentRoom().getWest());
             movement.setMove(true);
@@ -160,9 +169,10 @@ class AdvancedVerbs {
         } else {
             response.append("Non puoi entrare lì!\n");
         }
+        return response.toString();
     }
 
-    void exit() {
+    String exit() {
         if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getInventory().contains(game.getObject(SCALPEL))) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
@@ -170,9 +180,10 @@ class AdvancedVerbs {
         } else {
             response.append("Perchè scappare?? Ma soprattutto da cosa??? Fifone!\n");
         }
+        return response.toString();
     }
 
-    void make() throws ObjectNotFoundInInventoryException, InventoryFullException, InventoryEmptyException {
+    String make() throws ObjectNotFoundInInventoryException, InventoryFullException, InventoryEmptyException {
         TokenObject substances = game.getObject(SUBSTANCES);
 
         if ((object != null
@@ -224,9 +235,10 @@ class AdvancedVerbs {
         } else if (!object.isMixable()) {
             response.append("Non è una cosa che si può fare\n");
         }
+        return response.toString();
     }
 
-    void play() {
+    String play() {
         if ((object != null && object.isPlayable())
                 || (object == null && game.getCurrentRoom().getId() == BASKET_CAMP)) {
             //Ball case
@@ -241,9 +253,10 @@ class AdvancedVerbs {
         } else if (!object.isTurnOnAble()) {
             response.append("Non puoi giocare con questo oggetto!!!\n");
         }
+        return response.toString();
     }
 
-    void workOut() throws ObjectNotFoundInRoomException {
+    String workOut() throws ObjectNotFoundInRoomException {
         if (game.getCurrentRoom().getId() == GYM
                 || (game.getCurrentRoom().getId() == GYM && object != null && object.getId() == TOOLS)) {
             response.append("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
@@ -262,9 +275,10 @@ class AdvancedVerbs {
         } else {
             response.append("Non ci si può allenare con quest'oggetto!\n");
         }
+        return response.toString();
     }
 
-    void putIn() throws ObjectNotFoundInInventoryException {
+    String putIn() throws ObjectNotFoundInInventoryException {
         if (object != null && object.isInsertable()) {
             if (game.getCurrentRoom().getId() == DOOR_ISOLATION) {
                 game.getInventory().remove(object);
@@ -281,9 +295,10 @@ class AdvancedVerbs {
         } else if (!object.isInsertable()) {
             response.append("Ho paura di quello che vuoi fare!!!\n");
         }
+        return response.toString();
     }
 
-    void talkTo() {
+    String talkTo() {
         if ((object instanceof TokenPerson && ((TokenPerson) object).isSpeakable())) {
             if (game.getCurrentRoom().getId() == CANTEEN) {
                 response.append("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
@@ -303,9 +318,10 @@ class AdvancedVerbs {
         } else {
             response.append("Parlare con quell'oggetto non sembra essere la soluzione migliore!\n");
         }
+        return response.toString();
     }
 
-    void ask() {
+    String ask() {
         if ((object != null && object.isAskable())) {
             if (game.getCurrentRoom().getId() == CANTEEN) {
                 if (object.getId() == DRUG) {
@@ -331,9 +347,10 @@ class AdvancedVerbs {
         } else if (!object.isAskable()) {
             response.append("Non sembra la soluzione giusta!\n");
         }
+        return response.toString();
     }
 
-    void accept() {
+    String accept() {
         if (game.getObject(HACKSAW).isAsked()
                 && game.getCurrentRoom().getId() == CANTEEN
                 && !game.getObject(HACKSAW).isAccept()) {
@@ -350,9 +367,10 @@ class AdvancedVerbs {
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi accettare? Nulla???\n");
         }
+        return response.toString();
     }
 
-    void decline() {
+    String decline() {
         if (game.getObject(HACKSAW).isAsked() && game.getCurrentRoom().getId() == CANTEEN
                 && !game.getObject(HACKSAW).isAccept() && !game.getInventory().contains(game.getObject(HACKSAW))) {
             response.append("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
@@ -367,9 +385,10 @@ class AdvancedVerbs {
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi rifiutare? Nulla???\n");
         }
+        return response.toString();
     }
 
-    void faceUp() throws ObjectNotFoundInInventoryException {
+    String faceUp() throws ObjectNotFoundInInventoryException {
         if (game.getCurrentRoom().getId() == FRONTBENCH && counterFaceUp == 0) {
             response.append("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
                     "nuovamente con l’intento di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
@@ -400,9 +419,10 @@ class AdvancedVerbs {
         } else if (game.getCurrentRoom().getId() != FRONTBENCH || game.getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!\n");
         }
+        return response.toString();
     }
 
-    void destroy() throws ObjectNotFoundInInventoryException, ObjectNotFoundInRoomException {
+    String destroy() throws ObjectNotFoundInInventoryException, ObjectNotFoundInRoomException {
         if (object != null
                 && object.getId() == DESTROYABLE_GRATE
                 && game.getCurrentRoom().getId() == AIR_DUCT_NORTH
@@ -440,9 +460,10 @@ class AdvancedVerbs {
         } else if (!game.getObject(HACKSAW).isUsed()) {
             response.append("Hai già usato quell'oggetto! Non puoi più rompere nulla!\n");
         }
+        return response.toString();
     }
 
-    void give() throws ObjectNotFoundInInventoryException {
+    String give() throws ObjectNotFoundInInventoryException {
         if (object != null && object.isGiveable() && game.getCurrentRoom().getId() == BROTHER_CELL
                 && object.getId() == MEDICINE) {
             game.getInventory().remove(object);
@@ -484,6 +505,7 @@ class AdvancedVerbs {
         } else {
             response.append("Non puoi dare quest'oggetto a nessuno imbecille!\n");
         }
+        return response.toString();
     }
 
 }

@@ -17,18 +17,21 @@ class BasicVerbs {
     private final Move movement;
     private final PrisonBreakGame game;
     private final TokenObject object;
-    private final StringBuilder response;
+    private StringBuilder response = new StringBuilder();
     private final short counterFaceUp;
 
     BasicVerbs(ControllerMovement controller) {
         movement = controller.getMove();
         game = movement.getGame();
         object = movement.getObject();
-        response = movement.getResponse();
         counterFaceUp = movement.getCounterFaceUp();
     }
 
-    void inventory() throws InventoryEmptyException {
+    void resetResponse() {
+        response = new StringBuilder();
+    }
+
+    String inventory() throws InventoryEmptyException {
         if (!game.getInventory().isEmpty()) {
             response.append("Nel tuo inventario ci sono:\n");
             for (TokenObject o : game.getInventory().getObjects()) {
@@ -39,9 +42,10 @@ class BasicVerbs {
                         .append("\n");
             }
         }
+        return response.toString();
     }
 
-    void lookAt() {
+    String lookAt() {
         if (object != null && (game.getInventory().contains(object)
                 || game.getCurrentRoom().getObjects().contains(object)
                 || game.getCurrentRoom().getObjects().stream().anyMatch(obj -> obj instanceof TokenPerson
@@ -57,9 +61,10 @@ class BasicVerbs {
         } else {
             response.append("Non c'è niente di interessante qui.\n");
         }
+        return response.toString();
     }
 
-    void pickUp() throws InventoryFullException, ObjectNotFoundInRoomException {
+    String pickUp() throws InventoryFullException, ObjectNotFoundInRoomException {
         if (object != null && object.getId() == HACKSAW && object.isAccept()
                 && ((TokenPerson) game.getObject(GENNY_BELLO)).getInventory().contains(object)) {
 
@@ -114,9 +119,10 @@ class BasicVerbs {
         } else if (game.getInventory().contains(object)) {
             response.append("Guarda bene nella tua borsa, cretino!\n");
         }
+        return response.toString();
     }
 
-    void remove() throws ObjectNotFoundInInventoryException {
+    String remove() throws ObjectNotFoundInInventoryException {
         if (object != null && game.getInventory().contains(object)) {
             game.getCurrentRoom().setObject(object);
             game.getInventory().remove(object);
@@ -130,9 +136,10 @@ class BasicVerbs {
             response.append("L'avrai sicuramente scordato da qualche parte!\n");
             response.append("Che pazienzaaa!!\n");
         }
+        return response.toString();
     }
 
-    void use() throws ObjectNotFoundInInventoryException, InventoryFullException {
+    String use() throws ObjectNotFoundInInventoryException, InventoryFullException {
         if (object != null && object.isUsable() && game.getCurrentRoom().isObjectUsableHere(object)
                 && (game.getInventory().contains(object) || game.getCurrentRoom().containsObject(object))) {
 
@@ -336,9 +343,10 @@ class BasicVerbs {
                     "della grata! In realtà la colpa non è totalmente del seghetto ma anche la tua " +
                     "poiché sei molto stanco e hai poca forza nelle braccia!\n");
         }
+        return response.toString();
     }
 
-    void open() throws ObjectNotFoundInRoomException {
+    String open() throws ObjectNotFoundInRoomException {
         if (object != null
                 && object.isOpenable()
                 && !object.isOpen()
@@ -363,9 +371,10 @@ class BasicVerbs {
         } else if (object.isOpen()) {
             response.append("E' gia' aperto testa di merda!\n");
         }
+        return response.toString();
     }
 
-    void close() throws ObjectNotFoundInRoomException {
+    String close() throws ObjectNotFoundInRoomException {
         if (object != null
                 && object.isOpenable()
                 && object.isOpen()
@@ -384,9 +393,10 @@ class BasicVerbs {
         } else if (!object.isOpen()) {
             response.append("E' gia' chiuso testa di merda!\n");
         }
+        return response.toString();
     }
 
-    void pushAndPull() throws ObjectNotFoundInRoomException {
+    String pushAndPull() throws ObjectNotFoundInRoomException {
         if (object != null && object.isPushable() && game.getCurrentRoom().containsObject(object)) {
 
             switch (object.getId()) {
@@ -461,9 +471,10 @@ class BasicVerbs {
         } else if (!object.isPushable()) {
             response.append("Puoi essere anche Hulk ma quell'oggetto non si può spostare!!!\n");
         }
+        return response.toString();
     }
 
-    void turnOn() {
+    String turnOn() {
         if (object != null && object.isTurnOnAble()) {
             // lights case
             if (game.getCurrentRoom().getId() == GENERATOR) {
@@ -481,9 +492,10 @@ class BasicVerbs {
         } else if (!object.isTurnOnAble()) {
             response.append("Come puoi accendere questo oggetto???\n");
         }
+        return response.toString();
     }
 
-    void turnOff() {
+    String turnOff() {
         if (object != null && object.isTurnOnAble()) {
             // lights case
             if (game.getCurrentRoom().getId() == GENERATOR) {
@@ -509,10 +521,12 @@ class BasicVerbs {
         } else if (!object.isTurnOnAble()) {
             response.append("Come puoi spegnere questo oggetto???\n");
         }
+        return response.toString();
     }
 
-    void end() {
+    String end() {
         response.append("Non puoi usare quell'oggetto per uscire!\n");
+        return response.toString();
     }
 
 

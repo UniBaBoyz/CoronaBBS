@@ -35,6 +35,8 @@ public class ControllerMovement {
     }
 
     public String nextMove(ParserOutput p) {
+        basicVerbs.resetResponse();
+        advancedVerbs.resetResponse();
         return move.nextMove(p);
     }
 }
