@@ -128,8 +128,7 @@ public class PrisonBreakRooms implements RoomsInterface {
         Room canteen = new Room(CANTEEN, "Mensa", "Ti trovi in una grossa mensa e puoi vedere " +
                 "i detenuti che stanno mangiando.");
         canteen.setLook("Uno di loro si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto" +
-                " che lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
-                "per averne uno quindi sarei costretto a trattare.");
+                " che lui possiede.");
 
         Room gym = new Room(GYM, "Palestra", "Ti trovi nella palestra del carcere, " +
                 "e' molto grande e non e' tenuta in ottimo stato, alcuni detenuti si stanno allenando.");
