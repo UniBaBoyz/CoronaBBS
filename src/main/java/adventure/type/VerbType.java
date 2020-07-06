@@ -23,7 +23,7 @@ public enum VerbType {
     ENTER,
     PICK_UP,
     TALK_TO,
-    GIVE, //TODO
+    GIVE,
     DECLINE,
     ACCEPT,
     PUT_IN,
@@ -37,5 +37,6 @@ public enum VerbType {
     PLAY,
     ASK,
     FACE_UP,
-    DESTROY, //TODO
+    DESTROY,
+    WORK_OUT
 }

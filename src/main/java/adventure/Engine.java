@@ -50,7 +50,8 @@ public class Engine {
             try {
                 listParser = parser.parse(input);
                 for (ParserOutput p : listParser) {
-                    if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)) {
+                    if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
+                            && p.getObject().isEmpty()) {
                         System.out.println("Addio!");
                         endGame = true;
                         break;
