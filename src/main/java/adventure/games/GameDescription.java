@@ -75,7 +75,7 @@ public abstract class GameDescription {
         this.inventory = inventory;
     }
 
-    public abstract void nextMove(ParserOutput p, PrintStream out);
+    public abstract String nextMove(ParserOutput p);
 
     public Set<TokenObject> getObjects() {
         Set<TokenObject> objects = new HashSet<>(objectNotAssignedRoom);
