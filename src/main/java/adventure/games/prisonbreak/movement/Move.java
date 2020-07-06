@@ -63,6 +63,7 @@ class Move {
     }
 
     String nextMove(ParserOutput p) {
+        move = false;
         response = new StringBuilder();
         try {
             object = game.getCorrectObject(p.getObject());
