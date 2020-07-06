@@ -15,17 +15,11 @@ class AdvancedVerbs {
 
     private final Move movement;
     private final PrisonBreakGame game;
-    private final TokenObject object;
     private StringBuilder response = new StringBuilder();
-    private final boolean mixed;
-    private final short counterFaceUp;
 
     AdvancedVerbs(ControllerMovement controller) {
         movement = controller.getMove();
         game = movement.getGame();
-        object = movement.getObject();
-        mixed = movement.isMixed();
-        counterFaceUp = movement.getCounterFaceUp();
     }
 
     void resetResponse() {
@@ -34,29 +28,29 @@ class AdvancedVerbs {
 
 
     String eat() throws ObjectNotFoundInInventoryException, InventoryEmptyException {
-        if (object != null && object.isEatable() && (game.getInventory().contains(object)
-                || game.getCurrentRoom().containsObject(object))) {
+        if (movement.getObject() != null && movement.getObject().isEatable() && (game.getInventory().contains(movement.getObject())
+                || game.getCurrentRoom().containsObject(movement.getObject()))) {
             //Food case
-            if (game.getCurrentRoom().getObjects().contains(object)) {
-                game.getCurrentRoom().removeObject(object);
+            if (game.getCurrentRoom().getObjects().contains(movement.getObject())) {
+                game.getCurrentRoom().removeObject(movement.getObject());
                 response.append("Gnam Gnam...\n");
-            } else if (game.getInventory().getObjects().contains(object)) {
-                game.getInventory().remove(object);
+            } else if (game.getInventory().getObjects().contains(movement.getObject())) {
+                game.getInventory().remove(movement.getObject());
                 response.append("Gnam Gnam...\n");
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Cosa vuoi mangiare??? Sembra non ci sia nulla di commestibile\n");
-        } else if (!(game.getInventory().contains(object)
-                || game.getCurrentRoom().containsObject(object))) {
+        } else if (!(game.getInventory().contains(movement.getObject())
+                || game.getCurrentRoom().containsObject(movement.getObject()))) {
             response.append("Non penso si trovi qui questo oggetto!!! Compriamo un paio di occhiali?\n");
-        } else if (!object.isEatable()) {
+        } else if (!movement.getObject().isEatable()) {
             response.append("Sei veramente sicuro??? Non mi sembra una buona idea!\n");
         }
         return response.toString();
     }
 
     String standUp() {
-        if (object == null) {
+        if (movement.getObject() == null) {
             //On foot
             if (game.getCurrentRoom().getObjects().stream()
                     .anyMatch(obj -> obj.isSitable() && obj.isSit())) {
@@ -75,10 +69,10 @@ class AdvancedVerbs {
     }
 
     String sitDown() {
-        if (object != null && object.isSitable() && game.getCurrentRoom().containsObject(object)) {
+        if (movement.getObject() != null && movement.getObject().isSitable() && game.getCurrentRoom().containsObject(movement.getObject())) {
 
             //Bed case
-            if (object.getId() == BED) {
+            if (movement.getObject().getId() == BED) {
                 if (game.getCurrentRoom().getObjects().stream()
                         .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() != WATER)) {
                     response.append("Buonanotte fiorellino!\n");
@@ -87,14 +81,14 @@ class AdvancedVerbs {
                 }
 
                 //Water case
-            } else if (object.getId() == WATER) {
+            } else if (movement.getObject().getId() == WATER) {
                 if (game.getCurrentRoom().getObjects().stream()
                         .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() == WATER)) {
                     response.append("Proprio ora devi farlo?\n");
                 } else {
                     response.append("Sei già seduto! Ricordati di tirare lo scarico!\n");
                 }
-            } else if (object.getId() == COT) {
+            } else if (movement.getObject().getId() == COT) {
                 if (game.getCurrentRoom().getObjects().stream()
                         .anyMatch(obj -> obj.isSitable() && !obj.isSit() && obj.getId() == COT)) {
                     response.append("Non sembra il momento di riposarti!\n");
@@ -102,19 +96,19 @@ class AdvancedVerbs {
                     response.append("Sei già sdraiato sul lettino!\n");
                 }
             }
-            object.setSit(true);
+            movement.getObject().setSit(true);
             if (game.getCurrentRoom().getObjects().stream()
                     .filter(obj -> obj.isSitable() && obj.isSit()).count() > 1) {
                 game.getCurrentRoom().getObjects().stream()
-                        .filter(obj -> obj.isSitable() && obj.isSit() && obj.getId() != object.getId())
+                        .filter(obj -> obj.isSitable() && obj.isSit() && obj.getId() != movement.getObject().getId())
                         .findFirst()
                         .ifPresent(obj -> obj.setSit(false));
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Sedersi sul pavimento non mi sembra una buona idea!\n");
-        } else if (!game.getCurrentRoom().containsObject(object)) {
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!\n");
-        } else if (!object.isSitable()) {
+        } else if (!movement.getObject().isSitable()) {
             response.append("Con quell'oggetto puoi fare altro ma di certo non sederti!\n");
         }
         return response.toString();
@@ -124,19 +118,19 @@ class AdvancedVerbs {
         if (game.getCurrentRoom().getId() == LOBBY) {
             game.setCurrentRoom(game.getCurrentRoom().getWest());
             movement.setMove(true);
-        } else if (object != null && game.getCurrentRoom().containsObject(object)) {
-            if (object.getId() == LADDER && game.getCurrentRoom().getId() == PASSAGE_NORTH) {
+        } else if (movement.getObject() != null && game.getCurrentRoom().containsObject(movement.getObject())) {
+            if (movement.getObject().getId() == LADDER && game.getCurrentRoom().getId() == PASSAGE_NORTH) {
                 game.getRoom(ON_LADDER).setLocked(false);
                 game.setCurrentRoom(game.getCurrentRoom().getNorth());
                 movement.setMove(true);
-            } else if (object.getId() != LADDER) {
+            } else if (movement.getObject().getId() != LADDER) {
                 response.append("Non puoi salire su quell'oggetto\n");
             } else {
                 response.append("Usa quell'oggetto altrove, qui acchiappi solo le mosche!\n");
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Sei Spiderman? Non puoi arrampicarti sui muri!\n");
-        } else if (!game.getCurrentRoom().containsObject(object)) {
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!\n");
         }
         return response.toString();
@@ -186,61 +180,61 @@ class AdvancedVerbs {
     String make() throws ObjectNotFoundInInventoryException, InventoryFullException, InventoryEmptyException {
         TokenObject substances = game.getObject(SUBSTANCES);
 
-        if ((object != null
-                && object.isMixable()
-                && (game.getInventory().contains(object)
-                || game.getCurrentRoom().containsObject(object)))
-                || ((object != null && object.getId() == ACID))
+        if ((movement.getObject() != null
+                && movement.getObject().isMixable()
+                && (game.getInventory().contains(movement.getObject())
+                || game.getCurrentRoom().containsObject(movement.getObject())))
+                || ((movement.getObject() != null && movement.getObject().getId() == ACID))
                 && (game.getInventory().contains(substances)
                 || game.getCurrentRoom().containsObject(substances))) {
 
-            if (game.getCurrentRoom().getObjects().contains(object) && !(object.getId() == ACID)) {
-                game.getCurrentRoom().removeObject(object);
+            if (game.getCurrentRoom().getObjects().contains(movement.getObject()) && !(movement.getObject().getId() == ACID)) {
+                game.getCurrentRoom().removeObject(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
-            } else if (object.getId() != ACID && game.getInventory().getObjects().contains(object)) {
-                game.getInventory().remove(object);
+            } else if (movement.getObject().getId() != ACID && game.getInventory().getObjects().contains(movement.getObject())) {
+                game.getInventory().remove(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getCurrentRoom().getObjects().contains(substances)
-                    && object.getId() == ACID) {
+                    && movement.getObject().getId() == ACID) {
                 game.getCurrentRoom().removeObject(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getInventory().getObjects().contains(substances)
-                    && object.getId() == ACID) {
+                    && movement.getObject().getId() == ACID) {
                 game.getInventory().remove(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             }
-            if (mixed || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
+            if (movement.isMixed() || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
                 response.append("Hai creato un acido corrosivo, attento alle mani!\n");
                 response.append("L'acido è stato inserito nel tuo inventario!\n");
             } else {
                 response.append("Hai già creato l'acido!!! Guarda bene nel tuo inventario!\n");
             }
 
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Cosa vuoi creare esattamente?\n");
-        } else if (!game.getCurrentRoom().containsObject(object)) {
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!\n");
-        } else if (!object.isMixable()) {
+        } else if (!movement.getObject().isMixable()) {
             response.append("Non è una cosa che si può fare\n");
         }
         return response.toString();
     }
 
     String play() {
-        if ((object != null && object.isPlayable())
-                || (object == null && game.getCurrentRoom().getId() == BASKET_CAMP)) {
+        if ((movement.getObject() != null && movement.getObject().isPlayable())
+                || (movement.getObject() == null && game.getCurrentRoom().getId() == BASKET_CAMP)) {
             //Ball case
             if (game.getCurrentRoom().getId() == BASKET_CAMP) {
                 //Ball play
@@ -248,9 +242,9 @@ class AdvancedVerbs {
             } else {
                 response.append("Vuoi giocare con il tuo amico immaginario??\n");
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Con cosa vuoi giocare esattamente???\n");
-        } else if (!object.isTurnOnAble()) {
+        } else if (!movement.getObject().isTurnOnAble()) {
             response.append("Non puoi giocare con questo oggetto!!!\n");
         }
         return response.toString();
@@ -258,7 +252,7 @@ class AdvancedVerbs {
 
     String workOut() throws ObjectNotFoundInRoomException {
         if (game.getCurrentRoom().getId() == GYM
-                || (game.getCurrentRoom().getId() == GYM && object != null && object.getId() == TOOLS)) {
+                || (game.getCurrentRoom().getId() == GYM && movement.getObject() != null && movement.getObject().getId() == TOOLS)) {
             response.append("Decidi di allenarti per un bel po’ di tempo… alla fine dell’allenamento " +
                     "ti senti già più forte!\n");
 
@@ -268,9 +262,9 @@ class AdvancedVerbs {
             }
 
         } else if (game.getCurrentRoom().getId() != GYM
-                || (game.getCurrentRoom().getId() != GYM && object != null && object.getId() == TOOLS)) {
+                || (game.getCurrentRoom().getId() != GYM && movement.getObject() != null && movement.getObject().getId() == TOOLS)) {
             response.append("Ti sembra un posto dove potersi allenare?!!\n");
-        } else if (!game.getCurrentRoom().containsObject(object)) {
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
         } else {
             response.append("Non ci si può allenare con quest'oggetto!\n");
@@ -279,27 +273,27 @@ class AdvancedVerbs {
     }
 
     String putIn() throws ObjectNotFoundInInventoryException {
-        if (object != null && object.isInsertable()) {
+        if (movement.getObject() != null && movement.getObject().isInsertable()) {
             if (game.getCurrentRoom().getId() == DOOR_ISOLATION) {
-                game.getInventory().remove(object);
+                game.getInventory().remove(movement.getObject());
                 game.getRoom(ISOLATION).setLocked(false);
-                object.setUsed(true);
+                movement.getObject().setUsed(true);
                 response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                         " tornare indietro anche se hai poco tempo a disposizione!\n");
                 game.increaseScore();
             } else {
                 response.append("Non puoi inserire nulla qui!\n");
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Con cosa vuoi inserire??\n");
-        } else if (!object.isInsertable()) {
+        } else if (!movement.getObject().isInsertable()) {
             response.append("Ho paura di quello che vuoi fare!!!\n");
         }
         return response.toString();
     }
 
     String talkTo() {
-        if ((object instanceof TokenPerson && ((TokenPerson) object).isSpeakable())) {
+        if ((movement.getObject() instanceof TokenPerson && ((TokenPerson) movement.getObject()).isSpeakable())) {
             if (game.getCurrentRoom().getId() == CANTEEN) {
                 response.append("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
                         "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
@@ -313,7 +307,7 @@ class AdvancedVerbs {
                         "Il piano consiste nel far andare tuo fratello in qualche modo in infermeria!");
                 game.getObject(MEDICINE).setGiveable(true);
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Vuoi parlare da solo???\n");
         } else {
             response.append("Parlare con quell'oggetto non sembra essere la soluzione migliore!\n");
@@ -322,29 +316,29 @@ class AdvancedVerbs {
     }
 
     String ask() {
-        if ((object != null && object.isAskable())) {
+        if ((movement.getObject() != null && movement.getObject().isAskable())) {
             if (game.getCurrentRoom().getId() == CANTEEN) {
-                if (object.getId() == DRUG) {
+                if (movement.getObject().getId() == DRUG) {
                     response.append("Meglio continuare il piano di fuga da lucidi e fortunatamente non hai soldi " +
                             "con te per acquistarla! Ti ricordo che il tuo piano è fuggire di prigione e non " +
                             "rimanerci qualche anno di più!\n");
-                } else if (object.getId() == VIDEOGAME) {
+                } else if (movement.getObject().getId() == VIDEOGAME) {
                     response.append("Sarebbe molto bello se solo avessi 8 anni! Quando uscirai di prigione" +
                             " avrai molto tempo per giocare anche a videogiochi migliori!\n");
-                } else if (object.getId() == HACKSAW && !object.isAsked()) {
+                } else if (movement.getObject().getId() == HACKSAW && !movement.getObject().isAsked()) {
                     response.append("Il detenuto ti dice che a tutti quelli che ha venduto un seghetto avevano " +
                             "sempre un piano di fuga per evadere di prigione che però non sono mai andati a " +
                             "buon fine essendo un carcere di massima sicurezza ( in effetti con un seghetto " +
                             "in prigione non hai tante alternative). In cambio gli dovrai confessare tutto " +
                             "il tuo piano di fuga e farlo fuggire insieme a te, cosa scegli???\n");
-                    object.setAsked(true);
-                } else if (object.isAsked()) {
+                    movement.getObject().setAsked(true);
+                } else if (movement.getObject().isAsked()) {
                     response.append("Hai già chiesto per quell'oggetto!!!\n");
                 }
             }
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Cosa devi chiedere?\n");
-        } else if (!object.isAskable()) {
+        } else if (!movement.getObject().isAskable()) {
             response.append("Non sembra la soluzione giusta!\n");
         }
         return response.toString();
@@ -389,7 +383,7 @@ class AdvancedVerbs {
     }
 
     String faceUp() throws ObjectNotFoundInInventoryException {
-        if (game.getCurrentRoom().getId() == FRONTBENCH && counterFaceUp == 0) {
+        if (game.getCurrentRoom().getId() == FRONTBENCH && movement.getCounterFaceUp() == 0) {
             response.append("Sai benissimo che in un carcere non si possono comprare panchine e ti avvicini " +
                     "nuovamente con l’intento di prendere l’oggetto. Il gruppetto ti blocca e il piu' grosso " +
                     "di loro ti tira un pugno contro il viso... Perdendo i sensi non ti ricordi piu' nulla e" +
@@ -399,7 +393,7 @@ class AdvancedVerbs {
             movement.setMove(true);
             movement.increaseCounterFaceUp();
         } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
-                && game.getInventory().contains(game.getObject(SCALPEL)) && counterFaceUp == 1) {
+                && game.getInventory().contains(game.getObject(SCALPEL)) && movement.getCounterFaceUp() == 1) {
             game.increaseScore();
             game.setObjectNotAssignedRoom(game.getObject(SCALPEL));
             game.getInventory().remove(game.getObject(SCALPEL));
@@ -416,33 +410,33 @@ class AdvancedVerbs {
                     "solo tu qui.");
             game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
             movement.increaseCounterFaceUp();
-        } else if (game.getCurrentRoom().getId() != FRONTBENCH || game.getObject(SCALPEL).isUsed() || counterFaceUp >= 2) {
+        } else if (game.getCurrentRoom().getId() != FRONTBENCH || game.getObject(SCALPEL).isUsed() || movement.getCounterFaceUp() >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!\n");
         }
         return response.toString();
     }
 
     String destroy() throws ObjectNotFoundInInventoryException, ObjectNotFoundInRoomException {
-        if (object != null
-                && object.getId() == DESTROYABLE_GRATE
+        if (movement.getObject() != null
+                && movement.getObject().getId() == DESTROYABLE_GRATE
                 && game.getCurrentRoom().getId() == AIR_DUCT_NORTH
                 && game.getInventory().contains(game.getObject(HACKSAW))
                 && game.getObject(TOOLS).isUsed()
                 && !game.getObject(HACKSAW).isUsed()) {
             game.getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
             game.getInventory().remove(game.getObject(HACKSAW));
-            game.getRoom(AIR_DUCT_NORTH).removeObject(object);
+            game.getRoom(AIR_DUCT_NORTH).removeObject(movement.getObject());
             response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
                     "fortuna sei riuscito a rompere la grata\n");
             response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                     "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.\n");
             game.increaseScore();
             game.increaseScore();
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Cosa vuoi rompere???\n");
-        } else if (!game.getCurrentRoom().containsObject(object)) {
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
-        } else if (object.getId() != DESTROYABLE_GRATE) {
+        } else if (movement.getObject().getId() != DESTROYABLE_GRATE) {
             response.append("Non puoi distruggere questo oggetto!\n");
         } else if (game.getCurrentRoom().getId() != AIR_DUCT_NORTH) {
             response.append("Non puoi distruggere niente qui!\n");
@@ -464,13 +458,13 @@ class AdvancedVerbs {
     }
 
     String give() throws ObjectNotFoundInInventoryException {
-        if (object != null && object.isGiveable() && game.getCurrentRoom().getId() == BROTHER_CELL
-                && object.getId() == MEDICINE) {
-            game.getInventory().remove(object);
+        if (movement.getObject() != null && movement.getObject().isGiveable() && game.getCurrentRoom().getId() == BROTHER_CELL
+                && movement.getObject().getId() == MEDICINE) {
+            game.getInventory().remove(movement.getObject());
             response.append("Sai benissimo che tuo fratello ha una forte allergia alle ortiche" +
                     " e che non potrebbe prendere quel farmaco. Tu decidi di darlo ugualmente " +
                     "in modo che il tuo piano venga attuato!\n");
-            object.setGiven(true);
+            movement.getObject().setGiven(true);
             response.append("Appena dato il farmaco decidi di fuggire fuori dalla cella isolamento prima" +
                     " che le luci si accendano e le guardie ti scoprano!!!\n");
             game.setCurrentRoom(game.getRoom(OUT_ISOLATION));
@@ -498,9 +492,9 @@ class AdvancedVerbs {
             game.increaseScore();
             game.increaseScore();
             game.increaseScore();
-        } else if (object == null) {
+        } else if (movement.getObject() == null) {
             response.append("Cosa vuoi dare di preciso?\n");
-        } else if (object instanceof TokenPerson) {
+        } else if (movement.getObject() instanceof TokenPerson) {
             response.append("Una persona non è un oggetto che si può regalare!!!\n");
         } else {
             response.append("Non puoi dare quest'oggetto a nessuno imbecille!\n");
