@@ -1,11 +1,11 @@
 package adventure.games.prisonbreak;
 
-import adventure.games.GameRooms;
+import adventure.games.RoomsInterface;
 import adventure.type.Room;
 
 import static adventure.games.prisonbreak.RoomType.*;
 
-public class PrisonBreakRooms implements GameRooms {
+public class PrisonBreakRooms implements RoomsInterface {
 
     private final PrisonBreakGame game;
 
@@ -17,17 +17,17 @@ public class PrisonBreakRooms implements GameRooms {
     public void initRooms() {
         Room mainCell17 = new Room(MAIN_CELL, "Cella n.ro 17", "Ti trovi nella tua cella 17," +
                 " al momento sei da solo" + " visto che sei l’ultimo arrivato.");
-        mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est, " +
-                "al momento aperta visto che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
+        mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est," +
+                " al momento aperta visto che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
 
         Room corridorNorth = new Room(CORRIDOR_NORTH, "Corridoio nord",
                 "Ti trovi nel corridoio del carcere che si estende da sud verso nord.");
-        corridorNorth.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest la porta della tua cella aperta e" +
+        corridorNorth.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest le" +
                 " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
 
         Room corridor = new Room(CORRIDOR, "Corridoio", "Ti trovi nel corridoio del carcere che si" +
                 " estende da sud verso nord.");
-        corridor.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest la porta della tua cella aperta e" +
+        corridor.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest le" +
                 " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
 
         Room corridorSouth = new Room(CORRIDOR_SOUTH, "Corridoio sud",
@@ -40,9 +40,9 @@ public class PrisonBreakRooms implements GameRooms {
         ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino.");
 
         Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
-                "intravedere il giardino.");
-        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite la scalinata" +
-                " al piano superiore e a ovest le celle degl’altri detenuti. L’atrio si estende ancora " +
+                "intravedere a est il giardino.");
+        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite " +
+                "la scalinata al piano superiore oppure andare nel giardino a est. L’atrio si estende ancora " +
                 "verso sud.");
 
         Room lobbySouth = new Room(LOBBY_SOUTH, "Atrio", "Ti trovi a sud del grosso atrio di ingresso." +
@@ -55,29 +55,30 @@ public class PrisonBreakRooms implements GameRooms {
         lobbyEnd.setLook("Non c'è nulla di particolare! Puoi ritornare indietro verso nord!");
 
         Room garden = new Room(GARDEN, "Giardino", "Sei in un ampio giardino verde illuminato " +
-                "dal sole, dietro di te il grosso atrio.");
-        garden.setLook("Guardando a nord  puoi notare un grosso campo da basket, avanti a te a est un grosso muro " +
+                "dal sole. Alla tua sinistra il grosso atrio.");
+        garden.setLook("Guardando a nord puoi notare un grosso campo da basket, avanti a te a est un grosso muro " +
                 "che separa il giardino dall’esterno con due enormi torri sulle quali ci sono le guardie come vedetta," +
                 " a sud invece tre grosse panchine dove puoi sederti e rilassarti.");
 
         Room basket = new Room(BASKET_CAMP, "Campo da basket", "Ti trovi nel campo di basket" +
                 " momentaneamente vuoto.");
-        basket.setLook("Sembra un po' trascurato...");
+        basket.setLook("Sembra un po' trascurato... C'è un grosso giardino alle tue spalle a sud");
 
         Room wall = new Room(WALL, "Muro prigione", "Avvicinandoti alle mura le guardie ti danno " +
                 "l’ordine di indietreggiare: rappresenti un potenziale pericolo. Non penso sia un’idea geniale " +
                 "fuggire da qui, la zona e' troppo controllata.");
-        wall.setLook("Non c'e' nulla di particolare tranne che un grosso muro in mattoni!");
+        wall.setLook("Non c'e' nulla di particolare tranne che un grosso muro in mattoni! Vai a ovest per tornare " +
+                "indietro!");
 
         Room bench = new Room(BENCH, "Panchine", "Tutte le panchine sono occupati da un gruppo " +
-                "di detenuti che ti guardano con aria sospetta.");
-        bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una dove a terra puoi " +
-                "notare un oggetto di metallo simile ad una vite.");
+                "di detenuti che ti guardano con aria sospetta. C'è qualcosa a terra in lontananza...guarda meglio.");
+        bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una panchina, dove a terra " +
+                "puoi notare un oggetto di metallo simile ad una vite. Vai a nord per tornare indietro!");
 
         Room infirmary = new Room(INFIRMARY, "Infermeria", "E' una classica infermeria e ti trovi" +
                 " sdraiato sul tuo letto. Decidi di alzarti senza far rumore!");
         infirmary.setLook("Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
-                "voci nel corridoio.");
+                "voci nel corridoio. A nord vedi una finestra che si affaccia sul cortile.");
         infirmary.setLocked(true);
 
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
@@ -187,7 +188,8 @@ public class PrisonBreakRooms implements GameRooms {
         isolationCorridorEastEast
                 .setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
 
-        Room isolationCorridorEastEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST_EAST, "Corridoio est isolamento",
+        Room isolationCorridorEastEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST_EAST,
+                "Corridoio est isolamento",
                 "Il corridoio termina con una grossa parete di fronte e te, hai visto tutte le celle, " +
                         "ma di tuo fratello nemmeno l’ombra, te l’avevo detto io!!!");
         isolationCorridorEastEastEast.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
@@ -224,17 +226,11 @@ public class PrisonBreakRooms implements GameRooms {
         endGame.setLook("");
         endGame.setLocked(true);
 
-        Room windowInfirmary = new Room(WINDOW_INFIRMARY, "Finestra infermeria",
-                "La finestra e' sbarrata e non sembra possibile aprirla! " +
-                        "Puoi notare un lungo cavo che porta fino al muro della prigione!");
-        windowInfirmary.setLook("Non noti nient'altro di particolare!");
-
         Room frontBench = new Room(FRONTBENCH, "Di fronte alle panchine",
-                "Ti avvicini alla panchina per controllare meglio l’oggetto ma vieni subito fermato " +
-                        "da un gruppo di neri che con aria minacciosa ti chiedono di allontanarti " +
-                        "perche' la panchina e' la loro. Cosa scegli di fare?");
+                "Ti avvicini alla panchina, ma vieni subito fermato da un gruppo di neri che con aria" +
+                        " minacciosa ti chiedono di allontanarti perche' la panchina e' la loro. Cosa scegli di fare?");
         frontBench.setLook("Vedi il gruppo di neri che ti fissa aspettando una tua mossa, non credo sia l’idea " +
-                "migliore restare lì impalato.");
+                "migliore restare lì impalato. Scegli se affrontarli oppure scappare!!!");
 
         Room grateCell = new Room(GRATE_CELL, "Grata che si affaccia su una cella",
                 "Dall'alto riesci ad osservare tutta la cella, tra cui anche il detenuto che dorme." +
@@ -311,8 +307,8 @@ public class PrisonBreakRooms implements GameRooms {
         createLinks(airDuctNorth, null, airDuct, airDuctInfirmary, null);
         createLinks(grateCell, airDuctEast, null, null, null);
         createLinks(airDuctInfirmary, null, null, infirmary, airDuctNorth);
-        createLinks(infirmary, windowInfirmary, null, null, airDuctInfirmary);
-        createLinks(windowInfirmary, endGame, infirmary, null, null);
+        createLinks(infirmary, endGame, null, null, airDuctInfirmary);
+        createLinks(endGame, null, infirmary, null, null);
 
         //Create graph
         this.game.createRooms(mainCell17);

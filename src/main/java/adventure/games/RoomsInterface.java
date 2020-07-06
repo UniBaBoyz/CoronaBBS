@@ -1,6 +1,6 @@
 package adventure.games;
 
-public interface GameRooms {
+public interface RoomsInterface {
 
     void initRooms();
 }

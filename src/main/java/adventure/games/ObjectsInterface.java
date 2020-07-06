@@ -1,6 +1,6 @@
 package adventure.games;
 
-public interface GameObjects {
+public interface ObjectsInterface {
 
     void initObjects();
 }
