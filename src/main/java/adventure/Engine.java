@@ -24,17 +24,15 @@ import java.util.Scanner;
  */
 public class Engine {
     private final GameDescription game;
+    private View view;
 
-    public Engine(GameDescription game) {
+    public Engine(GameDescription game, View view) {
         this.game = game;
+        this.view = view;
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        Engine engine = new Engine(new PrisonBreakGame());
-        engine.run();
+    private void manageEvent() {
+
     }
 
     public void run() {
