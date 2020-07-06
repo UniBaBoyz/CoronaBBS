@@ -21,6 +21,15 @@ public abstract class GameDescription {
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
+    private ObjectsInterface gameObjects;
+    private RoomsInterface gameRooms;
+    private VerbsInterface gameVerbs;
+
+    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs) {
+        this.gameObjects = gameObjects;
+        this.gameRooms = gameRooms;
+        this.gameVerbs = gameVerbs;
+    }
 
     public Set<Room> getRooms() {
         return rooms;

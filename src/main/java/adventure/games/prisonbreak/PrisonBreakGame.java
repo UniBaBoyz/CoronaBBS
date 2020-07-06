@@ -28,29 +28,12 @@ public class PrisonBreakGame extends GameDescription {
     private short counterFaceUp = 0;
 
     public PrisonBreakGame() {
-        initVerbs();
-        initRooms();
 
         //Set starting room
         setCurrentRoom(getRoom(MAIN_CELL));
 
         //Set Inventory
         setInventory(new Inventory(5));
-    }
-
-    private void initVerbs() {
-        /*
-
-
-
-
-
-
-
-         */
-    }
-
-    private void initRooms() {
     }
 
     @Override

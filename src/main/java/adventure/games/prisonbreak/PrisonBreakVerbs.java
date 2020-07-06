@@ -1,5 +1,6 @@
 package adventure.games.prisonbreak;
 
+import adventure.games.VerbsInterface;
 import adventure.type.TokenVerb;
 import adventure.type.VerbType;
 
@@ -7,7 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class PrisonBreakVerbs {
+public class PrisonBreakVerbs implements VerbsInterface {
 
     private final PrisonBreakGame game;
 
@@ -18,6 +19,7 @@ public class PrisonBreakVerbs {
         initAdvancedVerbs();
     }
 
+    @Override
     public void initVerbs() {
         initMovementVerbs();
         initBasicVerbs();
