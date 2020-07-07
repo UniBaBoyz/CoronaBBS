@@ -13,6 +13,8 @@ import adventure.server.type.VerbType;
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -52,15 +54,41 @@ public class RequestThread extends Thread {
             System.out.println("New connection" + socket);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-
-            /*final String NEW_USER = "INSERT INTO users VALUES (?, ?)";
-            final String FIND_USER = "select * from users where username = ";
+            String username;
+            final String NEW_USER = "INSERT INTO users VALUES (?)";
+            final String FIND_USER = "select * from users where username = ?";
+            boolean notFound = true;
             ResultSet rs;
             PreparedStatement pst;
 
             // TODO Login Phase
-            rs = pst
-            if ()*/
+            pst = connectionDb.prepareStatement(FIND_USER);
+            username = in.readLine();
+            pst.setObject(1, username);
+            pst.executeUpdate();
+            rs = pst.executeQuery();
+
+            /*
+            //REGISTRAZIONE
+            if (rs.next()) {
+                while (notFound) {
+                    out.println("Username gia' esistente");
+                    username = in.readLine();
+                    pst.setObject(1, username);
+                    pst.executeUpdate();
+                    rs = pst.executeQuery();
+                    if (!rs.next()) {
+                        notFound = false;
+                    }
+                }
+            } else {
+                pst = connectionDb.prepareStatement(NEW_USER);
+                pst.setObject(1, username);
+                pst.executeUpdate();
+                pst.executeQuery();
+            }
+            pst.close();
+             */
 
             // TODO CHOOSE GAME
             game = new PrisonBreakGame();

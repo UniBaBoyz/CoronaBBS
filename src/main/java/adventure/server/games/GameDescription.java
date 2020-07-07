@@ -41,15 +41,15 @@ public abstract class GameDescription {
 
     public static GameDescription loadGame(User id) throws IOException, ClassNotFoundException, SQLException {
         GameDescription game = null;
-        PreparedStatement ps;
+        PreparedStatement pst;
         ResultSet rs;
-        String sql;
+        String query;
 
-        sql = "select * from games where id = ?";
-        ps = conn.prepareStatement(sql);
-        ps.setObject(1, id);
+        query = "select * from games where id = ?";
+        pst = conn.prepareStatement(query);
+        pst.setObject(1, id);
 
-        rs = ps.executeQuery();
+        rs = pst.executeQuery();
 
         if (rs.next()) {
             ByteArrayInputStream bais;
