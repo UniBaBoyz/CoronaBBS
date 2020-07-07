@@ -34,7 +34,7 @@ public class RequestThread extends Thread {
     }
 
     private void initGame() {
-        if (!game.getIntroduction().isEmpty()) {
+        if (game != null && game.getIntroduction() != null) {
             out.println(game.getIntroduction());
             out.println(game.getCurrentRoom().getName() +
                     "\n" + "======================================" +
@@ -67,9 +67,12 @@ public class RequestThread extends Thread {
                 communicateWithTheClient(in.readLine());
             }
 
-        } catch (IOException | SQLException e) {
+        } catch (IOException e) {
             System.err.println("A problem has occured during the communication with the client!");
-        } finally {
+        } catch (SQLException e) {
+            System.err.println("Problem SQL");
+        }
+            finally {
             try {
                 socket.close();
             } catch (IOException e) {

@@ -53,20 +53,21 @@ public class ClientMainClass {
 
             //TODO GESTIRE IL GIOCO E CAMBIARE CONDIZIONE
             while(true) {
-
             }
 
 
             //view.disposeWindow();
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Cannot communicate with the server!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Non e' possibile comunicare con il server!",
+                    "Errore", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (socket != null) {
                     socket.close();
                 }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Cannot close the connection with the server!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Non e' possibile chiudere la connessione " +
+                        "con il server!", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

@@ -19,7 +19,7 @@ import java.util.*;
  */
 public abstract class GameDescription {
     private final String title;
-    private String introduction;
+    private String introduction = null;
     private static final int INCREASE_SCORE = 10;
     private final ObjectsInterface gameObjects;
     private final RoomsInterface gameRooms;
@@ -32,12 +32,12 @@ public abstract class GameDescription {
     private int score = 0;
     private Connection conn;
 
-    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) throws SQLException {
+    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) /*throws SQLException*/ {
         this.title = title;
         this.gameRooms = gameRooms;
         this.gameObjects = gameObjects;
         this.gameVerbs = gameVerbs;
-        connect();
+        //connect();
         init();
     }
 
