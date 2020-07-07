@@ -1,7 +1,6 @@
 package adventure;
 import adventure.games.GameDescription;
-import adventure.games.firehouse.FireHouseGame;
-import adventure.games.prisonbreak.PrisonBreakGame;
+import adventure.games.prisonbreak.Game;
 import adventure.parser.Parser;
 import adventure.parser.ParserIta;
 
@@ -12,7 +11,7 @@ import javax.swing.*;
  */
 public class MainClass {
     public static void main(String[] args) {
-        GameDescription game = new PrisonBreakGame();
+        GameDescription game = new Game();
         Parser parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
         View view = new View();
         Engine engine = new Engine(game, view, parser);

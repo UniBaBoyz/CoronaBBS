@@ -4,7 +4,7 @@ import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
-import adventure.games.prisonbreak.PrisonBreakGame;
+import adventure.games.prisonbreak.Game;
 import adventure.games.prisonbreak.TokenPerson;
 import adventure.type.TokenObject;
 import adventure.type.TokenObjectContainer;
@@ -18,7 +18,7 @@ import static adventure.games.prisonbreak.RoomType.*;
 class BasicVerbs {
 
     private final Move movement;
-    private final PrisonBreakGame game;
+    private final Game game;
     private StringBuilder response = new StringBuilder();
 
     BasicVerbs(ControllerMovement controller) {

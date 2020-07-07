@@ -35,32 +35,32 @@ public class Engine {
             for (ParserOutput p : listParser) {
                 if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                         && p.getObject().isEmpty()) {
-                    view.getjTextArea1().append("Addio!");
+                    view.getOutputArea().append("Addio!");
                     view.getJframe().dispose();
                     break;
                 } else {
-                    view.getjTextArea2().setText(Integer.toString(game.getScore()));
-                    view.getjTextArea1().append(game.nextMove(p) + "\n");
-                    view.getjTextArea1().append("====================================================================" +
+                    view.getTextAreaScore().setText(Integer.toString(game.getScore()));
+                    view.getOutputArea().append(game.nextMove(p) + "\n");
+                    view.getOutputArea().append("====================================================================" +
                             "=============\n");
                 }
             }
         } catch (LexicalErrorException e) {
-            view.getjTextArea1().append("Non ho capito!\n");
-            view.getjTextArea1().append("C'e' qualche parola che non conosco.\n");
-            view.getjTextArea1().append("=============================================================================" +
+            view.getOutputArea().append("Non ho capito!\n");
+            view.getOutputArea().append("C'e' qualche parola che non conosco.\n");
+            view.getOutputArea().append("=============================================================================" +
                     "====\n");
         } catch (SyntaxErrorException e) {
-            view.getjTextArea1().append("Non ho capito!\n");
-            view.getjTextArea1().append("Dovresti ripassare un po' la grammatica!\n");
-            view.getjTextArea1().append("=============================================================================" +
+            view.getOutputArea().append("Non ho capito!\n");
+            view.getOutputArea().append("Dovresti ripassare un po' la grammatica!\n");
+            view.getOutputArea().append("=============================================================================" +
                     "====\n");
         } catch (InputErrorException e) {
-            view.getjTextArea1().append("Non ho capito!\n");
-            view.getjTextArea1().append("=============================================================================" +
+            view.getOutputArea().append("Non ho capito!\n");
+            view.getOutputArea().append("=============================================================================" +
                     "====\n");
         } catch (Exception e) {
-            view.getjTextArea1().append(e.toString() + "\n");
+            view.getOutputArea().append(e.toString() + "\n");
             e.getMessage();
             e.printStackTrace();
         }
@@ -117,10 +117,10 @@ public class Engine {
 
     public void run() {
         if (game.getIntroduction() != null) {
-            view.getjTextArea1().append(game.getIntroduction());
+            view.getOutputArea().append(game.getIntroduction());
         }
 
-        view.getjTextArea1().append(game.getCurrentRoom().getName() +
+        view.getOutputArea().append(game.getCurrentRoom().getName() +
                 "\n" + "======================================" +
                 "===========================================\n" +
                 game.getCurrentRoom().getDescription() + "\n" +

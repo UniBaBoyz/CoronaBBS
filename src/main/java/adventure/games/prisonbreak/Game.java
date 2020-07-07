@@ -11,13 +11,13 @@ import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
 /**
  * @author Corona-Extra
  */
-public class PrisonBreakGame extends GameDescription {
+public class Game extends GameDescription {
 
     private final ControllerMovement movement;
     private boolean firstTime = false;
 
-    public PrisonBreakGame() {
-        super(new PrisonBreakObjects(), new PrisonBreakRooms(), new PrisonBreakVerbs());
+    public Game() {
+        super(new Objects(), new Rooms(), new Verbs());
         this.movement = new ControllerMovement(this);
 
         String introduction = "===========================================================================" +

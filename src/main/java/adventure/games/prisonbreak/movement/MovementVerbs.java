@@ -2,7 +2,7 @@ package adventure.games.prisonbreak.movement;
 
 import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
-import adventure.games.prisonbreak.PrisonBreakGame;
+import adventure.games.prisonbreak.Game;
 
 /**
  * @author Corona-Extra
@@ -10,7 +10,7 @@ import adventure.games.prisonbreak.PrisonBreakGame;
 class MovementVerbs {
 
     private final Move movement;
-    private final PrisonBreakGame game;
+    private final Game game;
 
     MovementVerbs(ControllerMovement controller) {
         movement = controller.getMove();

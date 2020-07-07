@@ -5,9 +5,6 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.net.URL;
 
 /**
  * @author Corona-Extra
@@ -23,15 +20,14 @@ public class View {
     private JButton buttonEast;
     private JButton buttonWest;
     private JButton buttonNorth;
-    private JLabel jLabel1;
+    private JLabel labelScore;
     private JScrollPane jScrollPane1;
     private JScrollPane jScrollPane2;
     private JScrollPane jScrollPane3;
     private JSeparator jSeparator1;
     private JSeparator jSeparator2;
-    private JTextArea jTextArea1;
-    private JTextArea jTextArea2;
-    private JTextField score;
+    private JTextArea outputArea;
+    private JTextArea textAreaScore;
     private JTextField inputField;
 
     public JFrame getJframe() {
@@ -66,12 +62,12 @@ public class View {
         return buttonNorth;
     }
 
-    public JTextArea getjTextArea2() {
-        return jTextArea2;
+    public JTextArea getTextAreaScore() {
+        return textAreaScore;
     }
 
-    public JTextArea getjTextArea1() {
-        return jTextArea1;
+    public JTextArea getOutputArea() {
+        return outputArea;
     }
 
     public JTextField getInputField() {
@@ -100,7 +96,7 @@ public class View {
         inputField = new JTextField();
         buttonEnter = new JButton();
         jScrollPane2 = new JScrollPane();
-        jTextArea1 = new JTextArea();
+        outputArea = new JTextArea();
         buttonLook = new JButton();
         buttonInventory = new JButton();
         jSeparator1 = new JSeparator();
@@ -110,14 +106,14 @@ public class View {
         buttonNorth = new JButton();
         jSeparator2 = new JSeparator();
         jScrollPane3 = new JScrollPane();
-        jTextArea2 = new JTextArea();
-        jLabel1 = new JLabel();
+        textAreaScore = new JTextArea();
+        labelScore = new JLabel();
 
         jpanel.add(jScrollPane1);
         jpanel.add(inputField);
         jpanel.add(buttonEnter);
         jpanel.add(jScrollPane2);
-        jpanel.add(jTextArea1);
+        jpanel.add(outputArea);
         jpanel.add(buttonLook);
         jpanel.add(buttonInventory);
         jpanel.add(jSeparator1);
@@ -127,18 +123,18 @@ public class View {
         jpanel.add(buttonNorth);
         jpanel.add(jSeparator2);
         jpanel.add(jScrollPane3);
-        jpanel.add(jTextArea2);
-        jpanel.add(jLabel1);
+        jpanel.add(textAreaScore);
+        jpanel.add(labelScore);
         jframe.add(jpanel);
 
 
-        DefaultCaret caret = (DefaultCaret) jTextArea1.getCaret();
+        DefaultCaret caret = (DefaultCaret) outputArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         jframe.addWindowListener(new WindowsListener());
 
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setWrapStyleWord(true);
+        outputArea.setLineWrap(true);
+        outputArea.setWrapStyleWord(true);
 
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
@@ -149,15 +145,15 @@ public class View {
 
         buttonEnter.setText("Invio");
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        outputArea.setEditable(false);
+        outputArea.setColumns(20);
+        outputArea.setRows(5);
+        jScrollPane2.setViewportView(outputArea);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        textAreaScore.setEditable(false);
+        textAreaScore.setColumns(20);
+        textAreaScore.setRows(5);
+        jScrollPane3.setViewportView(textAreaScore);
 
         buttonLook.setText("Guarda");
 
@@ -174,7 +170,7 @@ public class View {
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
-        jLabel1.setText("SCORE");
+        labelScore.setText("SCORE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(jframe.getContentPane());
         jframe.getContentPane().setLayout(layout);
@@ -199,7 +195,7 @@ public class View {
                                                 .addComponent(jSeparator2, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addComponent(jSeparator1, GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
+                                                .addComponent(labelScore)
                                                 .addGap(34, 34, 34))))
         );
 
@@ -209,7 +205,7 @@ public class View {
                                 .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel1)
+                                                .addComponent(labelScore)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

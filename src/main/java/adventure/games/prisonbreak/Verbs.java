@@ -12,7 +12,7 @@ import java.util.HashSet;
 /**
  * @author Corona-Extra
  */
-public class PrisonBreakVerbs implements VerbsInterface {
+public class Verbs implements VerbsInterface {
 
     @Override
     public void initVerbs(GameDescription game) {

@@ -17,7 +17,7 @@ import static adventure.games.prisonbreak.RoomType.*;
 /**
  * @author Corona-Extra
  */
-public class PrisonBreakObjects implements ObjectsInterface {
+public class Objects implements ObjectsInterface {
 
     @Override
     public void initObjects(GameDescription game) {

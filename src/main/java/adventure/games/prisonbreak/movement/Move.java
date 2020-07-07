@@ -7,7 +7,7 @@ import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
-import adventure.games.prisonbreak.PrisonBreakGame;
+import adventure.games.prisonbreak.Game;
 import adventure.games.prisonbreak.TokenPerson;
 import adventure.parser.ParserOutput;
 import adventure.type.TokenObject;
@@ -23,19 +23,19 @@ import static adventure.type.VerbType.*;
  */
 class Move {
     private ControllerMovement controller;
-    private PrisonBreakGame game;
+    private Game game;
     private StringBuilder response = new StringBuilder();
     private TokenObject object;
     private boolean move = false;
     private boolean mixed = false;
     private short counterFaceUp = 0;
 
-    Move(ControllerMovement controller, PrisonBreakGame game) {
+    Move(ControllerMovement controller, Game game) {
         this.controller = controller;
         this.game = game;
     }
 
-    PrisonBreakGame getGame() {
+    Game getGame() {
         return game;
     }
 
@@ -220,6 +220,7 @@ class Move {
                         response.append("COMPLIMENTI, HAI VINTO!");
                         response.append("=============================================================================" +
                                 "====\n");
+                        game.getCurrentRoom().getSouth().setLocked(true);
                     }
                 }
                 if (game.getObject(MEDICINE).isGiven() && game.getCurrentRoom().getId() == MAIN_CELL) {
@@ -239,7 +240,9 @@ class Move {
                         " per oltrepassare i muri...");
             }
         } catch (LockedRoomException e) {
-            if (game.getObject(MEDICINE).isGiven()) {
+            if (game.getCurrentRoom().getId() == ENDGAME) {
+                response.append("Hai terminato il gioco! Basta camminare!");
+            } else if (game.getObject(MEDICINE).isGiven()) {
                 response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
             } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
                     && game.getCurrentRoom().getEast().getId() == INFIRMARY) {
