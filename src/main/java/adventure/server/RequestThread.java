@@ -13,11 +13,17 @@ import adventure.server.type.VerbType;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
+
+import static adventure.Utils.SEED;
 
 public class RequestThread extends Thread {
     private final Socket socket;
@@ -28,10 +34,12 @@ public class RequestThread extends Thread {
     private GameDescription game = null;
     private Parser parser;
     private String username;
+    private Random random = new Random();
 
     public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
         this.connectionDb = connDb;
+        random.setSeed(SEED);
     }
 
     public PrintWriter getOutputStreamThread() {
@@ -59,10 +67,8 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-            registration();
-
-            //LOGIN
-            //login();
+            //registration();
+            login();
 
             // TODO CHOOSE GAME
             if (game == null) {
@@ -136,12 +142,16 @@ public class RequestThread extends Thread {
     }
 
     private void registration() throws SQLException, IOException {
-        final String NEW_USER = "INSERT INTO users VALUES (?)";
+        final String NEW_USER = "INSERT INTO users VALUES (?, ?)";
         final String FIND_USER = "select * from users where username = ?";
+        String password;
         boolean notFound = true;
         ResultSet result;
         PreparedStatement findUser;
         PreparedStatement newUser;
+        byte[] salt = new byte[16];
+        MessageDigest md;
+        byte[] hashedPassword = null;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
         username = in.readLine();
@@ -161,39 +171,88 @@ public class RequestThread extends Thread {
             findUser.close();
         }
 
+        password = in.readLine();
+        random.nextBytes(salt);
+
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        /*
+        while(!password.matches(PASSWORD_REGEX)) {
+            password = in.readLine();
+        }
+        */
+
         newUser = connectionDb.prepareStatement(NEW_USER);
         newUser.setString(1, username);
+        newUser.setObject(2, hashedPassword);
         newUser.executeUpdate();
         newUser.close();
     }
 
     public void login() throws SQLException, IOException {
         final String FIND_USER = "select * from users where username = ?";
+        final String USER_TRUE = "select password from users where username = ?";
+        boolean login = false;
         boolean notFound = true;
-        ResultSet result;
+        String password;
+        ResultSet resultUser;
+        ResultSet resultPassword;
         PreparedStatement findUser;
+        PreparedStatement userTrue;
+        byte[] salt = new byte[16];
+        MessageDigest md;
+        byte[] hashedPassword;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
         username = in.readLine();
         findUser.setString(1, username);
-        result = findUser.executeQuery();
+        resultUser = findUser.executeQuery();
 
-        if (!result.next()) {
-            while (notFound) {
-                out.println("Utente non esistente!");
-                username = in.readLine();
-                findUser.setString(1, username);
-                result = findUser.executeQuery();
-                if (!result.next()) {
-                    notFound = false;
+        while (!login) {
+            if (!resultUser.next()) {
+                while (notFound) {
+                    out.println("Utente non esistente!");
+                    username = in.readLine();
+                    findUser.setString(1, username);
+                    resultUser = findUser.executeQuery();
+                    if (resultUser.next()) {
+                        notFound = false;
+                    }
                 }
-            }
-            findUser.close();
-        } else {
-            try {
-                game = PrisonBreakGame.loadGame(username);
-            } catch (ClassNotFoundException e) {
-                out.println("Nessuna partita trovata!");
+                findUser.close();
+            } else {
+                resultUser = findUser.executeQuery();
+                userTrue = connectionDb.prepareStatement(USER_TRUE);
+                password = in.readLine();
+                random.nextBytes(salt);
+                try {
+                    md = MessageDigest.getInstance("SHA-512");
+                    md.update(salt);
+                    hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+                    userTrue.setObject(1, hashedPassword);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+
+                resultPassword = userTrue.executeQuery();
+
+                if (resultPassword.next()) {
+                    try {
+                        game = PrisonBreakGame.loadGame(username);
+                        login = true;
+                    } catch (ClassNotFoundException e) {
+                        out.println("Nessuna partita trovata!");
+                    }
+                    userTrue.close();
+                } else {
+                    out.println("Passowrd non corretta!");
+                }
             }
         }
     }

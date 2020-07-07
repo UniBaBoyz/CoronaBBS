@@ -13,8 +13,8 @@ public class ServerMainClass {
         ServerSocket serverSocket = null;
         Socket socket = null;
         Connection conn;
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (username varchar(1024), " +
-                "PRIMARY KEY (username))";
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (username varchar(30)," +
+                "password longblob, PRIMARY KEY (username))";
 
         final int port = 10000;
 

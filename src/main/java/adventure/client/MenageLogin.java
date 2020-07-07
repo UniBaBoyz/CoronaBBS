@@ -1,14 +1,6 @@
 package adventure.client;
 
-import adventure.Utils;
-
-import javax.swing.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-
+/*
 public class MenageLogin {
     private final BufferedReader in;
     private final PrintWriter out;
@@ -156,3 +148,5 @@ public class MenageLogin {
         });
     }
 }
+
+ */
