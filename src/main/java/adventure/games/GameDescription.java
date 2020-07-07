@@ -7,6 +7,10 @@ import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
 import adventure.type.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.*;
 
 /**
@@ -220,4 +224,12 @@ public abstract class GameDescription {
 
         rooms.addAll(visited);
     }
+
+    public GameDescription loadGame() throws IOException {
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream("game.dat"));
+        GameDescription game = (GameDescription)in.readObject();
+    }
+
+    public abstract void saveGame();
+
 }

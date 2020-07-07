@@ -5,6 +5,8 @@ import adventure.games.prisonbreak.movement.ControllerMovement;
 import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 
+import java.io.Serializable;
+
 import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
 import static adventure.utils.Utils.MAX_INVENTORY;
 
