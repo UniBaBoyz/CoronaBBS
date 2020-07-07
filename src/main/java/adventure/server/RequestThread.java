@@ -23,7 +23,7 @@ public class RequestThread extends Thread {
     private final Connection connectionDb;
     BufferedReader in; // Used to communicate with the client
     PrintWriter out; // Used to communicate with the client
-    private GameDescription game;
+    private GameDescription game = null;
     private Parser parser;
     private String username;
     boolean exit = false;
@@ -55,13 +55,15 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-            registration();
+            //registration();
 
             //LOGIN
-
+            //login();
 
             // TODO CHOOSE GAME
-            game = new PrisonBreakGame();
+            if (game == null) {
+                game = new PrisonBreakGame();
+            }
             parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
 
             // Send Introduction of the game
@@ -69,7 +71,7 @@ public class RequestThread extends Thread {
 
 
             //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
-            while(true) {
+            while (true) {
                 // Read instruction from the client
                 communicateWithTheClient(in.readLine());
             }
@@ -95,6 +97,7 @@ public class RequestThread extends Thread {
                 for (ParserOutput p : listParser) {
                     if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                             && p.getObject().isEmpty()) {
+                        saveGame();
                         out.println("Addio!");
                         break;
                     } else {
@@ -161,6 +164,43 @@ public class RequestThread extends Thread {
             newUser.setString(1, username);
             newUser.executeUpdate();
             newUser.close();
+        }
+    }
+
+    public void login() throws SQLException, IOException {
+        final String FIND_USER = "select * from users where username = ?";
+        boolean notFound = true;
+        ResultSet result;
+        PreparedStatement findUser;
+
+        findUser = connectionDb.prepareStatement(FIND_USER);
+        username = in.readLine();
+        findUser.setString(1, username);
+        result = findUser.executeQuery();
+
+        if (result.next()) {
+            while (notFound) {
+                out.println("Utente non esistente!");
+                username = in.readLine();
+                findUser.setString(1, username);
+                result = findUser.executeQuery();
+                if (!result.next()) {
+                    notFound = false;
+                }
+            }
+            findUser.close();
+        } else {
+            try {
+                game = PrisonBreakGame.loadGame(username);
+            } catch (ClassNotFoundException e) {
+                out.println("Nessuna partita trovata!");
+            }
+        }
+    }
+
+    public void saveGame() throws IOException, SQLException {
+        if (game != null) {
+            game.saveGame(username);
         }
     }
 }

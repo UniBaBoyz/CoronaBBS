@@ -252,12 +252,12 @@ public abstract class GameDescription {
     }
 
     private void connect() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:./database/games");
+        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
     }
 
     public void saveGame(String user) throws SQLException, IOException {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' varchar(1024) NOT NULL, " +
-                "'Game' longblob, PRIMARY KEY (id))";
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games (id varchar(1024) NOT NULL, " +
+                "game longblob, PRIMARY KEY (id))";
         PreparedStatement preparedStatement;
         String query;
 

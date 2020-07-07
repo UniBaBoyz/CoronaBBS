@@ -26,7 +26,7 @@ public class ServerMainClass {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:h2:./database/users");
+            conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
             Statement stm = conn.createStatement();
             stm.executeUpdate(CREATE_TABLE);
             stm.close();
