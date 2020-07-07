@@ -13,8 +13,7 @@ import adventure.parser.ParserOutput;
 import adventure.type.TokenObject;
 import adventure.type.VerbType;
 
-import static adventure.games.prisonbreak.ObjectType.GENNY_BELLO;
-import static adventure.games.prisonbreak.ObjectType.MEDICINE;
+import static adventure.games.prisonbreak.ObjectType.*;
 import static adventure.games.prisonbreak.RoomType.*;
 import static adventure.type.VerbType.*;
 
@@ -201,6 +200,7 @@ class Move {
                     game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
                     if (game.getCurrentRoom().getId() == INFIRMARY) {
                         game.getCurrentRoom().getWest().setLocked(true);
+                        game.getObject(PICTURE).setPush(true);
                     } else if (game.getCurrentRoom().getId() == ENDGAME) {
                         game.getCurrentRoom().getSouth().setLocked(true);
                     }
@@ -225,7 +225,7 @@ class Move {
             if (game.getCurrentRoom().getId() == ENDGAME) {
                 response.append("Hai terminato il gioco! Basta camminare!");
             } else if (game.getObject(MEDICINE).isGiven()) {
-                if (!(game.getCurrentRoom().getId() == INFIRMARY && !p.getVerb().getVerbType().equals(NORD))) {
+                if (!(game.getCurrentRoom().getId() == INFIRMARY && p.getVerb().getVerbType().equals(NORD))) {
                     response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
                 }
             } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
