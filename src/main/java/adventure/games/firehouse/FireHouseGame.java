@@ -14,7 +14,7 @@ import adventure.type.*;
 public class FireHouseGame extends GameDescription {
 
     public FireHouseGame() {
-        super(new FireHouseGameObjects(), new FireHouseGameRooms(), new FireHouseVerbs());
+        super(new FireHouseGameObjects(), new FireHouseGameRooms(), new FireHouseVerbs(), "FireHouseGame");
         setCurrentRoom(getRoom(0));
 
         setInventory(new Inventory(10));
