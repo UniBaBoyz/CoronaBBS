@@ -167,7 +167,7 @@ class BasicVerbs {
                     game.getInventory().remove(movement.getObject());
                     response.append("Decidi di usare la vite per smontare il lavandino. Chiunque abbia fissato " +
                             "quel lavandino non aveva una grande forza visto che le viti si svitano facilmente." +
-                            " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato\n");
+                            " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato");
                     game.increaseScore();
                     movement.getObject().setUsed(true);
                     break;
@@ -177,7 +177,7 @@ class BasicVerbs {
                     game.getInventory().remove(movement.getObject());
                     game.getInventory().add(game.getObject(COMBINATION));
                     response.append("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
-                            "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!\n");
+                            "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                     game.increaseScore();
                     movement.getObject().setUsed(true);
                     break;
@@ -234,6 +234,7 @@ class BasicVerbs {
                         response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre " +
                                 "con il seghetto, puoi proseguire nel condotto e capisci che quel condotto" +
                                 " porta fino all’infermeria.");
+                        game.getRoom(GENERATOR).setLocked(false);
                         game.increaseScore();
                         game.increaseScore();
                         movement.getObject().setUsed(true);
@@ -280,6 +281,8 @@ class BasicVerbs {
                         game.getRoom(ISOLATION).setLocked(false);
                         response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
+                        game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                                " a ovest!");
                         game.increaseScore();
                         movement.getObject().setUsed(true);
                     }
@@ -442,7 +445,7 @@ class BasicVerbs {
                         } else {
                             movement.getObject().setPush(true);
                             game.getRoom(SECRET_PASSAGE).setLocked(false);
-                            response.append("Oissà!");
+                            response.append("Oissà!\nNoti un passaggio segreto in cui è possibile entrare!");
                             game.increaseScore();
                             game.increaseScore();
                         }

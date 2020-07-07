@@ -83,7 +83,7 @@ public class Rooms implements RoomsInterface {
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
                 "Sei nel passaggio segreto.");
         passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete blocca la strada" +
-                " a nord, puoi solo andare ad sud o a nord o ritornare indietro nella tua cella prima che qualcuno" +
+                " a ovest, puoi solo andare ad sud o a nord o ritornare indietro a est nella tua cella prima che qualcuno" +
                 " ti scopra!!!");
         passage.setLocked(true);
 
@@ -100,17 +100,18 @@ public class Rooms implements RoomsInterface {
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
         generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
+        generator.setLocked(true);
 
         Room onLadder = new Room(ON_LADDER, "Sulla scala",
                 "Sei salito sulla scala e noti un condotto d’aria un po’ vecchiotto.");
-        onLadder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte!");
+        onLadder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte! Puoi entrarci!");
         onLadder.setLocked(true);
 
         Room airDuct = new Room(AIR_DUCT, "Condotto d'aria", "Sei riuscito ad entrare nel condotto," +
                 " strisci piano cercando di fare meno rumore possibile.");
         airDuct.setLook("Ci sono molte ragnatele e il condotto sembra non utilizzato, cerca di fare veloce in modo" +
                 " da non risultare assente all’appello! Il condotto si divide in tre strade diverse, una a nord," +
-                " una ad est e l’altra a ovest.");
+                " una ad est e l’altra a ovest. Puoi sempre andare a sud per ritornare sulla scala");
 
         Room airDuctEast = new Room(AIR_DUCT_EAST, "Condotto d'aria", "Ti ritrovi in un vicolo cieco");
         airDuctEast.setLook("Puoi osservare un’altra cella di un detenuto.");

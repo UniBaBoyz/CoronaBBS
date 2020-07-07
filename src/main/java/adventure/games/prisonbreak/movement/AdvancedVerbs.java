@@ -144,10 +144,10 @@ class AdvancedVerbs {
         if (game.getCurrentRoom().getId() == LADDERS) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
-        } else if (game.getCurrentRoom().getId() == AIR_DUCT) {
+        } else if (game.getCurrentRoom().getId() == ON_LADDER ) {
             game.setCurrentRoom(game.getCurrentRoom().getSouth());
             movement.setMove(true);
-            response.append("Usi la scala per scendere!");
+            response.append("Usi la scala per scendere!\n");
         } else {
             response.append("Non puoi bucare il pavimento!");
         }
@@ -171,8 +171,7 @@ class AdvancedVerbs {
     }
 
     String exit() {
-        if (game.getCurrentRoom().getId() == FRONTBENCH
-                && !game.getInventory().contains(game.getObject(SCALPEL))) {
+        if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
             response.append("Decidi di fuggire, ma prima o poi il pericolo dovrai affrontarlo!\n");
@@ -184,14 +183,13 @@ class AdvancedVerbs {
 
     String make() throws ObjectNotFoundInInventoryException, InventoryFullException, InventoryEmptyException {
         TokenObject substances = game.getObject(SUBSTANCES);
-
-        if ((movement.getObject() != null
+        if (((movement.getObject() != null
                 && movement.getObject().isMixable()
                 && (game.getInventory().contains(movement.getObject())
                 || game.getCurrentRoom().containsObject(movement.getObject())))
                 || ((movement.getObject() != null && movement.getObject().getId() == ACID))
                 && (game.getInventory().contains(substances)
-                || game.getCurrentRoom().containsObject(substances)) && game.getCurrentRoom().getId() == INFIRMARY) {
+                || game.getCurrentRoom().containsObject(substances))) && game.getCurrentRoom().getId() == INFIRMARY) {
 
             if (game.getCurrentRoom().getObjects().contains(movement.getObject())
                     && !(movement.getObject().getId() == ACID)) {
@@ -231,13 +229,15 @@ class AdvancedVerbs {
 
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi creare esattamente?");
-        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
-            response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
         } else if (!movement.getObject().isMixable()) {
             response.append("Non è una cosa che si può fare");
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())
+                && !game.getInventory().contains(movement.getObject())) {
+            response.append("Non penso si trovi qui questo oggetto o non puoi crearlo qui!!");
         } else if (game.getCurrentRoom().getId() != INFIRMARY) {
             response.append("Non puoi creare qui l'acido. Vai in infermeria se riesci!");
         }
+
         return response.toString();
     }
 
@@ -291,6 +291,8 @@ class AdvancedVerbs {
                 movement.getObject().setUsed(true);
                 response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                         " tornare indietro anche se hai poco tempo a disposizione!");
+                game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                        " a ovest!");
                 game.increaseScore();
             } else {
                 response.append("Non puoi inserire nulla qui!");
@@ -447,6 +449,7 @@ class AdvancedVerbs {
                     "fortuna sei riuscito a rompere la grata");
             response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                     "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
+            game.getRoom(GENERATOR).setLocked(false);
             game.increaseScore();
             game.increaseScore();
         } else if (movement.getObject() == null) {
