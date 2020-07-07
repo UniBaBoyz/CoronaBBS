@@ -244,6 +244,8 @@ class BasicVerbs {
                         game.getRoom(GENERATOR).setLocked(false);
                         game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
                                 "in infermeria!");
+                        game.getRoom(AIR_DUCT_NORTH).setLook("Sembra la strada giusta! Prosegui a est nel condotto " +
+                                "d'aria per avanzare!");
                         game.increaseScore();
                         game.increaseScore();
                         response.append(game.toStringScore());
@@ -293,7 +295,9 @@ class BasicVerbs {
                         game.getRoom(ISOLATION).setLocked(false);
                         response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
-                        game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                        game.getRoom(DOOR_ISOLATION).setDescription("La porta è aperta! Puoi andare a est per entrare dentro " +
+                                "l'isolamento oppure tornare indietro anche se hai poco tempo a disposizione!");
+                        game.getRoom(DOOR_ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
                                 " a ovest!");
                         game.increaseScore();
                         response.append(game.toStringScore());
@@ -353,7 +357,7 @@ class BasicVerbs {
                         response.append("Cosa ci fai qui?? Dovresti dare la medicina a tuo fratello!!!");
                     } else if (game.getObject(MEDICINE).isGiven()) {
                         response.append("Il tuo piano è quasi terminato, vai con Genny Bello in infermeria passando dal" +
-                                "passaggio segreto! Buona fortuna, te ne servirà molta!!!");
+                                " passaggio segreto! Buona fortuna, te ne servirà molta!!!");
                     } else {
                         response.append("Mi dispiace ma non ho suggerimenti da darti attualmente!!");
                     }
@@ -515,17 +519,14 @@ class BasicVerbs {
 
     String turnOn() {
         if (movement.getObject() != null && movement.getObject().isTurnOnAble()) {
-            // lights case
-            if (game.getCurrentRoom().getId() == GENERATOR) {
-                // lights turnOFF
-                if (movement.getObject().isOn()) {
-                    response.append("Le luci sono già accese!");
-                } else {
-                    response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
-                }
+
+            // lights turnOFF
+            if (movement.getObject().isOn()) {
+                response.append("Le luci sono già accese!");
             } else {
-                response.append("Non puoi accendere nulla qui!");
+                response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
             }
+
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi accendere esattamente???");
         } else if (!movement.getObject().isTurnOnAble()) {

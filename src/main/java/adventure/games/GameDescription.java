@@ -157,7 +157,7 @@ public abstract class GameDescription {
     }
 
     public String toStringScore() {
-        return "\nIl tuo punteggio è aumentato!!!\nOra hai " + this.score + " punti!\n\n";
+        return "\n\nIl tuo punteggio è aumentato!!!\nOra hai " + this.score + " punti!\n\n";
     }
 
     public int getScore() {

@@ -11,6 +11,8 @@ import adventure.type.VerbType;
 import javax.swing.*;
 import java.util.List;
 
+import static adventure.games.prisonbreak.RoomType.ENDGAME;
+
 /**
  * @author Corona-Extra
  */

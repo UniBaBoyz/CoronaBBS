@@ -210,7 +210,6 @@ class Move {
                     game.getCurrentRoom().getEast().setLocked(true);
                     game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
                 }
-
             }
 
         } catch (NotAccessibleRoomException e) {

@@ -80,6 +80,8 @@ public class View extends JFrame {
 
     public View() {
         initComponents();
+        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Img.gif");
+        this.setIconImage(imageIcon.getImage());
     }
 
     private void initComponents() {
@@ -125,8 +127,6 @@ public class View extends JFrame {
         jpanel.add(labelScore);
 
 
-        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Img.gif");
-        getJframe().setIconImage(imageIcon.getImage());
         jframe.add(jpanel);
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));

@@ -297,7 +297,9 @@ class AdvancedVerbs {
                 movement.getObject().setUsed(true);
                 response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                         " tornare indietro anche se hai poco tempo a disposizione!");
-                game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                game.getRoom(DOOR_ISOLATION).setDescription("La porta è aperta! Puoi andare a est per entrare dentro " +
+                        "l'isolamento oppure tornare indietro anche se hai poco tempo a disposizione!");
+                game.getRoom(DOOR_ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
                         " a ovest!");
                 game.increaseScore();
                 response.append(game.toStringScore());
@@ -383,7 +385,7 @@ class AdvancedVerbs {
             game.getObject(HACKSAW).setAccept(true);
         } else if (!game.getObject(HACKSAW).isAsked()) {
             response.append("Non puoi accettare una cosa che non hai chiesto!!!");
-        } else if (game.getObject(HACKSAW).isAccept()) {
+        } else if (game.getObject(HACKSAW).isAccept() && game.getCurrentRoom().getId() == CANTEEN) {
             response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi accettare? Nulla???");
@@ -401,7 +403,8 @@ class AdvancedVerbs {
             game.getObject(HACKSAW).setAccept(false);
         } else if (!game.getObject(HACKSAW).isAsked()) {
             response.append("Non puoi rifiutare una cosa che non hai chiesto!!!");
-        } else if (game.getObject(HACKSAW).isAccept() || game.getInventory().contains(game.getObject(HACKSAW))) {
+        } else if ((game.getObject(HACKSAW).isAccept() || game.getInventory().contains(game.getObject(HACKSAW)))
+                && game.getCurrentRoom().getId() == CANTEEN) {
             response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi rifiutare? Nulla???");
@@ -443,6 +446,10 @@ class AdvancedVerbs {
                 || game.getObject(SCALPEL).isUsed()
                 || movement.getCounterFaceUp() >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!");
+        } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
+                && !game.getInventory().contains(game.getObject(SCALPEL))) {
+            response.append("Ritrova il bisturi, un'altra rissa e verrai messo in isolamento e il tuo piano andrà " +
+                    "a rotoli!!! Puoi solo fuggire!");
         }
         return response.toString();
     }
@@ -466,6 +473,8 @@ class AdvancedVerbs {
             game.getRoom(GENERATOR).setLocked(false);
             game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
                     "in infermeria!");
+            game.getRoom(AIR_DUCT_NORTH).setLook("Sembra la strada giusta! Prosegui a est nel condotto " +
+                    "d'aria per avanzare!");
             game.increaseScore();
             game.increaseScore();
             response.append(game.toStringScore());
@@ -544,7 +553,8 @@ class AdvancedVerbs {
                     "c’è il tuo amichetto Genny. È ora di attuare il piano!");
             game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano " +
                     "e scappare via da qui!");
-            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere l'infermeria!");
+            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello" +
+                    " nell'infermeria che ti aspetta!");
 
 
             game.increaseScore();

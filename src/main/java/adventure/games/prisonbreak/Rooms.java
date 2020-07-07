@@ -122,7 +122,7 @@ public class Rooms implements RoomsInterface {
 
         Room airDuctInfirmary = new Room(AIR_DUCT_INFIRMARY, "Condotto d'aria", "Ti trovi nell'ultimo" +
                 " tratto del condotto d'aria, sei quasi arrivato in infermeria");
-        airDuctInfirmary.setLook("Dal condotto d'aria riesci a vedere tuo fratello nell'infermeria che ti aspetta!");
+        airDuctInfirmary.setLook("Dal condotto d'aria riesci a vedere l'infermeria!");
         airDuctInfirmary.setLocked(true);
 
         Room airDuctWest = new Room(AIR_DUCT_WEST, "Condotto d'aria",
@@ -143,7 +143,8 @@ public class Rooms implements RoomsInterface {
                 "Sei di fronte all'entrata dell'isolamento dove e' collocata la cella di tuo fratello. " +
                         "Essendo in un carcere di massima sicurezza, la porta e' controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
-                "puo' essere aperta solo tramite un PIN segreto.");
+                "puo' essere aperta solo tramite un PIN segreto. La porta è situata a est a ovest invece una cella" +
+                " di un altro detenuto!");
 
         Room doorIsolation = new Room(DOOR_ISOLATION, "Porta isolamento",
                 "Sei di fronte ad una porta blindata che come gia' ti sembrava e' possibile " +
@@ -212,18 +213,18 @@ public class Rooms implements RoomsInterface {
         Room brotherCell = new Room(BROTHER_CELL, "Cella fratello",
                 "Sei vicino alla cella di tuo fratello, l’aspetto della cella e' ripugnante.");
         brotherCell.setLook("Di fronte a te, attraverso le sbarre, c'è tuo fratello con un’aria contenta di vederti," +
-                " ma allo stesso tempo sorpresa!");
+                " ma allo stesso tempo sorpresa! Parla con lui e spiegali tutto il piano!");
 
         Room endGame = new Room(ENDGAME, "Fine", "Decidi di fuggire dalla finestra. Tu e tutta" +
                 " la tua squadra usate il lungo cavo che collega la finestra al grande muro della prigione. Arrivati" +
                 " sul muro riuscite a scavalcare con molta attenzione il filo spinato presente. Fate tutti un grande" +
-                " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovare ad aspettarvi un " +
+                " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovate ad aspettarvi un " +
                 "elicottero guidato da vostro padre, che sapeva tutto del vostro piano segreto e l’ora esatta in cui " +
                 "dovevate attuarlo! Salite tutti sull’elicottero e' fuggite tutti insieme verso il Messico cosicché" +
                 " nessuno potrà piu' ritrovarvi!\n\n" +
                 "COMPLIMENTI HAI VINTO!");
         endGame.setLook("");
-        endGame.setLocked(true);
+        //endGame.setLocked(true);
 
         Room frontBench = new Room(FRONTBENCH, "Di fronte alle panchine",
                 "Ti avvicini alla panchina, ma vieni subito fermato da un gruppo di neri che con aria" +
