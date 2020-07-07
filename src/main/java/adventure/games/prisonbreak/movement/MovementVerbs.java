@@ -10,53 +10,53 @@ import adventure.games.prisonbreak.PrisonBreakGame;
 class MovementVerbs {
 
     private final Move movement;
-    private final PrisonBreakGame prisonBreakGame;
+    private final PrisonBreakGame game;
 
     MovementVerbs(ControllerMovement controller) {
         movement = controller.getMove();
-        prisonBreakGame = controller.getMove().getPrisonBreakGame();
+        game = controller.getMove().getPrisonBreakGame();
     }
 
     void nord() throws NotAccessibleRoomException, LockedRoomException {
-        if (prisonBreakGame.getCurrentRoom().getNorth() != null && !prisonBreakGame.getCurrentRoom().getNorth().isLocked()) {
-            prisonBreakGame.setCurrentRoom(prisonBreakGame.getCurrentRoom().getNorth());
+        if (game.getCurrentRoom().getNorth() != null && !game.getCurrentRoom().getNorth().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
-        } else if (prisonBreakGame.getCurrentRoom().getNorth() == null) {
+        } else if (game.getCurrentRoom().getNorth() == null) {
             throw new NotAccessibleRoomException();
-        } else if (prisonBreakGame.getCurrentRoom().getNorth().isLocked()) {
+        } else if (game.getCurrentRoom().getNorth().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void south() throws NotAccessibleRoomException, LockedRoomException {
-        if (prisonBreakGame.getCurrentRoom().getSouth() != null && !prisonBreakGame.getCurrentRoom().getSouth().isLocked()) {
-            prisonBreakGame.setCurrentRoom(prisonBreakGame.getCurrentRoom().getSouth());
+        if (game.getCurrentRoom().getSouth() != null && !game.getCurrentRoom().getSouth().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getSouth());
             movement.setMove(true);
-        } else if (prisonBreakGame.getCurrentRoom().getSouth() == null) {
+        } else if (game.getCurrentRoom().getSouth() == null) {
             throw new NotAccessibleRoomException();
-        } else if (prisonBreakGame.getCurrentRoom().getSouth().isLocked()) {
+        } else if (game.getCurrentRoom().getSouth().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void east() throws NotAccessibleRoomException, LockedRoomException {
-        if (prisonBreakGame.getCurrentRoom().getEast() != null && !prisonBreakGame.getCurrentRoom().getEast().isLocked()) {
-            prisonBreakGame.setCurrentRoom(prisonBreakGame.getCurrentRoom().getEast());
+        if (game.getCurrentRoom().getEast() != null && !game.getCurrentRoom().getEast().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
-        } else if (prisonBreakGame.getCurrentRoom().getEast() == null) {
+        } else if (game.getCurrentRoom().getEast() == null) {
             throw new NotAccessibleRoomException();
-        } else if (prisonBreakGame.getCurrentRoom().getEast().isLocked()) {
+        } else if (game.getCurrentRoom().getEast().isLocked()) {
             throw new LockedRoomException();
         }
     }
 
     void west() throws NotAccessibleRoomException, LockedRoomException {
-        if (prisonBreakGame.getCurrentRoom().getWest() != null && !prisonBreakGame.getCurrentRoom().getWest().isLocked()) {
-            prisonBreakGame.setCurrentRoom(prisonBreakGame.getCurrentRoom().getWest());
+        if (game.getCurrentRoom().getWest() != null && !game.getCurrentRoom().getWest().isLocked()) {
+            game.setCurrentRoom(game.getCurrentRoom().getWest());
             movement.setMove(true);
-        } else if (prisonBreakGame.getCurrentRoom().getWest() == null) {
+        } else if (game.getCurrentRoom().getWest() == null) {
             throw new NotAccessibleRoomException();
-        } else if (prisonBreakGame.getCurrentRoom().getWest().isLocked()) {
+        } else if (game.getCurrentRoom().getWest().isLocked()) {
             throw new LockedRoomException();
         }
     }
