@@ -79,7 +79,7 @@ public class Verbs implements VerbsInterface {
         game.getTokenVerbs().add(turnOff);
 
         TokenVerb end = new TokenVerb(VerbType.END);
-        end.setAlias(new HashSet<>(Arrays.asList("End", "Exit", "Fine", "Esci", "Muori", "Ammazzati", "Ucciditi",
+        end.setAlias(new HashSet<>(Arrays.asList("End", "Addio", "Exit", "Fine", "Esci", "Muori", "Ammazzati", "Ucciditi",
                 "Suicidati", "Crepa")));
         game.getTokenVerbs().add(end);
 
