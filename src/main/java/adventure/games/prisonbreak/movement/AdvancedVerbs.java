@@ -144,7 +144,7 @@ class AdvancedVerbs {
         if (game.getCurrentRoom().getId() == LADDERS) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
-        } else if (game.getCurrentRoom().getId() == ON_LADDER ) {
+        } else if (game.getCurrentRoom().getId() == ON_LADDER) {
             game.setCurrentRoom(game.getCurrentRoom().getSouth());
             movement.setMove(true);
             response.append("Usi la scala per scendere!\n");
@@ -196,6 +196,7 @@ class AdvancedVerbs {
                 game.getCurrentRoom().removeObject(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
+                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (movement.getObject().getId() != ACID
@@ -203,6 +204,7 @@ class AdvancedVerbs {
                 game.getInventory().remove(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
+                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getCurrentRoom().getObjects().contains(substances)
@@ -210,6 +212,7 @@ class AdvancedVerbs {
                 game.getCurrentRoom().removeObject(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
+                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getInventory().getObjects().contains(substances)
@@ -217,6 +220,7 @@ class AdvancedVerbs {
                 game.getInventory().remove(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
+                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             }
@@ -307,6 +311,7 @@ class AdvancedVerbs {
 
     String talkTo() {
         if ((movement.getObject() instanceof TokenPerson && ((TokenPerson) movement.getObject()).isSpeakable())) {
+            TokenPerson brother = ((TokenPerson) game.getObject(BROTHER));
             if (game.getCurrentRoom().getId() == CANTEEN) {
                 response.append("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
                         "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
@@ -322,6 +327,9 @@ class AdvancedVerbs {
             } else if (movement.getObject().getId() == GENNY_BELLO
                     && ((TokenPerson) movement.getObject()).isFollowHero()) {
                 response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!");
+            } else if (game.getCurrentRoom().getId() == INFIRMARY
+                    && game.getCurrentRoom().containsObject(brother)) {
+                response.append("Non vedo l'ora di scappare! Sbrighiamoci!");
             }
         } else if (movement.getObject() == null) {
             response.append("Vuoi parlare da solo???");
@@ -442,6 +450,7 @@ class AdvancedVerbs {
                 && game.getObject(TOOLS).isUsed()
                 && !game.getObject(HACKSAW).isUsed()) {
             game.getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
+            game.getObject(HACKSAW).setUsed(true);
             game.setObjectNotAssignedRoom(game.getObject(HACKSAW));
             game.getInventory().remove(game.getObject(HACKSAW));
             game.getRoom(AIR_DUCT_NORTH).removeObject(movement.getObject());
@@ -454,6 +463,20 @@ class AdvancedVerbs {
                     "in infermeria!");
             game.increaseScore();
             game.increaseScore();
+        } else if (movement.getObject() != null
+                && movement.getObject().getId() == WINDOWS_INFIRMARY
+                && game.getCurrentRoom().getId() == INFIRMARY
+                && game.getInventory().contains(game.getObject(ACID))) {
+
+            game.getRoom(ENDGAME).setLocked(false);
+            game.setObjectNotAssignedRoom(game.getObject(ACID));
+            game.getInventory().remove(game.getObject(ACID));
+            response.append("Adesso la finestra presenta un buco, sarebbe meglio infilarsi dentro!");
+            game.increaseScore();
+            game.increaseScore();
+            game.increaseScore();
+            game.increaseScore();
+            game.getObject(ACID).setUsed(true);
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi rompere???");
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {

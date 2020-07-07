@@ -242,7 +242,9 @@ class Move {
             if (game.getCurrentRoom().getId() == ENDGAME) {
                 response.append("Hai terminato il gioco! Basta camminare!");
             } else if (game.getObject(MEDICINE).isGiven()) {
-                response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
+                if (!(game.getCurrentRoom().getId() == INFIRMARY && !p.getVerb().getVerbType().equals(NORD))) {
+                    response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
+                }
             } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
                     && game.getCurrentRoom().getEast().getId() == INFIRMARY) {
                 response.append("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
