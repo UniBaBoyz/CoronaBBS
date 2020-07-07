@@ -23,6 +23,6 @@ public class MainClass {
             }
         });
 
-        engine.run();
+        engine.init();
     }
 }

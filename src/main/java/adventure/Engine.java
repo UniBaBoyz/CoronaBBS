@@ -120,7 +120,7 @@ public class Engine {
         });
     }
 
-    public void run() {
+    public void init() {
         if (game.getIntroduction() != null) {
             view.getOutputArea().append(game.getIntroduction());
         }
