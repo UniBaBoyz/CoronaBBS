@@ -22,6 +22,7 @@ public class Engine {
         this.game = game;
         this.view = view;
         this.parser = parser;
+        this.view.setTitle(this.game.getTitle());
         manageEvent();
     }
 

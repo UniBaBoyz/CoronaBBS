@@ -16,7 +16,7 @@ public class PrisonBreakGame extends GameDescription {
     private final ControllerMovement movement;
 
     public PrisonBreakGame() {
-        super(new Objects(), new Rooms(), new Verbs());
+        super(new Objects(), new Rooms(), new Verbs(), "PrisonBreakGame");
         this.movement = new ControllerMovement(this);
 
         String introduction = "===========================================================================" +
