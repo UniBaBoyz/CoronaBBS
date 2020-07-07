@@ -20,9 +20,11 @@ public class ClientMainClass {
             InetAddress address = InetAddress.getByName(addressServer);
             socket = new Socket(address, port);
         } catch (UnknownHostException e) {
-            JOptionPane.showMessageDialog(null, "An error has occurred while obtaining the IP address of the server!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore durante l'" +
+                    "ottenimento dell'indirizzo IP del server", "Errore", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "An error has occurred while connecting to the server!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore durante la connessione" +
+                    "con il server", "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
         try {
@@ -45,7 +47,17 @@ public class ClientMainClass {
                 }
             }*/
 
-            view.disposeWindow();
+            //TODO AGGIUNGERE LOGIN E COMUNICARLO AL SERVER
+
+            //TODO AGGIUNGERE SCELTA GIOCO E COMUNICARLO AL SERVER
+
+            //TODO GESTIRE IL GIOCO E CAMBIARE CONDIZIONE
+            while(true) {
+
+            }
+
+
+            //view.disposeWindow();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Cannot communicate with the server!", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
