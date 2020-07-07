@@ -11,7 +11,7 @@ import adventure.server.type.TokenObjectContainer;
 
 import static adventure.server.games.prisonbreak.ObjectType.*;
 import static adventure.server.games.prisonbreak.RoomType.*;
-import static adventure.utils.Utils.*;
+import static adventure.server.games.prisonbreak.Utils.*;
 
 /**
  * @author Corona-Extra

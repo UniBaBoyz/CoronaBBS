@@ -1,4 +1,4 @@
-package adventure.utils;
+package adventure.server.games.prisonbreak;
 
 public class Utils {
     public final static int ZERO_SCORE = 0;

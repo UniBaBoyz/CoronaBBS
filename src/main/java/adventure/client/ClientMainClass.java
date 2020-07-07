@@ -1,7 +1,5 @@
 package adventure.client;
 
-
-import javax.print.attribute.standard.NumberUp;
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;

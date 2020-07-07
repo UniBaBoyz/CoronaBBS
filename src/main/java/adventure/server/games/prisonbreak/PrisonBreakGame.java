@@ -8,7 +8,7 @@ import adventure.server.type.Inventory;
 import java.sql.SQLException;
 
 import static adventure.server.games.prisonbreak.RoomType.MAIN_CELL;
-import static adventure.utils.Utils.MAX_INVENTORY;
+import static adventure.server.games.prisonbreak.Utils.MAX_INVENTORY;
 
 
 /**
