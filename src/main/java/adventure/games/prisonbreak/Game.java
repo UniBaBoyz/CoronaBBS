@@ -14,7 +14,6 @@ import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
 public class Game extends GameDescription {
 
     private final ControllerMovement movement;
-    private boolean firstTime = false;
 
     public Game() {
         super(new Objects(), new Rooms(), new Verbs());
