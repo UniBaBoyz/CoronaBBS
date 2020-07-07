@@ -8,9 +8,7 @@ import adventure.server.User;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.sql.*;
 import java.util.*;
 
@@ -21,6 +19,8 @@ public abstract class GameDescription {
     private final String title;
     private String introduction = null;
     private static final int INCREASE_SCORE = 10;
+    private static Connection conn;
+    private final String title;
     private final ObjectsInterface gameObjects;
     private final RoomsInterface gameRooms;
     private final VerbsInterface gameVerbs;
@@ -30,54 +30,45 @@ public abstract class GameDescription {
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
-    private Connection conn;
 
-    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) /*throws SQLException*/ {
+    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) throws SQLException {
         this.title = title;
         this.gameRooms = gameRooms;
         this.gameObjects = gameObjects;
         this.gameVerbs = gameVerbs;
-        //connect();
+        connect();
         init();
     }
 
-    public static GameDescription loadGame() throws IOException, ClassNotFoundException, SQLException {
+    public static GameDescription loadGame(User id) throws IOException, ClassNotFoundException, SQLException {
         GameDescription game = null;
         PreparedStatement ps;
         ResultSet rs;
         String sql;
-        /*
-        sql = "select * from games where id=1";
 
+        sql = "select * from games where id = ?";
         ps = conn.prepareStatement(sql);
+        ps.setObject(1, id);
 
         rs = ps.executeQuery();
 
         if (rs.next()) {
             ByteArrayInputStream bais;
-
             ObjectInputStream ins;
 
             try {
-
-                bais = new ByteArrayInputStream(rs.getBytes("javaObject"));
-
+                bais = new ByteArrayInputStream(rs.getBytes("Game"));
                 ins = new ObjectInputStream(bais);
-
-                MyClass mc = (MyClass) ins.readObject();
-
-                System.out.println("Object in value ::" + mc.getSName());
+                game = (GameDescription) ins.readObject();
+                System.out.println("User" + id.getUsername());
                 ins.close();
 
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
-
         }
-        */
-        GameDescription rmObj = null;
-        return rmObj;
+
+        return game;
     }
 
     private void init() {
@@ -271,8 +262,8 @@ public abstract class GameDescription {
     }
 
     public void saveGame(User user) {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('User' longblob NOT NULL AUTO_INCREMENT, " +
-                "'GameDescription' longblob, PRIMARY KEY (id))";
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' longblob NOT NULL AUTO_INCREMENT, " +
+                "'Game' longblob, PRIMARY KEY (id))";
         PreparedStatement ps;
         String sql;
 
@@ -290,9 +281,10 @@ public abstract class GameDescription {
             bos.close();
             byte[] game = bos.toByteArray();
 
-            sql = "insert into games (GameDescription) values(?)";
+            sql = "insert into games values(?, ?)";
             ps = conn.prepareStatement(sql);
-            //ps.setObject(user, game);
+            ps.setObject(1, user);
+            ps.setObject(2, game);
             ps.executeUpdate();
 
         } catch (Exception e) {
