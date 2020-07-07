@@ -196,8 +196,7 @@ class Move {
                 response.append("=============================================================================" +
                         "====\n");
                 response.append(game.getCurrentRoom().getDescription());
-                response.append("================================================\n");
-                response.append(game.getCurrentRoom().getDescription()).append("\n");
+
                 if (((TokenPerson) game.getObject(GENNY_BELLO)).isFollowHero()) {
                     game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
                     if (game.getCurrentRoom().getId() == INFIRMARY) {

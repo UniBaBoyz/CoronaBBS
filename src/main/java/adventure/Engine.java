@@ -8,6 +8,7 @@ import adventure.parser.Parser;
 import adventure.parser.ParserOutput;
 import adventure.type.VerbType;
 
+import javax.swing.*;
 import java.util.List;
 
 /**
@@ -39,11 +40,14 @@ public class Engine {
                     view.getOutputArea().append("Addio!");
                     view.getJframe().dispose();
                     break;
+                } else if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.INVENTORY)
+                        && p.getObject().isEmpty()) {
+                    JOptionPane.showMessageDialog(view.getJframe(),game.nextMove(p),"INVENTARIO",JOptionPane.INFORMATION_MESSAGE);
                 } else {
-                    view.getTextAreaScore().setText(Integer.toString(game.getScore()));
                     view.getOutputArea().append(game.nextMove(p) + "\n");
                     view.getOutputArea().append("====================================================================" +
                             "=============\n");
+                    view.getTextAreaScore().setText(Integer.toString(game.getScore()));
                 }
             }
         } catch (LexicalErrorException e) {
@@ -126,6 +130,7 @@ public class Engine {
                 "===========================================\n" +
                 game.getCurrentRoom().getDescription() + "\n" +
                 "=================================================================================\n");
+        view.getTextAreaScore().setText(Integer.toString(game.getScore()));
     }
 
 }

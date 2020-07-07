@@ -35,7 +35,8 @@ public class Rooms implements RoomsInterface {
 
         Room ladders = new Room(LADDERS, "Scalinata", "Ti trovi presso una scalinata, l’unica cosa" +
                 " che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
-        ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino.");
+        ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino. Puoi scendere a est oppure camminare" +
+                " nel corridoio a sud!");
 
         Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
                 "intravedere a est il giardino.");
@@ -232,32 +233,32 @@ public class Rooms implements RoomsInterface {
         Room grateCell = new Room(GRATE_CELL, "Grata che si affaccia su una cella",
                 "Dall'alto riesci ad osservare tutta la cella, tra cui anche il detenuto che dorme." +
                         "Meglio non svegliarlo. Shhhhhhh!");
-        grateCell.setLook("Meglio non perdere tempo qui!");
+        grateCell.setLook("Meglio non perdere tempo qui! Vai a ovest per tornare indietro!");
 
         Room cell18 = new Room(OTHER_CELL, "Cella n.ro 18", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
-        cell18.setLook("Meglio non perdere tempo qui!");
+        cell18.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nel corridoio del carcere!");
 
         Room cell19 = new Room(OTHER_CELL, "Cella n.ro 19", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
-        cell19.setLook("Meglio non perdere tempo qui!");
+        cell19.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nel corridoio del carcere!");
 
         Room cell20 = new Room(OTHER_CELL, "Cella n.ro 20", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
-        cell20.setLook("Meglio non perdere tempo qui!");
+        cell20.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");
 
         Room cell21 = new Room(OTHER_CELL, "Cella n.ro 21", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
-        cell20.setLook("Meglio non perdere tempo qui!");
+        cell21.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");
 
         Room cell22 = new Room(OTHER_CELL, "Cella n.ro 22", "La cella e' controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
-        cell20.setLook("Meglio non perdere tempo qui!");
+        cell22.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");
 
         //Maps
         createLinks(mainCell17, null, null, corridorSouth, passage);
@@ -270,7 +271,7 @@ public class Rooms implements RoomsInterface {
         createLinks(lobby, null, lobbySouth, garden, ladders);
         createLinks(lobbySouth, lobby, lobbyEnd, gym, cell20);
         createLinks(lobbyEnd, lobbySouth, outIsolation, canteen, cell21);
-        createLinks(cell20, lobby, null, lobbySouth, null);
+        createLinks(cell20, lobby, lobbyEnd, lobbySouth, null);
         createLinks(garden, basket, bench, wall, lobby);
         createLinks(basket, null, garden, null, null);
         createLinks(wall, null, null, null, garden);

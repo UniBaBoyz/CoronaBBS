@@ -36,10 +36,10 @@ class AdvancedVerbs {
             //Food case
             if (game.getCurrentRoom().getObjects().contains(movement.getObject())) {
                 game.getCurrentRoom().removeObject(movement.getObject());
-                response.append("Gnam Gnam...\n");
+                response.append("Gnam Gnam...");
             } else if (game.getInventory().getObjects().contains(movement.getObject())) {
                 game.getInventory().remove(movement.getObject());
-                response.append("Gnam Gnam...\n");
+                response.append("Gnam Gnam...");
             }
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi mangiare??? Sembra non ci sia nulla di commestibile");
@@ -61,7 +61,7 @@ class AdvancedVerbs {
                         .filter(obj -> obj.isSitable() && obj.isSit())
                         .findFirst()
                         .ifPresent(obj -> obj.setSit(false));
-                response.append("Oplà! Ti sei alzato!\n");
+                response.append("Oplà! Ti sei alzato!");
             } else {
                 response.append("Sei così basso che non ti accorgi di stare già in piedi???");
             }
@@ -191,7 +191,7 @@ class AdvancedVerbs {
                 || game.getCurrentRoom().containsObject(movement.getObject())))
                 || ((movement.getObject() != null && movement.getObject().getId() == ACID))
                 && (game.getInventory().contains(substances)
-                || game.getCurrentRoom().containsObject(substances))) {
+                || game.getCurrentRoom().containsObject(substances)) && game.getCurrentRoom().getId() == INFIRMARY) {
 
             if (game.getCurrentRoom().getObjects().contains(movement.getObject())
                     && !(movement.getObject().getId() == ACID)) {
@@ -223,7 +223,7 @@ class AdvancedVerbs {
                 game.increaseScore();
             }
             if (movement.isMixed() || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
-                response.append("Hai creato un acido corrosivo, attento alle mani!");
+                response.append("Hai creato un acido corrosivo, attento alle mani! ");
                 response.append("L'acido è stato inserito nel tuo inventario!");
             } else {
                 response.append("Hai già creato l'acido!!! Guarda bene nel tuo inventario!");
@@ -235,6 +235,8 @@ class AdvancedVerbs {
             response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
         } else if (!movement.getObject().isMixable()) {
             response.append("Non è una cosa che si può fare");
+        } else if (game.getCurrentRoom().getId() != INFIRMARY) {
+            response.append("Non puoi creare qui l'acido. Vai in infermeria se riesci!");
         }
         return response.toString();
     }
@@ -380,7 +382,7 @@ class AdvancedVerbs {
         if (game.getObject(HACKSAW).isAsked() && game.getCurrentRoom().getId() == CANTEEN
                 && !game.getObject(HACKSAW).isAccept() && !game.getInventory().contains(game.getObject(HACKSAW))) {
             response.append("Decidi di rifiutare l’accordo, quando vuoi il detenuto sarà sempre pronto " +
-                    "a ricontrattare!\n");
+                    "a ricontrattare!");
             game.getObject(HACKSAW).setPickupable(false);
             game.getObject(HACKSAW).setAsked(false);
             game.getObject(HACKSAW).setAccept(false);

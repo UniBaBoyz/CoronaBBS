@@ -186,15 +186,15 @@ public class Objects implements ObjectsInterface {
         TokenObject tableInfirmary = new TokenObject(TABLE_INFIRMARY, "Tavolo",
                 new HashSet<>(Arrays.asList("Tavolo", "Tavolino")),
                 "Noti vari oggetti, alcuni non sai nemmeno a cosa possano servire, in particolare in un" +
-                        " cassetto ci sono una decina di bisturi. Non penso che qualcuno se ne accorga se ne prendi " +
-                        "uno solo!");
+                        " cassetto c'è un bisturi e sul tavolo tante sostanze chimiche! Penso che nessuno se ne accorge" +
+                        "se prendi qualcosa dal tavolo!");
         game.getRoom(INFIRMARY).setObject(tableInfirmary);
 
         TokenObject picture = new TokenObject(PICTURE, "Quadro",
                 new HashSet<>(Arrays.asList("Quadro", "Trump", "Dipinto",
                         "Ritratto", "Foto", "Fotografia")),
-                " Il presidente ha un sorriso smagliante e uno sguardo felice, perché proprio quel quadro " +
-                        "li?");
+                "E' un quadro che raffigura Trump! Il presidente ha un sorriso smagliante e uno sguardo " +
+                        "felice, perché proprio quel quadro li?");
         picture.setPushable(true);
         game.getRoom(INFIRMARY).setObject(picture);
 
@@ -215,8 +215,8 @@ public class Objects implements ObjectsInterface {
 
         TokenObject substances = new TokenObject(SUBSTANCES, "Sostanze chimiche",
                 new HashSet<>(Arrays.asList("Sostanze", "Ingredienti", "Oggetti")),
-                "Sul tavolo puoi vedere alcuni strumenti di lavoro e alcune sostanze come: Cloruro " +
-                        "di sodio, acido solforico e altre sostanze di cui non riesco nemmeno a leggere il nome!",
+                "Sono delle sostanze chimiche come: Cloruro di sodio, acido solforico e altre sostanze " +
+                        "di cui non riesco nemmeno a leggere il nome!",
                 new HashSet<>(Collections.singletonList(
                         new TokenAdjective(new HashSet<>(Collections.singletonList("Chimiche"))))));
         substances.setPickupable(true);
@@ -293,6 +293,7 @@ public class Objects implements ObjectsInterface {
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Grande", "Gigante",
                         "Enorme", "Mastodontica", "Voluminosa"))))));
         game.getRoom(GARDEN).setObject(door);
+        door.setOpen(true);
         game.getRoom(LOBBY).setObject(door);
     }
 

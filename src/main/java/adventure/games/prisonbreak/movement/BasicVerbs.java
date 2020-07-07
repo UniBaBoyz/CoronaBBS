@@ -50,7 +50,7 @@ class BasicVerbs {
                 || game.getCurrentRoom().getObjects().contains(movement.getObject())
                 || game.getCurrentRoom().getObjects().stream().anyMatch(obj -> obj instanceof TokenPerson
                 && ((TokenPerson) obj).getInventory().contains(movement.getObject())))) {
-            response.append(movement.getObject().getDescription()).append("\n");
+            response.append(movement.getObject().getDescription());
 
         } else if (game.getCurrentRoom().getLook() != null && (movement.getObject() == null
                 || movement.getObject().getId() == ROOM_OBJ)) {
@@ -141,7 +141,7 @@ class BasicVerbs {
         if (movement.getObject() != null && game.getInventory().contains(movement.getObject())) {
             game.getCurrentRoom().setObject(movement.getObject());
             game.getInventory().remove(movement.getObject());
-            response.append("Hai lasciato a terra ").append(movement.getObject().getName()).append("!\n");
+            response.append("Hai lasciato a terra ").append(movement.getObject().getName()).append("!");
 
         } else if (movement.getObject() == null) {
             response.append("Cosa vorresti rimuovere dall'inventario?");
@@ -374,9 +374,9 @@ class BasicVerbs {
                 response.append("Hai aperto ").append(movement.getObject().getName()).append("!\n");
             } else if (!movement.getObject().isOpen()) {
                 response.append("Hai aperto ").append(movement.getObject().getName()).append("!\n");
-                response.append("Contiene: \n");
+                response.append("Contiene: ");
                 for (TokenObject obj : ((TokenObjectContainer) movement.getObject()).getObjects()) {
-                    response.append(obj.getName()).append(": ").append(obj.getDescription()).append("\n");
+                    response.append("\n").append(obj.getName()).append(": ").append(obj.getDescription());
                 }
             }
             movement.getObject().setOpen(true);
@@ -384,11 +384,10 @@ class BasicVerbs {
             response.append("Cosa vorresti aprire di preciso?");
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
-        } else if (!movement.getObject().isOpenable()) {
-            response.append("Sei serio? Vorresti veramente aprirlo?!");
-            response.append("Sei fuori di testa!");
         } else if (movement.getObject().isOpen()) {
             response.append("E' gia' aperto testa di merda!");
+        } else if (!movement.getObject().isOpenable()) {
+            response.append("Sei serio? Vorresti veramente aprirlo! Sei fuori di testa!");
         }
         return response.toString();
     }

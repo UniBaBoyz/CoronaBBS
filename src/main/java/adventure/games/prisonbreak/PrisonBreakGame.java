@@ -6,6 +6,7 @@ import adventure.parser.ParserOutput;
 import adventure.type.Inventory;
 
 import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
+import static adventure.utils.Utils.MAX_INVENTORY;
 
 
 /**
@@ -35,7 +36,7 @@ public class PrisonBreakGame extends GameDescription {
         setCurrentRoom(getRoom(MAIN_CELL));
 
         //Set Inventory
-        setInventory(new Inventory(5));
+        setInventory(new Inventory(MAX_INVENTORY));
     }
 
     @Override
