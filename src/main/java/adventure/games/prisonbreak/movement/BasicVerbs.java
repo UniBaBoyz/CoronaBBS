@@ -543,7 +543,7 @@ class BasicVerbs {
                     response.append("Il pulsante è già stato premuto! Fai in fretta!!!");
                 } else {
                     game.getObject(BUTTON_GENERATOR).setPush(true);
-                    game.getObject(GENERATOR_OBJ).setUsable(true);
+                    game.getObject(GENERATOR_OBJ).setUsed(true);
                     movement.getObject().setOn(false);
                     game.getRoom(DOOR_ISOLATION).setLocked(false);
                     response.append("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
