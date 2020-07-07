@@ -13,6 +13,8 @@ import adventure.server.type.VerbType;
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -54,40 +56,39 @@ public class RequestThread extends Thread {
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             String username;
 
-            /*
             final String NEW_USER = "INSERT INTO users VALUES (?)";
             final String FIND_USER = "select * from users where username = ?";
             boolean notFound = true;
             ResultSet rs;
-            PreparedStatement pst;
+            PreparedStatement findUser;
+            PreparedStatement newUser;
 
             // TODO Login Phase
-            pst = connectionDb.prepareStatement(FIND_USER);
+            findUser = connectionDb.prepareStatement(FIND_USER);
             username = in.readLine();
-            pst.setObject(1, username);
-            pst.executeUpdate();
-            rs = pst.executeQuery();
+            findUser.setString(1, username);
+            rs = findUser.executeQuery();
 
             //REGISTRAZIONE
             if (rs.next()) {
                 while (notFound) {
                     out.println("Username gia' esistente");
                     username = in.readLine();
-                    pst.setObject(1, username);
-                    pst.executeUpdate();
-                    rs = pst.executeQuery();
+                    findUser.setString(1, username);
+                    rs = findUser.executeQuery();
                     if (!rs.next()) {
                         notFound = false;
                     }
                 }
+                findUser.close();
             } else {
-                pst = connectionDb.prepareStatement(NEW_USER);
-                pst.setObject(1, username);
-                pst.executeUpdate();
-                pst.executeQuery();
+                /*
+                newUser = connectionDb.prepareStatement(NEW_USER);
+                newUser.setString(1, username);
+                newUser.executeUpdate();
+                newUser.close();
+                 */
             }
-            pst.close();
-             */
 
             // TODO CHOOSE GAME
             game = new PrisonBreakGame();

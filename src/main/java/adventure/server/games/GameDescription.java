@@ -41,22 +41,22 @@ public abstract class GameDescription {
 
     public static GameDescription loadGame(User id) throws IOException, ClassNotFoundException, SQLException {
         GameDescription game = null;
-        PreparedStatement pst;
-        ResultSet rs;
+        PreparedStatement preparedStatement;
+        ResultSet result;
         String query;
 
         query = "select * from games where id = ?";
-        pst = conn.prepareStatement(query);
-        pst.setObject(1, id);
+        preparedStatement = conn.prepareStatement(query);
+        preparedStatement.setObject(1, id);
 
-        rs = pst.executeQuery();
+        result = preparedStatement.executeQuery();
 
-        if (rs.next()) {
+        if (result.next()) {
             ByteArrayInputStream bais;
             ObjectInputStream ins;
 
             try {
-                bais = new ByteArrayInputStream(rs.getBytes("Game"));
+                bais = new ByteArrayInputStream(result.getBytes("Game"));
                 ins = new ObjectInputStream(bais);
                 game = (GameDescription) ins.readObject();
                 System.out.println("Caricato user: " + id.getUsername());
@@ -263,13 +263,13 @@ public abstract class GameDescription {
     public void saveGame(User user) {
         final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' longblob NOT NULL, " +
                 "'Game' longblob, PRIMARY KEY (id))";
-        PreparedStatement pst;
+        PreparedStatement preparedStatement;
         String query;
 
         try {
-            Statement stm = conn.createStatement();
-            stm.executeUpdate(CREATE_TABLE);
-            stm.close();
+            Statement statement = conn.createStatement();
+            statement.executeUpdate(CREATE_TABLE);
+            statement.close();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -281,10 +281,10 @@ public abstract class GameDescription {
             byte[] game = bos.toByteArray();
 
             query = "insert into games values(?, ?)";
-            pst = conn.prepareStatement(query);
-            pst.setObject(1, user);
-            pst.setObject(2, game);
-            pst.executeUpdate();
+            preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setObject(1, user);
+            preparedStatement.setObject(2, game);
+            preparedStatement.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();
