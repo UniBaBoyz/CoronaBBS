@@ -46,7 +46,7 @@ public abstract class GameDescription {
         PreparedStatement ps;
         ResultSet rs;
         String sql;
-
+        /*
         sql = "select * from games where id=1";
 
         ps = conn.prepareStatement(sql);
@@ -75,7 +75,8 @@ public abstract class GameDescription {
             }
 
         }
-
+        */
+        GameDescription rmObj = null;
         return rmObj;
     }
 
@@ -291,7 +292,7 @@ public abstract class GameDescription {
 
             sql = "insert into games (GameDescription) values(?)";
             ps = conn.prepareStatement(sql);
-            ps.setObject(user, game);
+            //ps.setObject(user, game);
             ps.executeUpdate();
 
         } catch (Exception e) {

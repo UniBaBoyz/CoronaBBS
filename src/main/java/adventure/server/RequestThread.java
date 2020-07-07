@@ -13,6 +13,7 @@ import adventure.server.type.VerbType;
 import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.*;
 
 public class RequestThread extends Thread {
@@ -32,6 +33,17 @@ public class RequestThread extends Thread {
         return out;
     }
 
+    private void initGame() {
+        if (!game.getIntroduction().isEmpty()) {
+            out.println(game.getIntroduction());
+            out.println(game.getCurrentRoom().getName() +
+                    "\n" + "======================================" +
+                    "===========================================\n" +
+                    game.getCurrentRoom().getDescription() + "\n" +
+                    "=================================================================================\n");
+        }
+    }
+
     @Override
     public void run() {
         try {
@@ -46,9 +58,7 @@ public class RequestThread extends Thread {
             Parser parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
 
             // Send Introduction of the game
-            if (!game.getIntroduction().isEmpty()) {
-                out.println(game.getIntroduction());
-            }
+            initGame();
 
 
             //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
@@ -57,7 +67,7 @@ public class RequestThread extends Thread {
                 communicateWithTheClient(in.readLine());
             }
 
-        } catch (IOException e) {
+        } catch (IOException | SQLException e) {
             System.err.println("A problem has occured during the communication with the client!");
         } finally {
             try {

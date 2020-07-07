@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
  */
 public class ClientMainClass {
     public static void main(String[] args) {
+        ManageView m = new ManageView(null, null);
         Socket socket = null;
         final String addressServer = "localhost";
         final int port = 10000;
@@ -36,16 +37,16 @@ public class ClientMainClass {
                 throw new IOException();
             }
 
-            View view = new View(in, out);
+            /*View view = new View(in, out);
 
             if (!view.setUsername()) {
                 view.setWindowVisible();
                 while (!view.isConnectionClosed()) {
                     view.manageInput();
                 }
-            }
+            }*/
 
-            view.disposeWindow();
+            //view.disposeWindow();
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Cannot communicate with the server!", "Error", JOptionPane.ERROR_MESSAGE);
         } finally {
@@ -58,5 +59,5 @@ public class ClientMainClass {
             }
         }
     }
-    }
 }
+

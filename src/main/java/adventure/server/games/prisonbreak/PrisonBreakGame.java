@@ -5,6 +5,8 @@ import adventure.server.games.prisonbreak.movement.ControllerMovement;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.Inventory;
 
+import java.sql.SQLException;
+
 import static adventure.server.games.prisonbreak.RoomType.MAIN_CELL;
 import static adventure.utils.Utils.MAX_INVENTORY;
 
@@ -16,7 +18,7 @@ public class PrisonBreakGame extends GameDescription {
 
     private final ControllerMovement movement;
 
-    public PrisonBreakGame() {
+    public PrisonBreakGame() throws SQLException {
         super(new Objects(), new Rooms(), new Verbs(), "PrisonBreakGame");
         this.movement = new ControllerMovement(this);
 

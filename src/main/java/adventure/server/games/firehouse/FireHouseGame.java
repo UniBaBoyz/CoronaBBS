@@ -8,12 +8,14 @@ import adventure.server.games.GameDescription;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.*;
 
+import java.sql.SQLException;
+
 /**
  * @author pierpaolo
  */
 public class FireHouseGame extends GameDescription {
 
-    public FireHouseGame() {
+    public FireHouseGame() throws SQLException {
         super(new FireHouseGameObjects(), new FireHouseGameRooms(), new FireHouseVerbs(), "FireHouseGame");
         setCurrentRoom(getRoom(0));
 

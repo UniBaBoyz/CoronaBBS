@@ -5,6 +5,8 @@ import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
 
 /**
  * @author Corona-Extra
@@ -38,28 +40,56 @@ public class View {
         return buttonEnter;
     }
 
+    public void setButtonEnter(String nameButton) {
+        buttonEnter.setText(nameButton);
+    }
+
     public JButton getButtonLook() {
         return buttonLook;
+    }
+
+    public void setButtonLook(String nameButton) {
+        buttonLook.setText(nameButton);
     }
 
     public JButton getButtonInventory() {
         return buttonInventory;
     }
 
+    public void setButtonInventory(String nameButton) {
+        buttonInventory.setText(nameButton);
+    }
+
+    public JButton getButtonNorth() {
+        return buttonNorth;
+    }
+
+    public void setButtonNorth(String nameButton) {
+        buttonNorth.setText(nameButton);
+    }
+
     public JButton getButtonSouth() {
         return buttonSouth;
+    }
+
+    public void setButtonSouth(String nameButton) {
+        buttonSouth.setText(nameButton);
     }
 
     public JButton getButtonEast() {
         return buttonEast;
     }
 
+    public void setButtonEast(String nameButton) {
+        buttonEast.setText(nameButton);
+    }
+
     public JButton getButtonWest() {
         return buttonWest;
     }
 
-    public JButton getButtonNorth() {
-        return buttonNorth;
+    public void setButtonWest(String nameButton) {
+        buttonWest.setText(nameButton);
     }
 
     public JTextArea getTextAreaScore() {
@@ -72,6 +102,10 @@ public class View {
 
     public JTextField getInputField() {
         return inputField;
+    }
+
+    public void setLabelScore(String nameLabel) {
+        labelScore.setText(nameLabel);
     }
 
     public void setTitle(String title) {
@@ -124,7 +158,6 @@ public class View {
         jpanel.add(textAreaScore);
         jpanel.add(labelScore);
 
-
         jframe.add(jpanel);
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
@@ -141,12 +174,6 @@ public class View {
         outputArea.setWrapStyleWord(true);
         outputArea.setColumns(20);
         outputArea.setRows(5);
-        buttonLook.setText("Guarda");
-        buttonInventory.setText("Inventario");
-        buttonNorth.setText("Nord");
-        buttonSouth.setText("Sud");
-        buttonEast.setText("Est");
-        buttonWest.setText("Ovest");
 
         jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane3.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -154,7 +181,6 @@ public class View {
         textAreaScore.setEditable(false);
         textAreaScore.setColumns(20);
         textAreaScore.setRows(5);
-        labelScore.setText("SCORE");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(jframe.getContentPane());
         jframe.getContentPane().setLayout(layout);
@@ -223,6 +249,10 @@ public class View {
     public void disposeWindow() {
         jframe.setVisible(false);
         jframe.dispose();
+    }
+
+    public void setVisibleWindow(boolean value) {
+        jframe.setVisible(value);
     }
 
     // Action listener
