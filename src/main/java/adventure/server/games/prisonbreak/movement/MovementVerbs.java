@@ -4,10 +4,12 @@ import adventure.exceptions.LockedRoomException;
 import adventure.exceptions.NotAccessibleRoomException;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 
+import java.io.Serializable;
+
 /**
  * @author Corona-Extra
  */
-class MovementVerbs {
+class MovementVerbs implements Serializable {
 
     private final Move movement;
     private final PrisonBreakGame game;

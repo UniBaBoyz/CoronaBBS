@@ -1,12 +1,13 @@
 package adventure.server.parser;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * @author Corona-Extra
  */
-public class Token {
+public class Token implements Serializable {
     private TokenType type;
     private Set<String> alias = new HashSet<>();
 

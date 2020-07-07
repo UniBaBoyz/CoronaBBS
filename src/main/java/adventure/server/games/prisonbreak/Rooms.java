@@ -4,12 +4,14 @@ import adventure.server.games.GameDescription;
 import adventure.server.games.RoomsInterface;
 import adventure.server.type.Room;
 
+import java.io.Serializable;
+
 import static adventure.server.games.prisonbreak.RoomType.*;
 
 /**
  * @author Corona-Extra
  */
-public class Rooms implements RoomsInterface {
+public class Rooms implements RoomsInterface, Serializable {
 
     @Override
     public void initRooms(GameDescription game) {

@@ -24,10 +24,10 @@ public class RequestThread extends Thread {
     private final Connection connectionDb;
     BufferedReader in; // Used to communicate with the client
     PrintWriter out; // Used to communicate with the client
+    boolean exit = false;
     private GameDescription game = null;
     private Parser parser;
     private String username;
-    boolean exit = false;
 
     public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
@@ -59,7 +59,7 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-            //registration();
+            registration();
 
             //LOGIN
             //login();
@@ -128,6 +128,7 @@ public class RequestThread extends Thread {
                 out.println("C'e' qualcosa che non va" + "\n");
                 out.println("=============================================================================" +
                         "====\n");
+                out.println(e);
             }
         } else {
             out.println("Addio!");
@@ -135,7 +136,6 @@ public class RequestThread extends Thread {
     }
 
     private void registration() throws SQLException, IOException {
-        String username;
         final String NEW_USER = "INSERT INTO users VALUES (?)";
         final String FIND_USER = "select * from users where username = ?";
         boolean notFound = true;
@@ -159,12 +159,12 @@ public class RequestThread extends Thread {
                 }
             }
             findUser.close();
-        } else {
-            newUser = connectionDb.prepareStatement(NEW_USER);
-            newUser.setString(1, username);
-            newUser.executeUpdate();
-            newUser.close();
         }
+
+        newUser = connectionDb.prepareStatement(NEW_USER);
+        newUser.setString(1, username);
+        newUser.executeUpdate();
+        newUser.close();
     }
 
     public void login() throws SQLException, IOException {
@@ -178,7 +178,7 @@ public class RequestThread extends Thread {
         findUser.setString(1, username);
         result = findUser.executeQuery();
 
-        if (result.next()) {
+        if (!result.next()) {
             while (notFound) {
                 out.println("Utente non esistente!");
                 username = in.readLine();
@@ -199,8 +199,9 @@ public class RequestThread extends Thread {
     }
 
     public void saveGame() throws IOException, SQLException {
-        if (game != null) {
+        if (game != null && username != null) {
             game.saveGame(username);
+            out.println("Gioco salvato correttamente!");
         }
     }
 }

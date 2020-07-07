@@ -4,6 +4,7 @@ import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.server.games.prisonbreak.TokenPerson;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 /**
  * @author Corona-Extra
  */
-public class Room {
+public class Room implements Serializable {
 
     private final int id;
     private Set<TokenObject> objects = new HashSet<>();

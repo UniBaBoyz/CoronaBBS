@@ -14,7 +14,7 @@ import java.util.*;
 /**
  * @author Corona-Extra
  */
-public abstract class GameDescription {
+public abstract class GameDescription implements Serializable {
     private static final int INCREASE_SCORE = 10;
     private static Connection conn;
     private final String title;
@@ -39,6 +39,7 @@ public abstract class GameDescription {
     }
 
     public static GameDescription loadGame(String username) throws IOException, ClassNotFoundException, SQLException {
+        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;

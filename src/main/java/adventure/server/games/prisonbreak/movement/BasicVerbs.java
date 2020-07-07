@@ -9,6 +9,8 @@ import adventure.server.games.prisonbreak.TokenPerson;
 import adventure.server.type.TokenObject;
 import adventure.server.type.TokenObjectContainer;
 
+import java.io.Serializable;
+
 import static adventure.server.games.prisonbreak.ObjectType.*;
 import static adventure.server.games.prisonbreak.RoomType.*;
 import static adventure.server.games.prisonbreak.Utils.*;
@@ -16,7 +18,7 @@ import static adventure.server.games.prisonbreak.Utils.*;
 /**
  * @author Corona-Extra
  */
-class BasicVerbs {
+class BasicVerbs implements Serializable {
 
     private final Move movement;
     private final PrisonBreakGame game;

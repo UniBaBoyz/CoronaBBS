@@ -3,10 +3,12 @@ package adventure.server.games.prisonbreak.movement;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.parser.ParserOutput;
 
+import java.io.Serializable;
+
 /**
  * @author Corona-Extra
  */
-public class ControllerMovement {
+public class ControllerMovement implements Serializable {
     private final Move move;
     private final MovementVerbs movementVerbs;
     private final BasicVerbs basicVerbs;

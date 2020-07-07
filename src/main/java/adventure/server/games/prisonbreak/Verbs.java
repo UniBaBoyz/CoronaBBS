@@ -5,6 +5,7 @@ import adventure.server.games.VerbsInterface;
 import adventure.server.type.TokenVerb;
 import adventure.server.type.VerbType;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ import java.util.HashSet;
 /**
  * @author Corona-Extra
  */
-public class Verbs implements VerbsInterface {
+public class Verbs implements VerbsInterface, Serializable {
 
     @Override
     public void initVerbs(GameDescription game) {

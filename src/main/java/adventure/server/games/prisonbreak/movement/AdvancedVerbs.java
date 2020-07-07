@@ -8,13 +8,15 @@ import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.games.prisonbreak.TokenPerson;
 import adventure.server.type.TokenObject;
 
+import java.io.Serializable;
+
 import static adventure.server.games.prisonbreak.ObjectType.*;
 import static adventure.server.games.prisonbreak.RoomType.*;
 
 /**
  * @author Corona-Extra
  */
-class AdvancedVerbs {
+class AdvancedVerbs implements Serializable {
 
     private final Move movement;
     private final PrisonBreakGame game;

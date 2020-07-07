@@ -4,6 +4,7 @@ import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * @author Corona-Extra
  */
-public class Inventory {
+public class Inventory implements Serializable {
     private final int MAX_ITEM;
     private List<TokenObject> list = new ArrayList<>();
 

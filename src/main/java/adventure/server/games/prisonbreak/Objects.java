@@ -7,6 +7,7 @@ import adventure.server.type.TokenAdjective;
 import adventure.server.type.TokenObject;
 import adventure.server.type.TokenObjectContainer;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -17,7 +18,7 @@ import static adventure.server.games.prisonbreak.RoomType.*;
 /**
  * @author Corona-Extra
  */
-public class Objects implements ObjectsInterface {
+public class Objects implements ObjectsInterface, Serializable {
 
     @Override
     public void initObjects(GameDescription game) {
