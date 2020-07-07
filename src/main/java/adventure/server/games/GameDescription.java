@@ -4,6 +4,7 @@ import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
+import adventure.server.User;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.*;
 
@@ -41,7 +42,41 @@ public abstract class GameDescription {
     }
 
     public static GameDescription loadGame() throws IOException, ClassNotFoundException, SQLException {
+        GameDescription game = null;
+        PreparedStatement ps;
+        ResultSet rs;
+        String sql;
 
+        sql = "select * from games where id=1";
+
+        ps = conn.prepareStatement(sql);
+
+        rs = ps.executeQuery();
+
+        if (rs.next()) {
+            ByteArrayInputStream bais;
+
+            ObjectInputStream ins;
+
+            try {
+
+                bais = new ByteArrayInputStream(rs.getBytes("javaObject"));
+
+                ins = new ObjectInputStream(bais);
+
+                MyClass mc = (MyClass) ins.readObject();
+
+                System.out.println("Object in value ::" + mc.getSName());
+                ins.close();
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+            }
+
+        }
+
+        return rmObj;
     }
 
     private void init() {
@@ -234,11 +269,11 @@ public abstract class GameDescription {
         conn = DriverManager.getConnection("jdbc:h2:/C://Utenti/user/Desktop/database");
     }
 
-    public void saveGame() {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games (id int(10) unsigned NOT NULL AUTO_INCREMENT, " +
-                "GameDescription longblob, PRIMARY KEY (id))";
-        PreparedStatement ps = null;
-        String sql = null;
+    public void saveGame(User user) {
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('User' longblob NOT NULL AUTO_INCREMENT, " +
+                "'GameDescription' longblob, PRIMARY KEY (id))";
+        PreparedStatement ps;
+        String sql;
 
         try {
             Statement stm = conn.createStatement();
@@ -252,12 +287,11 @@ public abstract class GameDescription {
             oos.flush();
             oos.close();
             bos.close();
-
-            byte[] data = bos.toByteArray();
+            byte[] game = bos.toByteArray();
 
             sql = "insert into games (GameDescription) values(?)";
             ps = conn.prepareStatement(sql);
-            ps.setObject(1, data);
+            ps.setObject(user, game);
             ps.executeUpdate();
 
         } catch (Exception e) {
