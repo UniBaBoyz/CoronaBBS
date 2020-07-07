@@ -23,8 +23,8 @@ public class PrisonBreakGame extends GameDescription {
         this.movement = new ControllerMovement(this);
 
         String introduction = "===========================================================================" +
-                "======\n" + "\t\t BENVENUTO IN PRISON BREAK!!!\n" + "=====================================" +
-                "============================================\n" + "Sei stato arrestato per aver commesso una" +
+                "======\n" + "\t\t\t BENVENUTO IN PRISON BREAK!!!\n\t" + "=====================================" +
+                "============================================\n\t" + "Sei stato arrestato per aver commesso una" +
                 " rapina nella banca centrale di New York! La corte giudiziaria ti ha dato 3 anni di carcere e " +
                 "sotto tua richiesta sei stato collocato nel carcere di maggiore sicurezza di New York. Tutto" +
                 " fa parte di un tuo malefico piano: salvare tuo fratello imprigionato all'interno dello stesso " +

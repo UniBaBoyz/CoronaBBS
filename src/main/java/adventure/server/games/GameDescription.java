@@ -257,7 +257,7 @@ public abstract class GameDescription {
     }
 
     private void connect() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:./data/db");
+        conn = DriverManager.getConnection("jdbc:h2:./database/games");
     }
 
     public void saveGame(User user) {
