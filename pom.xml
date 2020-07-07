@@ -19,7 +19,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>adventure.MainClass</mainClass>
+                            <mainClass>adventure.client.MainClass</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
