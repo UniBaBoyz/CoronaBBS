@@ -20,7 +20,6 @@ public abstract class GameDescription {
     private String introduction = null;
     private static final int INCREASE_SCORE = 10;
     private static Connection conn;
-    private final String title;
     private final ObjectsInterface gameObjects;
     private final RoomsInterface gameRooms;
     private final VerbsInterface gameVerbs;
