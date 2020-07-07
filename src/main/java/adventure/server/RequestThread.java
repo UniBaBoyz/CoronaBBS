@@ -1,5 +1,6 @@
 package adventure.server;
 
+import adventure.Utils;
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
@@ -38,13 +39,16 @@ public class RequestThread extends Thread {
     }
 
     private void initGame() {
-        if (game != null && game.getIntroduction() != null) {
-            out.println(game.getIntroduction());
-            out.println(game.getCurrentRoom().getName() +
-                    "\n" + "======================================" +
-                    "===========================================\n" +
-                    game.getCurrentRoom().getDescription() + "\n" +
-                    "=================================================================================\n");
+        if (game != null) {
+            if (game.getIntroduction() != null) {
+                out.println(game.getIntroduction());
+                out.println(game.getCurrentRoom().getName() +
+                        "\n" + "======================================" +
+                        "===========================================\n" +
+                        game.getCurrentRoom().getDescription() + "\n" +
+                        "=================================================================================\n");
+            }
+            out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
         }
     }
 
@@ -69,7 +73,7 @@ public class RequestThread extends Thread {
 
 
             //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
-            while(true) {
+            while (true) {
                 // Read instruction from the client
                 communicateWithTheClient(in.readLine());
             }
@@ -78,8 +82,7 @@ public class RequestThread extends Thread {
             System.err.println("A problem has occured during the communication with the client!");
         } catch (SQLException e) {
             System.out.println(e);
-        }
-            finally {
+        } finally {
             try {
                 socket.close();
             } catch (IOException e) {
@@ -89,7 +92,7 @@ public class RequestThread extends Thread {
     }
 
     private void communicateWithTheClient(String string) {
-        if (game != null && parser != null && string != null ) {
+        if (game != null && parser != null && string != null) {
             try {
                 List<ParserOutput> listParser = parser.parse(string);
                 for (ParserOutput p : listParser) {
@@ -101,10 +104,7 @@ public class RequestThread extends Thread {
                         out.println(game.nextMove(p) + "\n");
                         out.println("====================================================================" +
                                 "=============\n");
-
-
-                        //TODO MANAGE SCORE
-                        //view.getTextAreaScore().setText(Integer.toString(game.getScore()));
+                        out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
                     }
                 }
             } catch (LexicalErrorException e) {

@@ -1,11 +1,14 @@
 package adventure.client;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -114,6 +117,7 @@ public class View {
 
     public View() {
         initComponents();
+        jframe.setIconImage(new ImageIcon("/../../../res/Images/Icon.png").getImage());
     }
 
     private void initComponents() {
@@ -161,6 +165,7 @@ public class View {
         jframe.add(jpanel);
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
+
         ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
         jframe.setIconImage(imageIcon.getImage());
 

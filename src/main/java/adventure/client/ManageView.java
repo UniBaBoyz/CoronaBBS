@@ -1,5 +1,7 @@
 package adventure.client;
 
+import adventure.Utils;
+
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -13,7 +15,6 @@ import java.io.PrintWriter;
 public class ManageView {
     private final BufferedReader in;
     private final PrintWriter out;
-
     private final View view = new View();
 
     public ManageView(BufferedReader in, PrintWriter out) {
@@ -35,8 +36,23 @@ public class ManageView {
 
     public void run() throws IOException {
         // TODO Cambiare condizione
-        while(true) {
-            view.getOutputArea().append(in.readLine() + System.lineSeparator());
+        while (true) {
+            manageInput(in.readLine());
+        }
+    }
+
+    private void manageInput(String string) {
+        if (string != null && string.contains(Utils.SEPARATOR_CHARACTER_STRING)) {
+            String score = string.substring(string.indexOf(Utils.SEPARATOR_CHARACTER_STRING) + 1, string.length());
+            view.getTextAreaScore().setText(score);
+
+            String textToAppend = string.substring(0, string.indexOf(Utils.SEPARATOR_CHARACTER_STRING));
+            if(!textToAppend.isEmpty()) {
+                view.getOutputArea().append(textToAppend + System.lineSeparator());
+            }
+
+        } else if (string != null && !string.isEmpty()) {
+            view.getOutputArea().append(string + System.lineSeparator());
         }
     }
 
@@ -63,7 +79,7 @@ public class ManageView {
         actionListenerInputField();
     }
 
-    private void actionListenerWindow(){
+    private void actionListenerWindow() {
         view.getJframe().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
