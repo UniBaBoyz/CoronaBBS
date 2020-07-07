@@ -224,7 +224,7 @@ public class Rooms implements RoomsInterface {
                 " nessuno potrà piu' ritrovarvi!\n\n" +
                 "COMPLIMENTI HAI VINTO!");
         endGame.setLook("");
-        //endGame.setLocked(true);
+        endGame.setLocked(true);
 
         Room frontBench = new Room(FRONTBENCH, "Di fronte alle panchine",
                 "Ti avvicini alla panchina, ma vieni subito fermato da un gruppo di neri che con aria" +

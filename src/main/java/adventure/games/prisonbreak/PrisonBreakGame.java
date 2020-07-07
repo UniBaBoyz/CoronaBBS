@@ -34,7 +34,7 @@ public class PrisonBreakGame extends GameDescription {
         setIntroduction(introduction);
 
         //Set starting room
-        setCurrentRoom(getRoom(INFIRMARY));
+        setCurrentRoom(getRoom(MAIN_CELL));
 
         //Set Inventory
         setInventory(new Inventory(MAX_INVENTORY));
