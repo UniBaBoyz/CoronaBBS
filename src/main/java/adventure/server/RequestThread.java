@@ -13,8 +13,6 @@ import adventure.server.type.VerbType;
 import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -55,6 +53,8 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             String username;
+
+            /*
             final String NEW_USER = "INSERT INTO users VALUES (?)";
             final String FIND_USER = "select * from users where username = ?";
             boolean notFound = true;
@@ -68,7 +68,6 @@ public class RequestThread extends Thread {
             pst.executeUpdate();
             rs = pst.executeQuery();
 
-            /*
             //REGISTRAZIONE
             if (rs.next()) {
                 while (notFound) {
