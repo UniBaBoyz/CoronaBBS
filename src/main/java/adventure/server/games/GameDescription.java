@@ -261,10 +261,10 @@ public abstract class GameDescription {
     }
 
     public void saveGame(User user) {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' longblob NOT NULL AUTO_INCREMENT, " +
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' longblob NOT NULL, " +
                 "'Game' longblob, PRIMARY KEY (id))";
-        PreparedStatement ps;
-        String sql;
+        PreparedStatement pst;
+        String query;
 
         try {
             Statement stm = conn.createStatement();
@@ -280,11 +280,11 @@ public abstract class GameDescription {
             bos.close();
             byte[] game = bos.toByteArray();
 
-            sql = "insert into games values(?, ?)";
-            ps = conn.prepareStatement(sql);
-            ps.setObject(1, user);
-            ps.setObject(2, game);
-            ps.executeUpdate();
+            query = "insert into games values(?, ?)";
+            pst = conn.prepareStatement(query);
+            pst.setObject(1, user);
+            pst.setObject(2, game);
+            pst.executeUpdate();
 
         } catch (Exception e) {
             e.printStackTrace();

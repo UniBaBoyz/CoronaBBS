@@ -10,14 +10,15 @@ import adventure.server.parser.ParserIta;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.VerbType;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
 
 public class RequestThread extends Thread {
     private final Socket socket;
+    private final Connection connectionDb;
     BufferedReader in; // Used to communicate with the client
     PrintWriter out; // Used to communicate with the client
     private GameDescription game;
@@ -25,8 +26,9 @@ public class RequestThread extends Thread {
     private String username;
     boolean exit = false;
 
-    public RequestThread(Socket socket) {
+    public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
+        this.connectionDb = connDb;
     }
 
     public PrintWriter getOutputStreamThread() {
@@ -51,7 +53,14 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
+            /*final String NEW_USER = "INSERT INTO users VALUES (?, ?)";
+            final String FIND_USER = "select * from users where username = ";
+            ResultSet rs;
+            PreparedStatement pst;
+
             // TODO Login Phase
+            rs = pst
+            if ()*/
 
             // TODO CHOOSE GAME
             game = new PrisonBreakGame();
