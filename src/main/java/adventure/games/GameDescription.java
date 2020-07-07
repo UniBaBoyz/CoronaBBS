@@ -7,10 +7,10 @@ import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
 import adventure.type.*;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.sql.*;
 import java.util.*;
 
 /**
@@ -29,14 +29,19 @@ public abstract class GameDescription {
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
+    private Connection conn;
 
-    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) {
+    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) throws SQLException {
         this.title = title;
         this.gameRooms = gameRooms;
         this.gameObjects = gameObjects;
         this.gameVerbs = gameVerbs;
-
+        connect();
         init();
+    }
+
+    public static GameDescription loadGame() throws IOException, ClassNotFoundException, SQLException {
+
     }
 
     private void init() {
@@ -225,11 +230,39 @@ public abstract class GameDescription {
         rooms.addAll(visited);
     }
 
-    public GameDescription loadGame() throws IOException {
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream("game.dat"));
-        GameDescription game = (GameDescription)in.readObject();
+    private void connect() throws SQLException {
+        conn = DriverManager.getConnection("jdbc:h2:/C://Utenti/user/Desktop/database");
     }
 
-    public abstract void saveGame();
+    public void saveGame() {
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games (id int(10) unsigned NOT NULL AUTO_INCREMENT, " +
+                "GameDescription longblob, PRIMARY KEY (id))";
+        PreparedStatement ps = null;
+        String sql = null;
+
+        try {
+            Statement stm = conn.createStatement();
+            stm.executeUpdate(CREATE_TABLE);
+            stm.close();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+
+            oos.writeObject(this);
+            oos.flush();
+            oos.close();
+            bos.close();
+
+            byte[] data = bos.toByteArray();
+
+            sql = "insert into games (GameDescription) values(?)";
+            ps = conn.prepareStatement(sql);
+            ps.setObject(1, data);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
