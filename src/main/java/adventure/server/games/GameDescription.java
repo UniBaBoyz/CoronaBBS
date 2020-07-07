@@ -16,16 +16,16 @@ import java.util.*;
  * @author Corona-Extra
  */
 public abstract class GameDescription {
-    private final String title;
-    private String introduction = null;
     private static final int INCREASE_SCORE = 10;
     private static Connection conn;
+    private final String title;
     private final ObjectsInterface gameObjects;
     private final RoomsInterface gameRooms;
     private final VerbsInterface gameVerbs;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
+    private String introduction = null;
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
@@ -257,7 +257,7 @@ public abstract class GameDescription {
     }
 
     private void connect() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:/C://Utenti/user/Desktop/database");
+        conn = DriverManager.getConnection("jdbc:h2:./data/db");
     }
 
     public void saveGame(User user) {
