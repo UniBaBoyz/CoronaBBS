@@ -196,7 +196,6 @@ class AdvancedVerbs {
                 game.getCurrentRoom().removeObject(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (movement.getObject().getId() != ACID
@@ -204,7 +203,6 @@ class AdvancedVerbs {
                 game.getInventory().remove(movement.getObject());
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getCurrentRoom().getObjects().contains(substances)
@@ -212,7 +210,6 @@ class AdvancedVerbs {
                 game.getCurrentRoom().removeObject(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             } else if (game.getInventory().getObjects().contains(substances)
@@ -220,7 +217,6 @@ class AdvancedVerbs {
                 game.getInventory().remove(substances);
                 game.getInventory().add(game.getObject(ACID));
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
-                game.getCurrentRoom().setObjectsUsableHere(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
             }
@@ -522,6 +518,7 @@ class AdvancedVerbs {
 
             game.getRoom(INFIRMARY).setLocked(false);
             game.getRoom(INFIRMARY).setObject(game.getObject(BROTHER));
+            game.getRoom(INFIRMARY).setObjectsUsableHere(game.getObject(ACID));
             game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
                     "nell'infermeria che ti aspetta!!!");
 
