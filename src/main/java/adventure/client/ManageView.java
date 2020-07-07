@@ -1,20 +1,11 @@
 package adventure.client;
 
-import adventure.exceptions.inputException.InputErrorException;
-import adventure.exceptions.inputException.LexicalErrorException;
-import adventure.exceptions.inputException.SyntaxErrorException;
-import adventure.server.games.GameDescription;
-import adventure.server.parser.Parser;
-import adventure.server.parser.ParserOutput;
-import adventure.server.type.VerbType;
-
 import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 /**
  * @author Corona-Extra
@@ -45,7 +36,7 @@ public class ManageView {
     public void run() throws IOException {
         // TODO Cambiare condizione
         while(true) {
-            view.getOutputArea().append(in.readLine());
+            view.getOutputArea().append(in.readLine() + System.lineSeparator());
         }
     }
 
