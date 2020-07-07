@@ -16,12 +16,7 @@ public class MainClass {
         View view = new View();
         Engine engine = new Engine(game, view, parser);
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                view.getJframe().setVisible(true);
-            }
-        });
+        SwingUtilities.invokeLater(() -> view.getJframe().setVisible(true));
 
         engine.init();
     }
