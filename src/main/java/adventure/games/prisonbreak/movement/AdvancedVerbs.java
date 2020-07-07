@@ -521,6 +521,7 @@ class AdvancedVerbs {
                     "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
 
             game.getRoom(INFIRMARY).setLocked(false);
+            game.getRoom(INFIRMARY).setObject(game.getObject(BROTHER));
             game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
                     "nell'infermeria che ti aspetta!!!");
 
@@ -536,6 +537,7 @@ class AdvancedVerbs {
             game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano " +
                     "e scappare via da qui!");
             game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere l'infermeria!");
+
 
             game.increaseScore();
             game.increaseScore();

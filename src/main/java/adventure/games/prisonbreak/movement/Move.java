@@ -202,23 +202,6 @@ class Move {
                     if (game.getCurrentRoom().getId() == INFIRMARY) {
                         game.getCurrentRoom().getWest().setLocked(true);
                     } else if (game.getCurrentRoom().getId() == ENDGAME) {
-                        response.append("==========================================================================" +
-                                "=======\n");
-                        response.append("Decidi di fuggire dalla finestra. Tu e tutta la tua squadra usate il " +
-                                "lungo cavo che collega la finestra al grande muro della prigione. " +
-                                "Arrivati sul muro riuscite a scavalcare con molta attenzione il filo spinato " +
-                                "presente. " +
-                                "Fate tutti un grande salto fuori dalla prigione e scappate per 100 metri verso " +
-                                "nord. " +
-                                "Lì trovate ad aspettarvi un elicottero guidato da vostro padre, che sapeva " +
-                                "tutto del vostro piano segreto e l’ora esatta in cui avreste dovuto attuarlo!" +
-                                " Salite tutti sull’elicottero e fuggite tutti insieme verso il Messico cosicché " +
-                                "nessuno potrà più ritrovarvi!");
-                        response.append("===========================================================================" +
-                                "======\n");
-                        response.append("COMPLIMENTI, HAI VINTO!");
-                        response.append("=============================================================================" +
-                                "====\n");
                         game.getCurrentRoom().getSouth().setLocked(true);
                     }
                 }
