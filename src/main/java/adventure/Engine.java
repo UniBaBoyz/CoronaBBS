@@ -37,12 +37,15 @@ public class Engine {
             for (ParserOutput p : listParser) {
                 if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                         && p.getObject().isEmpty()) {
-                    view.getOutputArea().append("Addio!");
-                    view.getJframe().dispose();
-                    break;
+                    int input = JOptionPane.showConfirmDialog(view.getJframe(), "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (input == JOptionPane.YES_OPTION) {
+                        view.getOutputArea().append("Addio!");
+                        view.getJframe().dispose();
+                        break;
+                    }
                 } else if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.INVENTORY)
                         && p.getObject().isEmpty()) {
-                    JOptionPane.showMessageDialog(view.getJframe(),game.nextMove(p),"INVENTARIO",JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(view.getJframe(), game.nextMove(p), "INVENTARIO", JOptionPane.INFORMATION_MESSAGE);
                 } else {
                     view.getOutputArea().append(game.nextMove(p) + "\n");
                     view.getOutputArea().append("====================================================================" +

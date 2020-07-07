@@ -9,7 +9,7 @@ import java.awt.event.WindowListener;
 /**
  * @author Corona-Extra
  */
-public class View {
+public class View extends JFrame {
 
     private JFrame jframe;
     private JPanel jpanel;
@@ -125,12 +125,12 @@ public class View {
         jpanel.add(labelScore);
 
 
+        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Img.gif");
+        getJframe().setIconImage(imageIcon.getImage());
         jframe.add(jpanel);
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
         jframe.addWindowListener(new WindowsListener());
-        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
-        jframe.setIconImage(imageIcon.getImage());
 
         jScrollPane1.setViewportView(inputField);
         buttonEnter.setText("Invio");
@@ -238,7 +238,6 @@ public class View {
 
         @Override
         public void windowOpened(WindowEvent e) {
-
         }
 
         @Override
@@ -258,7 +257,6 @@ public class View {
 
         @Override
         public void windowActivated(WindowEvent e) {
-
         }
 
         @Override

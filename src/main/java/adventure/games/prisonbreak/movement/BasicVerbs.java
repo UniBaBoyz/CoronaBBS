@@ -83,6 +83,7 @@ class BasicVerbs {
             game.getInventory().add(movement.getObject());
             response.append("Hai preso ").append(movement.getObject().getName()).append("!");
             game.increaseScore();
+            response.append(game.toStringScore());
 
         } else if (movement.getObject() != null && movement.getObject().getId() == SCALPEL
                 && game.getCurrentRoom().getId() == INFIRMARY
@@ -92,6 +93,7 @@ class BasicVerbs {
             game.getInventory().add(movement.getObject());
             movement.getObject().setTaken(true);
             game.increaseScore();
+            response.append(game.toStringScore());
 
             response.append("Hai preso ").append(movement.getObject().getName()).append("!");
             response.append("\nFai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
@@ -115,6 +117,7 @@ class BasicVerbs {
             if ((movement.getObject().getId() == SCOTCH || movement.getObject().getId() == SCREW)
                     && !movement.getObject().isTaken()) {
                 game.increaseScore();
+                response.append(game.toStringScore());
                 movement.getObject().setTaken(true);
             }
             game.getCurrentRoom().removeObject(movement.getObject());
@@ -169,6 +172,7 @@ class BasicVerbs {
                             "quel lavandino non aveva una grande forza visto che le viti si svitano facilmente." +
                             " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -179,6 +183,7 @@ class BasicVerbs {
                     response.append("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
                             "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -188,6 +193,7 @@ class BasicVerbs {
 
                     if (!movement.getObject().isUsed()) {
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -211,6 +217,7 @@ class BasicVerbs {
                             "solo tu qui.");
                     game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     response.append("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
                             "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
@@ -239,6 +246,7 @@ class BasicVerbs {
                                 "in infermeria!");
                         game.increaseScore();
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -260,6 +268,7 @@ class BasicVerbs {
                                 " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                 " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -273,6 +282,7 @@ class BasicVerbs {
                     game.increaseScore();
                     game.increaseScore();
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -286,6 +296,7 @@ class BasicVerbs {
                         game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
                                 " a ovest!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -430,11 +441,13 @@ class BasicVerbs {
                         game.getRoom(PASSAGE_SOUTH).removeObject(movement.getObject());
                         response.append("La scala è stata spinta fino alla stanza a nord!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                     } else if (game.getCurrentRoom().getId() == SECRET_PASSAGE) {
                         game.getRoom(PASSAGE_NORTH).setObject(movement.getObject());
                         game.getRoom(SECRET_PASSAGE).removeObject(movement.getObject());
                         response.append("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                     } else {
                         response.append("La scala è bloccata! Non esiste alcun modo per spostarla!");
                     }
@@ -450,6 +463,7 @@ class BasicVerbs {
                             response.append("Oissà!\nNoti un passaggio segreto in cui è possibile entrare!");
                             game.increaseScore();
                             game.increaseScore();
+                            response.append(game.toStringScore());
                         }
                     }
                     break;
@@ -483,6 +497,7 @@ class BasicVerbs {
                                     "generatore di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                             game.increaseScore();
                             game.increaseScore();
+                            response.append(game.toStringScore());
                         }
                     }
                     break;
@@ -536,6 +551,7 @@ class BasicVerbs {
                             " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                     game.increaseScore();
                     game.increaseScore();
+                    response.append(game.toStringScore());
                 }
             } else {
                 response.append("Non puoi spegnere nulla qui!");

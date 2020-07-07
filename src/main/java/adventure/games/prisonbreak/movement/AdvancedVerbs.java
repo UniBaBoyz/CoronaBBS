@@ -198,6 +198,7 @@ class AdvancedVerbs {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else if (movement.getObject().getId() != ACID
                     && game.getInventory().getObjects().contains(movement.getObject())) {
                 game.getInventory().remove(movement.getObject());
@@ -205,6 +206,8 @@ class AdvancedVerbs {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
+                response.append(game.toStringScore());
             } else if (game.getCurrentRoom().getObjects().contains(substances)
                     && movement.getObject().getId() == ACID) {
                 game.getCurrentRoom().removeObject(substances);
@@ -212,6 +215,7 @@ class AdvancedVerbs {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else if (game.getInventory().getObjects().contains(substances)
                     && movement.getObject().getId() == ACID) {
                 game.getInventory().remove(substances);
@@ -219,6 +223,7 @@ class AdvancedVerbs {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             }
             if (movement.isMixed() || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
                 response.append("Hai creato un acido corrosivo, attento alle mani! ");
@@ -268,6 +273,7 @@ class AdvancedVerbs {
 
             if (!game.getObject(TOOLS).isUsed()) {
                 game.increaseScore();
+                response.append(game.toStringScore());
                 game.getObject(TOOLS).setUsed(true);
             }
 
@@ -294,6 +300,7 @@ class AdvancedVerbs {
                 game.getRoom(ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
                         " a ovest!");
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else {
                 response.append("Non puoi inserire nulla qui!");
             }
@@ -410,11 +417,13 @@ class AdvancedVerbs {
                     " ti svegli in infermeria.\n");
             game.setCurrentRoom(game.getRoom(INFIRMARY));
             game.increaseScore();
+            response.append(game.toStringScore());
             movement.setMove(true);
             movement.increaseCounterFaceUp();
         } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
                 && game.getInventory().contains(game.getObject(SCALPEL)) && movement.getCounterFaceUp() == 1) {
             game.increaseScore();
+            response.append(game.toStringScore());
             game.setObjectNotAssignedRoom(game.getObject(SCALPEL));
             game.getInventory().remove(game.getObject(SCALPEL));
             game.getObject(SCALPEL).setUsed(true);
@@ -459,6 +468,7 @@ class AdvancedVerbs {
                     "in infermeria!");
             game.increaseScore();
             game.increaseScore();
+            response.append(game.toStringScore());
         } else if (movement.getObject() != null
                 && movement.getObject().getId() == WINDOWS_INFIRMARY
                 && game.getCurrentRoom().getId() == INFIRMARY
@@ -472,6 +482,7 @@ class AdvancedVerbs {
             game.increaseScore();
             game.increaseScore();
             game.increaseScore();
+            response.append(game.toStringScore());
             game.getObject(ACID).setUsed(true);
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi rompere???");
@@ -539,6 +550,7 @@ class AdvancedVerbs {
             game.increaseScore();
             game.increaseScore();
             game.increaseScore();
+            response.append(game.toStringScore());
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi dare di preciso?");
         } else if (movement.getObject() instanceof TokenPerson) {
