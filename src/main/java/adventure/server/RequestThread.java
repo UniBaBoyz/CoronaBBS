@@ -25,6 +25,9 @@ import java.util.Random;
 
 import static adventure.Utils.SEED;
 
+/**
+ * @author Corona-Extra
+ */
 public class RequestThread extends Thread {
     private final Socket socket;
     private final Connection connectionDb;
