@@ -1,6 +1,7 @@
 package adventure.client;
 
 
+import javax.print.attribute.standard.NumberUp;
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -51,9 +52,8 @@ public class ClientMainClass {
 
             //TODO AGGIUNGERE SCELTA GIOCO E COMUNICARLO AL SERVER
 
-            //TODO GESTIRE IL GIOCO E CAMBIARE CONDIZIONE
-            while(true) {
-            }
+
+            view.run();
 
 
             //view.disposeWindow();

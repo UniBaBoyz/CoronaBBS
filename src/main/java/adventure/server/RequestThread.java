@@ -21,7 +21,7 @@ public class RequestThread extends Thread {
     BufferedReader in; // Used to communicate with the client
     PrintWriter out; // Used to communicate with the client
     private GameDescription game;
-    Parser parser;
+    private Parser parser;
     private String username;
     boolean exit = false;
 
@@ -54,8 +54,8 @@ public class RequestThread extends Thread {
             // TODO Login Phase
 
             // TODO CHOOSE GAME
-            GameDescription game = new PrisonBreakGame();
-            Parser parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
+            game = new PrisonBreakGame();
+            parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
 
             // Send Introduction of the game
             initGame();
@@ -82,7 +82,7 @@ public class RequestThread extends Thread {
     }
 
     private void communicateWithTheClient(String string) {
-        if (game != null && parser != null) {
+        if (game != null && parser != null && string != null ) {
             try {
                 List<ParserOutput> listParser = parser.parse(string);
                 for (ParserOutput p : listParser) {

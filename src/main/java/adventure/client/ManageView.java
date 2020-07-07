@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -39,6 +40,13 @@ public class ManageView {
 
     public void setVisibleWindow(boolean value) {
         view.getJframe().setVisible(value);
+    }
+
+    public void run() throws IOException {
+        // TODO Cambiare condizione
+        while(true) {
+            view.getOutputArea().append(in.readLine());
+        }
     }
 
     private void initView() {
