@@ -23,8 +23,8 @@ public class ClientMainClass {
             JOptionPane.showMessageDialog(null, "Si è verificato un errore durante l'" +
                     "ottenimento dell'indirizzo IP del server", "Errore", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore durante la connessione" +
-                    "con il server", "Errore", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore durante " +
+                    "la connessione con il server", "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
         try {

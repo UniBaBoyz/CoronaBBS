@@ -59,7 +59,7 @@ public abstract class GameDescription {
                 bais = new ByteArrayInputStream(rs.getBytes("Game"));
                 ins = new ObjectInputStream(bais);
                 game = (GameDescription) ins.readObject();
-                System.out.println("User" + id.getUsername());
+                System.out.println("Caricato user: " + id.getUsername());
                 ins.close();
 
             } catch (Exception e) {
