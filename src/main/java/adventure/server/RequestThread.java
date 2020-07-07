@@ -119,7 +119,8 @@ public class RequestThread extends Thread {
                 out.println("=============================================================================" +
                         "====\n");
             }
+        } else {
+            out.println("Addio!");
         }
-        out.println("Addio!");
     }
 }
