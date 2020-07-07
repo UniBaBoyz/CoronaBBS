@@ -321,7 +321,7 @@ class AdvancedVerbs {
                 game.getObject(MEDICINE).setGiveable(true);
             } else if (movement.getObject().getId() == GENNY_BELLO
                     && ((TokenPerson) movement.getObject()).isFollowHero()) {
-                response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!\n");
+                response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!");
             }
         } else if (movement.getObject() == null) {
             response.append("Vuoi parlare da solo???");
@@ -446,10 +446,12 @@ class AdvancedVerbs {
             game.getInventory().remove(game.getObject(HACKSAW));
             game.getRoom(AIR_DUCT_NORTH).removeObject(movement.getObject());
             response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
-                    "fortuna sei riuscito a rompere la grata");
+                    "fortuna sei riuscito a rompere la grata\n");
             response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                     "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
             game.getRoom(GENERATOR).setLocked(false);
+            game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
+                    "in infermeria!");
             game.increaseScore();
             game.increaseScore();
         } else if (movement.getObject() == null) {
@@ -496,6 +498,8 @@ class AdvancedVerbs {
                     "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
 
             game.getRoom(INFIRMARY).setLocked(false);
+            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
+                    "nell'infermeria che ti aspetta!!!");
 
             //Lock the other rooms to lead the user to the end of the game
             game.getRoom(DOOR_ISOLATION).setLocked(true);
@@ -508,8 +512,7 @@ class AdvancedVerbs {
                     "c’è il tuo amichetto Genny. È ora di attuare il piano!");
             game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano " +
                     "e scappare via da qui!");
-            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
-                    "nell'infermeria che ti aspetta!");
+            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere l'infermeria!");
 
             game.increaseScore();
             game.increaseScore();

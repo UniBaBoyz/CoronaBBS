@@ -230,11 +230,13 @@ class BasicVerbs {
                         game.getInventory().remove(movement.getObject());
                         game.getRoom(AIR_DUCT_NORTH).removeObject(game.getObject(DESTROYABLE_GRATE));
                         response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto," +
-                                " per fortuna sei riuscito a rompere la grata");
+                                " per fortuna sei riuscito a rompere la grata\n");
                         response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre " +
                                 "con il seghetto, puoi proseguire nel condotto e capisci che quel condotto" +
                                 " porta fino all’infermeria.");
                         game.getRoom(GENERATOR).setLocked(false);
+                        game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
+                                "in infermeria!");
                         game.increaseScore();
                         game.increaseScore();
                         movement.getObject().setUsed(true);
