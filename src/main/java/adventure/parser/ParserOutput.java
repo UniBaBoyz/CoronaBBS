@@ -12,7 +12,7 @@ import java.util.Set;
 public class ParserOutput {
     private TokenVerb verb;
     private Set<TokenObject> object;
-    private TokenAdjective adjective;
+    private final TokenAdjective adjective;
 
     public ParserOutput(TokenVerb verb) {
         this.verb = verb;

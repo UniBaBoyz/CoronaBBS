@@ -41,7 +41,6 @@ public class Verbs implements VerbsInterface {
     }
 
     private void initBasicVerbs(GameDescription game) {
-
         TokenVerb look = new TokenVerb(VerbType.LOOK_AT);
         look.setAlias(new HashSet<>(Arrays.asList("Osserva", "Guarda", "Vedi", "Trova", "Cerca", "Descrivi",
                 "Controlla", "Leggi")));

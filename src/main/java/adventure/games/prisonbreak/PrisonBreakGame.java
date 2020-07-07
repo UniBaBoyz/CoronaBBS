@@ -11,11 +11,11 @@ import static adventure.games.prisonbreak.RoomType.MAIN_CELL;
 /**
  * @author Corona-Extra
  */
-public class Game extends GameDescription {
+public class PrisonBreakGame extends GameDescription {
 
     private final ControllerMovement movement;
 
-    public Game() {
+    public PrisonBreakGame() {
         super(new Objects(), new Rooms(), new Verbs());
         this.movement = new ControllerMovement(this);
 

@@ -16,7 +16,8 @@ public abstract class Parser {
     private final ScannerToken scanner;
     private final List<List<TokenType>> validSentences;
 
-    public Parser(List<List<TokenType>> validSentences, Set<TokenVerb> verbs, Set<TokenObject> objects, Set<TokenAdjective> adjectives) {
+    public Parser(List<List<TokenType>> validSentences, Set<TokenVerb> verbs, Set<TokenObject> objects,
+                  Set<TokenAdjective> adjectives) {
         scanner = initScanner(verbs, objects, adjectives);
         this.validSentences = new ArrayList<>(validSentences);
     }

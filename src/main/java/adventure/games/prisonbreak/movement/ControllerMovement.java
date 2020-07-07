@@ -1,21 +1,21 @@
 package adventure.games.prisonbreak.movement;
 
-import adventure.games.prisonbreak.Game;
+import adventure.games.prisonbreak.PrisonBreakGame;
 import adventure.parser.ParserOutput;
 
 /**
  * @author Corona-Extra
  */
 public class ControllerMovement {
-    private final Game game;
+    private final PrisonBreakGame prisonBreakGame;
     private final Move move;
     private final MovementVerbs movementVerbs;
     private final BasicVerbs basicVerbs;
     private final AdvancedVerbs advancedVerbs;
 
-    public ControllerMovement(Game game) {
-        this.game = game;
-        this.move = new Move(this, game);
+    public ControllerMovement(PrisonBreakGame prisonBreakGame) {
+        this.prisonBreakGame = prisonBreakGame;
+        this.move = new Move(this, prisonBreakGame);
         basicVerbs = new BasicVerbs(this);
         movementVerbs = new MovementVerbs(this);
         advancedVerbs = new AdvancedVerbs(this);

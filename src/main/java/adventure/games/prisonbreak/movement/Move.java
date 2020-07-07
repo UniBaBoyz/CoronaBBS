@@ -7,7 +7,7 @@ import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
-import adventure.games.prisonbreak.Game;
+import adventure.games.prisonbreak.PrisonBreakGame;
 import adventure.games.prisonbreak.TokenPerson;
 import adventure.parser.ParserOutput;
 import adventure.type.TokenObject;
@@ -23,20 +23,20 @@ import static adventure.type.VerbType.*;
  */
 class Move {
     private ControllerMovement controller;
-    private Game game;
+    private PrisonBreakGame prisonBreakGame;
     private StringBuilder response = new StringBuilder();
     private TokenObject object;
     private boolean move = false;
     private boolean mixed = false;
     private short counterFaceUp = 0;
 
-    Move(ControllerMovement controller, Game game) {
+    Move(ControllerMovement controller, PrisonBreakGame prisonBreakGame) {
         this.controller = controller;
-        this.game = game;
+        this.prisonBreakGame = prisonBreakGame;
     }
 
-    Game getGame() {
-        return game;
+    PrisonBreakGame getPrisonBreakGame() {
+        return prisonBreakGame;
     }
 
     StringBuilder getResponse() {
@@ -71,7 +71,7 @@ class Move {
         move = false;
         response = new StringBuilder();
         try {
-            object = game.getCorrectObject(p.getObject());
+            object = prisonBreakGame.getCorrectObject(p.getObject());
 
             if (isMovementVerb(p.getVerb().getVerbType())) {
 
@@ -192,17 +192,17 @@ class Move {
             if (move) {
                 response.append("=============================================================================" +
                         "====\n");
-                response.append(game.getCurrentRoom().getName()).append("\n");
+                response.append(prisonBreakGame.getCurrentRoom().getName()).append("\n");
                 response.append("=============================================================================" +
                         "====\n");
-                response.append(game.getCurrentRoom().getDescription());
+                response.append(prisonBreakGame.getCurrentRoom().getDescription());
                 response.append("================================================\n");
-                response.append(game.getCurrentRoom().getDescription()).append("\n");
-                if (((TokenPerson) game.getObject(GENNY_BELLO)).isFollowHero()) {
-                    game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
-                    if (game.getCurrentRoom().getId() == INFIRMARY) {
-                        game.getCurrentRoom().getWest().setLocked(true);
-                    } else if (game.getCurrentRoom().getId() == ENDGAME) {
+                response.append(prisonBreakGame.getCurrentRoom().getDescription()).append("\n");
+                if (((TokenPerson) prisonBreakGame.getObject(GENNY_BELLO)).isFollowHero()) {
+                    prisonBreakGame.getCurrentRoom().setObject(prisonBreakGame.getObject(GENNY_BELLO));
+                    if (prisonBreakGame.getCurrentRoom().getId() == INFIRMARY) {
+                        prisonBreakGame.getCurrentRoom().getWest().setLocked(true);
+                    } else if (prisonBreakGame.getCurrentRoom().getId() == ENDGAME) {
                         response.append("==========================================================================" +
                                 "=======\n");
                         response.append("Decidi di fuggire dalla finestra. Tu e tutta la tua squadra usate il " +
@@ -220,32 +220,32 @@ class Move {
                         response.append("COMPLIMENTI, HAI VINTO!");
                         response.append("=============================================================================" +
                                 "====\n");
-                        game.getCurrentRoom().getSouth().setLocked(true);
+                        prisonBreakGame.getCurrentRoom().getSouth().setLocked(true);
                     }
                 }
-                if (game.getObject(MEDICINE).isGiven() && game.getCurrentRoom().getId() == MAIN_CELL) {
-                    ((TokenPerson) game.getObject(GENNY_BELLO)).setFollowHero(true);
-                    game.getCurrentRoom().getEast().setLocked(true);
-                    game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
+                if (prisonBreakGame.getObject(MEDICINE).isGiven() && prisonBreakGame.getCurrentRoom().getId() == MAIN_CELL) {
+                    ((TokenPerson) prisonBreakGame.getObject(GENNY_BELLO)).setFollowHero(true);
+                    prisonBreakGame.getCurrentRoom().getEast().setLocked(true);
+                    prisonBreakGame.getCurrentRoom().setObject(prisonBreakGame.getObject(GENNY_BELLO));
                 }
 
             }
 
         } catch (NotAccessibleRoomException e) {
-            if (game.getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(EAST)
-                    || game.getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(WEST)) {
+            if (prisonBreakGame.getCurrentRoom().getId() == BROTHER_CELL && p.getVerb().getVerbType().equals(EAST)
+                    || prisonBreakGame.getCurrentRoom().getId() == OTHER_CELL && p.getVerb().getVerbType().equals(WEST)) {
                 response.append("Non hai ancora il potere di allargare le sbarre o oltrepassarle!!");
             } else {
                 response.append("Da quella parte non si può andare c'è un muro! Non hai ancora acquisito i poteri" +
                         " per oltrepassare i muri...");
             }
         } catch (LockedRoomException e) {
-            if (game.getCurrentRoom().getId() == ENDGAME) {
+            if (prisonBreakGame.getCurrentRoom().getId() == ENDGAME) {
                 response.append("Hai terminato il gioco! Basta camminare!");
-            } else if (game.getObject(MEDICINE).isGiven()) {
+            } else if (prisonBreakGame.getObject(MEDICINE).isGiven()) {
                 response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
-            } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
-                    && game.getCurrentRoom().getEast().getId() == INFIRMARY) {
+            } else if (prisonBreakGame.getCurrentRoom().getEast() != null && prisonBreakGame.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
+                    && prisonBreakGame.getCurrentRoom().getEast().getId() == INFIRMARY) {
                 response.append("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +
                         "non ti sembri manchi la persona più importante???");
             } else {

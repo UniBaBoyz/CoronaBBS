@@ -15,9 +15,9 @@ import java.util.*;
 public abstract class GameDescription {
     private String introduction;
     private static final int INCREASE_SCORE = 10;
-    private ObjectsInterface gameObjects;
-    private RoomsInterface gameRooms;
-    private VerbsInterface gameVerbs;
+    private final ObjectsInterface gameObjects;
+    private final RoomsInterface gameRooms;
+    private final VerbsInterface gameVerbs;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
