@@ -9,6 +9,8 @@ import adventure.server.parser.ParserOutput;
 import adventure.server.type.VerbType;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
@@ -25,8 +27,18 @@ public class ManageView {
     public ManageView(BufferedReader in, PrintWriter out) {
         this.in = in;
         this.out = out;
+        manageEvent();
         initView();
-        view.setVisibleWindow(true);
+        setVisibleWindow(true);
+    }
+
+    public void disposeWindow() {
+        view.getJframe().setVisible(false);
+        view.getJframe().dispose();
+    }
+
+    public void setVisibleWindow(boolean value) {
+        view.getJframe().setVisible(value);
     }
 
     private void initView() {
@@ -40,5 +52,96 @@ public class ManageView {
         view.setLabelScore("Score");
     }
 
+    private void manageEvent() {
+        actionListenerWindow();
+        actionListenerButtonNorth();
+        actionListenerButtonSouth();
+        actionListenerButtonEast();
+        actionListenerButtonWest();
+        actionListenerButtonInventory();
+        actionListenerButtonLook();
+        actionListenerButtonEnter();
+        actionListenerInputField();
+    }
+
+    private void actionListenerWindow(){
+        view.getJframe().addWindowListener(new WindowListener() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int input = JOptionPane.showConfirmDialog(view.getJframe(), "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (input == JOptionPane.YES_OPTION) {
+                    disposeWindow();
+                }
+            }
+
+            @Override
+            public void windowOpened(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowClosed(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowIconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowActivated(WindowEvent e) {
+
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+    }
+
+    private void actionListenerButtonNorth() {
+        view.getButtonNorth().addActionListener(e -> out.println("Nord"));
+    }
+
+    private void actionListenerButtonSouth() {
+        view.getButtonSouth().addActionListener(e -> out.println("Sud"));
+    }
+
+    private void actionListenerButtonEast() {
+        view.getButtonEast().addActionListener(e -> out.println("Est"));
+    }
+
+    private void actionListenerButtonWest() {
+        view.getButtonWest().addActionListener(e -> out.println("Ovest"));
+    }
+
+    private void actionListenerButtonInventory() {
+        view.getButtonInventory().addActionListener(e -> out.println("Inventario"));
+    }
+
+    private void actionListenerButtonLook() {
+        view.getButtonLook().addActionListener(e -> out.println("Guarda"));
+    }
+
+    private void actionListenerButtonEnter() {
+        view.getButtonEnter().addActionListener(ev -> {
+            out.println(view.getInputField().getText());
+            view.getInputField().setText("");
+        });
+    }
+
+    private void actionListenerInputField() {
+        view.getInputField().addActionListener(ev -> {
+            out.println(view.getInputField().getText());
+            view.getInputField().setText("");
+        });
+    }
 
 }

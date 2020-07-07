@@ -161,7 +161,6 @@ public class View {
         jframe.add(jpanel);
         jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         jframe.setMinimumSize(new Dimension(720, 500));
-        jframe.addWindowListener(new WindowsListener());
         ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
         jframe.setIconImage(imageIcon.getImage());
 
@@ -244,56 +243,5 @@ public class View {
 
         jframe.pack();
         jframe.setLocationRelativeTo(null); // Used to center the window
-    }
-
-    public void disposeWindow() {
-        jframe.setVisible(false);
-        jframe.dispose();
-    }
-
-    public void setVisibleWindow(boolean value) {
-        jframe.setVisible(value);
-    }
-
-    // Action listener
-    private class WindowsListener implements WindowListener {
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            int input = JOptionPane.showConfirmDialog(jframe, "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (input == JOptionPane.YES_OPTION) {
-                disposeWindow();
-            }
-        }
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-
-        }
     }
 }
