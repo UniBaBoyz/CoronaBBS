@@ -7,8 +7,8 @@ import java.util.Set;
  * @author Corona-Extra
  */
 public class Token {
-    TokenType type;
-    Set<String> alias = new HashSet<>();
+    private TokenType type;
+    private Set<String> alias = new HashSet<>();
 
     public Token(TokenType type) {
         this.type = type;

@@ -144,7 +144,7 @@ public abstract class Parser {
                 object = getObjectWithAdjective(object, adjective);
             }
 
-            parserOutputs.add(new ParserOutput(verb, object, adjective));
+            parserOutputs.add(new ParserOutput(verb, object));
 
         }
 
