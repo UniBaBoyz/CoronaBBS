@@ -54,41 +54,11 @@ public class RequestThread extends Thread {
             System.out.println("New connection" + socket);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-            String username;
 
-            final String NEW_USER = "INSERT INTO users VALUES (?)";
-            final String FIND_USER = "select * from users where username = ?";
-            boolean notFound = true;
-            ResultSet rs;
-            PreparedStatement findUser;
-            PreparedStatement newUser;
+            registration();
 
-            // TODO Login Phase
-            findUser = connectionDb.prepareStatement(FIND_USER);
-            username = in.readLine();
-            findUser.setString(1, username);
-            rs = findUser.executeQuery();
+            //LOGIN
 
-            //REGISTRAZIONE
-            if (rs.next()) {
-                while (notFound) {
-                    out.println("Username gia' esistente");
-                    username = in.readLine();
-                    findUser.setString(1, username);
-                    rs = findUser.executeQuery();
-                    if (!rs.next()) {
-                        notFound = false;
-                    }
-                }
-                findUser.close();
-            } else {
-                /*
-                newUser = connectionDb.prepareStatement(NEW_USER);
-                newUser.setString(1, username);
-                newUser.executeUpdate();
-                newUser.close();
-                 */
-            }
 
             // TODO CHOOSE GAME
             game = new PrisonBreakGame();
@@ -107,7 +77,7 @@ public class RequestThread extends Thread {
         } catch (IOException e) {
             System.err.println("A problem has occured during the communication with the client!");
         } catch (SQLException e) {
-            System.err.println("Problem SQL");
+            System.out.println(e);
         }
             finally {
             try {
@@ -158,6 +128,39 @@ public class RequestThread extends Thread {
             }
         } else {
             out.println("Addio!");
+        }
+    }
+
+    private void registration() throws SQLException, IOException {
+        String username;
+        final String NEW_USER = "INSERT INTO users VALUES (?)";
+        final String FIND_USER = "select * from users where username = ?";
+        boolean notFound = true;
+        ResultSet result;
+        PreparedStatement findUser;
+        PreparedStatement newUser;
+
+        findUser = connectionDb.prepareStatement(FIND_USER);
+        username = in.readLine();
+        findUser.setString(1, username);
+        result = findUser.executeQuery();
+
+        if (result.next()) {
+            while (notFound) {
+                out.println("Username gia' esistente");
+                username = in.readLine();
+                findUser.setString(1, username);
+                result = findUser.executeQuery();
+                if (!result.next()) {
+                    notFound = false;
+                }
+            }
+            findUser.close();
+        } else {
+            newUser = connectionDb.prepareStatement(NEW_USER);
+            newUser.setString(1, username);
+            newUser.executeUpdate();
+            newUser.close();
         }
     }
 }

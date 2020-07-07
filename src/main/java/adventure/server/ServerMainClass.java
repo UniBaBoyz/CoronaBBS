@@ -12,9 +12,9 @@ public class ServerMainClass {
     public static void main(String[] args) {
         ServerSocket serverSocket = null;
         Socket socket = null;
-        Connection conn = null;
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (id int(10) NOT NULL AUTO_INCREMENT, " +
-                "username varchar(50), PRIMARY KEY (id, username))";
+        Connection conn;
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (username varchar(1024), " +
+                "PRIMARY KEY (username))";
 
         final int port = 10000;
 

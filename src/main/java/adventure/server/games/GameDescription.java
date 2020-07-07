@@ -4,7 +4,6 @@ import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
 import adventure.exceptions.objectsException.ObjectsAmbiguityException;
 import adventure.exceptions.objectsException.ObjectsException;
-import adventure.server.User;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.*;
 
@@ -39,7 +38,7 @@ public abstract class GameDescription {
         init();
     }
 
-    public static GameDescription loadGame(User id) throws IOException, ClassNotFoundException, SQLException {
+    public static GameDescription loadGame(String username) throws IOException, ClassNotFoundException, SQLException {
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;
@@ -47,7 +46,7 @@ public abstract class GameDescription {
 
         query = "select * from games where id = ?";
         preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setObject(1, id);
+        preparedStatement.setString(1, username);
 
         result = preparedStatement.executeQuery();
 
@@ -55,16 +54,12 @@ public abstract class GameDescription {
             ByteArrayInputStream bais;
             ObjectInputStream ins;
 
-            try {
-                bais = new ByteArrayInputStream(result.getBytes("Game"));
-                ins = new ObjectInputStream(bais);
-                game = (GameDescription) ins.readObject();
-                System.out.println("Caricato user: " + id.getUsername());
-                ins.close();
+            bais = new ByteArrayInputStream(result.getBytes("Game"));
+            ins = new ObjectInputStream(bais);
+            game = (GameDescription) ins.readObject();
+            System.out.println("Caricato user: " + username);
+            ins.close();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
 
         return game;
@@ -260,35 +255,30 @@ public abstract class GameDescription {
         conn = DriverManager.getConnection("jdbc:h2:./database/games");
     }
 
-    public void saveGame(User user) {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' longblob NOT NULL, " +
+    public void saveGame(String user) throws SQLException, IOException {
+        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games ('Id' varchar(1024) NOT NULL, " +
                 "'Game' longblob, PRIMARY KEY (id))";
         PreparedStatement preparedStatement;
         String query;
 
-        try {
-            Statement statement = conn.createStatement();
-            statement.executeUpdate(CREATE_TABLE);
-            statement.close();
+        Statement statement = conn.createStatement();
+        statement.executeUpdate(CREATE_TABLE);
+        statement.close();
 
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
 
-            oos.writeObject(this);
-            oos.flush();
-            oos.close();
-            bos.close();
-            byte[] game = bos.toByteArray();
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+        bos.close();
+        byte[] game = bos.toByteArray();
 
-            query = "insert into games values(?, ?)";
-            preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setObject(1, user);
-            preparedStatement.setObject(2, game);
-            preparedStatement.executeUpdate();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        query = "insert into games values(?, ?)";
+        preparedStatement = conn.prepareStatement(query);
+        preparedStatement.setObject(1, user);
+        preparedStatement.setObject(2, game);
+        preparedStatement.executeUpdate();
     }
 
 }
