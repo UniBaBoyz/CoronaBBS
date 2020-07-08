@@ -14,7 +14,7 @@ public class ManageSignUp {
     private final BufferedReader in;
     private final PrintWriter out;
     private final SignUp view;
-    private ManageLogin loginViewController;
+    private final ManageLogin loginViewController;
 
     public ManageSignUp(BufferedReader in, PrintWriter out, ManageLogin loginViewController) {
         this.in = in;
@@ -53,7 +53,7 @@ public class ManageSignUp {
                                         "- Contenere almeno un carattere maiuscolo\n" +
                                         "- Contenere almeno un carattere maiuscolo\n" +
                                         "- Contenere almeno un numero\n" +
-                                        "- Deve essere lunga minimo 8 caratteri e massimo 40",
+                                        "- Deve essere lunga minimo 6 caratteri e massimo 40",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case EXISTING_USERNAME:
@@ -71,7 +71,6 @@ public class ManageSignUp {
             e.printStackTrace();
         }
     }
-
 
     private void manageEvent() {
         actionListenerWindow();
@@ -99,6 +98,16 @@ public class ManageSignUp {
                 view.getJTResidenceField().getText();
     }
 
+    private void resetView() {
+        view.getJTUsernameField().setText("");
+        view.getJPasswordField().setText("");
+        view.getJComboBoxDay().setSelectedIndex(0);
+        view.getJComboBoxMonth().setSelectedIndex(0);
+        view.getJComboBoxYear().setSelectedIndex(0);
+        view.getJTResidenceField().setText("");
+        view.getJButtonSignUp().setEnabled(false);
+    }
+
     private void actionListenerWindow() {
         view.getJDialogMain().addWindowListener(new WindowListener() {
             @Override
@@ -107,7 +116,6 @@ public class ManageSignUp {
                         "interrompere la registrazione?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
-                    ManageLogin login = new ManageLogin(in, out, loginViewController.getGameViewController());
                 }
             }
 
@@ -144,20 +152,17 @@ public class ManageSignUp {
     }
 
     private void actionListenerButtonSignUp() {
-        view.getJButtonSignUp().addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!Utils.isValidDate(
-                        Integer.parseInt(view.getJComboBoxDay().getItemAt(view.getJComboBoxDay().getSelectedIndex())),
-                        Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
-                        Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
-                    JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    out.println(REGISTRATION);
-                    out.println(createResponse());
-                    run();
-                }
+        view.getJButtonSignUp().addActionListener(e -> {
+            if (!Utils.isValidDate(
+                    Integer.parseInt(view.getJComboBoxDay().getItemAt(view.getJComboBoxDay().getSelectedIndex())),
+                    Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
+                    Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
+                JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
+            } else {
+                out.println(REGISTRATION);
+                out.println(createResponse());
+                run();
+                resetView();
             }
         });
     }

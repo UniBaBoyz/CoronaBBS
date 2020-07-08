@@ -149,11 +149,8 @@ public class ManageLogin {
     }
 
     private void actionListenerButtonSignUp() {
-        view.getJButtonSignIn().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ManageSignUp signUp = new ManageSignUp(in, out, ManageLogin.this);
-            }
+        view.getJButtonSignIn().addActionListener(e -> {
+            new ManageSignUp(in, out, ManageLogin.this);
         });
     }
 
@@ -192,15 +189,12 @@ public class ManageLogin {
     }
 
     private void actionListenerButtonLogin() {
-        view.getJButtonLogin().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                out.println(LOGIN);
-                out.println(view.getJTUsernameField().getText() +
-                        SEPARATOR_CHARACTER_STRING +
-                        String.valueOf(view.getJPasswordField().getPassword()));
-                run();
-            }
+        view.getJButtonLogin().addActionListener(e -> {
+            out.println(LOGIN);
+            out.println(view.getJTUsernameField().getText() +
+                    SEPARATOR_CHARACTER_STRING +
+                    String.valueOf(view.getJPasswordField().getPassword()));
+            run();
         });
     }
 }
