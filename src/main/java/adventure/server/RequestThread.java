@@ -94,42 +94,38 @@ public class RequestThread extends Thread {
                 } else if (command.matches(NEW_GAME)) {
                     boolean created = false;
                     while (!created) {
-                        while (!command.isEmpty()) {
-                            command = in.readLine();
-                            if (command.matches(PRISON_BREAK)) {
-                                gameType = PRISON_BREAK_GAME;
-                                game = new PrisonBreakGame();
-                            } else if (command.matches(FIRE_HOUSE)) {
-                                gameType = FIRE_HOUSE_GAME;
-                                game = new FireHouseGame();
-                            }
-                            if (game != null) {
-                                out.println(GAME_CREATED);
-                                created = true;
-                            } else {
-                                out.println(NO_GAME_CREATED);
-                            }
+                        command = in.readLine();
+                        if (command.matches(PRISON_BREAK)) {
+                            gameType = PRISON_BREAK_GAME;
+                            game = new PrisonBreakGame();
+                        } else if (command.matches(FIRE_HOUSE)) {
+                            gameType = FIRE_HOUSE_GAME;
+                            game = new FireHouseGame();
+                        }
+                        if (game != null) {
+                            out.println(GAME_CREATED);
+                            created = true;
+                        } else {
+                            out.println(NO_GAME_CREATED);
                         }
                     }
                     next = true;
                 } else if (command.matches(LOAD_GAME)) {
                     boolean loaded = false;
                     while (!loaded) {
-                        while (!command.isEmpty()) {
-                            command = in.readLine();
-                            if (command.matches(PRISON_BREAK)) {
-                                gameType = PRISON_BREAK_GAME;
-                                game = loadGame();
-                            } else if (command.matches(FIRE_HOUSE)) {
-                                gameType = FIRE_HOUSE_GAME;
-                                game = loadGame();
-                            }
-                            if (game != null) {
-                                out.println(GAME_LOADED);
-                                loaded = true;
-                            } else {
-                                out.println(NO_GAME_FOUNDED);
-                            }
+                        command = in.readLine();
+                        if (command.matches(PRISON_BREAK)) {
+                            gameType = PRISON_BREAK_GAME;
+                            game = loadGame();
+                        } else if (command.matches(FIRE_HOUSE)) {
+                            gameType = FIRE_HOUSE_GAME;
+                            game = loadGame();
+                        }
+                        if (game != null) {
+                            out.println(GAME_LOADED);
+                            loaded = true;
+                        } else {
+                            out.println(NO_GAME_FOUNDED);
                         }
                     }
                     next = true;
