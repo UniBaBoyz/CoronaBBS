@@ -22,6 +22,7 @@ import java.util.List;
 import static adventure.Games.FIRE_HOUSE_GAME;
 import static adventure.Games.PRISON_BREAK_GAME;
 import static adventure.Utils.*;
+import static adventure.server.games.GameDescription.existingGame;
 
 /**
  * @author Corona-Extra
@@ -92,19 +93,25 @@ public class RequestThread extends Thread {
                         switch (credentials) {
                             case PRISON_BREAK:
                                 gameType = PRISON_BREAK_GAME;
-                                game = new PrisonBreakGame();
+                                if (existingGame(username, gameType)) {
+                                    out.println(EXISTING_GAME);
+                                } else {
+                                    game = new PrisonBreakGame();
+                                }
                                 break;
                             case FIRE_HOUSE:
                                 gameType = FIRE_HOUSE_GAME;
-                                game = new FireHouseGame();
+                                if (existingGame(username, gameType)) {
+                                    out.println(EXISTING_GAME);
+                                } else {
+                                    game = new FireHouseGame();
+                                }
                                 break;
                         }
 
                         if (game != null) {
                             out.println(GAME_CREATED);
                             next = true;
-                        } else {
-                            out.println(NO_GAME_CREATED);
                         }
                         break;
 
@@ -203,7 +210,7 @@ public class RequestThread extends Thread {
         return new ArrayList<>(Arrays.asList(string.split(SEPARATOR_CHARACTER_STRING)));
     }
 
-    private boolean registration(List<String> strings) throws SQLException {
+    private void registration(List<String> strings) throws SQLException {
         final String NEW_USER = "insert into user values (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
         String password;
@@ -224,14 +231,14 @@ public class RequestThread extends Thread {
 
             if (result.next()) {
                 out.println(EXISTING_USERNAME);
-                return false;
+                return;
             }
 
             findUser.close();
 
             if (!password.matches(PASSWORD_REGEX)) {
                 out.println(INVALID_PASSWORD);
-                return false;
+                return;
             }
 
             newUser = connectionDb.prepareStatement(NEW_USER);
@@ -242,13 +249,10 @@ public class RequestThread extends Thread {
             newUser.executeUpdate();
             newUser.close();
             out.println(CORRECT_REGISTRATION);
-            return true;
-        } else {
-            return false;
         }
     }
 
-    private boolean login(List<String> strings) throws SQLException {
+    private void login(List<String> strings) throws SQLException {
         final String FIND_USER = "select * from user where username = ?";
         String password = strings.get(1);
         ResultSet resultUser;
@@ -261,17 +265,16 @@ public class RequestThread extends Thread {
 
         if (!resultUser.next()) {
             out.println(NON_EXISTING_USER);
-            return false;
+            return;
         } else {
             if (!Password.checkPass(password, resultUser.getString("password"))) {
                 out.println(INVALID_PASSWORD);
-                return false;
+                return;
             }
         }
 
         findUser.close();
         out.println(CORRECT_LOGIN);
-        return true;
     }
 
     private GameDescription loadGame() throws SQLException, IOException {

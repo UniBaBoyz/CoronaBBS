@@ -16,7 +16,6 @@ public class Utils {
     public final static String EXISTING_USERNAME = "#EXISTING_USER";
     public final static String NEW_GAME = "#NEW_GAME";
     public final static String GAME_CREATED = "#GAME_CREATED";
-    public final static String NO_GAME_CREATED = "#NO_GAME_CREATED";
     public final static String LOAD_GAME = "#LOAD_GAME";
     public final static String GAME_LOADED = "#GAME_LOADED";
     public final static String NO_GAME_FOUNDED = "#NO_GAME_FOUNDED";
@@ -24,6 +23,7 @@ public class Utils {
     public final static String PRISON_BREAK = "#PRISON_BREAK";
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
     public final static String EXIT_GAME = "#EXIT_GAME";
+    public final static String EXISTING_GAME = "#EXISTING_GAME";
 
     private static boolean isLeapYear(int year) {
         // A year is a leap year if it is divisible by four and not by one-hundred or if it is divisible by four-hundred

@@ -65,6 +65,19 @@ public abstract class GameDescription implements Serializable {
         return game;
     }
 
+    public static boolean existingGame(String username, int gameType) throws SQLException {
+        String findGame = "select * from game natural join user_game where username = ? and game_type = ?";
+        PreparedStatement findExistingGame;
+        ResultSet existingGame;
+
+        findExistingGame = conn.prepareStatement(findGame);
+        findExistingGame.setString(1, username);
+        findExistingGame.setInt(2, gameType);
+        existingGame = findExistingGame.executeQuery();
+
+        return existingGame.next();
+    }
+
     private void init() {
         getGameVerbs().initVerbs(this);
         getGameRooms().initRooms(this);
