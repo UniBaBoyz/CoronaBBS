@@ -1,10 +1,7 @@
 package adventure.client;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
@@ -42,6 +39,9 @@ public class ManageSignUp {
 
     private void manageEvent() {
         actionListenerWindow();
+        keyListenerJTUsernameField();
+        keyListenerJTResidenceField();
+        keyListenerJPasswordField();
     }
 
     private void actionListenerWindow() {
@@ -82,6 +82,80 @@ public class ManageSignUp {
 
             @Override
             public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+    }
+
+    private boolean isValidButtonSignUp() {
+        boolean validButton = false;
+        char[] password = view.getJPasswordField().getPassword();
+        if(!view.getJTResidenceField().getText().isEmpty()
+                && !view.getJTUsernameField().getText().isEmpty()
+                && !String.valueOf(password).isEmpty()) {
+            validButton = true;
+        }
+
+        return validButton;
+    }
+
+    private void manageButtonSignUp() {
+        view.getJButtonSignUp().setEnabled(isValidButtonSignUp());
+    }
+
+    private void keyListenerJTUsernameField() {
+        view.getJTUsernameField().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                manageButtonSignUp();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
+    }
+
+    private void keyListenerJTResidenceField() {
+        view.getJTResidenceField().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                manageButtonSignUp();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
+    }
+
+    private void keyListenerJPasswordField() {
+        view.getJPasswordField().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                manageButtonSignUp();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
 
             }
         });
