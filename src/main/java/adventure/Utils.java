@@ -11,6 +11,7 @@ public class Utils {
     public final static String CORRECT_REGISTRATION = "#OK_REGISTRATION";
     public final static String LOGIN = "#LOGIN";
     public final static String CORRECT_LOGIN = "#OK_LOGIN";
+    public final static String INEXISTING_USER = "#INEXISTING_USER";
     public final static String INVALID_PASSWORD = "#INVALID_PASSWORD";
     public final static String EXISTING_USER = "#EXISTING_USER";
     public final static String NEW_GAME = "#NEW_GAME";
@@ -18,4 +19,6 @@ public class Utils {
     public final static String PRISON_BREAK = "#PRISON_BREAK";
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
     public final static String NO_GAME_FOUNDED = "#NO_GAME_FOUNDED";
+    public final static String GAME_LOADED = "#GAME_LOADED";
+    public final static String GAME_CREATED = "GAME_CREATED";
 }

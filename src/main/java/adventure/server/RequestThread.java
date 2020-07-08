@@ -240,14 +240,15 @@ public class RequestThread extends Thread {
         findUser.close();
 
         if (!resultUser.next()) {
-            out.println("incorrect_username");
+            out.println();
             return false;
         } else {
             if (!Password.checkPass(password, resultUser.getString("password"))) {
-                out.println("#incorrect_password");
+                out.println(INVALID_PASSWORD);
                 return false;
             }
         }
+        out.println(CORRECT_LOGIN);
         return true;
     }
 
