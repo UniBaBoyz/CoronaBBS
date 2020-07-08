@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import static adventure.Utils.EXIT_GAME;
+import static adventure.Utils.SAVE_GAME;
 
 /**
  * @author Corona-Extra
@@ -53,14 +54,23 @@ public class ManageGameView {
             view.getJTextAreaScore().setText(score);
 
             String textToAppend = string.substring(0, string.indexOf(Utils.SEPARATOR_CHARACTER_STRING));
-            if(!textToAppend.isEmpty()) {
+            if (!textToAppend.isEmpty()) {
                 view.getJToutputArea().append(textToAppend + System.lineSeparator());
             }
 
+        } else if (string != null && string.equals(EXIT_GAME)) {
+            int input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Vuoi salvare la partita? " +
+                            "Eventuali salvataggi precedenti saranno sovrascritti", "Esci",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (input == JOptionPane.YES_OPTION) {
+                out.println(SAVE_GAME);
+            }
+            disposeWindow();
         } else if (string != null && !string.isEmpty()) {
             view.getJToutputArea().append(string + System.lineSeparator());
         }
     }
+
     private void initView() {
         view.setJButtonLook("Guarda");
         view.setJButtonInventory("Inventario");
@@ -91,7 +101,7 @@ public class ManageGameView {
                 int input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
                         "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
-                    disposeWindow();
+                    out.println("Esci");
                 }
             }
 

@@ -12,6 +12,7 @@ import adventure.server.parser.ParserIta;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.VerbType;
 
+import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
@@ -171,8 +172,11 @@ public class RequestThread extends Thread {
                 for (ParserOutput p : listParser) {
                     if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                             && p.getObject().isEmpty()) {
-                        saveGame();
                         out.println("Addio!");
+                        out.println(EXIT_GAME);
+                        if (in.readLine().equals(SAVE_GAME)) {
+                            saveGame();
+                        }
                         break;
                     } else {
                         out.println(game.nextMove(p) + "\n");

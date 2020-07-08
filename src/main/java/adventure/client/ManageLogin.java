@@ -157,8 +157,10 @@ public class ManageLogin {
         });
     }
 
-    private void resetJTextField(JTextField jTextField) {
-        jTextField.setText("");
+    private void resetView() {
+        view.getJTUsernameField().setText("");
+        view.getJPasswordField().setText("");
+        view.getJButtonLogin().setEnabled(false);
     }
 
     private void run() {
@@ -169,14 +171,12 @@ public class ManageLogin {
                     case NON_EXISTING_USER:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
-                        resetJTextField(view.getJTUsernameField());
-                        resetJTextField(view.getJPasswordField());
+                        resetView();
                         break;
                     case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
-                        resetJTextField(view.getJTUsernameField());
-                        resetJTextField(view.getJPasswordField());
+                        resetView();
                         break;
                     case CORRECT_LOGIN:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Benvenuto!",
