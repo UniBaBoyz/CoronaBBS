@@ -141,7 +141,6 @@ public class ManageGameChooser {
                     } else if (response.equals(GAME_CREATED)) {
                         JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
                                 "Partita creata", JOptionPane.INFORMATION_MESSAGE);
-                        disposeWindow();
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
