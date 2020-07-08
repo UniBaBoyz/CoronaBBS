@@ -38,23 +38,9 @@ public class ClientMainClass {
             }
 
             ManageGameView view = new ManageGameView(in, out);
-            //ManageLogin login = new ManageLogin(in, out, view.getView());
             ManageLogin login = new ManageLogin(in, out, view);
 
-            /*if (!view.setUsername()) {
-                view.setWindowVisible();
-                while (!view.isConnectionClosed()) {
-                    view.manageInput();
-                }
-            }*/
-
-            //TODO AGGIUNGERE LOGIN E COMUNICARLO AL SERVER
-
-            //TODO AGGIUNGERE SCELTA GIOCO E COMUNICARLO AL SERVER
-
-
             view.run();
-
 
             //view.disposeWindow();
         } catch (IOException e) {

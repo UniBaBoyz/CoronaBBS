@@ -15,13 +15,13 @@ public class ManageGameChooser {
     private final BufferedReader in;
     private final PrintWriter out;
     private final GameChooserView view;
-    private ManageGameView gameViewController;
+    private ManageLogin manageLogin;
 
-    public ManageGameChooser(BufferedReader in, PrintWriter out, ManageGameView gameViewController) {
+    public ManageGameChooser(BufferedReader in, PrintWriter out, ManageLogin manageLogin) {
         this.in = in;
         this.out = out;
-        this.gameViewController = gameViewController;
-        view = new GameChooserView(this.gameViewController.getView().getJFmainFrame());
+        this.manageLogin = manageLogin;
+        view = new GameChooserView(this.manageLogin.getGameViewController().getView().getJFmainFrame());
         manageEvent();
         initView();
         this.view.getJDialogMain().setVisible(true);
@@ -56,7 +56,7 @@ public class ManageGameChooser {
                         "interrompere la selezione del gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
-                    gameViewController.disposeWindow();
+                    manageLogin.getGameViewController().disposeWindow();
                 }
             }
 
@@ -114,6 +114,7 @@ public class ManageGameChooser {
                             JOptionPane.showMessageDialog(view.getJDialogMain(), input + " caricato con successo!",
                                     "Partita caricata", JOptionPane.INFORMATION_MESSAGE);
                             disposeWindow();
+                            manageLogin.disposeWindow();
                         }
                     }
                 } catch (IOException ioException) {
@@ -144,12 +145,13 @@ public class ManageGameChooser {
                         } else if (response.equals(GAME_CREATED)) {
                             JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
                                     "Partita creata", JOptionPane.INFORMATION_MESSAGE);
+                            disposeWindow();
+                            manageLogin.disposeWindow();
                         }
                     }
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
                 }
-                disposeWindow();
             }
         });
     }

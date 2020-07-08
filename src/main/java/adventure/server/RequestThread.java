@@ -112,16 +112,17 @@ public class RequestThread extends Thread {
                 }
             }
 
-            assert game != null;
-            parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
+            if (game != null) {
+                parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
 
-            // Send Introduction of the game
-            initGame();
+                // Send Introduction of the game
+                initGame();
 
-            //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
-            while (true) {
-                // Read instruction from the client
-                communicateWithTheClient(in.readLine());
+                //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
+                while (true) {
+                    // Read instruction from the client
+                    communicateWithTheClient(in.readLine());
+                }
             }
 
         } catch (IOException e) {
