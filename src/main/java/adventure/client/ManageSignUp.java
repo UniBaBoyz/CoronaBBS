@@ -43,7 +43,12 @@ public class ManageSignUp {
     }
 
     private void run() {
-        while(in.readLine().matches(Utils.CORRECT_REGISTRATION)) { }
+        try {
+            while (in.readLine().matches(Utils.CORRECT_REGISTRATION)) {
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void manageEvent() {
@@ -129,7 +134,7 @@ public class ManageSignUp {
     private boolean isValidButtonSignUp() {
         boolean validButton = false;
         char[] password = view.getJPasswordField().getPassword();
-        if(!view.getJTResidenceField().getText().isEmpty()
+        if (!view.getJTResidenceField().getText().isEmpty()
                 && !view.getJTUsernameField().getText().isEmpty()
                 && !String.valueOf(password).isEmpty()) {
             validButton = true;

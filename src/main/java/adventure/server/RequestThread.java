@@ -69,16 +69,22 @@ public class RequestThread extends Thread {
             while (!next) {
                 command = in.readLine();
                 if (command.matches(REGISTRATION)) {
-                    if (registration(divideCredentials(command))) {
-                        next = true;
+                    boolean okRegistration = false;
+                    while (!okRegistration) {
+                        if (!in.readLine().isEmpty()) {
+                            okRegistration = registration(divideCredentials(command));
+                        }
                     }
                 } else if (command.matches(LOGIN)) {
-                    if (login(divideCredentials(command))) {
-                        next = true;
+                    boolean okLogin = false;
+                    while (!okLogin) {
+                        if (!in.readLine().isEmpty()) {
+                            okLogin = login(divideCredentials(command));
+                            next = true;
+                        }
                     }
                 }
             }
-            next = false;
 
             // TODO CHOOSE GAME
             if (game == null) {
@@ -154,10 +160,9 @@ public class RequestThread extends Thread {
         return new ArrayList<>(Arrays.asList(string.split(SEPARATOR_CHARACTER_STRING)));
     }
 
-    private boolean registration(List<String> strings) throws SQLException, IOException {
+    private boolean registration(List<String> strings) throws SQLException {
         final String NEW_USER = "insert into user values (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
-        String username = strings.get(0);
         String password = strings.get(1);
         String bornDate = strings.get(2);
         String residence = strings.get(3);
@@ -165,6 +170,7 @@ public class RequestThread extends Thread {
         PreparedStatement findUser;
         PreparedStatement newUser;
 
+        username = strings.get(0);
         findUser = connectionDb.prepareStatement(FIND_USER);
         findUser.setString(1, username);
         result = findUser.executeQuery();
@@ -193,41 +199,23 @@ public class RequestThread extends Thread {
 
     private boolean login(List<String> strings) throws SQLException, IOException {
         final String FIND_USER = "select * from user where username = ?";
-        boolean login = false;
-        boolean notFound = true;
-        String password;
+        String password = strings.get(1);
         ResultSet resultUser;
         PreparedStatement findUser;
 
+        username = strings.get(0);
         findUser = connectionDb.prepareStatement(FIND_USER);
-        username = in.readLine();
         findUser.setString(1, username);
         resultUser = findUser.executeQuery();
+        findUser.close();
 
-        while (!login) {
-            if (!resultUser.next()) {
-                while (notFound) {
-                    out.println("incorrect_username");
-                    username = in.readLine();
-                    findUser.setString(1, username);
-                    resultUser = findUser.executeQuery();
-                    if (resultUser.next()) {
-                        notFound = false;
-                        resultUser = findUser.executeQuery();
-                    }
-                }
-            } else {
-                resultUser = findUser.executeQuery();
-                resultUser.next();
-                password = in.readLine();
-
-                if (Password.checkPass(password, resultUser.getString("password"))) {
-                    game = loadGame();
-                    login = true;
-                    findUser.close();
-                } else {
-                    out.println("#incorrect_password");
-                }
+        if (!resultUser.next()) {
+            out.println("incorrect_username");
+            return false;
+        } else {
+            if (!Password.checkPass(password, resultUser.getString("password"))) {
+                out.println("#incorrect_password");
+                return false;
             }
         }
         return true;
