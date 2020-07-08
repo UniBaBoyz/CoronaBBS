@@ -20,6 +20,50 @@ public class LoginView {
         JDialogMain.setVisible(true);
     }
 
+    public JDialog getJDialogMain() {
+        return JDialogMain;
+    }
+
+    public JLabel getJLabelUsername() {
+        return JLabelUsername;
+    }
+
+    public void setJLabelUsername(String nameLabel) {
+        JLabelUsername.setText(nameLabel);
+    }
+
+    public JTextField getJTUsernameField() {
+        return JTUsernameField;
+    }
+
+    public JLabel getJLabelPassword() {
+        return JLabelPassword;
+    }
+
+    public void setJLabelPassword(String nameLabel) {
+        JLabelPassword.setText(nameLabel);
+    }
+
+    public JPasswordField getJPasswordField() {
+        return JPasswordField;
+    }
+
+    public JButton getJButtonLogin() {
+        return JButtonLogin;
+    }
+
+    public void setJButtonLogin(String nameButton) {
+        JButtonLogin.setText(nameButton);
+    }
+
+    public JButton getJButtonSignIn() {
+        return JButtonSignIn;
+    }
+
+    public void setJButtonSignIn(String nameButton) {
+        JButtonSignIn.setText(nameButton);
+    }
+
     private void initComponents() {
         JTUsernameField = new JTextField();
         JLabelUsername = new JLabel();
@@ -28,7 +72,7 @@ public class LoginView {
         JButtonLogin = new JButton();
         JButtonSignIn = new JButton();
 
-        JDialogMain.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        JDialogMain.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JDialogMain.add(JLabelUsername);
         JDialogMain.add(JTUsernameField);
         JDialogMain.add(JLabelPassword);
