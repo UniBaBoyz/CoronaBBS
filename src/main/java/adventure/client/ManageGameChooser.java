@@ -1,11 +1,15 @@
 package adventure.client;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import static adventure.Utils.*;
 
 public class ManageGameChooser {
     private final BufferedReader in;
@@ -40,6 +44,8 @@ public class ManageGameChooser {
 
     private void manageEvent() {
         actionListenerWindow();
+        actionListenerButtonLoadGame();
+        actionListenerButtonNewGame();
     }
 
     private void actionListenerWindow() {
@@ -82,6 +88,37 @@ public class ManageGameChooser {
             @Override
             public void windowDeactivated(WindowEvent e) {
 
+            }
+        });
+    }
+
+    private void actionListenerButtonLoadGame() {
+        view.getJButtonLoadGame().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String prisonBreak = "PrisonBreak";
+                out.println(LOAD_GAME);
+                if(view.getJComboBox1().getSelectedItem().toString().equals(prisonBreak)) {
+                    out.println(PRISON_BREAK);
+                } else {
+                    out.println(FIRE_HOUSE);
+                }
+                disposeWindow();
+            }
+        });
+    }
+    private void actionListenerButtonNewGame() {
+        view.getJButtonNewGame().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String prisonBreak = "PrisonBreak";
+                out.println(NEW_GAME);
+                if(view.getJComboBox1().getSelectedItem().toString().equals(prisonBreak)) {
+                    out.println(PRISON_BREAK);
+                } else {
+                    out.println(FIRE_HOUSE);
+                }
+                disposeWindow();
             }
         });
     }
