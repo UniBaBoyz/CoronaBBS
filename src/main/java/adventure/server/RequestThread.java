@@ -42,6 +42,10 @@ public class RequestThread extends Thread {
         this.connectionDb = connDb;
     }
 
+    private static <T extends Number> boolean pippo(T a) {
+        return true;
+    }
+
     public PrintWriter getOutputStreamThread() {
         return out;
     }
@@ -58,10 +62,6 @@ public class RequestThread extends Thread {
             }
             out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
         }
-    }
-
-    private static <T extends Number> boolean pippo(T a) {
-        return true;
     }
 
     @Override
@@ -89,30 +89,47 @@ public class RequestThread extends Thread {
                         command = in.readLine();
                         if (!command.isEmpty()) {
                             okLogin = login(divideCredentials(command));
-                            next = true;
                         }
                     }
                 } else if (command.matches(NEW_GAME)) {
-                    while (!command.isEmpty()) {
-                        command = in.readLine();
-                        if (command.matches(PRISON_BREAK)) {
-                            gameType = PRISON_BREAK_GAME;
-                            game = new PrisonBreakGame();
-                        } else if (command.matches(FIRE_HOUSE)) {
-                            gameType = FIRE_HOUSE_GAME;
-                            game = new FireHouseGame();
+                    boolean created = false;
+                    while (!created) {
+                        while (!command.isEmpty()) {
+                            command = in.readLine();
+                            if (command.matches(PRISON_BREAK)) {
+                                gameType = PRISON_BREAK_GAME;
+                                game = new PrisonBreakGame();
+                            } else if (command.matches(FIRE_HOUSE)) {
+                                gameType = FIRE_HOUSE_GAME;
+                                game = new FireHouseGame();
+                            }
+                            if (game != null) {
+                                out.println(GAME_CREATED);
+                                created = true;
+                            } else {
+                                out.println(NO_GAME_CREATED);
+                            }
                         }
                     }
                     next = true;
                 } else if (command.matches(LOAD_GAME)) {
-                    while (!command.isEmpty()) {
-                        command = in.readLine();
-                        if (command.matches(PRISON_BREAK)) {
-                            gameType = PRISON_BREAK_GAME;
-                            game = loadGame();
-                        } else if (command.matches(FIRE_HOUSE)) {
-                            gameType = FIRE_HOUSE_GAME;
-                            game = loadGame();
+                    boolean loaded = false;
+                    while (!loaded) {
+                        while (!command.isEmpty()) {
+                            command = in.readLine();
+                            if (command.matches(PRISON_BREAK)) {
+                                gameType = PRISON_BREAK_GAME;
+                                game = loadGame();
+                            } else if (command.matches(FIRE_HOUSE)) {
+                                gameType = FIRE_HOUSE_GAME;
+                                game = loadGame();
+                            }
+                            if (game != null) {
+                                out.println(GAME_LOADED);
+                                loaded = true;
+                            } else {
+                                out.println(NO_GAME_FOUNDED);
+                            }
                         }
                     }
                     next = true;
@@ -240,7 +257,7 @@ public class RequestThread extends Thread {
         findUser.close();
 
         if (!resultUser.next()) {
-            out.println();
+            out.println(INEXISTING_USER);
             return false;
         } else {
             if (!Password.checkPass(password, resultUser.getString("password"))) {
@@ -264,7 +281,7 @@ public class RequestThread extends Thread {
     private void saveGame() throws IOException, SQLException {
         if (game != null && username != null) {
             game.saveGame(username, gameType);
-            out.println("#game_saved");
+            out.println(GAME_SAVED);
         }
     }
 }
