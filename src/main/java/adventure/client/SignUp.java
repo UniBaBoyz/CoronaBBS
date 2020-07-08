@@ -188,6 +188,9 @@ public class SignUp extends javax.swing.JFrame {
         JDialogMain.add(JTUsernameField);
         JDialogMain.add(JTResidenceField);
 
+        JButtonSignUp.setEnabled(false);
+        JDialogMain.setResizable(false);
+
         JLabelUsername.setText("Username:");
 
         JLabelPassword.setText("Password:");
@@ -236,6 +239,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(JDialogMain.getContentPane());
         JDialogMain.getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -245,7 +249,7 @@ public class SignUp extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(148, 148, 148)
+                                .addGap(168, 168, 168)
                                 .addComponent(JButtonSignUp))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
@@ -291,7 +295,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(JLabelDate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(JComboBoxDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JLabelDay)
                     .addComponent(JLabelMonth)
@@ -302,7 +306,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addComponent(JLabelResidence)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(JTResidenceField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(JButtonSignUp)
                 .addContainerGap())
         );
