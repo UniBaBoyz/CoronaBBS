@@ -7,13 +7,13 @@ import java.io.PrintWriter;
 public class ManageLogin {
     private final BufferedReader in;
     private final PrintWriter out;
-    private final LoginView view;
+    //private final LoginView view;
 
     public ManageLogin(BufferedReader in, PrintWriter out, GameView game) {
         this.in = in;
         this.out = out;
-        view = new LoginView(game.getJFmainFrame(), true);
-        view.setVisible(true);
+        //view = new LoginView(game.getJFmainFrame(), true);
+        //view.setVisible(true);
         /*manageEvent();
         initView();*/
     }

@@ -16,10 +16,19 @@ public class ServerMainClass {
         ServerSocket serverSocket = null;
         Socket socket = null;
         Connection conn;
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS users (username varchar(30)," +
-                "password longblob, PRIMARY KEY (username))";
-
         final int port = 10000;
+
+        final String USER = "CREATE TABLE IF NOT EXISTS user (username varchar(30)," +
+                "password varchar(100), PRIMARY KEY (username))";
+        final String GAME = "CREATE TABLE IF NOT EXISTS game (id int(10) AUTO_INCREMENT, " +
+                "game longblob, PRIMARY KEY (id))";
+        final String USER_GAME = "CREATE TABLE IF NOT EXISTS " +
+                "user_game (username varchar(30) references user(username), " +
+                "id int(10) AUTO_INCREMENT references game(id), " +
+                "PRIMARY KEY (id, username))";
+        Statement createUser;
+        Statement createGame;
+        Statement createUserGame;
 
         try {
             serverSocket = new ServerSocket(port);
@@ -30,9 +39,15 @@ public class ServerMainClass {
 
         try {
             conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
-            Statement stm = conn.createStatement();
-            stm.executeUpdate(CREATE_TABLE);
-            stm.close();
+            createUser = conn.createStatement();
+            createUser.executeUpdate(USER);
+            createUser.close();
+            createGame = conn.createStatement();
+            createGame.executeUpdate(GAME);
+            createGame.close();
+            createUserGame = conn.createStatement();
+            createUserGame.executeUpdate(USER_GAME);
+            createUserGame.close();
 
             while (true) {
                 if (serverSocket != null) {

@@ -43,10 +43,10 @@ public abstract class GameDescription implements Serializable {
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;
-        String query;
+        String foundGame;
 
-        query = "select * from games where id = ?";
-        preparedStatement = conn.prepareStatement(query);
+        foundGame = "select * from game natural join user_game where username = ?";
+        preparedStatement = conn.prepareStatement(foundGame);
         preparedStatement.setString(1, username);
 
         result = preparedStatement.executeQuery();
@@ -55,10 +55,9 @@ public abstract class GameDescription implements Serializable {
             ByteArrayInputStream bais;
             ObjectInputStream ins;
 
-            bais = new ByteArrayInputStream(result.getBytes("Game"));
+            bais = new ByteArrayInputStream(result.getBytes("game"));
             ins = new ObjectInputStream(bais);
             game = (GameDescription) ins.readObject();
-            System.out.println("Caricato user: " + username);
             ins.close();
 
         }
@@ -256,15 +255,11 @@ public abstract class GameDescription implements Serializable {
         conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
     }
 
-    public void saveGame(String user) throws SQLException, IOException {
-        final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS games (username varchar(30) NOT NULL, " +
-                "game longblob, PRIMARY KEY (username))";
-        PreparedStatement preparedStatement;
-        String query;
-
-        Statement statement = conn.createStatement();
-        statement.executeUpdate(CREATE_TABLE);
-        statement.close();
+    public void saveGame(String username) throws SQLException, IOException {
+        String user = "insert into game values(null, ?)";
+        String userGame = "insert into user_game values (? , null)";
+        PreparedStatement newUserGame;
+        PreparedStatement newGame;
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -275,11 +270,14 @@ public abstract class GameDescription implements Serializable {
         bos.close();
         byte[] game = bos.toByteArray();
 
-        query = "insert into games values(?, ?)";
-        preparedStatement = conn.prepareStatement(query);
-        preparedStatement.setObject(1, user);
-        preparedStatement.setObject(2, game);
-        preparedStatement.executeUpdate();
+        newGame = conn.prepareStatement(user);
+        newGame.setObject(1, game);
+        newGame.executeUpdate();
+        newGame.close();
+        newUserGame = conn.prepareStatement(userGame);
+        newUserGame.setObject(1, username);
+        newUserGame.executeUpdate();
+        newUserGame.close();
     }
 
 }

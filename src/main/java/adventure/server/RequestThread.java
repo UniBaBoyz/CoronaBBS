@@ -13,10 +13,6 @@ import adventure.server.type.VerbType;
 
 import java.io.*;
 import java.net.Socket;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -141,8 +137,8 @@ public class RequestThread extends Thread {
     }
 
     private void registration() throws SQLException, IOException {
-        final String NEW_USER = "INSERT INTO users VALUES (?, ?)";
-        final String FIND_USER = "select * from users where username = ?";
+        final String NEW_USER = "INSERT INTO user VALUES (?, ?)";
+        final String FIND_USER = "select * from user where username = ?";
         String password;
         boolean notFound = true;
         ResultSet result;
@@ -156,7 +152,7 @@ public class RequestThread extends Thread {
 
         if (result.next()) {
             while (notFound) {
-                out.println("Username gia' esistente");
+                out.println("#existing_username");
                 username = in.readLine();
                 findUser.setString(1, username);
                 result = findUser.executeQuery();
@@ -168,7 +164,8 @@ public class RequestThread extends Thread {
         }
 
         password = in.readLine();
-        ;
+        //dateBorn = in.readLine();
+        //residence = in.readLine();
 
         /*
         while(!password.matches(PASSWORD_REGEX)) {
@@ -178,21 +175,20 @@ public class RequestThread extends Thread {
 
         newUser = connectionDb.prepareStatement(NEW_USER);
         newUser.setString(1, username);
-        newUser.setObject(2, generateHashedPassword(password));
+        newUser.setString(2, Password.hashPassword(password));
+        //newUser.setDate(3, Date.valueOf(dateBorn));
+        //newUser.setString(4, residence);
         newUser.executeUpdate();
         newUser.close();
     }
 
     public void login() throws SQLException, IOException {
-        final String FIND_USER = "select * from users where username = ?";
-        final String USER_TRUE = "select password from users where username = ?";
+        final String FIND_USER = "select * from user where username = ?";
         boolean login = false;
         boolean notFound = true;
         String password;
         ResultSet resultUser;
-        ResultSet resultPassword;
         PreparedStatement findUser;
-        PreparedStatement userTrue;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
         username = in.readLine();
@@ -202,7 +198,7 @@ public class RequestThread extends Thread {
         while (!login) {
             if (!resultUser.next()) {
                 while (notFound) {
-                    out.println("Utente non esistente!");
+                    out.println("incorrect_username");
                     username = in.readLine();
                     findUser.setString(1, username);
                     resultUser = findUser.executeQuery();
@@ -210,24 +206,21 @@ public class RequestThread extends Thread {
                         notFound = false;
                     }
                 }
-                findUser.close();
             } else {
                 resultUser = findUser.executeQuery();
-                userTrue = connectionDb.prepareStatement(USER_TRUE);
+                resultUser.next();
                 password = in.readLine();
-                userTrue.setObject(1, generateHashedPassword(password));
-                resultPassword = userTrue.executeQuery();
 
-                if (resultPassword.next()) {
+                if (Password.checkPass(password, resultUser.getString("password"))) {
                     try {
                         game = PrisonBreakGame.loadGame(username);
                         login = true;
                     } catch (ClassNotFoundException e) {
-                        out.println("Nessuna partita trovata!");
+                        out.println("#no_game_founded");
                     }
-                    userTrue.close();
+                    findUser.close();
                 } else {
-                    out.println("Passowrd non corretta!");
+                    out.println("#incorrect_password");
                 }
             }
         }
@@ -236,25 +229,7 @@ public class RequestThread extends Thread {
     public void saveGame() throws IOException, SQLException {
         if (game != null && username != null) {
             game.saveGame(username);
-            out.println("Gioco salvato correttamente!");
+            out.println("#game_saved");
         }
-    }
-
-    private byte[] generateHashedPassword(String password) {
-        byte[] salt = new byte[16];
-        MessageDigest md;
-        byte[] hashedPassword = new byte[0];
-        SecureRandom random = new SecureRandom();
-
-        random.nextBytes(salt);
-        try {
-            md = MessageDigest.getInstance("SHA-512");
-            md.update(salt);
-            hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return hashedPassword;
     }
 }
