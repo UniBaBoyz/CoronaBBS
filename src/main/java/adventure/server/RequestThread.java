@@ -5,6 +5,7 @@ import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
 import adventure.server.games.GameDescription;
+import adventure.server.games.firehouse.FireHouseGame;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.parser.Parser;
 import adventure.server.parser.ParserIta;
@@ -18,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static adventure.Games.FIRE_HOUSE_GAME;
+import static adventure.Games.PRISON_BREAK_GAME;
 import static adventure.Utils.*;
 
 /**
@@ -57,6 +60,10 @@ public class RequestThread extends Thread {
         }
     }
 
+    private static <T extends Number> boolean pippo(T a) {
+        return true;
+    }
+
     @Override
     public void run() {
         try {
@@ -71,29 +78,48 @@ public class RequestThread extends Thread {
                 if (command.matches(REGISTRATION)) {
                     boolean okRegistration = false;
                     while (!okRegistration) {
-                        if (!in.readLine().isEmpty()) {
+                        command = in.readLine();
+                        if (!command.isEmpty()) {
                             okRegistration = registration(divideCredentials(command));
                         }
                     }
                 } else if (command.matches(LOGIN)) {
                     boolean okLogin = false;
                     while (!okLogin) {
-                        if (!in.readLine().isEmpty()) {
+                        command = in.readLine();
+                        if (!command.isEmpty()) {
                             okLogin = login(divideCredentials(command));
                             next = true;
                         }
                     }
                 } else if (command.matches(NEW_GAME)) {
-                    //gameType = in.readLine();
+                    while (!command.isEmpty()) {
+                        command = in.readLine();
+                        if (command.matches(PRISON_BREAK)) {
+                            gameType = PRISON_BREAK_GAME;
+                            game = new PrisonBreakGame();
+                        } else if (command.matches(FIRE_HOUSE)) {
+                            gameType = FIRE_HOUSE_GAME;
+                            game = new FireHouseGame();
+                        }
+                    }
+                    next = true;
                 } else if (command.matches(LOAD_GAME)) {
-
+                    while (!command.isEmpty()) {
+                        command = in.readLine();
+                        if (command.matches(PRISON_BREAK)) {
+                            gameType = PRISON_BREAK_GAME;
+                            game = loadGame();
+                        } else if (command.matches(FIRE_HOUSE)) {
+                            gameType = FIRE_HOUSE_GAME;
+                            game = loadGame();
+                        }
+                    }
+                    next = true;
                 }
             }
 
-            // TODO CHOOSE GAME
-            if (game == null) {
-                game = new PrisonBreakGame();
-            }
+            assert game != null;
             parser = new ParserIta(game.getTokenVerbs(), game.getObjects(), game.getAdjectives());
 
             // Send Introduction of the game
@@ -201,7 +227,7 @@ public class RequestThread extends Thread {
         return true;
     }
 
-    private boolean login(List<String> strings) throws SQLException, IOException {
+    private boolean login(List<String> strings) throws SQLException {
         final String FIND_USER = "select * from user where username = ?";
         String password = strings.get(1);
         ResultSet resultUser;

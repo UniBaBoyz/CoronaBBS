@@ -17,4 +17,5 @@ public class Utils {
     public final static String LOAD_GAME = "#LOAD_GAME";
     public final static String PRISON_BREAK = "#PRISON_BREAK";
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
+    public final static String NO_GAME_FOUNDED = "#NO_GAME_FOUNDED";
 }
