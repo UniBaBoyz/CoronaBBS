@@ -23,6 +23,7 @@ public class Utils {
     public final static String GAME_SAVED = "#GAME_SAVED";
     public final static String PRISON_BREAK = "#PRISON_BREAK";
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
+    public final static String EXIT_GAME = "#EXIT_GAME";
 
     private static boolean isLeapYear(int year) {
         // A year is a leap year if it is divisible by four and not by one-hundred or if it is divisible by four-hundred
