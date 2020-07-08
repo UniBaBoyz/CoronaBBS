@@ -44,50 +44,26 @@ public class ManageSignUp {
 
     private void run() {
         try {
-            do {
-                String response = in.readLine();
-
-                switch (response) {
-                    case INVALID_PASSWORD:
-                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
-                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
-                                "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case EXISTING_USERNAME:
-                        JOptionPane.showMessageDialog(view, "L'utente esiste già",
-                                "Errore", JOptionPane.ERROR_MESSAGE);
-                        break;
-                    case CORRECT_REGISTRATION:
-                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
-                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
-                                "Errore", JOptionPane.PLAIN_MESSAGE);
-                        break;
-                }
-
-            } while (!in.readLine().equals(CORRECT_REGISTRATION));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void run1() {
-        try {
             String response = in.readLine();
             if (response != null) {
                 switch (response) {
                     case INVALID_PASSWORD:
-                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
-                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
+                        JOptionPane.showMessageDialog(view, "La Password non e' valida,\n" +
+                                        "La password deve rispettare le seguenti proprieta':\n" +
+                                        "- Contenere almeno un carattere maiuscolo\n" +
+                                        "- Contenere almeno un carattere maiuscolo\n" +
+                                        "- Contenere almeno un numero\n" +
+                                        "- Deve essere lunga minimo 8 caratteri e massimo 40",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case EXISTING_USERNAME:
-                        JOptionPane.showMessageDialog(view, "L'utente esiste già",
+                        JOptionPane.showMessageDialog(view, "Il nome utente e' stato gia' preso",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case CORRECT_REGISTRATION:
-                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
-                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
-                                "Errore", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(view, "L'iscrizione e' avvenuta con successo!",
+                                "Registrazione", JOptionPane.INFORMATION_MESSAGE);
+                        disposeWindow();
                         break;
                 }
             }
@@ -180,7 +156,7 @@ public class ManageSignUp {
                 } else {
                     out.println(REGISTRATION);
                     out.println(createResponse());
-                    run1();
+                    run();
                 }
             }
         });
