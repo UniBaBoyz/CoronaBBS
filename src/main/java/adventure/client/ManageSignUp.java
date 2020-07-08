@@ -22,8 +22,8 @@ public class ManageSignUp {
         manageEvent();
         initView();
         view.getJDialogMain().setVisible(true);
-        /*run();
-        disposeWindow();*/
+        run();
+        disposeWindow();
     }
 
     private void initView() {
@@ -44,8 +44,27 @@ public class ManageSignUp {
 
     private void run() {
         try {
-            while (in.readLine().matches(Utils.CORRECT_REGISTRATION)) {
-            }
+            do {
+                String response = in.readLine();
+
+                switch (response) {
+                    case Utils.INVALID_PASSWORD:
+                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
+                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case Utils.EXISTING_USERNAME:
+                        JOptionPane.showMessageDialog(view, "L'utente esiste già",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case Utils.CORRECT_REGISTRATION:
+                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
+                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
+                                "Errore", JOptionPane.PLAIN_MESSAGE);
+                        break;
+                }
+
+            } while (!in.readLine().equals(Utils.CORRECT_REGISTRATION));
         } catch (IOException e) {
             e.printStackTrace();
         }
