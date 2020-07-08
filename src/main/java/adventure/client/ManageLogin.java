@@ -1,13 +1,11 @@
 package adventure.client;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 public class ManageLogin {
     private final BufferedReader in;
@@ -54,7 +52,23 @@ public class ManageLogin {
 
     private void manageEvent() {
         actionListenerWindow();
+        keyListenerJTUsernameField();
+        keyListenerJPasswordField();
         actionListenerButtonSignUp();
+    }
+
+    private boolean isValidButtonLogin() {
+        boolean validButton = false;
+        char[] password = view.getJPasswordField().getPassword();
+        if(!view.getJTUsernameField().getText().isEmpty() && !String.valueOf(password).isEmpty()) {
+            validButton = true;
+        }
+
+        return validButton;
+    }
+
+    private void manageButtonLogin() {
+        view.getJButtonLogin().setEnabled(isValidButtonLogin());
     }
 
     private void actionListenerWindow() {
@@ -96,6 +110,45 @@ public class ManageLogin {
 
             @Override
             public void windowDeactivated(WindowEvent e) {
+
+            }
+        });
+    }
+
+    private void keyListenerJTUsernameField() {
+        view.getJTUsernameField().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                manageButtonLogin();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
+    }
+
+    private void keyListenerJPasswordField() {
+        view.getJPasswordField().addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                manageButtonLogin();
+            }
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
 
             }
         });

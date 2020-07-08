@@ -74,6 +74,8 @@ public class LoginView {
 
         JDialogMain.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         JDialogMain.setMinimumSize(new Dimension(520, 300));
+        JDialogMain.setResizable(false);
+        JDialogMain.getRootPane().setDefaultButton(JButtonLogin);
         JDialogMain.setTitle("Login");
         JDialogMain.add(JLabelUsername);
         JDialogMain.add(JTUsernameField);
