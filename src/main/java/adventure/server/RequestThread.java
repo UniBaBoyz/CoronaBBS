@@ -31,6 +31,7 @@ public class RequestThread extends Thread {
     private GameDescription game = null;
     private Parser parser;
     private String username;
+    private int gameType;
 
     public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
@@ -207,6 +208,7 @@ public class RequestThread extends Thread {
                     resultUser = findUser.executeQuery();
                     if (resultUser.next()) {
                         notFound = false;
+                        resultUser = findUser.executeQuery();
                     }
                 }
             } else {
@@ -215,6 +217,7 @@ public class RequestThread extends Thread {
                 password = in.readLine();
 
                 if (Password.checkPass(password, resultUser.getString("password"))) {
+                    game = loadGame();
                     login = true;
                     findUser.close();
                 } else {
@@ -226,7 +229,7 @@ public class RequestThread extends Thread {
 
     public GameDescription loadGame() throws SQLException, IOException {
         try {
-            return GameDescription.loadGame(username);
+            return GameDescription.loadGame(username, gameType);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -235,7 +238,7 @@ public class RequestThread extends Thread {
 
     public void saveGame() throws IOException, SQLException {
         if (game != null && username != null) {
-            game.saveGame(username);
+            game.saveGame(username, gameType);
             out.println("#game_saved");
         }
     }

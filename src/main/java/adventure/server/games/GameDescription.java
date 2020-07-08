@@ -38,15 +38,16 @@ public abstract class GameDescription implements Serializable {
         init();
     }
 
-    public static GameDescription loadGame(String username) throws IOException, ClassNotFoundException, SQLException {
+    public static GameDescription loadGame(String username, int gameType) throws IOException, ClassNotFoundException, SQLException {
         conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;
-        String foundGame = "select * from game natural join user_game where username = ?";
+        String foundGame = "select * from game natural join user_game where username = ? and game_type = ?";
 
         preparedStatement = conn.prepareStatement(foundGame);
         preparedStatement.setString(1, username);
+        preparedStatement.setInt(2, gameType);
 
         result = preparedStatement.executeQuery();
 
@@ -54,7 +55,7 @@ public abstract class GameDescription implements Serializable {
             ByteArrayInputStream bais;
             ObjectInputStream ins;
 
-            bais = new ByteArrayInputStream(result.getBytes("game"));
+            bais = new ByteArrayInputStream(result.getBytes("game_saved"));
             ins = new ObjectInputStream(bais);
             game = (GameDescription) ins.readObject();
             ins.close();
@@ -254,11 +255,17 @@ public abstract class GameDescription implements Serializable {
         conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
     }
 
-    public void saveGame(String username) throws SQLException, IOException {
-        String user = "insert into game values(null, ?)";
+    public void saveGame(String username, int gameType) throws SQLException, IOException {
+        String newGame = "insert into game values(null, ?, ?)";
         String userGame = "insert into user_game values (? , null)";
+        String findGame = "select * from game natural join user_game where username = ? and game_type = ?";
+        String updateGame = "update game set game = ? where id = ?";
         PreparedStatement newUserGame;
-        PreparedStatement newGame;
+        PreparedStatement newGameStatement;
+        PreparedStatement findExistingGame;
+        PreparedStatement updateExistingGame;
+        ResultSet existingGame;
+        int idUser;
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -269,14 +276,29 @@ public abstract class GameDescription implements Serializable {
         bos.close();
         byte[] game = bos.toByteArray();
 
-        newGame = conn.prepareStatement(user);
-        newGame.setObject(1, game);
-        newGame.executeUpdate();
-        newGame.close();
-        newUserGame = conn.prepareStatement(userGame);
-        newUserGame.setObject(1, username);
-        newUserGame.executeUpdate();
-        newUserGame.close();
+        findExistingGame = conn.prepareStatement(findGame);
+        findExistingGame.setString(1, username);
+        findExistingGame.setInt(2, gameType);
+        existingGame = findExistingGame.executeQuery();
+
+        if (existingGame.next()) {
+            idUser = existingGame.getInt("id");
+            updateExistingGame = conn.prepareStatement(updateGame);
+            updateExistingGame.setObject(1, game);
+            updateExistingGame.setInt(2, idUser);
+            updateExistingGame.executeUpdate();
+            updateExistingGame.close();
+        } else {
+            newGameStatement = conn.prepareStatement(newGame);
+            newGameStatement.setObject(1, game);
+            newGameStatement.setObject(2, gameType);
+            newGameStatement.executeUpdate();
+            newGameStatement.close();
+            newUserGame = conn.prepareStatement(userGame);
+            newUserGame.setObject(1, username);
+            newUserGame.executeUpdate();
+            newUserGame.close();
+        }
     }
 
 }

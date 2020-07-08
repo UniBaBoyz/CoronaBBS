@@ -21,11 +21,12 @@ public class ServerMainClass {
         final String USER = "CREATE TABLE IF NOT EXISTS user (username varchar(30)," +
                 "password varchar(100), born_date date, residence varchar(50), PRIMARY KEY (username))";
         final String GAME = "CREATE TABLE IF NOT EXISTS game (id int(10) AUTO_INCREMENT, " +
-                "game longblob, PRIMARY KEY (id))";
+                "game_saved longblob, game_type int(2), PRIMARY KEY (id))";
         final String USER_GAME = "CREATE TABLE IF NOT EXISTS " +
                 "user_game (username varchar(30) references user(username), " +
                 "id int(10) AUTO_INCREMENT references game(id), " +
                 "PRIMARY KEY (id, username))";
+
         Statement createUser;
         Statement createGame;
         Statement createUserGame;
