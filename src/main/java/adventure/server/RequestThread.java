@@ -16,6 +16,9 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.List;
 
+import static adventure.Utils.PASSWORD_REGEX;
+import static adventure.Utils.REGISTRATION;
+
 /**
  * @author Corona-Extra
  */
@@ -59,8 +62,11 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-            registration();
-            //login();
+            if (in.readLine().matches(REGISTRATION)) {
+                registration();
+            } else {
+                login();
+            }
 
             // TODO CHOOSE GAME
             if (game == null) {
@@ -71,7 +77,6 @@ public class RequestThread extends Thread {
             // Send Introduction of the game
             initGame();
 
-
             //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
             while (true) {
                 // Read instruction from the client
@@ -81,7 +86,7 @@ public class RequestThread extends Thread {
         } catch (IOException e) {
             System.err.println("A problem has occured during the communication with the client!");
         } catch (SQLException e) {
-            System.out.println(e);
+            System.out.println("A problem has occured during the communication with the sql database");
         } finally {
             try {
                 socket.close();
@@ -134,12 +139,12 @@ public class RequestThread extends Thread {
     }
 
     private void registration() throws SQLException, IOException {
-        final String NEW_USER = "INSERT INTO user VALUES (?, ?, ?, ?)";
+        final String NEW_USER = "insert into user values (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
+        boolean notFound = true;
         String password;
         String bornDate;
         String residence;
-        boolean notFound = true;
         ResultSet result;
         PreparedStatement findUser;
         PreparedStatement newUser;
@@ -166,12 +171,10 @@ public class RequestThread extends Thread {
         bornDate = in.readLine();
         residence = in.readLine();
 
-        /*
-        while(!password.matches(PASSWORD_REGEX)) {
+        while (!password.matches(PASSWORD_REGEX)) {
             password = in.readLine();
             out.println("#not_match_regex");
         }
-        */
 
         newUser = connectionDb.prepareStatement(NEW_USER);
         newUser.setString(1, username);
@@ -213,7 +216,7 @@ public class RequestThread extends Thread {
 
                 if (Password.checkPass(password, resultUser.getString("password"))) {
                     try {
-                        game = PrisonBreakGame.loadGame(username);
+                        game = GameDescription.loadGame(username);
                         login = true;
                     } catch (ClassNotFoundException e) {
                         out.println("#no_game_founded");

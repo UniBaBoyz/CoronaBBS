@@ -43,9 +43,8 @@ public abstract class GameDescription implements Serializable {
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;
-        String foundGame;
+        String foundGame = "select * from game natural join user_game where username = ?";
 
-        foundGame = "select * from game natural join user_game where username = ?";
         preparedStatement = conn.prepareStatement(foundGame);
         preparedStatement.setString(1, username);
 
