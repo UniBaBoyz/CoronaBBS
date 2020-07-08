@@ -16,14 +16,12 @@ import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Random;
-
-import static adventure.Utils.SEED;
 
 /**
  * @author Corona-Extra
@@ -37,12 +35,10 @@ public class RequestThread extends Thread {
     private GameDescription game = null;
     private Parser parser;
     private String username;
-    private Random random = new Random();
 
     public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
         this.connectionDb = connDb;
-        random.setSeed(SEED);
     }
 
     public PrintWriter getOutputStreamThread() {
@@ -152,9 +148,6 @@ public class RequestThread extends Thread {
         ResultSet result;
         PreparedStatement findUser;
         PreparedStatement newUser;
-        byte[] salt = new byte[16];
-        MessageDigest md;
-        byte[] hashedPassword = null;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
         username = in.readLine();
@@ -175,15 +168,7 @@ public class RequestThread extends Thread {
         }
 
         password = in.readLine();
-        random.nextBytes(salt);
-
-        try {
-            md = MessageDigest.getInstance("SHA-512");
-            md.update(salt);
-            hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        ;
 
         /*
         while(!password.matches(PASSWORD_REGEX)) {
@@ -193,7 +178,7 @@ public class RequestThread extends Thread {
 
         newUser = connectionDb.prepareStatement(NEW_USER);
         newUser.setString(1, username);
-        newUser.setObject(2, hashedPassword);
+        newUser.setObject(2, generateHashedPassword(password));
         newUser.executeUpdate();
         newUser.close();
     }
@@ -208,9 +193,6 @@ public class RequestThread extends Thread {
         ResultSet resultPassword;
         PreparedStatement findUser;
         PreparedStatement userTrue;
-        byte[] salt = new byte[16];
-        MessageDigest md;
-        byte[] hashedPassword;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
         username = in.readLine();
@@ -233,16 +215,7 @@ public class RequestThread extends Thread {
                 resultUser = findUser.executeQuery();
                 userTrue = connectionDb.prepareStatement(USER_TRUE);
                 password = in.readLine();
-                random.nextBytes(salt);
-                try {
-                    md = MessageDigest.getInstance("SHA-512");
-                    md.update(salt);
-                    hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
-                    userTrue.setObject(1, hashedPassword);
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
-
+                userTrue.setObject(1, generateHashedPassword(password));
                 resultPassword = userTrue.executeQuery();
 
                 if (resultPassword.next()) {
@@ -265,5 +238,23 @@ public class RequestThread extends Thread {
             game.saveGame(username);
             out.println("Gioco salvato correttamente!");
         }
+    }
+
+    private byte[] generateHashedPassword(String password) {
+        byte[] salt = new byte[16];
+        MessageDigest md;
+        byte[] hashedPassword = new byte[0];
+        SecureRandom random = new SecureRandom();
+
+        random.nextBytes(salt);
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        return hashedPassword;
     }
 }
