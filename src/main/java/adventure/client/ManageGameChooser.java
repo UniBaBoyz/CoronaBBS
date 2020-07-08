@@ -139,9 +139,16 @@ public class ManageGameChooser {
                 try {
                     String response = in.readLine();
                     if (response != null) {
-                        if (response.equals(NO_GAME_CREATED)) {
-                            JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun gioco creato!",
-                                    "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        if (response.equals(EXISTING_GAME)) {
+                            int choose = JOptionPane.showConfirmDialog(view.getJDialogMain(), "La partita " +
+                                    "già esiste, vuoi crearne un'altra?", "Informazione",
+                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                            if (choose == JOptionPane.YES_OPTION) {
+                                out.println(YES_CREATE);
+                                disposeWindow();
+                            } else {
+                                out.println(NO_CREATE);
+                            }
                         } else if (response.equals(GAME_CREATED)) {
                             JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
                                     "Partita creata", JOptionPane.INFORMATION_MESSAGE);
