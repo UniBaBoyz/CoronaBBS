@@ -15,6 +15,10 @@ public class ManageLogin {
     private final LoginView view;
     private ManageGameView gameViewController;
 
+    public ManageGameView getGameViewController() {
+        return gameViewController;
+    }
+
     public ManageLogin(BufferedReader in, PrintWriter out, ManageGameView gameViewController) {
         this.in = in;
         this.out = out;
@@ -170,7 +174,6 @@ public class ManageLogin {
         view.getJButtonLogin().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("ciao");
                 ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
                 view.getJDialogMain().setVisible(false);
                 view.getJDialogMain().dispose();

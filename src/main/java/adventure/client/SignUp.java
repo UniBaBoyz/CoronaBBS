@@ -6,6 +6,7 @@
 package adventure.client;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -123,7 +124,7 @@ public class SignUp extends javax.swing.JFrame {
     }
 
     public void setJButtonSignUp(String JButtonSignUp) {
-        this.JButtonSignUp.setName(JButtonSignUp);
+        this.JButtonSignUp.setText(JButtonSignUp);
     }
 
     private void initComponents() {
@@ -162,6 +163,10 @@ public class SignUp extends javax.swing.JFrame {
 
         JButtonSignUp.setEnabled(false);
         JDialogMain.setResizable(false);
+        JDialogMain.setMinimumSize(new Dimension(520, 350));
+        JTUsernameField.setMaximumSize(new Dimension(480,10));
+        JTResidenceField.setMaximumSize(new Dimension(480,10));
+        JPasswordField.setMaximumSize(new Dimension(480,10));
 
         JButtonSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,7 +220,7 @@ public class SignUp extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(168, 168, 168)
+                                .addGap(200, 200, 200)
                                 .addComponent(JButtonSignUp))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
@@ -224,7 +229,7 @@ public class SignUp extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(JTResidenceField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(JTResidenceField, GroupLayout.Alignment.LEADING)
                             .addComponent(JTUsernameField)
                             .addComponent(JPasswordField)
                             .addGroup(layout.createSequentialGroup()
@@ -261,7 +266,7 @@ public class SignUp extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(JLabelDate)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addComponent(JComboBoxDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(JLabelDay)
                     .addComponent(JLabelMonth)

@@ -12,7 +12,7 @@ public class ManageSignUp {
     private final BufferedReader in;
     private final PrintWriter out;
     private final SignUp view;
-    private final ManageLogin loginViewController;
+    private ManageLogin loginViewController;
 
     public ManageSignUp(BufferedReader in, PrintWriter out, ManageLogin loginViewController) {
         this.in = in;
@@ -29,7 +29,7 @@ public class ManageSignUp {
     private void initView() {
         view.setJLabelUsername("Username");
         view.setJLabelPassword("Password");
-        view.setJButtonSignUp("Registrati:");
+        view.setJButtonSignUp("Registrati");
         view.setJLabelDate("Data di nascita:");
         view.setJLabelDay("Giorno:");
         view.setJLabelMonth("Mese:");
@@ -85,6 +85,7 @@ public class ManageSignUp {
                         "interrompere la registrazione?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
+                    ManageLogin login = new ManageLogin(in, out, loginViewController.getGameViewController());
                 }
             }
 
