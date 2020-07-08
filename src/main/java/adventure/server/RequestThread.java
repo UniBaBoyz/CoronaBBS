@@ -16,7 +16,6 @@ import java.net.Socket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import static adventure.Utils.*;
@@ -65,14 +64,18 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             boolean next = false;
+            String command;
 
             while (!next) {
-                if (in.readLine().matches(REGISTRATION)) {
-                    registration();
-                    next = true;
-                } else if(in.readLine().matches(LOGIN)) {
-                    login();
-                    next = true;
+                command = in.readLine();
+                if (command.matches(REGISTRATION)) {
+                    if (registration(divideCredentials(command))) {
+                        next = true;
+                    }
+                } else if (command.matches(LOGIN)) {
+                    if (login(divideCredentials(command))) {
+                        next = true;
+                    }
                 }
             }
             next = false;
@@ -103,10 +106,6 @@ public class RequestThread extends Thread {
                 System.out.println("Cannot close the communication with the client!");
             }
         }
-    }
-
-    private List<String> divideRegistration(String string) {
-        return new ArrayList<>(Arrays.asList(string.split(SEPARATOR_CHARACTER_STRING)));
     }
 
     private void communicateWithTheClient(String string) {
@@ -151,42 +150,34 @@ public class RequestThread extends Thread {
         }
     }
 
-    private void registration() throws SQLException, IOException {
+    private List<String> divideCredentials(String string) {
+        return new ArrayList<>(Arrays.asList(string.split(SEPARATOR_CHARACTER_STRING)));
+    }
+
+    private boolean registration(List<String> strings) throws SQLException, IOException {
         final String NEW_USER = "insert into user values (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
-        boolean notFound = true;
-        String password;
-        String bornDate;
-        String residence;
+        String username = strings.get(0);
+        String password = strings.get(1);
+        String bornDate = strings.get(2);
+        String residence = strings.get(3);
         ResultSet result;
         PreparedStatement findUser;
         PreparedStatement newUser;
 
         findUser = connectionDb.prepareStatement(FIND_USER);
-        username = in.readLine();
         findUser.setString(1, username);
         result = findUser.executeQuery();
+        findUser.close();
 
         if (result.next()) {
-            while (notFound) {
-                out.println("#existing_username");
-                username = in.readLine();
-                findUser.setString(1, username);
-                result = findUser.executeQuery();
-                if (!result.next()) {
-                    notFound = false;
-                }
-            }
-            findUser.close();
+            out.println(EXISTING_USER);
+            return false;
         }
 
-        password = in.readLine();
-        bornDate = in.readLine();
-        residence = in.readLine();
-
-        while (!password.matches(PASSWORD_REGEX)) {
-            password = in.readLine();
-            out.println("#not_match_regex");
+        if (!password.matches(PASSWORD_REGEX)) {
+            out.println(INVALID_PASSWORD);
+            return false;
         }
 
         newUser = connectionDb.prepareStatement(NEW_USER);
@@ -196,9 +187,11 @@ public class RequestThread extends Thread {
         newUser.setString(4, residence);
         newUser.executeUpdate();
         newUser.close();
+        out.println(CORRECT_REGISTRATION);
+        return true;
     }
 
-    private void login() throws SQLException, IOException {
+    private boolean login(List<String> strings) throws SQLException, IOException {
         final String FIND_USER = "select * from user where username = ?";
         boolean login = false;
         boolean notFound = true;
@@ -237,6 +230,7 @@ public class RequestThread extends Thread {
                 }
             }
         }
+        return true;
     }
 
     private GameDescription loadGame() throws SQLException, IOException {
