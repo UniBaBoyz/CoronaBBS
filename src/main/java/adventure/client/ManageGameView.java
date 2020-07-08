@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static adventure.Utils.EXIT_GAME;
+
 /**
  * @author Corona-Extra
  */
@@ -59,7 +61,6 @@ public class ManageGameView {
             view.getJToutputArea().append(string + System.lineSeparator());
         }
     }
-
     private void initView() {
         view.setJButtonLook("Guarda");
         view.setJButtonInventory("Inventario");
