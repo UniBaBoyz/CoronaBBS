@@ -103,7 +103,18 @@ public class ManageGameChooser {
                 } else {
                     out.println(FIRE_HOUSE);
                 }
-                disposeWindow();
+                try {
+                    if(in.readLine().equals(NO_GAME_FOUNDED)) {
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "NO GAME FOUNDED!",
+                                "ERROR!", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "GAME LOADED",
+                                "", JOptionPane.ERROR_MESSAGE);
+                        disposeWindow();
+                    }
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
             }
         });
     }
