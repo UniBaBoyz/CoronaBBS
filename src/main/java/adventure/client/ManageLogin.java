@@ -57,7 +57,7 @@ public class ManageLogin {
 
     private boolean isValidButtonLogin() {
         boolean validButton = false;
-        if(!view.getJTUsernameField().getText().isEmpty() && !String.valueOf(view.getJPasswordField().getPassword()).isEmpty()) {
+        if (!view.getJTUsernameField().getText().isEmpty() && !String.valueOf(view.getJPasswordField().getPassword()).isEmpty()) {
             validButton = true;
         }
 
@@ -163,14 +163,14 @@ public class ManageLogin {
 
     private void run() {
         try {
-            if(in.readLine().equals(NON_EXISTING_USER)) {
+            if (in.readLine().equals(NON_EXISTING_USER)) {
                 JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
                         "ERROR!", JOptionPane.ERROR_MESSAGE);
             } else if (in.readLine().equals(INVALID_PASSWORD)) {
                 JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
                         "ERROR!", JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(view.getJDialogMain(),  "Benvenuto!",
+            } else if (in.readLine().equals(CORRECT_LOGIN)) {
+                JOptionPane.showMessageDialog(view.getJDialogMain(), "Benvenuto!",
                         "Utente trovato", JOptionPane.INFORMATION_MESSAGE);
                 disposeWindow();
                 ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
