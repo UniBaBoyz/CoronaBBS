@@ -12,7 +12,6 @@ import adventure.server.parser.ParserIta;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.VerbType;
 
-import javax.swing.*;
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
@@ -92,6 +91,7 @@ public class RequestThread extends Thread {
 
                     case NEW_GAME:
                         switch (credentials) {
+                            //TODO EXISTING GAME
                             case PRISON_BREAK:
                                 gameType = PRISON_BREAK_GAME;
                                 if (existingGame(username, gameType)) {
