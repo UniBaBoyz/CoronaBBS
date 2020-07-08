@@ -550,4 +550,9 @@ class BasicVerbs implements Serializable {
         return response.toString();
     }
 
+    String suicide() {
+        response.append("Non ti puoi suicidare proprio ora che tuo fratello ha bisogno di te!");
+        return response.toString();
+    }
+
 }

@@ -37,5 +37,6 @@ public enum VerbType {
     ASK,
     FACE_UP,
     DESTROY,
-    WORK_OUT
+    WORK_OUT,
+    SUICIDE
 }

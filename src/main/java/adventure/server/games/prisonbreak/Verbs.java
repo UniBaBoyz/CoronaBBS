@@ -80,9 +80,12 @@ public class Verbs implements VerbsInterface, Serializable {
         game.getTokenVerbs().add(turnOff);
 
         TokenVerb end = new TokenVerb(VerbType.END);
-        end.setAlias(new HashSet<>(Arrays.asList("End", "Exit", "Fine", "Esci", "Muori", "Ammazzati", "Ucciditi",
-                "Suicidati", "Crepa")));
+        end.setAlias(new HashSet<>(Arrays.asList("End", "Exit", "Fine", "Esci", "Addio")));
         game.getTokenVerbs().add(end);
+
+        TokenVerb suicide = new TokenVerb(VerbType.SUICIDE);
+        suicide.setAlias(new HashSet<>(Arrays.asList("Muori", "Ammazzati", "Ucciditi", "Crepa")));
+        game.getTokenVerbs().add(suicide);
 
         TokenVerb push = new TokenVerb(VerbType.PUSH);
         push.setAlias(new HashSet<>(Arrays.asList("Premi", "Spingi", "Attiva", "Schiaccia",

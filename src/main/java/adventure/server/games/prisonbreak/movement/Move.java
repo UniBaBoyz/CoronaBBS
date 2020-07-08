@@ -129,6 +129,8 @@ class Move implements Serializable {
                     case END:
                         response.append(controller.getBasicVerbs().end());
                         break;
+                    case SUICIDE:
+                        response.append(controller.getBasicVerbs().suicide());
                 }
 
             } else if (isAdvancedVerb(p.getVerb().getVerbType())) {
@@ -293,7 +295,8 @@ class Move implements Serializable {
     boolean isBasicVerb(VerbType verb) {
         return verb.equals(LOOK_AT) || verb.equals(PICK_UP) || verb.equals(OPEN) || verb.equals(CLOSE)
                 || verb.equals(INVENTORY) || verb.equals(REMOVE) || verb.equals(PULL) || verb.equals(TURN_ON)
-                || verb.equals(TURN_OFF) || verb.equals(END) || verb.equals(PUSH) || verb.equals(USE);
+                || verb.equals(TURN_OFF) || verb.equals(END) || verb.equals(PUSH) || verb.equals(USE)
+                || verb.equals(SUICIDE);
     }
 
     boolean isAdvancedVerb(VerbType verb) {
