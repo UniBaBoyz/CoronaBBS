@@ -63,7 +63,7 @@ public class RequestThread extends Thread {
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
             //registration();
-            login();
+            //login();
 
             // TODO CHOOSE GAME
             if (game == null) {

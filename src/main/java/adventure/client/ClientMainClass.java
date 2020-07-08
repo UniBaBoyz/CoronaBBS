@@ -40,6 +40,7 @@ public class ClientMainClass {
             ManageGameView view = new ManageGameView(in, out);
             //ManageLogin login = new ManageLogin(in, out, view.getView());
             ManageLogin login = new ManageLogin(in, out, view);
+            ManageSignUp signUp = new ManageSignUp(in,out,login);
 
             /*if (!view.setUsername()) {
                 view.setWindowVisible();

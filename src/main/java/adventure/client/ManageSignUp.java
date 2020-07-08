@@ -4,49 +4,33 @@ import javax.swing.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ManageLogin {
+public class ManageSignUp {
     private final BufferedReader in;
     private final PrintWriter out;
-    private final LoginView view;
-    private ManageGameView gameViewController;
+    private final SignUp view;
+    private final ManageLogin loginViewController;
 
-    public ManageLogin(BufferedReader in, PrintWriter out, ManageGameView gameViewController) {
+    public ManageSignUp(BufferedReader in, PrintWriter out, ManageLogin loginViewController) {
         this.in = in;
         this.out = out;
-        this.gameViewController = gameViewController;
-        view = new LoginView(this.gameViewController.getView().getJFmainFrame());
+        this.loginViewController = loginViewController;
+        view = new SignUp(this.loginViewController.getView().getJDialogMain());
         manageEvent();
         initView();
-    }
-
-    public LoginView getView() {
-        return view;
-    }
-
-    public void run() throws IOException {
-        // TODO Cambiare condizione
-        while (true) {
-            manageInput(in.readLine());
-        }
-    }
-
-    public void disposeWindow() {
-        view.getJDialogMain().setVisible(false);
-        view.getJDialogMain().dispose();
-    }
-
-    private void manageInput(String string) {
-
+        view.getJDialogMain().setVisible(true);
     }
 
     private void initView() {
         view.setJLabelUsername("Username");
         view.setJLabelPassword("Password");
-        view.setJButtonLogin("Accedi");
-        view.setJButtonSignIn("Registrati");
+        view.setJButtonSignUp("Registrati:");
+        view.setJLabelDate("Data di nascita:");
+        view.setJLabelDay("Giorno:");
+        view.setJLabelMonth("Mese:");
+        view.setJLabelResidence("Residenza:");
+        view.setJLabelYear("Anno:");
     }
 
     private void manageEvent() {
@@ -57,10 +41,10 @@ public class ManageLogin {
         view.getJDialogMain().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int input = JOptionPane.showConfirmDialog(view.getJDialogMain(), "Sei sicuro di voler " +
-                        "interrompere il login?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int input = JOptionPane.showConfirmDialog(loginViewController.getView().getJDialogMain(), "Sei sicuro di voler " +
+                        "interrompere la registrazione?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
-                    gameViewController.disposeWindow();
+                    loginViewController.disposeWindow();
                 }
             }
 
@@ -95,6 +79,5 @@ public class ManageLogin {
             }
         });
     }
-
 
 }
