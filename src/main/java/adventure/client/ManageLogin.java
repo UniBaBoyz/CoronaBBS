@@ -1,7 +1,5 @@
 package adventure.client;
 
-import adventure.Utils;
-
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -155,7 +153,6 @@ public class ManageLogin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManageSignUp signUp = new ManageSignUp(in, out, ManageLogin.this);
-                out.println(Utils.REGISTRATION);
             }
         });
     }

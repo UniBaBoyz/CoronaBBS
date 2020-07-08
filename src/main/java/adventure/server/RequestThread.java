@@ -68,37 +68,27 @@ public class RequestThread extends Thread {
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             boolean next = false;
             String command;
+            String credentials;
 
             while (!next) {
                 command = in.readLine();
+                credentials = in.readLine();
                 if (command.matches(REGISTRATION)) {
-                    boolean okRegistration = false;
-                    while (!okRegistration) {
-                        command = in.readLine();
-                        if (!command.isEmpty() && !command.equals(REGISTRATION)) {
-                            okRegistration = registration(divideCredentials(command));
-                        } else if (command.equals(LOGIN)) {
-                            okRegistration = true;
-                        }
+                    if (!credentials.isEmpty()) {
+                        registration(divideCredentials(credentials));
                     }
                 } else if (command.matches(LOGIN)) {
-                    boolean okLogin = false;
-                    while (!okLogin) {
-                        command = in.readLine();
-                        if (!command.isEmpty() && !command.equals(LOGIN)) {
-                            okLogin = login(divideCredentials(command));
-                        } else if (command.equals(REGISTRATION)) {
-                            okLogin = true;
-                        }
+                    if (!credentials.isEmpty()) {
+                        login(divideCredentials(credentials));
                     }
                 } else if (command.matches(NEW_GAME)) {
                     boolean created = false;
                     while (!created) {
-                        command = in.readLine();
-                        if (command.matches(PRISON_BREAK)) {
+                        credentials = in.readLine();
+                        if (credentials.matches(PRISON_BREAK)) {
                             gameType = PRISON_BREAK_GAME;
                             game = new PrisonBreakGame();
-                        } else if (command.matches(FIRE_HOUSE)) {
+                        } else if (credentials.matches(FIRE_HOUSE)) {
                             gameType = FIRE_HOUSE_GAME;
                             game = new FireHouseGame();
                         }
@@ -113,11 +103,11 @@ public class RequestThread extends Thread {
                 } else if (command.matches(LOAD_GAME)) {
                     boolean loaded = false;
                     while (!loaded) {
-                        command = in.readLine();
-                        if (command.matches(PRISON_BREAK)) {
+                        credentials = in.readLine();
+                        if (credentials.matches(PRISON_BREAK)) {
                             gameType = PRISON_BREAK_GAME;
                             game = loadGame();
-                        } else if (command.matches(FIRE_HOUSE)) {
+                        } else if (credentials.matches(FIRE_HOUSE)) {
                             gameType = FIRE_HOUSE_GAME;
                             game = loadGame();
                         }
