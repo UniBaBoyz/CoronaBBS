@@ -21,6 +21,8 @@ public class ManageSignUp {
         manageEvent();
         initView();
         view.getJDialogMain().setVisible(true);
+        run();
+        disposeWindow();
     }
 
     private void initView() {
@@ -37,6 +39,13 @@ public class ManageSignUp {
     public void disposeWindow() {
         view.getJDialogMain().setVisible(false);
         view.getJDialogMain().dispose();
+    }
+
+    private void run() {
+        //TODO cambiare condizione
+        while(true) {
+
+        }
     }
 
     private void manageEvent() {

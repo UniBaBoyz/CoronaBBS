@@ -14,10 +14,12 @@ import adventure.server.type.VerbType;
 import java.io.*;
 import java.net.Socket;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static adventure.Utils.PASSWORD_REGEX;
-import static adventure.Utils.REGISTRATION;
+import static adventure.Utils.*;
 
 /**
  * @author Corona-Extra
@@ -61,12 +63,18 @@ public class RequestThread extends Thread {
             System.out.println("New connection" + socket);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+            boolean next = false;
 
-            if (in.readLine().matches(REGISTRATION)) {
-                registration();
-            } else {
-                login();
+            while (!next) {
+                if (in.readLine().matches(REGISTRATION)) {
+                    registration();
+                    next = true;
+                } else if(in.readLine().matches(LOGIN)) {
+                    login();
+                    next = true;
+                }
             }
+            next = false;
 
             // TODO CHOOSE GAME
             if (game == null) {
@@ -94,6 +102,10 @@ public class RequestThread extends Thread {
                 System.out.println("Cannot close the communication with the client!");
             }
         }
+    }
+
+    private List<String> divideRegistration(String string) {
+        return new ArrayList<>(Arrays.asList(string.split(SEPARATOR_CHARACTER_STRING)));
     }
 
     private void communicateWithTheClient(String string) {
@@ -185,7 +197,7 @@ public class RequestThread extends Thread {
         newUser.close();
     }
 
-    public void login() throws SQLException, IOException {
+    private void login() throws SQLException, IOException {
         final String FIND_USER = "select * from user where username = ?";
         boolean login = false;
         boolean notFound = true;
@@ -224,7 +236,7 @@ public class RequestThread extends Thread {
         }
     }
 
-    public GameDescription loadGame() throws SQLException, IOException {
+    private GameDescription loadGame() throws SQLException, IOException {
         try {
             return GameDescription.loadGame(username);
         } catch (ClassNotFoundException e) {
@@ -233,7 +245,7 @@ public class RequestThread extends Thread {
         return null;
     }
 
-    public void saveGame() throws IOException, SQLException {
+    private void saveGame() throws IOException, SQLException {
         if (game != null && username != null) {
             game.saveGame(username);
             out.println("#game_saved");
