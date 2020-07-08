@@ -59,8 +59,7 @@ public class ManageLogin {
 
     private boolean isValidButtonLogin() {
         boolean validButton = false;
-        char[] password = view.getJPasswordField().getPassword();
-        if(!view.getJTUsernameField().getText().isEmpty() && !String.valueOf(password).isEmpty()) {
+        if(!view.getJTUsernameField().getText().isEmpty() && !String.valueOf(view.getJPasswordField().getPassword()).isEmpty()) {
             validButton = true;
         }
 

@@ -1,5 +1,7 @@
 package adventure.client;
 
+import adventure.Utils;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
@@ -42,6 +44,25 @@ public class ManageSignUp {
         keyListenerJTUsernameField();
         keyListenerJTResidenceField();
         keyListenerJPasswordField();
+        actionListenerButtonSignUp();
+    }
+
+    private String manageDate(JComboBox comboDay, JComboBox comboMonth, JComboBox comboYear) {
+        return comboYear.getItemAt(comboYear.getSelectedIndex()).toString() +
+                Utils.SEPARATOR_CHARACTER_DATE +
+                comboMonth.getItemAt(comboMonth.getSelectedIndex()).toString() +
+                Utils.SEPARATOR_CHARACTER_DATE +
+                comboDay.getItemAt(comboDay.getSelectedIndex()).toString();
+    }
+
+    private String createResponse() {
+        return view.getJTUsernameField().getText() +
+                Utils.SEPARATOR_CHARACTER_STRING +
+                String.valueOf(view.getJPasswordField().getPassword()) +
+                Utils.SEPARATOR_CHARACTER_STRING +
+                manageDate(view.getJComboBoxDay(), view.getJComboBoxMonth(), view.getJComboBoxYear()) +
+                Utils.SEPARATOR_CHARACTER_STRING +
+                view.getJTResidenceField();
     }
 
     private void actionListenerWindow() {
@@ -83,6 +104,16 @@ public class ManageSignUp {
             @Override
             public void windowDeactivated(WindowEvent e) {
 
+            }
+        });
+    }
+
+    private void actionListenerButtonSignUp() {
+        view.getJButtonSignUp().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                out.println(createResponse());
             }
         });
     }

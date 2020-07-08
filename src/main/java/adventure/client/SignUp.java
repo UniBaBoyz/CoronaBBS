@@ -13,61 +13,25 @@ import javax.swing.*;
  */
 public class SignUp extends javax.swing.JFrame {
 
-    private JButton JButtonSignUp;
-    private JComboBox<String> JComboBoxDay;
-    private JComboBox<String> JComboBoxMonth;
-    private JComboBox<String> JComboBoxYear;
-    private JLabel JLabelUsername;
-    private JLabel JLabelPassword;
-    private JLabel JLabelDate;
-    private JLabel JLabelResidence;
-    private JLabel JLabelDay;
-    private JLabel JLabelMonth;
-    private JLabel JLabelYear;
-    private JPasswordField JPasswordField;
-    private JTextField JTUsernameField;
-    private JTextField JTResidenceField;
     private JDialog JDialogMain;
+    private JLabel JLabelUsername;
+    private JTextField JTUsernameField;
+    private JLabel JLabelPassword;
+    private JPasswordField JPasswordField;
+    private JLabel JLabelDate;
+    private JLabel JLabelDay;
+    private JComboBox<String> JComboBoxDay;
+    private JLabel JLabelMonth;
+    private JComboBox<String> JComboBoxMonth;
+    private JLabel JLabelYear;
+    private JComboBox<String> JComboBoxYear;
+    private JLabel JLabelResidence;
+    private JTextField JTResidenceField;
+    private JButton JButtonSignUp;
 
     public SignUp(JDialog parentDialog) {
         JDialogMain = new JDialog(parentDialog, true);
         initComponents();
-    }
-
-    public JButton getJButtonSignUp() {
-        return JButtonSignUp;
-    }
-
-    public JComboBox<String> getJComboBoxDay() {
-        return JComboBoxDay;
-    }
-
-    public JComboBox<String> getJComboBoxMonth() {
-        return JComboBoxMonth;
-    }
-
-    public JComboBox<String> getJComboBoxYear() {
-        return JComboBoxYear;
-    }
-
-    public JLabel getJLabelDate() {
-        return JLabelDate;
-    }
-
-    public JLabel getJLabelDay() {
-        return JLabelDay;
-    }
-
-    public JLabel getJLabelMonth() {
-        return JLabelMonth;
-    }
-
-    public JLabel getJLabelPassword() {
-        return JLabelPassword;
-    }
-
-    public JLabel getJLabelResidence() {
-        return JLabelResidence;
     }
 
     public JDialog getJDialogMain() {
@@ -78,80 +42,88 @@ public class SignUp extends javax.swing.JFrame {
         return JLabelUsername;
     }
 
-    public JLabel getJLabelYear() {
-        return JLabelYear;
-    }
-
-    public javax.swing.JPasswordField getJPasswordField() {
-        return JPasswordField;
-    }
-
-    public JTextField getJTResidenceField() {
-        return JTResidenceField;
+    public void setJLabelUsername(String JLabelUsername) {
+        this.JLabelUsername.setText(JLabelUsername);
     }
 
     public JTextField getJTUsernameField() {
         return JTUsernameField;
     }
 
-    public void setJButtonSignUp(String JButtonSignUp) {
-        this.JButtonSignUp.setName(JButtonSignUp);
-    }
-
-    public void setJComboBoxDay(String JComboBoxDay) {
-        this.JComboBoxDay.setName(JComboBoxDay);
-    }
-
-    public void setJComboBoxMonth(String JComboBoxMonth) {
-        this.JComboBoxMonth.setName(JComboBoxMonth);
-    }
-
-    public void setJComboBoxYear(String JComboBoxYear) {
-        this.JComboBoxYear.setName(JComboBoxYear);
-    }
-
-    public void setJLabelDate(String JLabelDate) {
-        this.JLabelDate.setName(JLabelDate);
-    }
-
-    public void setJDialogMain(String JDialogMain) {
-        this.JDialogMain.setName(JDialogMain);
-    }
-
-    public void setJLabelDay(String JLabelDay) {
-        this.JLabelDay.setName(JLabelDay);
-    }
-
-    public void setJLabelMonth(String JLabelMonth) {
-        this.JLabelMonth.setName(JLabelMonth);
+    public JLabel getJLabelPassword() {
+        return JLabelPassword;
     }
 
     public void setJLabelPassword(String JLabelPassword) {
-        this.JLabelPassword.setName(JLabelPassword);
+        this.JLabelPassword.setText(JLabelPassword);
     }
 
-    public void setJLabelResidence(String JLabelResidence) {
-        this.JLabelResidence.setName(JLabelResidence);
+    public JPasswordField getJPasswordField() {
+        return JPasswordField;
     }
 
-    public void setJLabelUsername(String JLabelUsername) {
-        this.JLabelUsername.setName(JLabelUsername);
+    public JLabel getJLabelDate() {
+        return JLabelDate;
+    }
+
+    public JLabel getJLabelDay() {
+        return JLabelDay;
+    }
+
+    public void setJLabelDate(String JLabelDate) {
+        this.JLabelDate.setText(JLabelDate);
+    }
+
+    public JComboBox<String> getJComboBoxDay() {
+        return JComboBoxDay;
+    }
+
+    public void setJLabelDay(String JLabelDay) {
+        this.JLabelDay.setText(JLabelDay);
+    }
+
+    public JLabel getJLabelMonth() {
+        return JLabelMonth;
+    }
+
+    public JComboBox<String> getJComboBoxMonth() {
+        return JComboBoxMonth;
+    }
+
+    public void setJLabelMonth(String JLabelMonth) {
+        this.JLabelMonth.setText(JLabelMonth);
+    }
+
+    public JLabel getJLabelYear() {
+        return JLabelYear;
+    }
+
+    public JComboBox<String> getJComboBoxYear() {
+        return JComboBoxYear;
     }
 
     public void setJLabelYear(String JLabelYear) {
-        this.JLabelYear.setName(JLabelYear);
+        this.JLabelYear.setText(JLabelYear);
     }
 
-    public void setJPasswordField(String JPasswordField) {
-        this.JPasswordField.setName(JPasswordField);
+    public JLabel getJLabelResidence() {
+        return JLabelResidence;
     }
 
-    public void setJTResidenceField(String JTResidenceField) {
-        this.JTResidenceField.setName(JTResidenceField);
+    public JTextField getJTResidenceField() {
+        return JTResidenceField;
     }
 
-    public void setJTUsernameField(String JTUsernameField) {
-        this.JTUsernameField.setName(JTUsernameField);
+    public void setJLabelResidence(String JLabelResidence) {
+        this.JLabelResidence.setText(JLabelResidence);
+    }
+
+    public JButton getJButtonSignUp() {
+        return JButtonSignUp;
+    }
+
+    public void setJButtonSignUp(String JButtonSignUp) {
+        this.JButtonSignUp.setName(JButtonSignUp);
     }
 
     private void initComponents() {
@@ -191,20 +163,11 @@ public class SignUp extends javax.swing.JFrame {
         JButtonSignUp.setEnabled(false);
         JDialogMain.setResizable(false);
 
-        JLabelUsername.setText("Username:");
-
-        JLabelPassword.setText("Password:");
-
-        JButtonSignUp.setText("Registrati");
         JButtonSignUp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-
-        JLabelDate.setText("Data di nascita:");
-
-        JLabelResidence.setText("Residenza:");
 
         JTResidenceField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -212,7 +175,9 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
-        JComboBoxDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+        JComboBoxDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06",
+                "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23",
+                "24", "25", "26", "27", "28", "29", "30", "31" }));
         JComboBoxDay.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -223,7 +188,8 @@ public class SignUp extends javax.swing.JFrame {
 
         JLabelMonth.setText("Mese:");
 
-        JComboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre" }));
+        JComboBoxMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05",
+                "06", "07", "08", "09", "10", "11", "12" }));
         JComboBoxMonth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox2ActionPerformed(evt);
