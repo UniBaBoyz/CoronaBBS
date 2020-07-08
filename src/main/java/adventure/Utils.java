@@ -15,4 +15,6 @@ public class Utils {
     public final static String EXISTING_USER = "#EXISTING_USER";
     public final static String NEW_GAME = "#NEW_GAME";
     public final static String LOAD_GAME = "#LOAD_GAME";
+    public final static String PRISON_BREAK = "#PRISON_BREAK";
+    public final static String FIRE_HOUSE = "#FIRE_HOUSE";
 }

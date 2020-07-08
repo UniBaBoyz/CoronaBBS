@@ -1,6 +1,6 @@
 package adventure;
 
 public class Games {
-    public static final int PRISON_BREAK = 1;
-    public static final int FIRE_HOUSE = 2;
+    public final static int PRISON_BREAK_GAME = 1;
+    public final static int FIRE_HOUSE_GAME = 2;
 }
