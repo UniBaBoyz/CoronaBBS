@@ -84,7 +84,6 @@ public class RequestThread extends Thread {
                 } else if (command.matches(NEW_GAME)) {
                     boolean created = false;
                     while (!created) {
-                        credentials = in.readLine();
                         if (credentials.matches(PRISON_BREAK)) {
                             gameType = PRISON_BREAK_GAME;
                             game = new PrisonBreakGame();
@@ -103,7 +102,6 @@ public class RequestThread extends Thread {
                 } else if (command.matches(LOAD_GAME)) {
                     boolean loaded = false;
                     while (!loaded) {
-                        credentials = in.readLine();
                         if (credentials.matches(PRISON_BREAK)) {
                             gameType = PRISON_BREAK_GAME;
                             game = loadGame();
