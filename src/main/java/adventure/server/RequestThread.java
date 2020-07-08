@@ -50,12 +50,12 @@ public class RequestThread extends Thread {
         if (game != null) {
             if (game.getIntroduction() != null) {
                 out.println(game.getIntroduction());
-                out.println(game.getCurrentRoom().getName() +
-                        "\n" + "======================================" +
-                        "===========================================\n" +
-                        game.getCurrentRoom().getDescription() + "\n" +
-                        "=================================================================================\n");
             }
+            out.println(game.getCurrentRoom().getName() +
+                    "\n" + "======================================" +
+                    "===========================================\n" +
+                    game.getCurrentRoom().getDescription() + "\n" +
+                    "=================================================================================\n");
             out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
         }
     }

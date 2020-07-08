@@ -6,7 +6,9 @@ import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.objectsException.ObjectsException;
 import adventure.server.games.GameDescription;
 import adventure.server.parser.ParserOutput;
-import adventure.server.type.*;
+import adventure.server.type.Inventory;
+import adventure.server.type.TokenObject;
+import adventure.server.type.VerbType;
 
 import java.sql.SQLException;
 
@@ -105,7 +107,8 @@ public class FireHouseGame extends GameDescription {
                 }
                 if (move) {
                     response.append(getCurrentRoom().getName()).append("\n");
-                    response.append("================================================\n");
+                    response.append("====================================================================" +
+                            "=============\n");
                     response.append(getCurrentRoom().getDescription()).append("\n");
                 }
             }
