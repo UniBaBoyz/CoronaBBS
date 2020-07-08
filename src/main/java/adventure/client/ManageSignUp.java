@@ -5,6 +5,7 @@ import adventure.Utils;
 import javax.swing.*;
 import java.awt.event.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ManageSignUp {
@@ -42,10 +43,7 @@ public class ManageSignUp {
     }
 
     private void run() {
-        //TODO cambiare condizione
-        while(true) {
-
-        }
+        while(in.readLine().matches(Utils.CORRECT_REGISTRATION)) { }
     }
 
     private void manageEvent() {
