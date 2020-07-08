@@ -145,7 +145,14 @@ public class ManageSignUp {
     }
 
     private void manageButtonSignUp() {
-        view.getJButtonSignUp().setEnabled(isValidButtonSignUp());
+        if (Utils.isValidDate(
+                Integer.parseInt(view.getJComboBoxDay().getItemAt(view.getJComboBoxDay().getSelectedIndex())),
+                Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
+                Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
+            view.getJButtonSignUp().setEnabled(isValidButtonSignUp());
+        } else {
+            JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void keyListenerJTUsernameField() {
