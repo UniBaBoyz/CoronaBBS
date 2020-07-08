@@ -120,6 +120,7 @@ public class ManageSignUp {
 
             @Override
             public void actionPerformed(ActionEvent e) {
+                out.println(Utils.REGISTRATION);
                 out.println(createResponse());
             }
         });
