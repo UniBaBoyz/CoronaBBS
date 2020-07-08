@@ -160,6 +160,10 @@ public class ManageLogin {
         });
     }
 
+    private void resetJTextField(JTextField jTextField) {
+        jTextField.setText("");
+    }
+
     private void run() {
         try {
             String response = in.readLine();
@@ -168,10 +172,14 @@ public class ManageLogin {
                     case NON_EXISTING_USER:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        resetJTextField(view.getJTUsernameField());
+                        resetJTextField(view.getJPasswordField());
                         break;
                     case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        resetJTextField(view.getJTUsernameField());
+                        resetJTextField(view.getJPasswordField());
                         break;
                     case CORRECT_LOGIN:
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Benvenuto!",
