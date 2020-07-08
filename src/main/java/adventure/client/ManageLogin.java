@@ -55,6 +55,7 @@ public class ManageLogin {
         keyListenerJTUsernameField();
         keyListenerJPasswordField();
         actionListenerButtonSignUp();
+        actionListenerButtonLogin();
     }
 
     private boolean isValidButtonLogin() {
@@ -158,6 +159,18 @@ public class ManageLogin {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ManageSignUp signUp = new ManageSignUp(in, out, ManageLogin.this);
+            }
+        });
+    }
+
+    private void actionListenerButtonLogin() {
+        view.getJButtonLogin().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("ciao");
+                ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
+                view.getJDialogMain().setVisible(false);
+                view.getJDialogMain().dispose();
             }
         });
     }
