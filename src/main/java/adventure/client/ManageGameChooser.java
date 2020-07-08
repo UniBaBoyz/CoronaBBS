@@ -99,16 +99,17 @@ public class ManageGameChooser {
                 String prisonBreak = "PrisonBreak";
                 String input = view.getJComboBox1().getSelectedItem().toString();
                 out.println(LOAD_GAME);
-                if(input.equals(prisonBreak)) {
+                if (input.equals(prisonBreak)) {
                     out.println(PRISON_BREAK);
                 } else {
                     out.println(FIRE_HOUSE);
                 }
                 try {
-                    if(in.readLine().equals(NO_GAME_FOUNDED)) {
+                    String response = in.readLine();
+                    if (response.equals(NO_GAME_FOUNDED)) {
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessuna partita trovata!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
-                    } else {
+                    } else if (response.equals(GAME_LOADED)) {
                         JOptionPane.showMessageDialog(view.getJDialogMain(), input + " caricato con successo!",
                                 "Partita caricata", JOptionPane.INFORMATION_MESSAGE);
                         disposeWindow();
@@ -119,6 +120,7 @@ public class ManageGameChooser {
             }
         });
     }
+
     private void actionListenerButtonNewGame() {
         view.getJButtonNewGame().addActionListener(new ActionListener() {
             @Override
@@ -126,16 +128,17 @@ public class ManageGameChooser {
                 String prisonBreak = "PrisonBreak";
                 String input = view.getJComboBox1().getSelectedItem().toString();
                 out.println(NEW_GAME);
-                if(input.equals(prisonBreak)) {
+                if (input.equals(prisonBreak)) {
                     out.println(PRISON_BREAK);
                 } else {
                     out.println(FIRE_HOUSE);
                 }
                 try {
-                    if(in.readLine().equals(NO_GAME_CREATED)) {
+                    String response = in.readLine();
+                    if (response.equals(NO_GAME_CREATED)) {
                         JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun gioco creato!",
                                 "ERROR!", JOptionPane.ERROR_MESSAGE);
-                    } else {
+                    } else if (response.equals(GAME_CREATED)) {
                         JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
                                 "Partita creata", JOptionPane.INFORMATION_MESSAGE);
                         disposeWindow();
