@@ -221,12 +221,13 @@ public class RequestThread extends Thread {
         findUser = connectionDb.prepareStatement(FIND_USER);
         findUser.setString(1, username);
         result = findUser.executeQuery();
-        findUser.close();
 
         if (result.next()) {
             out.println(EXISTING_USER);
             return false;
         }
+
+        findUser.close();
 
         if (!password.matches(PASSWORD_REGEX)) {
             out.println(INVALID_PASSWORD);
@@ -254,7 +255,6 @@ public class RequestThread extends Thread {
         findUser = connectionDb.prepareStatement(FIND_USER);
         findUser.setString(1, username);
         resultUser = findUser.executeQuery();
-        findUser.close();
 
         if (!resultUser.next()) {
             out.println(NON_EXISTING_USER);
@@ -265,6 +265,8 @@ public class RequestThread extends Thread {
                 return false;
             }
         }
+
+        findUser.close();
         out.println(CORRECT_LOGIN);
         return true;
     }

@@ -22,8 +22,8 @@ public class ManageSignUp {
         manageEvent();
         initView();
         view.getJDialogMain().setVisible(true);
-        run();
-        disposeWindow();
+        /*run();
+        disposeWindow();*/
     }
 
     private void initView() {
@@ -74,7 +74,7 @@ public class ManageSignUp {
                 Utils.SEPARATOR_CHARACTER_STRING +
                 manageDate(view.getJComboBoxDay(), view.getJComboBoxMonth(), view.getJComboBoxYear()) +
                 Utils.SEPARATOR_CHARACTER_STRING +
-                view.getJTResidenceField();
+                view.getJTResidenceField().getText();
     }
 
     private void actionListenerWindow() {
@@ -126,8 +126,16 @@ public class ManageSignUp {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                out.println(Utils.REGISTRATION);
-                out.println(createResponse());
+                if (!Utils.isValidDate(
+                        Integer.parseInt(view.getJComboBoxDay().getItemAt(view.getJComboBoxDay().getSelectedIndex())),
+                        Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
+                        Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
+                    JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    out.println(Utils.REGISTRATION);
+                    out.println(createResponse());
+
+                }
             }
         });
     }
@@ -145,14 +153,7 @@ public class ManageSignUp {
     }
 
     private void manageButtonSignUp() {
-        if (Utils.isValidDate(
-                Integer.parseInt(view.getJComboBoxDay().getItemAt(view.getJComboBoxDay().getSelectedIndex())),
-                Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
-                Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
-            view.getJButtonSignUp().setEnabled(isValidButtonSignUp());
-        } else {
-            JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        view.getJButtonSignUp().setEnabled(isValidButtonSignUp());
     }
 
     private void keyListenerJTUsernameField() {
