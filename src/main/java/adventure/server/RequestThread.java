@@ -73,42 +73,61 @@ public class RequestThread extends Thread {
             while (!next) {
                 command = in.readLine();
                 credentials = in.readLine();
-                if (command.matches(REGISTRATION)) {
-                    if (!credentials.isEmpty()) {
-                        registration(divideCredentials(credentials));
-                    }
-                } else if (command.matches(LOGIN)) {
-                    if (!credentials.isEmpty()) {
-                        login(divideCredentials(credentials));
-                    }
-                } else if (command.matches(NEW_GAME)) {
-                    if (credentials.matches(PRISON_BREAK)) {
-                        gameType = PRISON_BREAK_GAME;
-                        game = new PrisonBreakGame();
-                    } else if (credentials.matches(FIRE_HOUSE)) {
-                        gameType = FIRE_HOUSE_GAME;
-                        game = new FireHouseGame();
-                    }
-                    if (game != null) {
-                        out.println(GAME_CREATED);
-                        next = true;
-                    } else {
-                        out.println(NO_GAME_CREATED);
-                    }
-                } else if (command.matches(LOAD_GAME)) {
-                    if (credentials.matches(PRISON_BREAK)) {
-                        gameType = PRISON_BREAK_GAME;
-                        game = loadGame();
-                    } else if (credentials.matches(FIRE_HOUSE)) {
-                        gameType = FIRE_HOUSE_GAME;
-                        game = loadGame();
-                    }
-                    if (game != null) {
-                        out.println(GAME_LOADED);
-                        next = true;
-                    } else {
-                        out.println(NO_GAME_FOUNDED);
-                    }
+
+                switch (command) {
+
+                    case REGISTRATION:
+                        if (!credentials.isEmpty()) {
+                            registration(divideCredentials(credentials));
+                        }
+                        break;
+
+                    case LOGIN:
+                        if (!credentials.isEmpty()) {
+                            login(divideCredentials(credentials));
+                        }
+                        break;
+
+                    case NEW_GAME:
+                        switch (credentials) {
+                            case PRISON_BREAK:
+                                gameType = PRISON_BREAK_GAME;
+                                game = new PrisonBreakGame();
+                                break;
+                            case FIRE_HOUSE:
+                                gameType = FIRE_HOUSE_GAME;
+                                game = new FireHouseGame();
+                                break;
+                        }
+
+                        if (game != null) {
+                            out.println(GAME_CREATED);
+                            next = true;
+                        } else {
+                            out.println(NO_GAME_CREATED);
+                        }
+                        break;
+
+                    case LOAD_GAME:
+                        switch (credentials) {
+
+                            case PRISON_BREAK:
+                                gameType = PRISON_BREAK_GAME;
+                                game = loadGame();
+                                break;
+                            case FIRE_HOUSE:
+                                gameType = FIRE_HOUSE_GAME;
+                                game = loadGame();
+                                break;
+                        }
+
+                        if (game != null) {
+                            out.println(GAME_LOADED);
+                            next = true;
+                        } else {
+                            out.println(NO_GAME_FOUNDED);
+                        }
+                        break;
                 }
             }
 
