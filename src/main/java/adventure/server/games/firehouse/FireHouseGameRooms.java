@@ -4,10 +4,12 @@ import adventure.server.games.GameDescription;
 import adventure.server.games.RoomsInterface;
 import adventure.server.type.Room;
 
+import java.io.Serializable;
+
 /**
  * @author pierpaolo
  */
-public class FireHouseGameRooms implements RoomsInterface {
+public class FireHouseGameRooms implements RoomsInterface, Serializable {
 
     @Override
     public void initRooms(GameDescription game) {

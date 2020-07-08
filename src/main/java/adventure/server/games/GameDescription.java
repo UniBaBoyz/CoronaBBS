@@ -259,7 +259,7 @@ public abstract class GameDescription implements Serializable {
         String newGame = "insert into game values(null, ?, ?)";
         String userGame = "insert into user_game values (? , null)";
         String findGame = "select * from game natural join user_game where username = ? and game_type = ?";
-        String updateGame = "update game set game = ? where id = ?";
+        String updateGame = "update game set game_saved = ? where id = ?";
         PreparedStatement newUserGame;
         PreparedStatement newGameStatement;
         PreparedStatement findExistingGame;

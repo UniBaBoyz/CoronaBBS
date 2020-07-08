@@ -5,13 +5,14 @@ import adventure.server.games.ObjectsInterface;
 import adventure.server.type.TokenObject;
 import adventure.server.type.TokenObjectContainer;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
 
 /**
  * @author pierpaolo
  */
-public class FireHouseGameObjects implements ObjectsInterface {
+public class FireHouseGameObjects implements ObjectsInterface, Serializable {
 
     @Override
     public void initObjects(GameDescription game) {
