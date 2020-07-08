@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * @author Corona-Extra
+ */
 public class ServerMainClass {
     public static void main(String[] args) {
         ServerSocket serverSocket = null;

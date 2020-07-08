@@ -37,7 +37,9 @@ public class ClientMainClass {
                 throw new IOException();
             }
 
-            ManageView view = new ManageView(in, out);
+            ManageGameView view = new ManageGameView(in, out);
+            //ManageLogin login = new ManageLogin(in, out, view.getView());
+            LoginTemp l = new LoginTemp(view.getView().getJFmainFrame());
 
             /*if (!view.setUsername()) {
                 view.setWindowVisible();

@@ -1,12 +1,23 @@
 package adventure.client;
 
-/*
-public class MenageLogin {
+import adventure.Utils;
+
+import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+/**
+ * @author Corona-Extra
+ */
+public class ManageGameView {
     private final BufferedReader in;
     private final PrintWriter out;
-    private final View view = new View();
+    private final GameView view = new GameView();
 
-    public ManageLogin(BufferedReader in, PrintWriter out) {
+    public ManageGameView(BufferedReader in, PrintWriter out) {
         this.in = in;
         this.out = out;
         manageEvent();
@@ -15,12 +26,16 @@ public class MenageLogin {
     }
 
     public void disposeWindow() {
-        view.getJframe().setVisible(false);
-        view.getJframe().dispose();
+        view.getJFmainFrame().setVisible(false);
+        view.getJFmainFrame().dispose();
     }
 
     public void setVisibleWindow(boolean value) {
-        view.getJframe().setVisible(value);
+        view.getJFmainFrame().setVisible(value);
+    }
+
+    public GameView getView() {
+        return view;
     }
 
     public void run() throws IOException {
@@ -33,27 +48,27 @@ public class MenageLogin {
     private void manageInput(String string) {
         if (string != null && string.contains(Utils.SEPARATOR_CHARACTER_STRING)) {
             String score = string.substring(string.indexOf(Utils.SEPARATOR_CHARACTER_STRING) + 1, string.length());
-            view.getTextAreaScore().setText(score);
+            view.getJTextAreaScore().setText(score);
 
             String textToAppend = string.substring(0, string.indexOf(Utils.SEPARATOR_CHARACTER_STRING));
             if(!textToAppend.isEmpty()) {
-                view.getOutputArea().append(textToAppend + System.lineSeparator());
+                view.getJToutputArea().append(textToAppend + System.lineSeparator());
             }
 
         } else if (string != null && !string.isEmpty()) {
-            view.getOutputArea().append(string + System.lineSeparator());
+            view.getJToutputArea().append(string + System.lineSeparator());
         }
     }
 
     private void initView() {
-        view.setButtonLook("Guarda");
-        view.setButtonInventory("Inventario");
-        view.setButtonEnter("Invio");
-        view.setButtonNorth("Nord");
-        view.setButtonSouth("Sud");
-        view.setButtonEast("Est");
-        view.setButtonWest("Ovest");
-        view.setLabelScore("Score");
+        view.setJButtonLook("Guarda");
+        view.setJButtonInventory("Inventario");
+        view.setJButtonEnter("Invio");
+        view.setJButtonNorth("Nord");
+        view.setJButtonSouth("Sud");
+        view.setJButtonEast("Est");
+        view.setJButtonWest("Ovest");
+        view.setJLabelScore("Score");
     }
 
     private void manageEvent() {
@@ -69,10 +84,10 @@ public class MenageLogin {
     }
 
     private void actionListenerWindow() {
-        view.getJframe().addWindowListener(new WindowListener() {
+        view.getJFmainFrame().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int input = JOptionPane.showConfirmDialog(view.getJframe(), "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
                 }
@@ -111,42 +126,41 @@ public class MenageLogin {
     }
 
     private void actionListenerButtonNorth() {
-        view.getButtonNorth().addActionListener(e -> out.println("Nord"));
+        view.getJButtonNorth().addActionListener(e -> out.println("Nord"));
     }
 
     private void actionListenerButtonSouth() {
-        view.getButtonSouth().addActionListener(e -> out.println("Sud"));
+        view.getJButtonSouth().addActionListener(e -> out.println("Sud"));
     }
 
     private void actionListenerButtonEast() {
-        view.getButtonEast().addActionListener(e -> out.println("Est"));
+        view.getJButtonEast().addActionListener(e -> out.println("Est"));
     }
 
     private void actionListenerButtonWest() {
-        view.getButtonWest().addActionListener(e -> out.println("Ovest"));
+        view.getJButtonWest().addActionListener(e -> out.println("Ovest"));
     }
 
     private void actionListenerButtonInventory() {
-        view.getButtonInventory().addActionListener(e -> out.println("Inventario"));
+        view.getJButtonInventory().addActionListener(e -> out.println("Inventario"));
     }
 
     private void actionListenerButtonLook() {
-        view.getButtonLook().addActionListener(e -> out.println("Guarda"));
+        view.getJButtonLook().addActionListener(e -> out.println("Guarda"));
     }
 
     private void actionListenerButtonEnter() {
-        view.getButtonEnter().addActionListener(ev -> {
-            out.println(view.getInputField().getText());
-            view.getInputField().setText("");
+        view.getJButtonEnter().addActionListener(ev -> {
+            out.println(view.getJTinputField().getText());
+            view.getJTinputField().setText("");
         });
     }
 
     private void actionListenerInputField() {
-        view.getInputField().addActionListener(ev -> {
-            out.println(view.getInputField().getText());
-            view.getInputField().setText("");
+        view.getJTinputField().addActionListener(ev -> {
+            out.println(view.getJTinputField().getText());
+            view.getJTinputField().setText("");
         });
     }
-}
 
- */
+}

@@ -23,6 +23,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * @author Corona-Extra
+ */
 public class RequestThread extends Thread {
     private final Socket socket;
     private final Connection connectionDb;
