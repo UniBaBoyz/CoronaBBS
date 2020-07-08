@@ -83,6 +83,10 @@ public class RequestThread extends Thread {
                             next = true;
                         }
                     }
+                } else if (command.matches(NEW_GAME)) {
+                    //gameType = in.readLine();
+                } else if (command.matches(LOAD_GAME)) {
+
                 }
             }
 
