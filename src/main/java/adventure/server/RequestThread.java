@@ -42,10 +42,6 @@ public class RequestThread extends Thread {
         this.connectionDb = connDb;
     }
 
-    private static <T extends Number> boolean pippo(T a) {
-        return true;
-    }
-
     public PrintWriter getOutputStreamThread() {
         return out;
     }
@@ -79,16 +75,20 @@ public class RequestThread extends Thread {
                     boolean okRegistration = false;
                     while (!okRegistration) {
                         command = in.readLine();
-                        if (!command.isEmpty()) {
+                        if (!command.isEmpty() && !command.equals(REGISTRATION)) {
                             okRegistration = registration(divideCredentials(command));
+                        } else if (command.equals(LOGIN)) {
+                            okRegistration = true;
                         }
                     }
                 } else if (command.matches(LOGIN)) {
                     boolean okLogin = false;
                     while (!okLogin) {
                         command = in.readLine();
-                        if (!command.isEmpty()) {
+                        if (!command.isEmpty() && !command.equals(LOGIN)) {
                             okLogin = login(divideCredentials(command));
+                        } else if (command.equals(REGISTRATION)) {
+                            okLogin = true;
                         }
                     }
                 } else if (command.matches(NEW_GAME)) {
@@ -206,39 +206,46 @@ public class RequestThread extends Thread {
     private boolean registration(List<String> strings) throws SQLException {
         final String NEW_USER = "insert into user values (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
-        String password = strings.get(1);
-        String bornDate = strings.get(2);
-        String residence = strings.get(3);
+        String password;
+        String bornDate;
+        String residence;
         ResultSet result;
         PreparedStatement findUser;
         PreparedStatement newUser;
 
-        username = strings.get(0);
-        findUser = connectionDb.prepareStatement(FIND_USER);
-        findUser.setString(1, username);
-        result = findUser.executeQuery();
+        if (strings.size() == 4) {
+            username = strings.get(0);
+            password = strings.get(1);
+            bornDate = strings.get(2);
+            residence = strings.get(3);
+            findUser = connectionDb.prepareStatement(FIND_USER);
+            findUser.setString(1, username);
+            result = findUser.executeQuery();
 
-        if (result.next()) {
-            out.println(EXISTING_USERNAME);
+            if (result.next()) {
+                out.println(EXISTING_USERNAME);
+                return false;
+            }
+
+            findUser.close();
+
+            if (!password.matches(PASSWORD_REGEX)) {
+                out.println(INVALID_PASSWORD);
+                return false;
+            }
+
+            newUser = connectionDb.prepareStatement(NEW_USER);
+            newUser.setString(1, username);
+            newUser.setString(2, Password.hashPassword(password));
+            newUser.setDate(3, Date.valueOf(bornDate));
+            newUser.setString(4, residence);
+            newUser.executeUpdate();
+            newUser.close();
+            out.println(CORRECT_REGISTRATION);
+            return true;
+        } else {
             return false;
         }
-
-        findUser.close();
-
-        if (!password.matches(PASSWORD_REGEX)) {
-            out.println(INVALID_PASSWORD);
-            return false;
-        }
-
-        newUser = connectionDb.prepareStatement(NEW_USER);
-        newUser.setString(1, username);
-        newUser.setString(2, Password.hashPassword(password));
-        newUser.setDate(3, Date.valueOf(bornDate));
-        newUser.setString(4, residence);
-        newUser.executeUpdate();
-        newUser.close();
-        out.println(CORRECT_REGISTRATION);
-        return true;
     }
 
     private boolean login(List<String> strings) throws SQLException {
