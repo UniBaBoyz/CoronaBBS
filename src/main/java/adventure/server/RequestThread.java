@@ -13,10 +13,7 @@ import adventure.server.type.VerbType;
 
 import java.io.*;
 import java.net.Socket;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 /**
@@ -62,7 +59,7 @@ public class RequestThread extends Thread {
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 
-            //registration();
+            registration();
             //login();
 
             // TODO CHOOSE GAME
@@ -137,9 +134,11 @@ public class RequestThread extends Thread {
     }
 
     private void registration() throws SQLException, IOException {
-        final String NEW_USER = "INSERT INTO user VALUES (?, ?)";
+        final String NEW_USER = "INSERT INTO user VALUES (?, ?, ?, ?)";
         final String FIND_USER = "select * from user where username = ?";
         String password;
+        String bornDate;
+        String residence;
         boolean notFound = true;
         ResultSet result;
         PreparedStatement findUser;
@@ -164,20 +163,21 @@ public class RequestThread extends Thread {
         }
 
         password = in.readLine();
-        //dateBorn = in.readLine();
-        //residence = in.readLine();
+        bornDate = in.readLine();
+        residence = in.readLine();
 
         /*
         while(!password.matches(PASSWORD_REGEX)) {
             password = in.readLine();
+            out.println("#not_match_regex");
         }
         */
 
         newUser = connectionDb.prepareStatement(NEW_USER);
         newUser.setString(1, username);
         newUser.setString(2, Password.hashPassword(password));
-        //newUser.setDate(3, Date.valueOf(dateBorn));
-        //newUser.setString(4, residence);
+        newUser.setDate(3, Date.valueOf(bornDate));
+        newUser.setString(4, residence);
         newUser.executeUpdate();
         newUser.close();
     }

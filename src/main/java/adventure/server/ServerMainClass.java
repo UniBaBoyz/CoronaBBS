@@ -19,7 +19,7 @@ public class ServerMainClass {
         final int port = 10000;
 
         final String USER = "CREATE TABLE IF NOT EXISTS user (username varchar(30)," +
-                "password varchar(100), PRIMARY KEY (username))";
+                "password varchar(100), born_date date, residence varchar(50), PRIMARY KEY (username))";
         final String GAME = "CREATE TABLE IF NOT EXISTS game (id int(10) AUTO_INCREMENT, " +
                 "game longblob, PRIMARY KEY (id))";
         final String USER_GAME = "CREATE TABLE IF NOT EXISTS " +
