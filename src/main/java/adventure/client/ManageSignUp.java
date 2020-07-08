@@ -74,7 +74,7 @@ public class ManageSignUp {
                 Utils.SEPARATOR_CHARACTER_STRING +
                 manageDate(view.getJComboBoxDay(), view.getJComboBoxMonth(), view.getJComboBoxYear()) +
                 Utils.SEPARATOR_CHARACTER_STRING +
-                view.getJTResidenceField();
+                view.getJTResidenceField().getText();
     }
 
     private void actionListenerWindow() {
