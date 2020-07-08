@@ -223,7 +223,7 @@ public class RequestThread extends Thread {
         result = findUser.executeQuery();
 
         if (result.next()) {
-            out.println(EXISTING_USER);
+            out.println(EXISTING_USERNAME);
             return false;
         }
 
