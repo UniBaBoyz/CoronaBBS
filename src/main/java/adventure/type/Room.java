@@ -127,6 +127,8 @@ public class Room {
                     } catch (InventoryEmptyException ignored) {
 
                     }
+                } else if (obj instanceof TokenObjectContainer && !obj.isOpen()) {
+                    getObjects().removeAll(((TokenObjectContainer) obj).getObjects());
                 }
             }
 

@@ -43,8 +43,7 @@ public class RoomType {
     public static final int ISOLATION_CORRIDOR_SOUTH_SOUTH_SOUTH = 36;
     public static final int BROTHER_CELL = 37;
     public static final int ENDGAME = 38;
-    public static final int WINDOW_INFIRMARY = 39;
-    public static final int FRONTBENCH = 40;
-    public static final int GRATE_CELL = 41;
-    public static final int AIR_DUCT_INFIRMARY = 42;
+    public static final int FRONTBENCH = 39;
+    public static final int GRATE_CELL = 40;
+    public static final int AIR_DUCT_INFIRMARY = 41;
 }

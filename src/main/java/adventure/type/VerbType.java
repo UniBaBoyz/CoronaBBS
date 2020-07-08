@@ -14,7 +14,6 @@ public enum VerbType {
     CLOSE,
     PUSH,
     PULL,
-    WALK,
     STAND_UP,
     SIT_DOWN,
     CLIMB,

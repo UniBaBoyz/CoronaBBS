@@ -1,5 +1,8 @@
 package adventure.exceptions;
 
+/**
+ * @author Corona-Extra
+ */
 public class NotAccessibleRoomException extends Exception {
 
     @Override

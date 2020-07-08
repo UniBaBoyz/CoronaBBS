@@ -1,4 +1,4 @@
-package adventure;
+package adventure.games;
 
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
@@ -7,20 +7,63 @@ import adventure.exceptions.objectsException.ObjectsException;
 import adventure.parser.ParserOutput;
 import adventure.type.*;
 
-import java.io.PrintStream;
 import java.util.*;
 
 /**
  * @author Corona-Extra
  */
 public abstract class GameDescription {
+    private final String title;
+    private String introduction;
     private static final int INCREASE_SCORE = 10;
+    private final ObjectsInterface gameObjects;
+    private final RoomsInterface gameRooms;
+    private final VerbsInterface gameVerbs;
     private final Set<Room> rooms = new HashSet<>();
     private final Set<TokenVerb> tokenVerbs = new HashSet<>();
     private final Set<TokenObject> objectNotAssignedRoom = new HashSet<>();
     private Inventory inventory;
     private Room currentRoom;
     private int score = 0;
+
+    public GameDescription(ObjectsInterface gameObjects, RoomsInterface gameRooms, VerbsInterface gameVerbs, String title) {
+        this.title = title;
+        this.gameRooms = gameRooms;
+        this.gameObjects = gameObjects;
+        this.gameVerbs = gameVerbs;
+
+        init();
+    }
+
+    private void init() {
+        getGameVerbs().initVerbs(this);
+        getGameRooms().initRooms(this);
+        getGameObjects().initObjects(this);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public ObjectsInterface getGameObjects() {
+        return gameObjects;
+    }
+
+    public RoomsInterface getGameRooms() {
+        return gameRooms;
+    }
+
+    public VerbsInterface getGameVerbs() {
+        return gameVerbs;
+    }
 
     public Set<Room> getRooms() {
         return rooms;
@@ -66,7 +109,7 @@ public abstract class GameDescription {
         this.inventory = inventory;
     }
 
-    public abstract void nextMove(ParserOutput p, PrintStream out);
+    public abstract String nextMove(ParserOutput p);
 
     public Set<TokenObject> getObjects() {
         Set<TokenObject> objects = new HashSet<>(objectNotAssignedRoom);
@@ -111,6 +154,10 @@ public abstract class GameDescription {
 
     public void increaseScore() {
         this.score += INCREASE_SCORE;
+    }
+
+    public String toStringScore() {
+        return "\n\nIl tuo punteggio è aumentato!!!\nOra hai " + this.score + " punti!\n\n";
     }
 
     public int getScore() {

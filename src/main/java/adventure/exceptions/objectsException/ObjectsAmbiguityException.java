@@ -1,5 +1,8 @@
 package adventure.exceptions.objectsException;
 
+/**
+ * @author Corona-Extra
+ */
 public class ObjectsAmbiguityException extends ObjectsException {
 
     @Override
