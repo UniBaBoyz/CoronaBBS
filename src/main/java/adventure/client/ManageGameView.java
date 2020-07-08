@@ -87,7 +87,8 @@ public class ManageGameView {
         view.getJFmainFrame().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                int input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                int input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
+                        "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
                 }
