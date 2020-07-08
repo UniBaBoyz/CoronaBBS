@@ -215,18 +215,22 @@ public class RequestThread extends Thread {
                 password = in.readLine();
 
                 if (Password.checkPass(password, resultUser.getString("password"))) {
-                    try {
-                        game = GameDescription.loadGame(username);
-                        login = true;
-                    } catch (ClassNotFoundException e) {
-                        out.println("#no_game_founded");
-                    }
+                    login = true;
                     findUser.close();
                 } else {
                     out.println("#incorrect_password");
                 }
             }
         }
+    }
+
+    public GameDescription loadGame() throws SQLException, IOException {
+        try {
+            return GameDescription.loadGame(username);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void saveGame() throws IOException, SQLException {
