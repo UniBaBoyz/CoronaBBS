@@ -17,7 +17,6 @@ public class LoginView {
     public LoginView(JFrame parentFrame) {
         JDialogMain = new JDialog(parentFrame, true);
         initComponents();
-        JDialogMain.setVisible(true);
     }
 
     public JDialog getJDialogMain() {
@@ -73,6 +72,7 @@ public class LoginView {
         JButtonSignIn = new JButton();
 
         JDialogMain.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        JDialogMain.setTitle("Login");
         JDialogMain.add(JLabelUsername);
         JDialogMain.add(JTUsernameField);
         JDialogMain.add(JLabelPassword);
@@ -80,13 +80,7 @@ public class LoginView {
         JDialogMain.add(JButtonLogin);
         JDialogMain.add(JButtonSignIn);
 
-        JLabelUsername.setText("Username");
-
-        JLabelPassword.setText("Password");
-
-        JButtonLogin.setText("LoginView");
-
-        JButtonSignIn.setText("Registrati");
+        JButtonLogin.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(JDialogMain.getContentPane());
         JDialogMain.getContentPane().setLayout(layout);

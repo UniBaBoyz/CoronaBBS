@@ -171,7 +171,8 @@ public class SignUp extends javax.swing.JFrame {
         JLabelYear = new JLabel();
         JComboBoxYear = new JComboBox<>();
 
-        JDialogMain.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        JDialogMain.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        JDialogMain.setTitle("Registrazione");
         JDialogMain.add(JButtonSignUp);
         JDialogMain.add(JComboBoxDay);
         JDialogMain.add(JComboBoxMonth);

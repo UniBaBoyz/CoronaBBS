@@ -33,6 +33,11 @@ public class ManageSignUp {
         view.setJLabelYear("Anno:");
     }
 
+    public void disposeWindow() {
+        view.getJDialogMain().setVisible(false);
+        view.getJDialogMain().dispose();
+    }
+
     private void manageEvent() {
         actionListenerWindow();
     }
@@ -44,7 +49,7 @@ public class ManageSignUp {
                 int input = JOptionPane.showConfirmDialog(loginViewController.getView().getJDialogMain(), "Sei sicuro di voler " +
                         "interrompere la registrazione?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
-                    loginViewController.disposeWindow();
+                    disposeWindow();
                 }
             }
 

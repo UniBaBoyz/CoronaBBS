@@ -1,6 +1,8 @@
 package adventure.client;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
@@ -20,6 +22,7 @@ public class ManageLogin {
         view = new LoginView(this.gameViewController.getView().getJFmainFrame());
         manageEvent();
         initView();
+        this.view.getJDialogMain().setVisible(true);
     }
 
     public LoginView getView() {
@@ -51,6 +54,7 @@ public class ManageLogin {
 
     private void manageEvent() {
         actionListenerWindow();
+        actionListenerButtonSignUp();
     }
 
     private void actionListenerWindow() {
@@ -60,6 +64,7 @@ public class ManageLogin {
                 int input = JOptionPane.showConfirmDialog(view.getJDialogMain(), "Sei sicuro di voler " +
                         "interrompere il login?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                 if (input == JOptionPane.YES_OPTION) {
+                    disposeWindow();
                     gameViewController.disposeWindow();
                 }
             }
@@ -96,5 +101,12 @@ public class ManageLogin {
         });
     }
 
-
+    private void actionListenerButtonSignUp() {
+        view.getJButtonSignIn().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ManageSignUp signUp = new ManageSignUp(in, out, ManageLogin.this);
+            }
+        });
+    }
 }
