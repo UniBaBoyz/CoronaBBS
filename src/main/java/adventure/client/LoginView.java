@@ -1,6 +1,7 @@
 package adventure.client;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Corona-Extra
@@ -72,6 +73,7 @@ public class LoginView {
         JButtonSignIn = new JButton();
 
         JDialogMain.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        JDialogMain.setMinimumSize(new Dimension(520, 300));
         JDialogMain.setTitle("Login");
         JDialogMain.add(JLabelUsername);
         JDialogMain.add(JTUsernameField);
