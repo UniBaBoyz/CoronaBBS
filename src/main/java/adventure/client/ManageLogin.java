@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
+import static adventure.Utils.*;
+
 public class ManageLogin {
     private final BufferedReader in;
     private final PrintWriter out;
@@ -33,20 +35,9 @@ public class ManageLogin {
         return view;
     }
 
-    public void run() throws IOException {
-        // TODO Cambiare condizione
-        while (true) {
-            manageInput(in.readLine());
-        }
-    }
-
     public void disposeWindow() {
         view.getJDialogMain().setVisible(false);
         view.getJDialogMain().dispose();
-    }
-
-    private void manageInput(String string) {
-
     }
 
     private void initView() {
@@ -170,13 +161,34 @@ public class ManageLogin {
         });
     }
 
+    private void run() {
+        try {
+            if(in.readLine().equals(NON_EXISTING_USER)) {
+                JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
+                        "ERROR!", JOptionPane.ERROR_MESSAGE);
+            } else if (in.readLine().equals(INVALID_PASSWORD)) {
+                JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
+                        "ERROR!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(view.getJDialogMain(),  "Benvenuto!",
+                        "Utente trovato", JOptionPane.INFORMATION_MESSAGE);
+                disposeWindow();
+                ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
+            }
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
     private void actionListenerButtonLogin() {
         view.getJButtonLogin().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
-                view.getJDialogMain().setVisible(false);
-                view.getJDialogMain().dispose();
+                out.println(LOGIN);
+                out.println(view.getJTUsernameField().getText() +
+                        SEPARATOR_CHARACTER_STRING +
+                        String.valueOf(view.getJPasswordField().getPassword()));
+                run();
             }
         });
     }
