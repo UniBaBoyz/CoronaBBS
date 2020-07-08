@@ -11,7 +11,7 @@ public class Utils {
     public final static String CORRECT_REGISTRATION = "#OK_REGISTRATION";
     public final static String LOGIN = "#LOGIN";
     public final static String CORRECT_LOGIN = "#OK_LOGIN";
-    public final static String INEXISTING_USER = "#INEXISTING_USER";
+    public final static String NON_EXISTING_USER = "#NON_EXISTING_USER";
     public final static String INVALID_PASSWORD = "#INVALID_PASSWORD";
     public final static String EXISTING_USER = "#EXISTING_USER";
     public final static String NEW_GAME = "#NEW_GAME";

@@ -257,7 +257,7 @@ public class RequestThread extends Thread {
         findUser.close();
 
         if (!resultUser.next()) {
-            out.println(INEXISTING_USER);
+            out.println(NON_EXISTING_USER);
             return false;
         } else {
             if (!Password.checkPass(password, resultUser.getString("password"))) {
