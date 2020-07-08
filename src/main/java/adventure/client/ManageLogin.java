@@ -7,7 +7,6 @@ import java.awt.event.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 
 import static adventure.Utils.*;
 
@@ -17,10 +16,6 @@ public class ManageLogin {
     private final LoginView view;
     private ManageGameView gameViewController;
 
-    public ManageGameView getGameViewController() {
-        return gameViewController;
-    }
-
     public ManageLogin(BufferedReader in, PrintWriter out, ManageGameView gameViewController) {
         this.in = in;
         this.out = out;
@@ -29,6 +24,10 @@ public class ManageLogin {
         manageEvent();
         initView();
         this.view.getJDialogMain().setVisible(true);
+    }
+
+    public ManageGameView getGameViewController() {
+        return gameViewController;
     }
 
     public LoginView getView() {
@@ -163,17 +162,24 @@ public class ManageLogin {
 
     private void run() {
         try {
-            if (in.readLine().equals(NON_EXISTING_USER)) {
-                JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
-                        "ERROR!", JOptionPane.ERROR_MESSAGE);
-            } else if (in.readLine().equals(INVALID_PASSWORD)) {
-                JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
-                        "ERROR!", JOptionPane.ERROR_MESSAGE);
-            } else if (in.readLine().equals(CORRECT_LOGIN)) {
-                JOptionPane.showMessageDialog(view.getJDialogMain(), "Benvenuto!",
-                        "Utente trovato", JOptionPane.INFORMATION_MESSAGE);
-                disposeWindow();
-                ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
+            String response = in.readLine();
+            if (response != null) {
+                switch (response) {
+                    case NON_EXISTING_USER:
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessun utente trovato!",
+                                "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case INVALID_PASSWORD:
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "Password non corretta!",
+                                "ERROR!", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case CORRECT_LOGIN:
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "Benvenuto!",
+                                "Utente trovato", JOptionPane.INFORMATION_MESSAGE);
+                        disposeWindow();
+                        ManageGameChooser gameChooser = new ManageGameChooser(in, out, gameViewController);
+                        break;
+                }
             }
         } catch (IOException ioException) {
             ioException.printStackTrace();
