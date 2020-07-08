@@ -8,6 +8,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import static adventure.Utils.*;
+
 public class ManageSignUp {
     private final BufferedReader in;
     private final PrintWriter out;
@@ -22,8 +24,6 @@ public class ManageSignUp {
         manageEvent();
         initView();
         view.getJDialogMain().setVisible(true);
-        run();
-        disposeWindow();
     }
 
     private void initView() {
@@ -48,27 +48,54 @@ public class ManageSignUp {
                 String response = in.readLine();
 
                 switch (response) {
-                    case Utils.INVALID_PASSWORD:
+                    case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
                                         "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
-                    case Utils.EXISTING_USERNAME:
+                    case EXISTING_USERNAME:
                         JOptionPane.showMessageDialog(view, "L'utente esiste già",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
-                    case Utils.CORRECT_REGISTRATION:
+                    case CORRECT_REGISTRATION:
                         JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
                                         "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
                                 "Errore", JOptionPane.PLAIN_MESSAGE);
                         break;
                 }
 
-            } while (!in.readLine().equals(Utils.CORRECT_REGISTRATION));
+            } while (!in.readLine().equals(CORRECT_REGISTRATION));
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private void run1() {
+        try {
+            String response = in.readLine();
+            if (response != null) {
+                switch (response) {
+                    case INVALID_PASSWORD:
+                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
+                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case EXISTING_USERNAME:
+                        JOptionPane.showMessageDialog(view, "L'utente esiste già",
+                                "Errore", JOptionPane.ERROR_MESSAGE);
+                        break;
+                    case CORRECT_REGISTRATION:
+                        JOptionPane.showMessageDialog(view, "La Password non è valida\nLa password deve " +
+                                        "contenere almeno un carattere maiuscolo, almeno un carattere minuscolo e un numero",
+                                "Errore", JOptionPane.PLAIN_MESSAGE);
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void manageEvent() {
         actionListenerWindow();
@@ -80,19 +107,19 @@ public class ManageSignUp {
 
     private String manageDate(JComboBox comboDay, JComboBox comboMonth, JComboBox comboYear) {
         return comboYear.getItemAt(comboYear.getSelectedIndex()).toString() +
-                Utils.SEPARATOR_CHARACTER_DATE +
+                SEPARATOR_CHARACTER_DATE +
                 comboMonth.getItemAt(comboMonth.getSelectedIndex()).toString() +
-                Utils.SEPARATOR_CHARACTER_DATE +
+                SEPARATOR_CHARACTER_DATE +
                 comboDay.getItemAt(comboDay.getSelectedIndex()).toString();
     }
 
     private String createResponse() {
         return view.getJTUsernameField().getText() +
-                Utils.SEPARATOR_CHARACTER_STRING +
+                SEPARATOR_CHARACTER_STRING +
                 String.valueOf(view.getJPasswordField().getPassword()) +
-                Utils.SEPARATOR_CHARACTER_STRING +
+                SEPARATOR_CHARACTER_STRING +
                 manageDate(view.getJComboBoxDay(), view.getJComboBoxMonth(), view.getJComboBoxYear()) +
-                Utils.SEPARATOR_CHARACTER_STRING +
+                SEPARATOR_CHARACTER_STRING +
                 view.getJTResidenceField().getText();
     }
 
@@ -151,9 +178,9 @@ public class ManageSignUp {
                         Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
                     JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    out.println(Utils.REGISTRATION);
+                    out.println(REGISTRATION);
                     out.println(createResponse());
-
+                    run1();
                 }
             }
         });
