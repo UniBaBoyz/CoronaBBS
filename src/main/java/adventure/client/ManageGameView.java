@@ -95,23 +95,21 @@ public class ManageGameView {
         int input;
         int inputSave;
 
-        do {
-            input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
-                    "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        } while (input == JOptionPane.CLOSED_OPTION);
+        input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
+                "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if (input == JOptionPane.YES_OPTION) {
             out.println(OK_EXIT);
-            do {
-                inputSave = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Vuoi salvare la partita? " +
-                                "Eventuali salvataggi precedenti saranno sovrascritti", "Esci",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            } while (inputSave == JOptionPane.CLOSED_OPTION);
+            inputSave = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Vuoi salvare la partita? " +
+                            "Eventuali salvataggi precedenti saranno sovrascritti", "Esci",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (inputSave == JOptionPane.YES_OPTION) {
                 out.println(SAVE_GAME);
             }
             disposeWindow();
             closeClient = true;
+        } else {
+            out.println(NO_EXIT);
         }
     }
 
