@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 /**
- * @author pierpaolo
+ * @author pierpaolo con restauro da parte del team Corona-Extra
  */
 public class FireHouseVerbs implements VerbsInterface, Serializable {
 

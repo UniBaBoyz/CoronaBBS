@@ -101,6 +101,7 @@ public class ManageGameChooser {
             } else {
                 out.println(FIRE_HOUSE);
             }
+            manageLogin.getGameViewController().getView().getJFmainFrame().setTitle(input);
             try {
                 String response = in.readLine();
                 if (response != null) {
@@ -130,6 +131,7 @@ public class ManageGameChooser {
             } else {
                 out.println(FIRE_HOUSE);
             }
+            manageLogin.getGameViewController().getView().getJFmainFrame().setTitle(input);
             try {
                 String response = in.readLine();
                 if (response != null) {

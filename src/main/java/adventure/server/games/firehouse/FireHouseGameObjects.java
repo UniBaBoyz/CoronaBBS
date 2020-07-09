@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 /**
- * @author pierpaolo
+ * @author pierpaolo con restauro da parte del team Corona-Extra
  */
 public class FireHouseGameObjects implements ObjectsInterface, Serializable {
 

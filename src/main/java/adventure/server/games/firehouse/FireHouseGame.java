@@ -13,7 +13,7 @@ import adventure.server.type.VerbType;
 import java.sql.SQLException;
 
 /**
- * @author pierpaolo
+ * @author pierpaolo con restauro da parte del team Corona-Extra
  */
 public class FireHouseGame extends GameDescription {
 

@@ -7,7 +7,7 @@ import adventure.server.type.Room;
 import java.io.Serializable;
 
 /**
- * @author pierpaolo
+ * @author pierpaolo con restauro da parte del team Corona-Extra
  */
 public class FireHouseGameRooms implements RoomsInterface, Serializable {
 
