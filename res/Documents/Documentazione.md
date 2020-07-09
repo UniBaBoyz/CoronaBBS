@@ -30,45 +30,41 @@ L'applicazione è estendibile attraverso l'inserimento di nuovi giochi da offrir
 
 ### 2.1 Requisiti funzionali 
 ID     | TITOLO | DESCRIZIONE 
-:----: | ----- |  -------
-`RF1`  | Iniziare una nuova partita     |  L'utente deve essere in grado di iniziare una nuova partita attraverso il comando play  
-`RF2`  | Ricominciare una partita       |  L'utente durante una partita deve essere in grado di iniziare una nuova partita
-`RF3`  | Uscire dall' applicazione | L'utente deve poter uscire dall'Applicazione con il comando quit  
-`RF4`  | Muovere un Pedone |  L'utente deve essere in grado di poter inserire una notazione valida per muovere un Pedone
-`RF5`  | Muovere un Re|  L'utente deve essere in grado di poter inserire una notazione valida per muovere il Re
-`RF6`  | Muovere una Donna |  L'utente deve essere in grado di poter inserire una notazione valida per muovere  la Donna
-`RF7`  | Muovere un Cavallo|  L'utente deve essere in grado di poter inserire una notazione valida per muovere un Cavallo
-`RF8`  | Muovere un Alfiere |  L'utente deve essere in grado di poter inserire una notazione valida per muovere un Alfiere 
-`RF9`  | Muovere una Torre|  L'utente deve essere in grado di poter inserire una notazione valida per muovere una Torre
-`RF9`  | Catturare un pezzo |  L'utente deve essere in grado di poter inserire una notazione valida per eseguire la catturara classica di un pezzo
-`RF10` | Cattura en Passant | L'utente deve essere in grado di eseguire, attraverso una notazione valida, la presa en Passant
-`RF11` | Arrocco corto | L'utente deve essere in grado di eseguire, attraverso una notazione valida, l'Arrocco corto (chiamato anche arrocco lato Re)
-`RF12` | Arrocco lungo | L'utente deve essere in grado di eseguire, attraverso una notazione valida, l'Arrocco lungo (chiamato anche arrocco lato Donna)
-`RF13` | Visualizzare mosse | L'utente deve essere in grado, in qualunque punto della partita, con il comando moves, di visualizzare lo storico delle mosse.
-`RF14` | Visualizzare catture | L'utente deve essere in grado, in qualunque punto della partita, con il comando captures, di visualizzare le catture di entrambi i giocatori
-`RF15` | Consultare help | L'utente deve essere in grado di poter consultare l'help inline
-`RF16` | Visualizzare scacchiera | L'utente deve essere in grado, in qualunque punto della partita, con il comando board, di poter visualizzare la scacchiera
+:----: | :-----: |  -------
+`RF1`  | Registrarsi |  L'utente deve essere in grado di registrarsi inserendo username, password, data di nascita e residenza 
+`RF2`  | Accedere  |  L'utente deve essere in grado di accedere al sistema inserendo username e password corretti
+`RF3`  | Avviare un gioco disponibile | L'utente deve essere in grado di scegliere uno tra i giochi disponibili sul server e avviarlo
+`RF4`  | Caricare una partita già esistente | L'utente deve essere in grado di caricare una partita già esistente sul database 
+`RF5`  | Salvare una partita |  L'utente deve essere in grado, in qualunque punto della partita, di salvare una partita quando desidera chiudere il gioco
+`RF6`  | Sovrascrivere una partita già esistente | L'utente deve essere in grado di sovrascrivere una partita già esistente sul database
+`RF8`  | Aprire l'inventario | L'utente deve essere in grado di guardare quali oggetti sono presenti nell'inventario
+`RF9`  | Muoversi a nord di una stanza | L'utente deve essere in grado di muoversi a nord di una stanza, se essa non è bloccata 
+`RF9`  | Muoversi a sud di una stanza |  L'utente deve essere in grado di muoversi a sud di una stanza, se essa non è bloccata 
+`RF10` | Muoversi ad est di una stanza | L'utente deve essere in grado di muoversi ad est di una stanza, se essa non è bloccata 
+`RF11` | Muoversi ad ovest di una stanza | L'utente deve essere in grado di muoversi ad ovest di una stanza, se essa non è bloccata 
+`RF12` | Uscire dal gioco | L'utente deve essere in grado di uscire dalla partita chiudendo la finestra del client
+`RF13` | Guardare una stanza | L'utente deve essere in grado di guardare la descrizione di una stanza e vedere quali oggetti ci sono
+`RF14` | Scrivere nella barra di input una frase di comando | L'utente deve essere in grado, in qualunque punto della partita, scrivere una frase, la quale possa portare ad un'azione del protagonista nel corso della partita
+`RF15` | Conoscere il proprio score | L'utente deve essere in grado di conoscere il proprio score durante il corso della partita attraverso un riquadro in alto a destra della schermata o tramite il comando `guarda punteggio` nel corso della partita
 
 ### 2.2 Requisiti non funzionali
 |  ID     | REQUISITO        | DESCRIZIONE                                                  |
 | :---:   | ---------------- | :----------------------------------------------------------- |
-| `RNF1`  | Affidabilità     | Il programma è capace di evitare che si verificano errori, malfunzionamenti o che siano prodotti risultati non corretti o inattesi. |
-| `RNF2`  | Compatibilità    | È necessario essere in possesso di una macchina con uno dei seguenti SO: Windows, Mac OS, distribuzioni Linux |
-| `RNF3`  | Efficienza       | Il sistema richiede un quantitativo basso di risorse. In particolare richiede: 50MB di RAM e 110MB di spazio su disco (immagine Docker) |
-| `RNF4`  | Eseguibilità     | Per eseguire l'applicazione è necessario aver installato Docker sulla macchina o disporre di una Java Virtual Machine 8 (o superiore) |
-| `RNF5`  | Operabilità      | L'applicazione non richiede l'installazione sulla macchina. Si presenta come eseguibile in formato `Jar` e la propria esecuzione avviene su Command Line |
-| `RNF6`  | Estendibilità    | L'applicazione è predisposta a poter accettare qualsiasi cambiamento od aggiunta di nuove features |
-| `RNF7`  | Interoperabilità | Il sistema è autonomo, pertanto non prevedere interazioni con sistemi esterni|
-| `RNF8`  | Manutentabilità  | L'applicazione è facilmente manutentabile grazie alla modularità delle componenti, ai principi dell'Information Hiding applicati, la medio-alta coesione introdotta e la presentazione separata delle componenti |
-| `RNF9`  | Modularità       | L'applicazione fa uso del concetto di modularità che aiuta a ridurre la complessità del problema e ne facilità l'estendibilità |
-| `RNF10` | Portabilità      | Trattandosi di un gioco eseguito in locale, si suppone che la piattaforma hw/sw di utilizzo sia unica e stabile |
-| `RNF11` | Riusabilità      | Alcuni componenti dell'applicazione potrebbero essere riutilizzati per realizzare giochi simili |
-| `RNF12` | Scalabilità      | Il programma prevede l'esecuzione da parte di un singolo utente |
-| `RNF13` | Sicurezza        | Il sistema non gestisce informazioni riservate               |
-| `RNF14` | Stabilità        | Il sistema, dopo l'inserimento di un comando, deve rispondere entro 1 secondo |
-| `RNF15` | Robustezza       | Il programma è capace di gestire le situazioni in cui si manifestano errori o eccezioni dovuti a mosse e/o comandi non validi |
-| `RNF16` | Usabilità        | Il sistema accetta comandi di tipo stringa che permettono all'utente di selezionare una delle operazioni messe a disposizione dall'applicazione. Inoltre, accetta come input di gioco mosse descritte tramite notazione algebrica abbreviata  |
-| `RNF17` | Utilizzo         | L'applicazione è rivolta ad utenti di qualsiasi fascia d'età. Il requisito minimo richiesto è un livello di conoscenza medio-bassa delle regole degli scacchi e della notazione utilizzata |
+| `RNF1`  | Affidabilità | Il sistema è capace di evitare che si verificano errori, malfunzionamenti o che siano prodotti risultati non corretti o inattesi. |
+| `RNF2`  | Compatibilità | È necessario essere in possesso di una macchina con uno dei seguenti SO: Windows, Mac OS, distribuzioni Linux |
+| `RNF3`  | Efficienza | Il sistema richiede un quantitativo basso di risorse |
+| `RNF4`  | Eseguibilità | Per eseguire l'applicazione è necessario disporre di una Java Virtual Machine 8 (o superiore) |
+| `RNF5`  | Operabilità | L'applicazione non richiede l'installazione sulla macchina. Si presenta come eseguibile in formato `Jar` e la propria esecuzione avviene tramite interfaccia grafica |
+| `RNF6`  | Estendibilità | L'applicazione è predisposta a poter accettare qualsiasi cambiamento o di aggiunta di nuove features |
+| `RNF7`  | Interoperabilità | Il sistema non è autonomo. Esso prevede interazione con il server |
+| `RNF8`  | Manutentabilità | L'applicazione è facilmente manutentabile grazie alla modularità delle componenti, ai principi dell'Information Hiding applicati, la medio-alta coesione introdotta e la presentazione separata delle componenti
+| `RNF9`  | Modularità | L'applicazione fa uso del concetto di modularità che aiuta a ridurre la complessità del problema e ne facilità l'estendibilità |
+| `RNF10` | Riusabilità | Alcuni componenti dell'applicazione potrebbero essere riutilizzati per realizzare giochi simili |
+| `RNF11` | Scalabilità | Il programma prevede l'esecuzione da parte di più utenti contemporaneamente |
+| `RNF12` | Sicurezza | Il sistema gestisce informazioni riservate e le memorizza in maniera cryptata, in un database |
+| `RNF13` | Robustezza | Il programma è capace di gestire le situazioni in cui si manifestano errori o eccezioni dovuti a mosse e/o comandi non validi |
+| `RNF14` | Usabilità | Il sistema, durante la partita, accetta frasi in lingua italiana |
+| `RNF15` | Utilizzo | ![](../img/pegi-16.png)|
 
 
 ### 3 Divisione in package e classi implementate
