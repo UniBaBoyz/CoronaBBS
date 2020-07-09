@@ -546,7 +546,12 @@ class BasicVerbs implements Serializable {
     }
 
     String end() {
-        response.append("Non puoi usare quell'oggetto per uscire!");
+        if (movement.getObject() != null) {
+            response.append("Non puoi usare quell'oggetto per uscire!");
+        } else {
+            response.append("C'è una X rossa in alto a destra, la quale serve proprio per uscire dal gioco.\n");
+            response.append("Forte no?!");
+        }
         return response.toString();
     }
 

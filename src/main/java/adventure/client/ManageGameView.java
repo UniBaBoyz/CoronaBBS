@@ -55,9 +55,6 @@ public class ManageGameView {
             if (!textToAppend.isEmpty()) {
                 view.getJToutputArea().append(textToAppend + System.lineSeparator());
             }
-
-        } else if (string != null && string.equals(EXIT_GAME)) {
-            closeGame();
         } else if (string != null && !string.isEmpty()) {
             view.getJToutputArea().append(string + System.lineSeparator());
         }
@@ -90,6 +87,8 @@ public class ManageGameView {
         int input;
         int inputSave;
 
+        out.println(EXIT);
+
         input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
                 "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
@@ -111,7 +110,6 @@ public class ManageGameView {
         view.getJFmainFrame().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
-                out.println("Esci");
                 closeGame();
             }
 

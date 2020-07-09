@@ -84,7 +84,7 @@ public class Verbs implements VerbsInterface, Serializable {
         game.getTokenVerbs().add(end);
 
         TokenVerb suicide = new TokenVerb(VerbType.SUICIDE);
-        suicide.setAlias(new HashSet<>(Arrays.asList("Muori", "Ammazzati", "Ucciditi", "Crepa")));
+        suicide.setAlias(new HashSet<>(Arrays.asList("Muori", "Ammazzati", "Ucciditi", "Crepa", "Suicidati")));
         game.getTokenVerbs().add(suicide);
 
         TokenVerb push = new TokenVerb(VerbType.PUSH);

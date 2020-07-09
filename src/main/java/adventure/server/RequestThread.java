@@ -10,7 +10,6 @@ import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.parser.Parser;
 import adventure.server.parser.ParserIta;
 import adventure.server.parser.ParserOutput;
-import adventure.server.type.VerbType;
 
 import java.io.*;
 import java.net.Socket;
@@ -150,11 +149,21 @@ public class RequestThread extends Thread {
                 // Send Introduction of the game
                 initGame();
 
-                //TODO CAMBIARE CONDIZIONE E AGGIUNGERE REGEX PER TERMINARE LA COMUNICAZIONE
-                while (true) {
+                do {
+                    command = in.readLine();
                     // Read instruction from the client
-                    communicateWithTheClient(in.readLine());
-                }
+                    if (!command.equals(EXIT)) {
+                        communicateWithTheClient(command);
+                    } else {
+                        if (in.readLine().equals(OK_EXIT)) {
+                            if (in.readLine().equals(SAVE_GAME)) {
+                                saveGame();
+                            }
+                            out.println("Addio!");
+                            exit = true;
+                        }
+                    }
+                } while (!command.equals(EXIT) || !exit);
             }
 
         } catch (IOException e) {
@@ -163,9 +172,10 @@ public class RequestThread extends Thread {
             System.out.println("A problem has occured during the communication with the sql database");
         } finally {
             try {
+                System.out.println("Closing thread..." + socket);
                 socket.close();
             } catch (IOException e) {
-                System.out.println("Cannot close the communication with the client!");
+                System.err.println("Cannot close the communication with the client!");
             }
         }
     }
@@ -175,22 +185,10 @@ public class RequestThread extends Thread {
             try {
                 List<ParserOutput> listParser = parser.parse(string);
                 for (ParserOutput p : listParser) {
-                    if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
-                            && p.getObject().isEmpty()) {
-                        out.println(EXIT_GAME);
-                        if (in.readLine().equals(OK_EXIT)) {
-                            if (in.readLine().equals(SAVE_GAME)) {
-                                saveGame();
-                            }
-                            out.println("Addio!");
-                        }
-                        break;
-                    } else {
-                        out.println(game.nextMove(p) + "\n");
-                        out.println("====================================================================" +
-                                "=============\n");
-                        out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
-                    }
+                    out.println(game.nextMove(p) + "\n");
+                    out.println("====================================================================" +
+                            "=============\n");
+                    out.println(Utils.SEPARATOR_CHARACTER_STRING + game.getScore());
                 }
             } catch (LexicalErrorException e) {
                 out.println("Non ho capito!\n");
