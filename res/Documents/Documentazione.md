@@ -11,10 +11,15 @@ L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** compost
 
 1. [Introduzione](#1-introduzione)
 2. [Requisiti](#2-requisiti)
-   1. [Requisiti funzionali](#21-requisiti-funzionali)
-   2. [Requisiti non funzionali](#22-requisiti-non-funzionali)
-3. [Divisione in package e classi implementate](#3-divisione-in-package-e-classi-implementate)
-4. [Manuale utente](#4-manuale-utente)
+   1. [Requisiti Funzionali](#21-requisiti-Funzionali)
+   2. [Requisiti Non Funzionali](#22-requisiti-Non-Funzionali)
+3. [Divisione In Package e Classi Implementate](#3-divisione-In-Package-e-Classi-Implementate)
+4. [Manuale Utente](#4-manuale-utente)
+    1. [Introduzione](#41-Introduzione)
+    2. [Login](#42-Login)
+    3. [Registrazione](#43-Registrazione)
+    4. [Scelta Del Gioco](#44-Scelta-Del-Gioco)
+    5. [Schermata Di Gioco](#45-Schermata-Di-Gioco)
 
 ## 1. Introduzione
 
@@ -32,7 +37,7 @@ L'applicazione è estendibile attraverso l'inserimento di nuovi giochi da offrir
 
 ## 2. Requisiti
 
-### 2.1 Requisiti funzionali
+### 2.1 Requisiti Funzionali
 
 ID     | TITOLO | DESCRIZIONE
 :----: | :-----: |  -------
@@ -52,7 +57,7 @@ ID     | TITOLO | DESCRIZIONE
 `RF14` | Scrivere nella barra di input una frase di comando | L'utente deve essere in grado, in qualunque punto della partita, scrivere una frase, la quale possa portare ad un'azione del protagonista nel corso della partita
 `RF15` | Conoscere il proprio score | L'utente deve essere in grado di conoscere il proprio score durante il corso della partita attraverso un riquadro in alto a destra della schermata o tramite il comando `guarda punteggio` nel corso della partita
 
-### 2.2 Requisiti non funzionali
+### 2.2 Requisiti Non Funzionali
 
 |  ID     | REQUISITO        | DESCRIZIONE                                                  |
 | :---:   | ---------------- | :----------------------------------------------------------- |
@@ -72,7 +77,7 @@ ID     | TITOLO | DESCRIZIONE
 | `RNF14` | Usabilità | Il sistema, durante la partita, accetta frasi in lingua italiana |
 | `RNF15` | Utilizzo | ![pegi16](../img/pegi-16.png)|
 
-### 3 Divisione in package e classi implementate
+### 3 Divisione In Package e Classi Implementate
 
 Per una corretta modulazione del sistema sono stati creati diversi package:
 
@@ -100,6 +105,105 @@ Per una corretta modulazione del sistema sono stati creati diversi package:
 
 - Il package *utils* contiene classi utili all'intero sistema. Una tra queste è la classe *Password*, la quale contiene un metodo per l'operazione di *hash* della password e un metodo per il check della password inserita dall'utente con quella memorizzata in database. Entrambi i metodi fanno uso della libreria esterna *Bcrypt*.
 
-## 4. Manuale utente
+## 4. Manuale Utente
 
-### Indice
+### 4.1 Introduzione
+
+Il gioco è basata su architettura *Client*/*Server*, quindi per poter usufruire dei giochi presenti sulla nostra piattaforma, sarà necessario avviare due eseguibili.
+
+Innanzitutto è necessario avviare l'eseguibile della parte Server (ServerMainClass), dopodiché dovrà essere avviato l'eseguibile della parte Client (ClientMainClass).
+
+In questo manuale utente ci soffermeremo sulla parte client in quanto è quella che dovrà essere messa a disposizione dell'utente.
+
+### 4.2 Login
+
+Appena avviato il client, se riuscirà a connettersi al server, uscirà la prima schermata, ovvero quella dedicata al login
+
+![Login](./../Img/Login.png)
+
+La schermata di Login mette a disposizione due campi di testo in cui sarà necessario scrivere il proprio username e la propria password.
+
+Se si inserisce un username che non esiste si avrà la seguente schermata di errore
+
+![Login Wrong User](./../Img/LoginErrorWrongUser.png)
+
+Se il nome utente è corretto e la password è errata, si avrà la seguente schermata di errore
+
+![Login Wrong Password](./../Img/LoginErrorWrongPassword.png)
+
+Il pulsante `Accedi` è inizialmente disabilitato e sarà attivato solo quando l'utente avrà inserito almeno un carattere nei campi *Username* e *Password*;
+se l'username e la password sono corretti spunterà la seguente schermata che avviserà l'utente di aver eseguito l'accesso correttamente
+
+![Login Done](./../Img/LoginDone.png)
+
+L'utente potrà anche premere la `X`, in questo caso il client mostrerà una schermata chiedendo all'utente se è sicuro di voler uscire, se la risposta è positiva il client si chiuderà altrimenti ritornerà nella schermata di login
+
+![Login Exit](./../Img/LoginExit.png)
+
+In alternativa l'utente potrà cliccare sul bottone `Registrati` che aprirà una nuova schermata.
+
+### 4.3 Registrazione
+
+Se l'utente non ha ancora un profilo, sarà possibile registrarsi cliccando sul tasto `Registrati` presente nella schermata di Login.
+
+La schermata presenta diversi campi in cui sarà possibile inserire: il nome utente (deve essere univoco) e deve contenere almeno un carattere; la password, la quale deve essere compresa tra 6 e 8 caratteri deve contenere almeno un numero, un carattere minuscolo e uno maiuscolo; la data di nascita e la residenza. La schermata di registrazione è la seguente:
+
+![Registration](./../Img/Registration.png)
+
+Il tasto `registrati` è disabilitato fino a che non si inserisce almeno un carattere nei campi *Username*, *Password* e *Residenza*
+
+Nella schermata dedicata alla registrazione possono esserci diversi errori: se la data indicata non è corretta, il client mostrerà il seguente messaggio di errore
+
+![Registration Date Wrong](./../Img/RegistrationErrorDateWrong.png)
+
+Se l'utente inserisce un username che è già stato preso, allora il client mostrerà la seguente finestra:
+
+![Registration User Wrong](./../Img/RegistrationErrorUserWrong.png)
+
+Anche in questo caso l'utente potrà premere la `X` che mostrerà una finestra per confermare l'uscita dalla registrazione, in caso positivo verrà mostrata di nuovo la schermata di Login
+
+![Registration Exit](./../Img/RegistrationExit.png)
+
+Infine, se l'iscrizione è stata effettuata con successo, il client mostrerà la seguente schermata:
+
+![Registration Done](./../Img/RegistrationDone.png)
+
+### 4.4 Scelta Del Gioco
+
+Dopo aver fatto correttamente il login, il client mostrerà una finestra contenente un campo per poter scegliere il gioco da voler eseguire e due bottoni che servono rispettivamente per iniziare una nuova partita o caricare una partita già esistente.
+
+![Game Chooser](./../Img/GameChooser.png)
+
+Se nel server non è presente nessun salvataggio del gioco selezionato e si clicca sul bottone `Nuova Partita`, allora il gioco mostrerà la seguente schermata di conferma e farà partire il gioco
+
+![Game Chooser New Game](./../Img/GameChooserNewGame.png)
+
+Se nel server è presente un gioco e si clicca sul bottone `Nuova partita`, allora il client mostrerà una finestra che chiederà all'utente se inserire vuole comunque iniziare una nuova partita o no
+
+![Game Chooser New Game Confirm](./../Img/GameChooserNewGameConfirm.png)
+
+Se è stata già salvata è possibile caricare la partita salvata utilizzando il bottone `Carica`. Se la partita viene caricata correttamente, il client mostrerà la seguente schermata:
+
+![Game Chooser Loaded Game](./../Img/GameChooserLoadedGame.png)
+
+Se il server non ha nessun salvataggio e l'utente clicca `Carica`, allora il client mostrerà il seguente messaggio
+
+![Game Chooser Loaded Game Error](./../Img/GameChooserLoadedGameError.png)
+
+Se l'utente clicca sulla `X` in questa schermata uscirà una schermata di conferma, se la risposta è positiva, allora il client terminerà l'esecuzione
+
+![Game Chooser Exit](./../Img/GameChooserExit.png)
+
+### 4.5 Schermata Di Gioco
+
+La schermata di gioco presenta diversi componenti. Infatti è presente un'area di testo in cui è solo possibile leggere dedicata alle risposte del gioco, un'area di testo in cui è possibile inserire i comandi, un'area di testo solo leggibile nel quale è presente il punteggio della partita e infine sono presenti alcuni pulsanti per i comandi più usati nel gioco
+
+![Game View](./../Img/GameView.png)
+
+Se si clicca la `X` della finestra, il gioco chiederà all'utente conferma per poter uscire
+
+![Game View Exit](./../Img/GameViewExit.png)
+
+Infine se la scelta di uscire dal gioco è positiva, il client mostrerà una schermata che chiederà all'utente se vuole salvare la partita in corso o no
+
+![Game View Save Confirm](./../Img/GameViewSaveConfirm.png)
