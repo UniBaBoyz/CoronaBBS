@@ -158,9 +158,6 @@ public class GameView {
         JFmainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         JFmainFrame.setMinimumSize(new Dimension(720, 500));
 
-        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
-        JFmainFrame.setIconImage(imageIcon.getImage());
-
         JScrollPane1.setViewportView(JTinputField);
         JButtonEnter.setText("Invio");
 
