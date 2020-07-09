@@ -3,7 +3,7 @@
 Questo documento fornisce una breve documentazione riguardante l'applicazione *CoronaBBS*.
 L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** composto da:
 
-- [Michele Stelluti](https://github.comMicheleStelluti)
+- [Michele Stelluti](https://github.com/MicheleStelluti)
 - [Vincenzo Susso](https://github.com/VincenzoSusso)
 - [Giuseppe Tanzi](https://github.com/Giuseppe-Tanzi)
 
@@ -75,7 +75,7 @@ ID     | TITOLO | DESCRIZIONE
 | `RNF12` | Sicurezza | Il sistema gestisce informazioni riservate e le memorizza in maniera cryptata, in un database |
 | `RNF13` | Robustezza | Il programma è capace di gestire le situazioni in cui si manifestano errori o eccezioni dovuti a mosse e/o comandi non validi |
 | `RNF14` | Usabilità | Il sistema, durante la partita, accetta frasi in lingua italiana |
-| `RNF15` | Utilizzo | ![pegi16](../img/pegi-16.png)|
+| `RNF15` | Utilizzo | ![PEGI 16](./../img/PEGI16.png)|
 
 ### 3 Divisione In Package e Classi Implementate
 
