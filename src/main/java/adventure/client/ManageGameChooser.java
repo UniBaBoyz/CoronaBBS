@@ -40,7 +40,9 @@ public class ManageGameChooser {
 
     private void initView() {
         view.setJButtonLoadGame("Carica Partita");
+        view.getJButtonLoadGame().setToolTipText("Clicca qui per caricare la tua partita");
         view.setJButtonNewGame("Nuova Partita");
+        view.getJButtonNewGame().setToolTipText("Clicca qui per iniziare una nuova partita");
         view.setJLabelSelectionGame("Seleziona il gioco");
     }
 

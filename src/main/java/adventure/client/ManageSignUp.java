@@ -36,6 +36,7 @@ public class ManageSignUp {
         view.setJLabelUsername("Username");
         view.setJLabelPassword("Password");
         view.setJButtonSignUp("Registrati");
+        view.getJButtonSignUp().setToolTipText("Clicca qui per registrarti");
         view.setJLabelDate("Data di nascita:");
         view.setJLabelDay("Giorno:");
         view.setJLabelMonth("Mese:");

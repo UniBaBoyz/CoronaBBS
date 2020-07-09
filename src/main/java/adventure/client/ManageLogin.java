@@ -47,7 +47,9 @@ public class ManageLogin {
         view.setJLabelUsername("Username");
         view.setJLabelPassword("Password");
         view.setJButtonLogin("Accedi");
+        view.getJButtonLogin().setToolTipText("Clicca qui per accedere");
         view.setJButtonSignIn("Registrati");
+        view.getJButtonSignIn().setToolTipText("Clicca qui per registrarti");
     }
 
     private void manageEvent() {

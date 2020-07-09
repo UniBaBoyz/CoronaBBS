@@ -62,13 +62,22 @@ public class ManageGameView {
 
     private void initView() {
         view.setJButtonLook("Guarda");
+        view.getJButtonLook().setToolTipText("Clicca qui per guardare la stanza");
         view.setJButtonInventory("Inventario");
+        view.getJButtonInventory().setToolTipText("Clicca qui per guardare dentro il tuo inventario");
         view.setJButtonEnter("Invio");
+        view.getJButtonEnter().setToolTipText("Clicca qui per inviare il tuo comando");
         view.setJButtonNorth("Nord");
+        view.getJButtonNorth().setToolTipText("Clicca qui per andare a Nord");
         view.setJButtonSouth("Sud");
+        view.getJButtonSouth().setToolTipText("Clicca qui per andare a Sud");
         view.setJButtonEast("Est");
+        view.getJButtonEast().setToolTipText("Clicca qui per andare ad Est");
         view.setJButtonWest("Ovest");
+        view.getJButtonWest().setToolTipText("Clicca qui per andare ad Ovest");
         view.setJLabelScore("Score");
+        view.getJToutputArea().setToolTipText("Qui apparirà la storia");
+        view.getJTextAreaScore().setToolTipText("Qui c'è il tuo punteggio attuale");
     }
 
     private void manageEvent() {
