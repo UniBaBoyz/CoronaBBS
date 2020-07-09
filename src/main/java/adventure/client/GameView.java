@@ -110,7 +110,6 @@ public class GameView {
 
     public GameView() {
         initComponents();
-        JFmainFrame.setIconImage(new ImageIcon("/../../../res/Images/Icon.png").getImage());
     }
 
     private void initComponents() {
@@ -158,9 +157,6 @@ public class GameView {
         JFmainFrame.add(JPmainPanel);
         JFmainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         JFmainFrame.setMinimumSize(new Dimension(720, 500));
-
-        ImageIcon imageIcon = new ImageIcon("/../../../res/Images/Icon.png");
-        JFmainFrame.setIconImage(imageIcon.getImage());
 
         JScrollPane1.setViewportView(JTinputField);
         JButtonEnter.setText("Invio");

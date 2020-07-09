@@ -38,7 +38,7 @@ public class ClientMainClass {
             }
 
             ManageGameView view = new ManageGameView(in, out);
-            ManageLogin login = new ManageLogin(in, out, view);
+            new ManageLogin(in, out, view);
 
             view.run();
 
