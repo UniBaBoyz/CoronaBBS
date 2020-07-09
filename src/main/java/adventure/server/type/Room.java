@@ -16,7 +16,7 @@ public class Room implements Serializable {
 
     private final int id;
     private Set<TokenObject> objects = new HashSet<>();
-    private Set<TokenObject> objectsUsableHere = new HashSet<>();
+    private final Set<TokenObject> objectsUsableHere = new HashSet<>();
     private String name;
     private String description;
     private String look;

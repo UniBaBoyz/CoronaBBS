@@ -1,12 +1,12 @@
 package adventure.server.games.prisonbreak.movement;
 
-import adventure.exceptions.LockedRoomException;
-import adventure.exceptions.NotAccessibleRoomException;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
-import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
-import adventure.exceptions.objectsException.ObjectsAmbiguityException;
+import adventure.exceptions.objectException.ObjectAmbiguityException;
+import adventure.exceptions.objectException.ObjectNotFoundInRoomException;
+import adventure.exceptions.roomException.LockedRoomException;
+import adventure.exceptions.roomException.NotAccessibleRoomException;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.games.prisonbreak.TokenPerson;
 import adventure.server.parser.ParserOutput;
@@ -245,7 +245,7 @@ class Move implements Serializable {
             response.append("!!!!Non hai mica la borsa di Mary Poppins!!!!!");
         } catch (ObjectNotFoundInInventoryException e) {
             response.append("Non hai questo oggetto nell'inventario, energumeno");
-        } catch (ObjectsAmbiguityException e) {
+        } catch (ObjectAmbiguityException e) {
             response.append("Ci sono più oggetti di questo tipo in questa stanza e non capisco a quale ti riferisci!");
         } catch (ObjectNotFoundInRoomException e) {
             if (p.getVerb().getVerbType() == PICK_UP

@@ -9,8 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 
 /**
- *
- * @author mstel
+ * @author Corona-Extra
  */
 public class SignUp extends javax.swing.JFrame {
 

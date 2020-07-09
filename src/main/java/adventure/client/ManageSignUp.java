@@ -1,15 +1,21 @@
 package adventure.client;
 
-import adventure.Utils;
+import adventure.utils.Utils;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static adventure.Utils.*;
+import static adventure.utils.Utils.*;
 
+/**
+ * @author Corona-Extra
+ */
 public class ManageSignUp {
     private final BufferedReader in;
     private final PrintWriter out;

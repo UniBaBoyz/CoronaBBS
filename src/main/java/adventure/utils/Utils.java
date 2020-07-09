@@ -1,4 +1,4 @@
-package adventure;
+package adventure.utils;
 
 /**
  * @author Corona-Extra
@@ -40,7 +40,7 @@ public class Utils {
     }
 
     public static boolean isValidDate(int day, int month, int year) {
-        boolean valid_date = false;
+        boolean valid_date;
 
         if (month == 2) {
             if (isLeapYear(year)) {

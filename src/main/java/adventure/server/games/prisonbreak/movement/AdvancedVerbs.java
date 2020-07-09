@@ -3,7 +3,7 @@ package adventure.server.games.prisonbreak.movement;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
 import adventure.exceptions.inventoryException.ObjectNotFoundInInventoryException;
-import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
+import adventure.exceptions.objectException.ObjectNotFoundInRoomException;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.games.prisonbreak.TokenPerson;
 import adventure.server.type.TokenObject;

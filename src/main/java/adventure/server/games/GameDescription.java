@@ -1,9 +1,9 @@
 package adventure.server.games;
 
 import adventure.exceptions.inventoryException.InventoryEmptyException;
-import adventure.exceptions.objectsException.ObjectNotFoundInRoomException;
-import adventure.exceptions.objectsException.ObjectsAmbiguityException;
-import adventure.exceptions.objectsException.ObjectsException;
+import adventure.exceptions.objectException.ObjectAmbiguityException;
+import adventure.exceptions.objectException.ObjectException;
+import adventure.exceptions.objectException.ObjectNotFoundInRoomException;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.*;
 
@@ -208,13 +208,13 @@ public abstract class GameDescription implements Serializable {
         return score;
     }
 
-    public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectsException {
+    public TokenObject getCorrectObject(Set<TokenObject> tokenObjects) throws ObjectException {
         long countObjectRoomAndInventory = tokenObjects.stream()
                 .filter(o -> (getCurrentRoom().containsObject(o) || getInventory().contains(o))).count();
         TokenObject correctObject = null;
 
         if (countObjectRoomAndInventory > 1) {
-            throw new ObjectsAmbiguityException();
+            throw new ObjectAmbiguityException();
         } else if (countObjectRoomAndInventory == 1) {
             correctObject = tokenObjects.stream()
                     .filter(o -> (getCurrentRoom().containsObject(o) || getInventory().contains(o)))

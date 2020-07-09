@@ -1,9 +1,9 @@
 package adventure.server.games.firehouse;
 
-import adventure.exceptions.NotAccessibleRoomException;
 import adventure.exceptions.inventoryException.InventoryEmptyException;
 import adventure.exceptions.inventoryException.InventoryFullException;
-import adventure.exceptions.objectsException.ObjectsException;
+import adventure.exceptions.objectException.ObjectException;
+import adventure.exceptions.roomException.NotAccessibleRoomException;
 import adventure.server.games.GameDescription;
 import adventure.server.parser.ParserOutput;
 import adventure.server.type.Inventory;
@@ -118,7 +118,7 @@ public class FireHouseGame extends GameDescription {
             response.append("Il tuo inventario e' pieno\n");
         } catch (InventoryEmptyException e) {
             response.append("Mi sono sbagliato, il tuo inventario e' vuoto\n");
-        } catch (ObjectsException e) {
+        } catch (ObjectException e) {
             response.append("Mi dispiace ma non capisco\n");
         } catch (Exception e) {
             response.append("E' successo qualcosa di spiacevole\n");

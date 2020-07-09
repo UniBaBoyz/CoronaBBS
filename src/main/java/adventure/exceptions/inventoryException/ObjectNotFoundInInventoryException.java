@@ -1,11 +1,11 @@
 package adventure.exceptions.inventoryException;
 
-import adventure.exceptions.objectsException.ObjectsException;
+import adventure.exceptions.objectException.ObjectException;
 
 /**
  * @author Corona-Extra
  */
-public class ObjectNotFoundInInventoryException extends ObjectsException {
+public class ObjectNotFoundInInventoryException extends ObjectException {
 
     @Override
     public String getMessage() {

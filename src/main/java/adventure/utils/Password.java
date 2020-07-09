@@ -1,7 +1,10 @@
-package adventure.server;
+package adventure.utils;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * @author Corona-Extra
+ */
 public class Password {
 
     public static String hashPassword(String plainTextPassword) {

@@ -1,5 +1,7 @@
 package adventure.client;
 
+import adventure.utils.Utils;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.InetAddress;
@@ -45,7 +47,7 @@ public class ClientMainClass {
                 view.run();
             }
 
-            //view.disposeWindow();
+            out.println(Utils.EXIT);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Non e' possibile comunicare con il server!",
                     "Errore", JOptionPane.ERROR_MESSAGE);

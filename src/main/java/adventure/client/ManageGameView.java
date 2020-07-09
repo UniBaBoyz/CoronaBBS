@@ -1,6 +1,6 @@
 package adventure.client;
 
-import adventure.Utils;
+import adventure.utils.Utils;
 
 import javax.swing.*;
 import java.awt.event.WindowEvent;
@@ -9,7 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static adventure.Utils.*;
+import static adventure.utils.Utils.*;
 
 /**
  * @author Corona-Extra
@@ -41,7 +41,7 @@ public class ManageGameView {
     }
 
     public void run() throws IOException {
-        while (true) {
+        while (this.getView().getJFmainFrame().isVisible()) {
             manageInput(in.readLine());
         }
     }

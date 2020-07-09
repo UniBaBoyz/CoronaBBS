@@ -1,6 +1,5 @@
 package adventure.server;
 
-import adventure.Utils;
 import adventure.exceptions.inputException.InputErrorException;
 import adventure.exceptions.inputException.LexicalErrorException;
 import adventure.exceptions.inputException.SyntaxErrorException;
@@ -10,6 +9,8 @@ import adventure.server.games.prisonbreak.PrisonBreakGame;
 import adventure.server.parser.Parser;
 import adventure.server.parser.ParserIta;
 import adventure.server.parser.ParserOutput;
+import adventure.utils.Password;
+import adventure.utils.Utils;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,10 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static adventure.Games.FIRE_HOUSE_GAME;
-import static adventure.Games.PRISON_BREAK_GAME;
-import static adventure.Utils.*;
 import static adventure.server.games.GameDescription.existingGame;
+import static adventure.utils.Games.FIRE_HOUSE_GAME;
+import static adventure.utils.Games.PRISON_BREAK_GAME;
+import static adventure.utils.Utils.*;
 
 /**
  * @author Corona-Extra
@@ -140,6 +141,8 @@ public class RequestThread extends Thread {
                             out.println(NO_GAME_FOUNDED);
                         }
                         break;
+                    case EXIT:
+                        next = true;
                 }
             }
 

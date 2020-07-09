@@ -9,8 +9,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import static adventure.Utils.*;
+import static adventure.utils.Utils.*;
 
+/**
+ * @author Corona-Extra
+ */
 public class ManageLogin {
     private final BufferedReader in;
     private final PrintWriter out;

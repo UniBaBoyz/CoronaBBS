@@ -1,9 +1,9 @@
-package adventure.exceptions.objectsException;
+package adventure.exceptions.objectException;
 
 /**
  * @author Corona-Extra
  */
-public class ObjectsAmbiguityException extends ObjectsException {
+public class ObjectAmbiguityException extends ObjectException {
 
     @Override
     public String getMessage() {

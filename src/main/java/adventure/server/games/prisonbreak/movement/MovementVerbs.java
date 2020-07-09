@@ -1,7 +1,7 @@
 package adventure.server.games.prisonbreak.movement;
 
-import adventure.exceptions.LockedRoomException;
-import adventure.exceptions.NotAccessibleRoomException;
+import adventure.exceptions.roomException.LockedRoomException;
+import adventure.exceptions.roomException.NotAccessibleRoomException;
 import adventure.server.games.prisonbreak.PrisonBreakGame;
 
 import java.io.Serializable;

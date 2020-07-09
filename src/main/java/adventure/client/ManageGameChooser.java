@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Objects;
 
-import static adventure.Utils.*;
+import static adventure.utils.Utils.*;
 
+/**
+ * @author Corona-Extra
+ */
 public class ManageGameChooser {
     private final BufferedReader in;
     private final PrintWriter out;

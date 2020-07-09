@@ -1,9 +1,9 @@
-package adventure.exceptions;
+package adventure.exceptions.roomException;
 
 /**
  * @author Corona-Extra
  */
-public class NotAccessibleRoomException extends Exception {
+public class NotAccessibleRoomException extends RoomException {
 
     @Override
     public String getMessage() {

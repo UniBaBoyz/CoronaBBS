@@ -1,9 +1,9 @@
-package adventure.exceptions.objectsException;
+package adventure.exceptions.objectException;
 
 /**
  * @author Corona-Extra
  */
-public class ObjectsException extends Exception {
+public class ObjectException extends Exception {
 
     @Override
     public String getMessage() {
