@@ -15,7 +15,7 @@ public class ManageGameChooser {
     private final BufferedReader in;
     private final PrintWriter out;
     private final GameChooserView view;
-    private ManageLogin manageLogin;
+    private final ManageLogin manageLogin;
 
     public ManageGameChooser(BufferedReader in, PrintWriter out, ManageLogin manageLogin) {
         this.in = in;
@@ -141,11 +141,19 @@ public class ManageGameChooser {
                     if (response != null) {
                         if (response.equals(EXISTING_GAME)) {
                             int choose = JOptionPane.showConfirmDialog(view.getJDialogMain(), "La partita " +
-                                    "già esiste, vuoi crearne un'altra?", "Informazione",
+                                            "già esiste, vuoi crearne un'altra?", "Informazione",
                                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                             if (choose == JOptionPane.YES_OPTION) {
                                 out.println(YES_CREATE);
                                 disposeWindow();
+                                manageLogin.disposeWindow();
+                                response = in.readLine();
+                                if (response.equals(GAME_CREATED)) {
+                                    JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
+                                            "Partita creata", JOptionPane.INFORMATION_MESSAGE);
+                                    disposeWindow();
+                                    manageLogin.disposeWindow();
+                                }
                             } else {
                                 out.println(NO_CREATE);
                             }

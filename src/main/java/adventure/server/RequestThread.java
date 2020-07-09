@@ -91,11 +91,13 @@ public class RequestThread extends Thread {
 
                     case NEW_GAME:
                         switch (credentials) {
-                            //TODO EXISTING GAME
                             case PRISON_BREAK:
                                 gameType = PRISON_BREAK_GAME;
                                 if (existingGame(username, gameType)) {
                                     out.println(EXISTING_GAME);
+                                    if (in.readLine().equals(YES_CREATE)) {
+                                        game = new PrisonBreakGame();
+                                    }
                                 } else {
                                     game = new PrisonBreakGame();
                                 }
@@ -104,6 +106,9 @@ public class RequestThread extends Thread {
                                 gameType = FIRE_HOUSE_GAME;
                                 if (existingGame(username, gameType)) {
                                     out.println(EXISTING_GAME);
+                                    if (in.readLine().equals(YES_CREATE)) {
+                                        game = new FireHouseGame();
+                                    }
                                 } else {
                                     game = new FireHouseGame();
                                 }

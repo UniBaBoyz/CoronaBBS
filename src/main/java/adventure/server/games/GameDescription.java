@@ -66,6 +66,7 @@ public abstract class GameDescription implements Serializable {
     }
 
     public static boolean existingGame(String username, int gameType) throws SQLException {
+        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
         String findGame = "select * from game natural join user_game where username = ? and game_type = ?";
         PreparedStatement findExistingGame;
         ResultSet existingGame;
