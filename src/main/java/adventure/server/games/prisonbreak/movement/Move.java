@@ -15,8 +15,7 @@ import adventure.server.type.VerbType;
 
 import java.io.Serializable;
 
-import static adventure.server.games.prisonbreak.ObjectType.GENNY_BELLO;
-import static adventure.server.games.prisonbreak.ObjectType.MEDICINE;
+import static adventure.server.games.prisonbreak.ObjectType.*;
 import static adventure.server.games.prisonbreak.RoomType.*;
 import static adventure.server.type.VerbType.*;
 
