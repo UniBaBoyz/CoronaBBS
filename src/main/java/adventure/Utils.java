@@ -27,6 +27,7 @@ public class Utils {
     public final static String EXISTING_GAME = "#EXISTING_GAME";
     public final static String YES_CREATE = "#YES_CREATE";
     public final static String NO_CREATE = "#NO_CREATE";
+    public final static String OK_EXIT = "#OK_EXIT";
 
     private static boolean isLeapYear(int year) {
         // A year is a leap year if it is divisible by four and not by one-hundred or if it is divisible by four-hundred

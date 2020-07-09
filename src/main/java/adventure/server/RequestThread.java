@@ -177,10 +177,12 @@ public class RequestThread extends Thread {
                 for (ParserOutput p : listParser) {
                     if (p.getVerb() != null && p.getVerb().getVerbType().equals(VerbType.END)
                             && p.getObject().isEmpty()) {
-                        out.println("Addio!");
                         out.println(EXIT_GAME);
-                        if (in.readLine().equals(SAVE_GAME)) {
-                            saveGame();
+                        if (in.readLine().equals(OK_EXIT)) {
+                            if (in.readLine().equals(SAVE_GAME)) {
+                                saveGame();
+                            }
+                            out.println("Addio!");
                         }
                         break;
                     } else {
