@@ -1,13 +1,12 @@
 package adventure.client;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Objects;
 
 import static adventure.Utils.*;
 
@@ -93,80 +92,74 @@ public class ManageGameChooser {
     }
 
     private void actionListenerButtonLoadGame() {
-        view.getJButtonLoadGame().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String prisonBreak = "PrisonBreak";
-                String input = view.getJComboBox1().getSelectedItem().toString();
-                out.println(LOAD_GAME);
-                if (input.equals(prisonBreak)) {
-                    out.println(PRISON_BREAK);
-                } else {
-                    out.println(FIRE_HOUSE);
-                }
-                try {
-                    String response = in.readLine();
-                    if (response != null) {
-                        if (response.equals(NO_GAME_FOUNDED)) {
-                            JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessuna partita trovata!",
-                                    "ERROR!", JOptionPane.ERROR_MESSAGE);
-                        } else if (response.equals(GAME_LOADED)) {
-                            JOptionPane.showMessageDialog(view.getJDialogMain(), input + " caricato con successo!",
-                                    "Partita caricata", JOptionPane.INFORMATION_MESSAGE);
-                            disposeWindow();
-                            manageLogin.disposeWindow();
-                        }
+        view.getJButtonLoadGame().addActionListener(e -> {
+            String prisonBreak = "PrisonBreak";
+            String input = Objects.requireNonNull(view.getJComboBox1().getSelectedItem()).toString();
+            out.println(LOAD_GAME);
+            if (input.equals(prisonBreak)) {
+                out.println(PRISON_BREAK);
+            } else {
+                out.println(FIRE_HOUSE);
+            }
+            try {
+                String response = in.readLine();
+                if (response != null) {
+                    if (response.equals(NO_GAME_FOUNDED)) {
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), "Nessuna partita trovata!",
+                                "ERROR!", JOptionPane.ERROR_MESSAGE);
+                    } else if (response.equals(GAME_LOADED)) {
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), input + " caricato con successo!",
+                                "Partita caricata", JOptionPane.INFORMATION_MESSAGE);
+                        disposeWindow();
+                        manageLogin.disposeWindow();
                     }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         });
     }
 
     private void actionListenerButtonNewGame() {
-        view.getJButtonNewGame().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String prisonBreak = "PrisonBreak";
-                String input = view.getJComboBox1().getSelectedItem().toString();
-                out.println(NEW_GAME);
-                if (input.equals(prisonBreak)) {
-                    out.println(PRISON_BREAK);
-                } else {
-                    out.println(FIRE_HOUSE);
-                }
-                try {
-                    String response = in.readLine();
-                    if (response != null) {
-                        if (response.equals(EXISTING_GAME)) {
-                            int choose = JOptionPane.showConfirmDialog(view.getJDialogMain(), "La partita " +
-                                            "già esiste, vuoi crearne un'altra?", "Informazione",
-                                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                            if (choose == JOptionPane.YES_OPTION) {
-                                out.println(YES_CREATE);
-                                disposeWindow();
-                                manageLogin.disposeWindow();
-                                response = in.readLine();
-                                if (response.equals(GAME_CREATED)) {
-                                    JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
-                                            "Partita creata", JOptionPane.INFORMATION_MESSAGE);
-                                    disposeWindow();
-                                    manageLogin.disposeWindow();
-                                }
-                            } else {
-                                out.println(NO_CREATE);
-                            }
-                        } else if (response.equals(GAME_CREATED)) {
-                            JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
-                                    "Partita creata", JOptionPane.INFORMATION_MESSAGE);
+        view.getJButtonNewGame().addActionListener(e -> {
+            String prisonBreak = "PrisonBreak";
+            String input = Objects.requireNonNull(view.getJComboBox1().getSelectedItem()).toString();
+            out.println(NEW_GAME);
+            if (input.equals(prisonBreak)) {
+                out.println(PRISON_BREAK);
+            } else {
+                out.println(FIRE_HOUSE);
+            }
+            try {
+                String response = in.readLine();
+                if (response != null) {
+                    if (response.equals(EXISTING_GAME)) {
+                        int choose = JOptionPane.showConfirmDialog(view.getJDialogMain(), "La partita " +
+                                        "già esiste, vuoi crearne un'altra?", "Informazione",
+                                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (choose == JOptionPane.YES_OPTION) {
+                            out.println(YES_CREATE);
                             disposeWindow();
                             manageLogin.disposeWindow();
+                            response = in.readLine();
+                            if (response.equals(GAME_CREATED)) {
+                                JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
+                                        "Partita creata", JOptionPane.INFORMATION_MESSAGE);
+                                disposeWindow();
+                                manageLogin.disposeWindow();
+                            }
+                        } else {
+                            out.println(NO_CREATE);
                         }
+                    } else if (response.equals(GAME_CREATED)) {
+                        JOptionPane.showMessageDialog(view.getJDialogMain(), input + " creato!",
+                                "Partita creata", JOptionPane.INFORMATION_MESSAGE);
+                        disposeWindow();
+                        manageLogin.disposeWindow();
                     }
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
                 }
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
             }
         });
     }

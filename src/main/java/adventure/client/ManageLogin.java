@@ -15,7 +15,7 @@ public class ManageLogin {
     private final BufferedReader in;
     private final PrintWriter out;
     private final LoginView view;
-    private ManageGameView gameViewController;
+    private final ManageGameView gameViewController;
 
     public ManageLogin(BufferedReader in, PrintWriter out, ManageGameView gameViewController) {
         this.in = in;
@@ -152,9 +152,7 @@ public class ManageLogin {
     }
 
     private void actionListenerButtonSignUp() {
-        view.getJButtonSignIn().addActionListener(e -> {
-            new ManageSignUp(in, out, ManageLogin.this);
-        });
+        view.getJButtonSignIn().addActionListener(e -> new ManageSignUp(in, out, ManageLogin.this));
     }
 
     private void resetView() {

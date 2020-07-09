@@ -14,7 +14,7 @@ import java.awt.*;
  */
 public class GameChooserView extends javax.swing.JFrame {
 
-    private JDialog JDialogMain;
+    private final JDialog JDialogMain;
     private JButton JButtonLoadGame;
     private JButton JButtonNewGame;
     private JLabel JLabelSelectionGame;
@@ -76,7 +76,7 @@ public class GameChooserView extends javax.swing.JFrame {
         JDialogMain.add(JLabelSelectionGame);
         JDialogMain.add(JButtonNewGame);
 
-        JLabelSelectionGame.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        JLabelSelectionGame.setFont(new java.awt.Font("Tahoma", Font.PLAIN, 12)); // NOI18N
         JLabelSelectionGame.setText("Seleziona il gioco:");
 
         JComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PrisonBreak", "FireHouse" }));

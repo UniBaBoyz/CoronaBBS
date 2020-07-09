@@ -7,7 +7,7 @@ import java.awt.*;
  * @author Corona-Extra
  */
 public class LoginView {
-    private JDialog JDialogMain;
+    private final JDialog JDialogMain;
     private JLabel JLabelUsername;
     private JTextField JTUsernameField;
     private JLabel JLabelPassword;

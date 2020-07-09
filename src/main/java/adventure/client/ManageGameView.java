@@ -50,7 +50,7 @@ public class ManageGameView {
 
     private void manageInput(String string) {
         if (string != null && string.contains(Utils.SEPARATOR_CHARACTER_STRING)) {
-            String score = string.substring(string.indexOf(Utils.SEPARATOR_CHARACTER_STRING) + 1, string.length());
+            String score = string.substring(string.indexOf(Utils.SEPARATOR_CHARACTER_STRING) + 1);
             view.getJTextAreaScore().setText(score);
 
             String textToAppend = string.substring(0, string.indexOf(Utils.SEPARATOR_CHARACTER_STRING));

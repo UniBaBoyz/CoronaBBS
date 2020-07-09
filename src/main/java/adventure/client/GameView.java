@@ -110,7 +110,6 @@ public class GameView {
 
     public GameView() {
         initComponents();
-        JFmainFrame.setIconImage(new ImageIcon("/../../../res/Images/Icon.png").getImage());
     }
 
     private void initComponents() {
