@@ -96,7 +96,6 @@ public class ManageGameView {
         int inputSave;
 
         do {
-            out.println("Esci");
             input = JOptionPane.showConfirmDialog(view.getJFmainFrame(), "Sei sicuro di voler uscire " +
                     "dal gioco?", "Esci", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         } while (input == JOptionPane.CLOSED_OPTION);
@@ -114,14 +113,13 @@ public class ManageGameView {
             disposeWindow();
             closeClient = true;
         }
-
-
     }
 
     private void actionListenerWindow() {
         view.getJFmainFrame().addWindowListener(new WindowListener() {
             @Override
             public void windowClosing(WindowEvent e) {
+                out.println("Esci");
                 closeGame();
             }
 
