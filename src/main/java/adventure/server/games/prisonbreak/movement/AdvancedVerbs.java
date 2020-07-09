@@ -146,10 +146,10 @@ class AdvancedVerbs implements Serializable {
         if (game.getCurrentRoom().getId() == LADDERS) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
-        } else if (game.getCurrentRoom().getId() == AIR_DUCT) {
+        } else if (game.getCurrentRoom().getId() == ON_LADDER) {
             game.setCurrentRoom(game.getCurrentRoom().getSouth());
             movement.setMove(true);
-            response.append("Usi la scala per scendere!");
+            response.append("Usi la scala per scendere!\n");
         } else {
             response.append("Non puoi bucare il pavimento!");
         }
@@ -173,8 +173,7 @@ class AdvancedVerbs implements Serializable {
     }
 
     String exit() {
-        if (game.getCurrentRoom().getId() == FRONTBENCH
-                && !game.getInventory().contains(game.getObject(SCALPEL))) {
+        if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
             response.append("Decidi di fuggire, ma prima o poi il pericolo dovrai affrontarlo!\n");
@@ -186,14 +185,13 @@ class AdvancedVerbs implements Serializable {
 
     String make() throws ObjectNotFoundInInventoryException, InventoryFullException, InventoryEmptyException {
         TokenObject substances = game.getObject(SUBSTANCES);
-
-        if ((movement.getObject() != null
+        if (((movement.getObject() != null
                 && movement.getObject().isMixable()
                 && (game.getInventory().contains(movement.getObject())
                 || game.getCurrentRoom().containsObject(movement.getObject())))
                 || ((movement.getObject() != null && movement.getObject().getId() == ACID))
                 && (game.getInventory().contains(substances)
-                || game.getCurrentRoom().containsObject(substances)) && game.getCurrentRoom().getId() == INFIRMARY) {
+                || game.getCurrentRoom().containsObject(substances))) && game.getCurrentRoom().getId() == INFIRMARY) {
 
             if (game.getCurrentRoom().getObjects().contains(movement.getObject())
                     && !(movement.getObject().getId() == ACID)) {
@@ -202,6 +200,7 @@ class AdvancedVerbs implements Serializable {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else if (movement.getObject().getId() != ACID
                     && game.getInventory().getObjects().contains(movement.getObject())) {
                 game.getInventory().remove(movement.getObject());
@@ -209,6 +208,8 @@ class AdvancedVerbs implements Serializable {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
+                response.append(game.toStringScore());
             } else if (game.getCurrentRoom().getObjects().contains(substances)
                     && movement.getObject().getId() == ACID) {
                 game.getCurrentRoom().removeObject(substances);
@@ -216,6 +217,7 @@ class AdvancedVerbs implements Serializable {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else if (game.getInventory().getObjects().contains(substances)
                     && movement.getObject().getId() == ACID) {
                 game.getInventory().remove(substances);
@@ -223,6 +225,7 @@ class AdvancedVerbs implements Serializable {
                 game.getObjectNotAssignedRoom().remove(game.getObject(ACID));
                 movement.setMixed(true);
                 game.increaseScore();
+                response.append(game.toStringScore());
             }
             if (movement.isMixed() || !game.getInventory().getObjects().contains(game.getObject(ACID))) {
                 response.append("Hai creato un acido corrosivo, attento alle mani! ");
@@ -233,13 +236,15 @@ class AdvancedVerbs implements Serializable {
 
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi creare esattamente?");
-        } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
-            response.append("Non penso si trovi qui questo oggetto!!! Guarda meglio!");
         } else if (!movement.getObject().isMixable()) {
             response.append("Non è una cosa che si può fare");
+        } else if (!game.getCurrentRoom().containsObject(movement.getObject())
+                && !game.getInventory().contains(movement.getObject())) {
+            response.append("Non penso si trovi qui questo oggetto o non puoi crearlo qui!!");
         } else if (game.getCurrentRoom().getId() != INFIRMARY) {
             response.append("Non puoi creare qui l'acido. Vai in infermeria se riesci!");
         }
+
         return response.toString();
     }
 
@@ -270,6 +275,7 @@ class AdvancedVerbs implements Serializable {
 
             if (!game.getObject(TOOLS).isUsed()) {
                 game.increaseScore();
+                response.append(game.toStringScore());
                 game.getObject(TOOLS).setUsed(true);
             }
 
@@ -293,7 +299,12 @@ class AdvancedVerbs implements Serializable {
                 movement.getObject().setUsed(true);
                 response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                         " tornare indietro anche se hai poco tempo a disposizione!");
+                game.getRoom(DOOR_ISOLATION).setDescription("La porta è aperta! Puoi andare a est per entrare dentro " +
+                        "l'isolamento oppure tornare indietro anche se hai poco tempo a disposizione!");
+                game.getRoom(DOOR_ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                        " a ovest!");
                 game.increaseScore();
+                response.append(game.toStringScore());
             } else {
                 response.append("Non puoi inserire nulla qui!");
             }
@@ -307,6 +318,7 @@ class AdvancedVerbs implements Serializable {
 
     String talkTo() {
         if ((movement.getObject() instanceof TokenPerson && ((TokenPerson) movement.getObject()).isSpeakable())) {
+            TokenPerson brother = ((TokenPerson) game.getObject(BROTHER));
             if (game.getCurrentRoom().getId() == CANTEEN) {
                 response.append("Si avvicina a te e sussurrando ti chiede se sei interessato a qualche oggetto che " +
                         "lui possiede. Ovviamente ogni oggetto ha un costo ma tu non possiedi alcun soldo, " +
@@ -321,7 +333,10 @@ class AdvancedVerbs implements Serializable {
                 game.getObject(MEDICINE).setGiveable(true);
             } else if (movement.getObject().getId() == GENNY_BELLO
                     && ((TokenPerson) movement.getObject()).isFollowHero()) {
-                response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!\n");
+                response.append("Dai, manca poco! Ce la possiamo fare, FORZA!!");
+            } else if (game.getCurrentRoom().getId() == INFIRMARY
+                    && game.getCurrentRoom().containsObject(brother)) {
+                response.append("Non vedo l'ora di scappare! Sbrighiamoci!");
             }
         } else if (movement.getObject() == null) {
             response.append("Vuoi parlare da solo???");
@@ -372,7 +387,7 @@ class AdvancedVerbs implements Serializable {
             game.getObject(HACKSAW).setAccept(true);
         } else if (!game.getObject(HACKSAW).isAsked()) {
             response.append("Non puoi accettare una cosa che non hai chiesto!!!");
-        } else if (game.getObject(HACKSAW).isAccept()) {
+        } else if (game.getObject(HACKSAW).isAccept() && game.getCurrentRoom().getId() == CANTEEN) {
             response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi accettare? Nulla???");
@@ -390,7 +405,8 @@ class AdvancedVerbs implements Serializable {
             game.getObject(HACKSAW).setAccept(false);
         } else if (!game.getObject(HACKSAW).isAsked()) {
             response.append("Non puoi rifiutare una cosa che non hai chiesto!!!");
-        } else if (game.getObject(HACKSAW).isAccept() || game.getInventory().contains(game.getObject(HACKSAW))) {
+        } else if ((game.getObject(HACKSAW).isAccept() || game.getInventory().contains(game.getObject(HACKSAW)))
+                && game.getCurrentRoom().getId() == CANTEEN) {
             response.append("Ormai hai già accettato! Ci avresti potuto pensare prima!");
         } else if (game.getCurrentRoom().getId() != CANTEEN) {
             response.append("Cosa vuoi rifiutare? Nulla???");
@@ -406,11 +422,13 @@ class AdvancedVerbs implements Serializable {
                     " ti svegli in infermeria.\n");
             game.setCurrentRoom(game.getRoom(INFIRMARY));
             game.increaseScore();
+            response.append(game.toStringScore());
             movement.setMove(true);
             movement.increaseCounterFaceUp();
         } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
                 && game.getInventory().contains(game.getObject(SCALPEL)) && movement.getCounterFaceUp() == 1) {
             game.increaseScore();
+            response.append(game.toStringScore());
             game.setObjectNotAssignedRoom(game.getObject(SCALPEL));
             game.getInventory().remove(game.getObject(SCALPEL));
             game.getObject(SCALPEL).setUsed(true);
@@ -430,6 +448,10 @@ class AdvancedVerbs implements Serializable {
                 || game.getObject(SCALPEL).isUsed()
                 || movement.getCounterFaceUp() >= 2) {
             response.append("Ehi John Cena, non puoi affrontare nessuno qui!!!");
+        } else if (game.getCurrentRoom().getId() == FRONTBENCH && !game.getObject(SCALPEL).isUsed()
+                && !game.getInventory().contains(game.getObject(SCALPEL))) {
+            response.append("Ritrova il bisturi, un'altra rissa e verrai messo in isolamento e il tuo piano andrà " +
+                    "a rotoli!!! Puoi solo fuggire!");
         }
         return response.toString();
     }
@@ -442,15 +464,37 @@ class AdvancedVerbs implements Serializable {
                 && game.getObject(TOOLS).isUsed()
                 && !game.getObject(HACKSAW).isUsed()) {
             game.getRoom(AIR_DUCT_INFIRMARY).setLocked(false);
+            game.getObject(HACKSAW).setUsed(true);
             game.setObjectNotAssignedRoom(game.getObject(HACKSAW));
             game.getInventory().remove(game.getObject(HACKSAW));
             game.getRoom(AIR_DUCT_NORTH).removeObject(movement.getObject());
             response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto, per " +
-                    "fortuna sei riuscito a rompere la grata");
+                    "fortuna sei riuscito a rompere la grata\n");
             response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre con il seghetto, " +
                     "puoi proseguire nel condotto e capisci che quel condotto porta fino all’infermeria.");
+            game.getRoom(GENERATOR).setLocked(false);
+            game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
+                    "in infermeria!");
+            game.getRoom(AIR_DUCT_NORTH).setLook("Sembra la strada giusta! Prosegui a est nel condotto " +
+                    "d'aria per avanzare!");
             game.increaseScore();
             game.increaseScore();
+            response.append(game.toStringScore());
+        } else if (movement.getObject() != null
+                && movement.getObject().getId() == WINDOWS_INFIRMARY
+                && game.getCurrentRoom().getId() == INFIRMARY
+                && game.getInventory().contains(game.getObject(ACID))) {
+
+            game.getRoom(ENDGAME).setLocked(false);
+            game.setObjectNotAssignedRoom(game.getObject(ACID));
+            game.getInventory().remove(game.getObject(ACID));
+            response.append("Adesso la finestra presenta un buco, sarebbe meglio infilarsi dentro!");
+            game.increaseScore();
+            game.increaseScore();
+            game.increaseScore();
+            game.increaseScore();
+            response.append(game.toStringScore());
+            game.getObject(ACID).setUsed(true);
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi rompere???");
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
@@ -495,6 +539,10 @@ class AdvancedVerbs implements Serializable {
                     "e completare il tuo piano! Speriamo che abbiano portato tuo fratello in infermeria!");
 
             game.getRoom(INFIRMARY).setLocked(false);
+            game.getRoom(INFIRMARY).setObject(game.getObject(BROTHER));
+            game.getRoom(INFIRMARY).setObjectsUsableHere(game.getObject(ACID));
+            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
+                    "nell'infermeria che ti aspetta!!!");
 
             //Lock the other rooms to lead the user to the end of the game
             game.getRoom(DOOR_ISOLATION).setLocked(true);
@@ -507,12 +555,14 @@ class AdvancedVerbs implements Serializable {
                     "c’è il tuo amichetto Genny. È ora di attuare il piano!");
             game.getRoom(MAIN_CELL).setLook("Non perdere ulteriore tempo, bisogna attuare il piano " +
                     "e scappare via da qui!");
-            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello " +
-                    "nell'infermeria che ti aspetta!");
+            game.getRoom(AIR_DUCT_INFIRMARY).setLook("Dal condotto d'aria riesci a vedere tuo fratello" +
+                    " nell'infermeria che ti aspetta!");
+
 
             game.increaseScore();
             game.increaseScore();
             game.increaseScore();
+            response.append(game.toStringScore());
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi dare di preciso?");
         } else if (movement.getObject() instanceof TokenPerson) {

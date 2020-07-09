@@ -345,7 +345,9 @@ public class Objects implements ObjectsInterface, Serializable {
         TokenObject acid = new TokenObject(ACID, "Acido", new HashSet<>(Collections.singletonList("Acido")),
                 "Leggendo la ricetta alla lavagna capisci come creare l’acido, mischi le sostanze " +
                         "tutte insieme utilizzando le giuste dosi in modo da non sbagliare! Sei riuscito a" +
-                        " creare l’acido!");
+                        " creare l’acido!",
+                new HashSet<>(Collections.singletonList(
+                        new TokenAdjective(new HashSet<>(Collections.singletonList("Cloridrico"))))));
         acid.setPickupable(true);
         acid.setUsable(true);
         acid.setMixable(true);

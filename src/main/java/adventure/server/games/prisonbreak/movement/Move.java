@@ -205,24 +205,8 @@ class Move implements Serializable {
                     game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
                     if (game.getCurrentRoom().getId() == INFIRMARY) {
                         game.getCurrentRoom().getWest().setLocked(true);
+                        game.getObject(PICTURE).setPush(true);
                     } else if (game.getCurrentRoom().getId() == ENDGAME) {
-                        response.append("==========================================================================" +
-                                "=======\n");
-                        response.append("Decidi di fuggire dalla finestra. Tu e tutta la tua squadra usate il " +
-                                "lungo cavo che collega la finestra al grande muro della prigione. " +
-                                "Arrivati sul muro riuscite a scavalcare con molta attenzione il filo spinato " +
-                                "presente. " +
-                                "Fate tutti un grande salto fuori dalla prigione e scappate per 100 metri verso " +
-                                "nord. " +
-                                "Lì trovate ad aspettarvi un elicottero guidato da vostro padre, che sapeva " +
-                                "tutto del vostro piano segreto e l’ora esatta in cui avreste dovuto attuarlo!" +
-                                " Salite tutti sull’elicottero e fuggite tutti insieme verso il Messico cosicché " +
-                                "nessuno potrà più ritrovarvi!");
-                        response.append("===========================================================================" +
-                                "======\n");
-                        response.append("COMPLIMENTI, HAI VINTO!");
-                        response.append("=============================================================================" +
-                                "====\n");
                         game.getCurrentRoom().getSouth().setLocked(true);
                     }
                 }
@@ -231,7 +215,6 @@ class Move implements Serializable {
                     game.getCurrentRoom().getEast().setLocked(true);
                     game.getCurrentRoom().setObject(game.getObject(GENNY_BELLO));
                 }
-
             }
 
         } catch (NotAccessibleRoomException e) {
@@ -246,7 +229,9 @@ class Move implements Serializable {
             if (game.getCurrentRoom().getId() == ENDGAME) {
                 response.append("Hai terminato il gioco! Basta camminare!");
             } else if (game.getObject(MEDICINE).isGiven()) {
-                response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
+                if (!(game.getCurrentRoom().getId() == INFIRMARY && p.getVerb().getVerbType().equals(NORD))) {
+                    response.append("Non perdere ulteriore tempo, bisogna completare il piano!");
+                }
             } else if (game.getCurrentRoom().getEast() != null && game.getCurrentRoom().getId() == AIR_DUCT_INFIRMARY
                     && game.getCurrentRoom().getEast().getId() == INFIRMARY) {
                 response.append("Avrebbe più senso proseguire solo se la tua squadra è al completo… " +

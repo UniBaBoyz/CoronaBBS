@@ -85,6 +85,7 @@ class BasicVerbs implements Serializable {
             game.getInventory().add(movement.getObject());
             response.append("Hai preso ").append(movement.getObject().getName()).append("!");
             game.increaseScore();
+            response.append(game.toStringScore());
 
         } else if (movement.getObject() != null && movement.getObject().getId() == SCALPEL
                 && game.getCurrentRoom().getId() == INFIRMARY
@@ -94,6 +95,7 @@ class BasicVerbs implements Serializable {
             game.getInventory().add(movement.getObject());
             movement.getObject().setTaken(true);
             game.increaseScore();
+            response.append(game.toStringScore());
 
             response.append("Hai preso ").append(movement.getObject().getName()).append("!");
             response.append("\nFai in fretta perché improvvisamente senti i passi dell’infermiera avvicinandosi " +
@@ -117,6 +119,7 @@ class BasicVerbs implements Serializable {
             if ((movement.getObject().getId() == SCOTCH || movement.getObject().getId() == SCREW)
                     && !movement.getObject().isTaken()) {
                 game.increaseScore();
+                response.append(game.toStringScore());
                 movement.getObject().setTaken(true);
             }
             game.getCurrentRoom().removeObject(movement.getObject());
@@ -169,8 +172,9 @@ class BasicVerbs implements Serializable {
                     game.getInventory().remove(movement.getObject());
                     response.append("Decidi di usare la vite per smontare il lavandino. Chiunque abbia fissato " +
                             "quel lavandino non aveva una grande forza visto che le viti si svitano facilmente." +
-                            " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato\n");
+                            " Adesso che hai rimosso tutte le viti, noti che il lavandino non è ben fissato");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -179,8 +183,9 @@ class BasicVerbs implements Serializable {
                     game.getInventory().remove(movement.getObject());
                     game.getInventory().add(game.getObject(COMBINATION));
                     response.append("Metti lo scotch sui numeri della porta, dallo scotch noti le impronte dei ultimi " +
-                            "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!\n");
+                            "tasti schiacciati, ora indovinare il pin segreto sembra molto più semplice!");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -190,6 +195,7 @@ class BasicVerbs implements Serializable {
 
                     if (!movement.getObject().isUsed()) {
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -213,6 +219,7 @@ class BasicVerbs implements Serializable {
                             "solo tu qui.");
                     game.getRoom(BENCH).setLook("In lontananza vedi delle panchine tutte vuote!");
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     response.append("Riesci subito a tirare fuori il bisturi dalla tasca, il gruppetto lo vede e " +
                             "capito il pericolo decide di lasciare stare (Mettere a rischio la vita per una panchina " +
@@ -232,12 +239,18 @@ class BasicVerbs implements Serializable {
                         game.getInventory().remove(movement.getObject());
                         game.getRoom(AIR_DUCT_NORTH).removeObject(game.getObject(DESTROYABLE_GRATE));
                         response.append("Oh no! Il seghetto si è rotto e adesso ci sono pezzi di sega dappertutto," +
-                                " per fortuna sei riuscito a rompere la grata");
+                                " per fortuna sei riuscito a rompere la grata\n");
                         response.append("Dopo esserti allenato duramente riesci a tagliare le sbarre " +
                                 "con il seghetto, puoi proseguire nel condotto e capisci che quel condotto" +
                                 " porta fino all’infermeria.");
+                        game.getRoom(GENERATOR).setLocked(false);
+                        game.getRoom(AIR_DUCT_NORTH).setDescription("Senti delle voci simili a quelle che sentivi quando eri " +
+                                "in infermeria!");
+                        game.getRoom(AIR_DUCT_NORTH).setLook("Sembra la strada giusta! Prosegui a est nel condotto " +
+                                "d'aria per avanzare!");
                         game.increaseScore();
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -259,6 +272,7 @@ class BasicVerbs implements Serializable {
                                 " la tua, peccato che i poliziotti prevedono queste bravate e hanno un generatore" +
                                 " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -272,6 +286,7 @@ class BasicVerbs implements Serializable {
                     game.increaseScore();
                     game.increaseScore();
                     game.increaseScore();
+                    response.append(game.toStringScore());
                     movement.getObject().setUsed(true);
                     break;
 
@@ -282,7 +297,12 @@ class BasicVerbs implements Serializable {
                         game.getRoom(ISOLATION).setLocked(false);
                         response.append("La porta si apre! Puoi andare a est per entrare dentro l'isolamento oppure" +
                                 " tornare indietro anche se hai poco tempo a disposizione!");
+                        game.getRoom(DOOR_ISOLATION).setDescription("La porta è aperta! Puoi andare a est per entrare dentro " +
+                                "l'isolamento oppure tornare indietro anche se hai poco tempo a disposizione!");
+                        game.getRoom(DOOR_ISOLATION).setLook("La porta ora è aperta! Puoi entrare nell'isolamento o tornare indietro" +
+                                " a ovest!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                         movement.getObject().setUsed(true);
                     }
                     break;
@@ -339,7 +359,7 @@ class BasicVerbs implements Serializable {
                         response.append("Cosa ci fai qui?? Dovresti dare la medicina a tuo fratello!!!");
                     } else if (game.getObject(MEDICINE).isGiven()) {
                         response.append("Il tuo piano è quasi terminato, vai con Genny Bello in infermeria passando dal" +
-                                "passaggio segreto! Buona fortuna, te ne servirà molta!!!");
+                                " passaggio segreto! Buona fortuna, te ne servirà molta!!!");
                     } else {
                         response.append("Mi dispiace ma non ho suggerimenti da darti attualmente!!");
                     }
@@ -427,11 +447,13 @@ class BasicVerbs implements Serializable {
                         game.getRoom(PASSAGE_SOUTH).removeObject(movement.getObject());
                         response.append("La scala è stata spinta fino alla stanza a nord!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                     } else if (game.getCurrentRoom().getId() == SECRET_PASSAGE) {
                         game.getRoom(PASSAGE_NORTH).setObject(movement.getObject());
                         game.getRoom(SECRET_PASSAGE).removeObject(movement.getObject());
                         response.append("La scala è stata spinta fino alla stanza a nord e si è bloccata lì!");
                         game.increaseScore();
+                        response.append(game.toStringScore());
                     } else {
                         response.append("La scala è bloccata! Non esiste alcun modo per spostarla!");
                     }
@@ -444,9 +466,10 @@ class BasicVerbs implements Serializable {
                         } else {
                             movement.getObject().setPush(true);
                             game.getRoom(SECRET_PASSAGE).setLocked(false);
-                            response.append("Oissà!");
+                            response.append("Oissà!\nNoti un passaggio segreto in cui è possibile entrare!");
                             game.increaseScore();
                             game.increaseScore();
+                            response.append(game.toStringScore());
                         }
                     }
                     break;
@@ -480,6 +503,7 @@ class BasicVerbs implements Serializable {
                                     "generatore di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                             game.increaseScore();
                             game.increaseScore();
+                            response.append(game.toStringScore());
                         }
                     }
                     break;
@@ -497,17 +521,14 @@ class BasicVerbs implements Serializable {
 
     String turnOn() {
         if (movement.getObject() != null && movement.getObject().isTurnOnAble()) {
-            // lights case
-            if (game.getCurrentRoom().getId() == GENERATOR) {
-                // lights turnOFF
-                if (movement.getObject().isOn()) {
-                    response.append("Le luci sono già accese!");
-                } else {
-                    response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
-                }
+
+            // lights turnOFF
+            if (movement.getObject().isOn()) {
+                response.append("Le luci sono già accese!");
             } else {
-                response.append("Non puoi accendere nulla qui!");
+                response.append("Le luci si accenderanno da sole tra qualche minuto, non avere paura!");
             }
+
         } else if (movement.getObject() == null) {
             response.append("Cosa vuoi accendere esattamente???");
         } else if (!movement.getObject().isTurnOnAble()) {
@@ -525,7 +546,7 @@ class BasicVerbs implements Serializable {
                     response.append("Il pulsante è già stato premuto! Fai in fretta!!!");
                 } else {
                     game.getObject(BUTTON_GENERATOR).setPush(true);
-                    game.getObject(GENERATOR_OBJ).setUsable(true);
+                    game.getObject(GENERATOR_OBJ).setUsed(true);
                     movement.getObject().setOn(false);
                     game.getRoom(DOOR_ISOLATION).setLocked(false);
                     response.append("Sembra che tutto il carcere sia nell’oscurità! È stata una bella mossa" +
@@ -533,6 +554,7 @@ class BasicVerbs implements Serializable {
                             " di corrente ausiliario che si attiverà dopo un minuto dal blackout!");
                     game.increaseScore();
                     game.increaseScore();
+                    response.append(game.toStringScore());
                 }
             } else {
                 response.append("Non puoi spegnere nulla qui!");

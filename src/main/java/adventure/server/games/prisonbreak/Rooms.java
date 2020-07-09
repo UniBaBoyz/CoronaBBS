@@ -85,7 +85,7 @@ public class Rooms implements RoomsInterface, Serializable {
         Room passage = new Room(SECRET_PASSAGE, "Passaggio segreto",
                 "Sei nel passaggio segreto.");
         passage.setLook("Noti delle pareti in roccia un po’ malandate, un’ enorme parete blocca la strada" +
-                " a nord, puoi solo andare ad sud o a nord o ritornare indietro nella tua cella prima che qualcuno" +
+                " a ovest, puoi solo andare ad sud o a nord o ritornare indietro a est nella tua cella prima che qualcuno" +
                 " ti scopra!!!");
         passage.setLocked(true);
 
@@ -102,17 +102,18 @@ public class Rooms implements RoomsInterface, Serializable {
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
         generator.setLook("Non riesci a vedere nulla tranne che qualche piccola luce lampeggiante di fronte a te!");
+        generator.setLocked(true);
 
         Room onLadder = new Room(ON_LADDER, "Sulla scala",
                 "Sei salito sulla scala e noti un condotto d’aria un po’ vecchiotto.");
-        onLadder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte!");
+        onLadder.setLook("Sembra di aver già visto questo tipo di condotto da un’altra parte! Puoi entrarci!");
         onLadder.setLocked(true);
 
         Room airDuct = new Room(AIR_DUCT, "Condotto d'aria", "Sei riuscito ad entrare nel condotto," +
                 " strisci piano cercando di fare meno rumore possibile.");
         airDuct.setLook("Ci sono molte ragnatele e il condotto sembra non utilizzato, cerca di fare veloce in modo" +
                 " da non risultare assente all’appello! Il condotto si divide in tre strade diverse, una a nord," +
-                " una ad est e l’altra a ovest.");
+                " una ad est e l’altra a ovest. Puoi sempre andare a sud per ritornare sulla scala");
 
         Room airDuctEast = new Room(AIR_DUCT_EAST, "Condotto d'aria", "Ti ritrovi in un vicolo cieco");
         airDuctEast.setLook("Puoi osservare un’altra cella di un detenuto.");
@@ -123,7 +124,7 @@ public class Rooms implements RoomsInterface, Serializable {
 
         Room airDuctInfirmary = new Room(AIR_DUCT_INFIRMARY, "Condotto d'aria", "Ti trovi nell'ultimo" +
                 " tratto del condotto d'aria, sei quasi arrivato in infermeria");
-        airDuctInfirmary.setLook("Dal condotto d'aria riesci a vedere tuo fratello nell'infermeria che ti aspetta!");
+        airDuctInfirmary.setLook("Dal condotto d'aria riesci a vedere l'infermeria!");
         airDuctInfirmary.setLocked(true);
 
         Room airDuctWest = new Room(AIR_DUCT_WEST, "Condotto d'aria",
@@ -144,7 +145,8 @@ public class Rooms implements RoomsInterface, Serializable {
                 "Sei di fronte all'entrata dell'isolamento dove e' collocata la cella di tuo fratello. " +
                         "Essendo in un carcere di massima sicurezza, la porta e' controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
-                "puo' essere aperta solo tramite un PIN segreto.");
+                "puo' essere aperta solo tramite un PIN segreto. La porta è situata a est a ovest invece una cella" +
+                " di un altro detenuto!");
 
         Room doorIsolation = new Room(DOOR_ISOLATION, "Porta isolamento",
                 "Sei di fronte ad una porta blindata che come gia' ti sembrava e' possibile " +
@@ -213,12 +215,12 @@ public class Rooms implements RoomsInterface, Serializable {
         Room brotherCell = new Room(BROTHER_CELL, "Cella fratello",
                 "Sei vicino alla cella di tuo fratello, l’aspetto della cella e' ripugnante.");
         brotherCell.setLook("Di fronte a te, attraverso le sbarre, c'è tuo fratello con un’aria contenta di vederti," +
-                " ma allo stesso tempo sorpresa!");
+                " ma allo stesso tempo sorpresa! Parla con lui e spiegali tutto il piano!");
 
         Room endGame = new Room(ENDGAME, "Fine", "Decidi di fuggire dalla finestra. Tu e tutta" +
                 " la tua squadra usate il lungo cavo che collega la finestra al grande muro della prigione. Arrivati" +
                 " sul muro riuscite a scavalcare con molta attenzione il filo spinato presente. Fate tutti un grande" +
-                " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovare ad aspettarvi un " +
+                " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovate ad aspettarvi un " +
                 "elicottero guidato da vostro padre, che sapeva tutto del vostro piano segreto e l’ora esatta in cui " +
                 "dovevate attuarlo! Salite tutti sull’elicottero e' fuggite tutti insieme verso il Messico cosicché" +
                 " nessuno potrà piu' ritrovarvi!\n\n" +

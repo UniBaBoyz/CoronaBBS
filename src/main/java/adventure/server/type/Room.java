@@ -128,6 +128,8 @@ public class Room implements Serializable {
                     } catch (InventoryEmptyException ignored) {
 
                     }
+                } else if (obj instanceof TokenObjectContainer && !obj.isOpen()) {
+                    getObjects().removeAll(((TokenObjectContainer) obj).getObjects());
                 }
             }
 
