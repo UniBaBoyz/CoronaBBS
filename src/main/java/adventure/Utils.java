@@ -22,6 +22,7 @@ public class Utils {
     public final static String GAME_SAVED = "#GAME_SAVED";
     public final static String PRISON_BREAK = "#PRISON_BREAK";
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
+    public final static String EXIT = "#EXIT";
     public final static String EXIT_GAME = "#EXIT_GAME";
     public final static String SAVE_GAME = "̄#SAVE_GAME";
     public final static String EXISTING_GAME = "#EXISTING_GAME";

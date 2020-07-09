@@ -18,7 +18,6 @@ public class ManageGameView {
     private final BufferedReader in;
     private final PrintWriter out;
     private final GameView view = new GameView();
-    private boolean closeClient = false;
 
     public ManageGameView(BufferedReader in, PrintWriter out) {
         this.in = in;
@@ -42,13 +41,9 @@ public class ManageGameView {
     }
 
     public void run() throws IOException {
-        while (!closeClient) {
+        while (true) {
             manageInput(in.readLine());
         }
-    }
-
-    public void setCloseClient(boolean value) {
-        closeClient = value;
     }
 
     private void manageInput(String string) {
@@ -107,7 +102,6 @@ public class ManageGameView {
                 out.println(SAVE_GAME);
             }
             disposeWindow();
-            closeClient = true;
         } else {
             out.println(NO_EXIT);
         }

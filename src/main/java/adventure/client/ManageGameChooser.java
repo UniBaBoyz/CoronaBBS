@@ -56,7 +56,6 @@ public class ManageGameChooser {
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
                     manageLogin.getGameViewController().disposeWindow();
-                    manageLogin.getGameViewController().setCloseClient(true);
                 }
             }
 

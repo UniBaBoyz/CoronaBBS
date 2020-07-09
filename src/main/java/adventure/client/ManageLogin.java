@@ -77,7 +77,6 @@ public class ManageLogin {
                 if (input == JOptionPane.YES_OPTION) {
                     disposeWindow();
                     gameViewController.disposeWindow();
-                    gameViewController.setCloseClient(true);
                 }
             }
 

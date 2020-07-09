@@ -41,7 +41,9 @@ public class ClientMainClass {
             ManageGameView view = new ManageGameView(in, out);
             new ManageLogin(in, out, view);
 
-            view.run();
+            while (view.getView().getJFmainFrame().isVisible()) {
+                view.run();
+            }
 
             //view.disposeWindow();
         } catch (IOException e) {
