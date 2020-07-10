@@ -3,7 +3,7 @@
 Questo documento fornisce una breve documentazione riguardante l'applicazione *CoronaBBS*.
 L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** composto da:
 
-- [Michele Stelluti](https://github.comMicheleStelluti)
+- [Michele Stelluti](https://github.com/MicheleStelluti)
 - [Vincenzo Susso](https://github.com/VincenzoSusso)
 - [Giuseppe Tanzi](https://github.com/Giuseppe-Tanzi)
 
