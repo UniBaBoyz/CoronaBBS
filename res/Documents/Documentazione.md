@@ -9,13 +9,16 @@ L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** compost
 
 ## Indice
 
-1. [Introduzione](#1-introduzione)
-2. [Requisiti](#2-requisiti)
-   1. [Requisiti Funzionali](#21-requisiti-Funzionali)
-   2. [Requisiti Non Funzionali](#22-requisiti-Non-Funzionali)
-3. [Divisione In Package e Classi Implementate](#3-divisione-In-Package-e-Classi-Implementate)
-4. [Scelte progettuali](#4-scelte-progettuali)
-5. [Manuale Utente](#5-manuale-utente)
+1. [Introduzione](#1-Introduzione)
+2. [Requisiti](#2-Requisiti)
+    1. [Requisiti Funzionali](#21-Requisiti-Funzionali)
+    2. [Requisiti Non Funzionali](#22-Requisiti-Non-Funzionali)
+3. [Divisione In Package e Classi Implementate](#3-Divisione-In-Package-e-Classi-Implementate)
+4. [Scelte Progettuali](#4-Scelte-Progettuali)
+    1. [Architettura Client/Server](#41-Architettura-Client/Server)
+    2. [Database](#42-Database)
+    3. [GameDescription e NextMove()](#43-GameDescription-e-NextMove())
+5. [Manuale Utente](#5-Manuale-Utente)
     1. [Introduzione](#51-Introduzione)
     2. [Login](#52-Login)
     3. [Registrazione](#53-Registrazione)
@@ -108,9 +111,26 @@ Per una corretta modulazione del sistema sono stati creati diversi package:
 
 ## 4 Scelte progettuali
 
-Si è scelto di creare un sistema basasato su architettura client/server
+### 4.1 Architettura Client/Server
 
-## 5 Manuale utente
+Abbiamo deciso di sviluppare la nostra applicazione con architettura Client/Server in modo da mettere a disposizione il servizio CoronaBBS su rete, nel nostro caso, il Server ha la responsabilità della logica di gestione dei dati (i dati sono salvati su un database) e della logica applicativa, infatti è il server che gestisce le varie operazioni che il client vuole fare. Il client ha la responsabilità della logica di presentazione; infatti il client nel nostro sistema ha il compito di mostrare le diverse finestre e inviare messaggi al server per la gestione delle risposte.
+
+Abbiamo deciso di dividere in questo modo le responsabilità tra Client e Server in quanto la gestione dei messaggi non richiede molta banda. Inoltre il Client può essere eseguito anche su computer datati in quanto non ha responsabilità sulla logica applicativa.
+
+### 4.2 Database
+
+Abbiamo deciso di utilizzare il database in modo da non essere legati agli svantaggi dei file tra cui:
+
+- I dati sono organizzati in insiemi indipendenti (le relazioni fra i dati non sono rappresentate);
+- Gli operatori disponibili sui file dipendono dal tipo di archivio (sequenziale, relativo, associativo);
+- Per effettuare semplici operazioni sui dati è necessario scrivere programmi.
+- La struttura logica di un archivio deve essere dichiarata in tutti i programmi che ne fanno uso.
+
+### 4.3 GameDescription e nextMove()
+
+Abbiamo deciso di utilizzare la classe GameDescription in modo da rendere tutti i giochi simili, infatti tutti i giochi devono implementare il metodo *nextMove()* che prende in input una tripla Verbo - Oggetto - Aggettivo e in base a questo capisce che operazione dovrà fare, il metodo *nextMove()* restituisce una stringa relativa al comando, è stato fatto questo in modo da rendere il *nextMove()* indipendente dal Client su cui verrà mostrato il messaggio.
+
+## 5 Manuale Utente
 
 ### 5.1 Introduzione
 
