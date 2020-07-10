@@ -3,7 +3,7 @@
 Questo documento fornisce una breve documentazione riguardante l'applicazione *CoronaBBS*.
 L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** composto da:
 
-- [Michele Stelluti](https://github.com/MicheleStelluti)
+- [Michele Stelluti](https://github.comMicheleStelluti)
 - [Vincenzo Susso](https://github.com/VincenzoSusso)
 - [Giuseppe Tanzi](https://github.com/Giuseppe-Tanzi)
 
@@ -14,12 +14,13 @@ L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** compost
    1. [Requisiti Funzionali](#21-requisiti-Funzionali)
    2. [Requisiti Non Funzionali](#22-requisiti-Non-Funzionali)
 3. [Divisione In Package e Classi Implementate](#3-divisione-In-Package-e-Classi-Implementate)
-4. [Manuale Utente](#4-manuale-utente)
-    1. [Introduzione](#41-Introduzione)
-    2. [Login](#42-Login)
-    3. [Registrazione](#43-Registrazione)
-    4. [Scelta Del Gioco](#44-Scelta-Del-Gioco)
-    5. [Schermata Di Gioco](#45-Schermata-Di-Gioco)
+4. [Scelte progettuali](#4-scelte-progettuali)
+5. [Manuale Utente](#5-manuale-utente)
+    1. [Introduzione](#51-Introduzione)
+    2. [Login](#52-Login)
+    3. [Registrazione](#53-Registrazione)
+    4. [Scelta Del Gioco](#54-Scelta-Del-Gioco)
+    5. [Schermata Di Gioco](#55-Schermata-Di-Gioco)
 
 ## 1. Introduzione
 
@@ -75,7 +76,7 @@ ID     | TITOLO | DESCRIZIONE
 | `RNF12` | Sicurezza | Il sistema gestisce informazioni riservate e le memorizza in maniera cryptata, in un database |
 | `RNF13` | Robustezza | Il programma è capace di gestire le situazioni in cui si manifestano errori o eccezioni dovuti a mosse e/o comandi non validi |
 | `RNF14` | Usabilità | Il sistema, durante la partita, accetta frasi in lingua italiana |
-| `RNF15` | Utilizzo | ![PEGI 16](./../img/PEGI16.png)|
+| `RNF15` | Utilizzo | ![pegi16](../Img/pegi-16.png)|
 
 ### 3 Divisione In Package e Classi Implementate
 
@@ -105,9 +106,13 @@ Per una corretta modulazione del sistema sono stati creati diversi package:
 
 - Il package *utils* contiene classi utili all'intero sistema. Una tra queste è la classe *Password*, la quale contiene un metodo per l'operazione di *hash* della password e un metodo per il check della password inserita dall'utente con quella memorizzata in database. Entrambi i metodi fanno uso della libreria esterna *Bcrypt*.
 
-## 4. Manuale Utente
+## 4 Scelte progettuali
 
-### 4.1 Introduzione
+Si è scelto di creare un sistema basasato su architettura client/server
+
+## 5 Manuale utente
+
+### 5.1 Introduzione
 
 Il gioco è basata su architettura *Client*/*Server*, quindi per poter usufruire dei giochi presenti sulla nostra piattaforma, sarà necessario avviare due eseguibili.
 
@@ -115,7 +120,7 @@ Innanzitutto è necessario avviare l'eseguibile della parte Server (ServerMainCl
 
 In questo manuale utente ci soffermeremo sulla parte client in quanto è quella che dovrà essere messa a disposizione dell'utente.
 
-### 4.2 Login
+### 5.2 Login
 
 Appena avviato il client, se riuscirà a connettersi al server, uscirà la prima schermata, ovvero quella dedicata al login
 
@@ -127,12 +132,12 @@ Se si inserisce un username che non esiste si avrà la seguente schermata di err
 
 ![Login Wrong User](./../Img/LoginErrorWrongUser.png)
 
-Se il nome utente è corretto e la password è errata, si avrà la seguente schermata di errore
+Se il nome utente è corretto e la password è errata, si ha la seguente schermata di errore
 
 ![Login Wrong Password](./../Img/LoginErrorWrongPassword.png)
 
-Il pulsante `Accedi` è inizialmente disabilitato e sarà attivato solo quando l'utente avrà inserito almeno un carattere nei campi *Username* e *Password*;
-se l'username e la password sono corretti spunterà la seguente schermata che avviserà l'utente di aver eseguito l'accesso correttamente
+Il pulsante `Accedi` sarà inizialmente disabilitato e sarà attivato solo quando l'utente avrà inserito almeno un carattere nei campi *Username* e *Password*;
+se l'username e la password saranno corretti spunterà la seguente schermata che avviserà l'utente di aver eseguito l'accesso correttamente
 
 ![Login Done](./../Img/LoginDone.png)
 
@@ -142,7 +147,7 @@ L'utente potrà anche premere la `X`, in questo caso il client mostrerà una sch
 
 In alternativa l'utente potrà cliccare sul bottone `Registrati` che aprirà una nuova schermata.
 
-### 4.3 Registrazione
+### 5.3 Registrazione
 
 Se l'utente non ha ancora un profilo, sarà possibile registrarsi cliccando sul tasto `Registrati` presente nella schermata di Login.
 
@@ -168,7 +173,7 @@ Infine, se l'iscrizione è stata effettuata con successo, il client mostrerà la
 
 ![Registration Done](./../Img/RegistrationDone.png)
 
-### 4.4 Scelta Del Gioco
+### 5.4 Scelta Del Gioco
 
 Dopo aver fatto correttamente il login, il client mostrerà una finestra contenente un campo per poter scegliere il gioco da voler eseguire e due bottoni che servono rispettivamente per iniziare una nuova partita o caricare una partita già esistente.
 
@@ -182,7 +187,7 @@ Se nel server è presente un gioco e si clicca sul bottone `Nuova partita`, allo
 
 ![Game Chooser New Game Confirm](./../Img/GameChooserNewGameConfirm.png)
 
-Se è stata già salvata è possibile caricare la partita salvata utilizzando il bottone `Carica`. Se la partita viene caricata correttamente, il client mostrerà la seguente schermata:
+Se è stata già salvata è possibile caricare la partita utilizzando il bottone `Carica`. Se la partita viene caricata correttamente, il client mostrerà la seguente schermata:
 
 ![Game Chooser Loaded Game](./../Img/GameChooserLoadedGame.png)
 
@@ -194,7 +199,7 @@ Se l'utente clicca sulla `X` in questa schermata uscirà una schermata di confer
 
 ![Game Chooser Exit](./../Img/GameChooserExit.png)
 
-### 4.5 Schermata Di Gioco
+### 5.5 Schermata Di Gioco
 
 La schermata di gioco presenta diversi componenti. Infatti è presente un'area di testo in cui è solo possibile leggere dedicata alle risposte del gioco, un'area di testo in cui è possibile inserire i comandi, un'area di testo solo leggibile nel quale è presente il punteggio della partita e infine sono presenti alcuni pulsanti per i comandi più usati nel gioco
 
