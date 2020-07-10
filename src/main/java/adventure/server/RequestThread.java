@@ -197,7 +197,7 @@ public class RequestThread extends Thread {
                 }
             } catch (LexicalErrorException e) {
                 out.println("Non ho capito!\n");
-                out.println("C'e' qualche parola che non conosco.\n");
+                out.println("C'è qualche parola che non conosco.\n");
                 out.println("=============================================================================" +
                         "====\n");
             } catch (SyntaxErrorException e) {
@@ -210,7 +210,7 @@ public class RequestThread extends Thread {
                 out.println("=============================================================================" +
                         "====\n");
             } catch (Exception e) {
-                out.println("C'e' qualcosa che non va" + "\n");
+                out.println("C'è qualcosa che non va" + "\n");
                 out.println("=============================================================================" +
                         "====\n");
                 out.println(e);

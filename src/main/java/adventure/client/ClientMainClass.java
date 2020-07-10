@@ -51,7 +51,7 @@ public class ClientMainClass {
 
             out.println(Utils.EXIT);
         } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Non e' possibile comunicare con il server!",
+            JOptionPane.showMessageDialog(null, "Non è possibile comunicare con il server!",
                     "Errore", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
@@ -59,7 +59,7 @@ public class ClientMainClass {
                     socket.close();
                 }
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Non e' possibile chiudere la connessione " +
+                JOptionPane.showMessageDialog(null, "Non è possibile chiudere la connessione " +
                         "con il server!", "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }

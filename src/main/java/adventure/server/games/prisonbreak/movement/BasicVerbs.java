@@ -110,7 +110,7 @@ class BasicVerbs implements Serializable {
             movement.setMove(true);
             game.getRoom(INFIRMARY).setDescription("Sul lettino dell'infermeria c'è tuo fratello" +
                     " leggermente dolorante");
-            game.getRoom(INFIRMARY).setLook("Nell'aria c'e' molta tensione, sarebbe meglio a cercare " +
+            game.getRoom(INFIRMARY).setLook("Nell'aria c'è molta tensione, sarebbe meglio a cercare " +
                     "una via di fuga!!!!!!");
 
         } else if (movement.getObject() != null && movement.getObject().isPickupable()
@@ -137,7 +137,7 @@ class BasicVerbs implements Serializable {
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
         } else if (!movement.getObject().isPickupable()) {
-            response.append("Non e' certo un oggetto che si può prendere imbecille!");
+            response.append("Non è certo un oggetto che si può prendere imbecille!");
         }
         return response.toString();
     }
@@ -213,7 +213,7 @@ class BasicVerbs implements Serializable {
                             "vita per una panchina sarebbe veramente stupido) e vanno via con " +
                             "un'aria di vendetta. Ora sei solo vicino alla panchina.");
                     game.getRoom(FRONTBENCH).setDescription("Sei solo vicino alla panchina!");
-                    game.getRoom(FRONTBENCH).setLook("E' una grossa panchina in legno un po' malandata, " +
+                    game.getRoom(FRONTBENCH).setLook("È una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze.");
                     game.getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei" +
                             "solo tu qui.");
@@ -226,7 +226,7 @@ class BasicVerbs implements Serializable {
                             "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
                             " alla panchina.");
                     game.getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
-                    game.getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+                    game.getCurrentRoom().setLook("È una grossa panchina in legno un po' malandata, " +
                             "ci sei solo tu nelle vicinanze.");
                     game.getObject(SCREW).setPickupable(true);
                     movement.increaseCounterFaceUp();
@@ -407,7 +407,7 @@ class BasicVerbs implements Serializable {
         } else if (!game.getCurrentRoom().containsObject(movement.getObject())) {
             throw new ObjectNotFoundInRoomException();
         } else if (movement.getObject().isOpen()) {
-            response.append("E' gia' aperto testa di merda!");
+            response.append("È già aperto testa di merda!");
         } else if (!movement.getObject().isOpenable()) {
             response.append("Sei serio? Vorresti veramente aprirlo! Sei fuori di testa!");
         }
@@ -431,7 +431,7 @@ class BasicVerbs implements Serializable {
             response.append("Sei serio? Vorresti veramente chiuderlo?!");
             response.append("Sei fuori di testa!");
         } else if (!movement.getObject().isOpen()) {
-            response.append("E' gia' chiuso testa di merda!");
+            response.append("È già chiuso testa di merda!");
         }
         return response.toString();
     }

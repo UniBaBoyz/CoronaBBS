@@ -41,7 +41,7 @@ public class Objects implements ObjectsInterface, Serializable {
     private void initPerson(GameDescription game) {
         TokenPerson brother = new TokenPerson(BROTHER, "Tuo fratello Lincoln",
                 new HashSet<>(Arrays.asList("Lincoln", "fratello")),
-                "E' tuo fratello! Non ho nient'altro da dirti che già non sai. " +
+                "È tuo fratello! Non ho nient'altro da dirti che già non sai. " +
                         "Dovresti già sapere tutto su di lui!",
                 new HashSet<>(
                         Collections.singletonList(
@@ -52,7 +52,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenPerson gennyBello = new TokenPerson(GENNY_BELLO, "Genny Bello",
                 new HashSet<>(Collections.singletonList("Genny")),
-                "E' un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
+                "È un detenuto come te che smista oggetti illegali nella prigione in cambio di favori",
                 new HashSet<>(
                         Collections.singletonList(
                                 new TokenAdjective(new HashSet<>(Collections.singletonList("Bello"))))),
@@ -102,7 +102,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObject sink = new TokenObject(SINK, "Lavandino",
                 new HashSet<>(Arrays.asList("Lavandino", "Lavello", "Lavabo")),
-                "E' un piccolo lavandino fissato al muro con delle viti arruginite... Ha un aspetto " +
+                "È un piccolo lavandino fissato al muro con delle viti arruginite... Ha un aspetto " +
                         "malandato!",
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Piccolo", "Esiguo", "Minuscolo"))))));
         sink.setUsable(true);
@@ -122,7 +122,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObject bed = new TokenObject(BED, "Letto",
                 new HashSet<>(Arrays.asList("Letto", "Lettino", "Brandina", "Lettuccio")),
-                "E' presente un letto a castello molto scomodo e pieno di polvere!",
+                "È presente un letto a castello molto scomodo e pieno di polvere!",
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Scomodo", "Fastidioso"))),
                         new TokenAdjective(new HashSet<>(Arrays.asList("Polveroso", "Impolverato", "Sporco", "Sudicio"))))));
         bed.setSitable(true);
@@ -132,14 +132,14 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObject table = new TokenObject(TABLE, "Tavolo",
                 new HashSet<>(Arrays.asList("Tavolo", "Tavolino", "Scrivania")),
-                "E' un semplice tavolo in legno, molto piccolo e molto sporco!",
+                "È un semplice tavolo in legno, molto piccolo e molto sporco!",
                 new HashSet<>(Arrays.asList(new TokenAdjective(new HashSet<>(Arrays.asList("Piccolo", "Esiguo", "Minuscolo"))),
                         new TokenAdjective(new HashSet<>(Arrays.asList("Polveroso", "Impolverato", "Sporco", "Sudicio"))))));
         game.getRoom(MAIN_CELL).setObject(table);
 
         TokenObject windowCell = new TokenObject(WINDOW_CELL, "Finestra",
                 new HashSet<>(Arrays.asList("Finestra", "Finestrella")),
-                "E' una piccola finestra sbarrata dalla quale puoi osservare il cortile della prigione! " +
+                "È una piccola finestra sbarrata dalla quale puoi osservare il cortile della prigione! " +
                         "Bel panorama!!!",
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Piccola", "Esigua", "Minuscola"))))));
         game.getRoom(MAIN_CELL).setObject(windowCell);
@@ -165,7 +165,7 @@ public class Objects implements ObjectsInterface, Serializable {
     private void initObjectsInfirmary(GameDescription game) {
         TokenObject cot = new TokenObject(COT, "Lettino",
                 new HashSet<>(Arrays.asList("Lettino", "Letto", "Barella", "Brandina", "Lettuccio")),
-                "E' solo un lettino ospedaliero un po' malandato!",
+                "È solo un lettino ospedaliero un po' malandato!",
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Malandato",
                         "Malconcio", "Sciupato", "Usurato"))))));
         cot.setSitable(true);
@@ -194,7 +194,7 @@ public class Objects implements ObjectsInterface, Serializable {
         TokenObject picture = new TokenObject(PICTURE, "Quadro",
                 new HashSet<>(Arrays.asList("Quadro", "Trump", "Dipinto",
                         "Ritratto", "Foto", "Fotografia")),
-                "E' un quadro che raffigura Trump! Il presidente ha un sorriso smagliante e uno sguardo " +
+                "È un quadro che raffigura Trump! Il presidente ha un sorriso smagliante e uno sguardo " +
                         "felice, perché proprio quel quadro li?");
         picture.setPushable(true);
         game.getRoom(INFIRMARY).setObject(picture);
@@ -226,7 +226,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObjectContainer wardrobe = new TokenObjectContainer(WARDROBE, "Armadio",
                 new HashSet<>(Arrays.asList("Armadio", "Guardaroba", "Armadietto")),
-                "E' un semplice armadio in legno molto antico pieno di camici per infermieri, " +
+                "È un semplice armadio in legno molto antico pieno di camici per infermieri, " +
                         "non noti nulla di particolare.");
         wardrobe.setOpenable(true);
         wardrobe.setOpen(false);
@@ -249,7 +249,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
     private void initObjectsFrontBench(GameDescription game) {
         TokenObject screw = new TokenObject(SCREW, "Vite", new HashSet<>(Arrays.asList("Vite", "Chiodo")),
-                "E' una semplice vite con inciso il numero di serie: 11121147.");
+                "È una semplice vite con inciso il numero di serie: 11121147.");
         screw.setUsable(true);
         game.getRoom(FRONTBENCH).setObject(screw);
         game.getRoom(MAIN_CELL).setObjectsUsableHere(screw);
@@ -290,7 +290,7 @@ public class Objects implements ObjectsInterface, Serializable {
     private void initDoorGarden(GameDescription game) {
         TokenObject door = new TokenObject(DOOR_GARDEN, "Porta d'ingresso",
                 new HashSet<>(Arrays.asList("Porta", "Portone", "Ingresso", "Soglia")),
-                "E' una grande porta che separa giardino e atrio. E' sempre aperta e non puoi chiuderla!",
+                "È una grande porta che separa giardino e atrio. È sempre aperta e non puoi chiuderla!",
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Grande", "Gigante",
                         "Enorme", "Mastodontica", "Voluminosa"))))));
         game.getRoom(GARDEN).setObject(door);
@@ -311,7 +311,7 @@ public class Objects implements ObjectsInterface, Serializable {
         game.getRoom(AIR_DUCT_NORTH).setObject(destroyableGrate);
 
         TokenObject scotch = new TokenObject(SCOTCH, "Scotch", new HashSet<>(Arrays.asList("Scotch", "Nastro")),
-                "E' un semplice scotch, dimenticato li forse da qualche operaio!");
+                "È un semplice scotch, dimenticato li forse da qualche operaio!");
         game.getRoom(AIR_DUCT_WEST).setObject(scotch);
         scotch.setUsable(true);
         scotch.setPickupable(true);
@@ -324,7 +324,7 @@ public class Objects implements ObjectsInterface, Serializable {
         game.getRoom(PASSAGE_SOUTH).setObject(grate);
 
         TokenObject ladder = new TokenObject(LADDER, "Scala", new HashSet<>(Arrays.asList("Scala", "Scaletta")),
-                "E' solo una scala in legno, sembra molto leggera e facile da spostare. " +
+                "È solo una scala in legno, sembra molto leggera e facile da spostare. " +
                         "La scala sembra non portare da nessuna parte!",
                 new HashSet<>(Collections.singleton(new TokenAdjective(new HashSet<>(Arrays.asList("Leggera", "Leggero"))))));
         ladder.setPushable(true);
@@ -355,7 +355,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObject medicine = new TokenObject(MEDICINE, "Farmaco",
                 new HashSet<>(Arrays.asList("Farmaco", "Medicina", "Compresse", "Sciroppo")),
-                "E' un medicinale per alleviare i dolori.");
+                "È un medicinale per alleviare i dolori.");
         game.setObjectNotAssignedRoom(medicine);
         medicine.setPickupable(true);
 
@@ -367,7 +367,7 @@ public class Objects implements ObjectsInterface, Serializable {
 
         TokenObject combination = new TokenObject(COMBINATION, "Combinazione", new HashSet<>(Arrays.asList(
                 "Combinazione", "Password", "Pin")),
-                "Questa e' la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
+                "Questa è la combinazione che ho ricavato utilizzando lo scotch sul tastierino numerico " +
                         "della stanza");
         combination.setUsable(true);
         combination.setInsertable(true);

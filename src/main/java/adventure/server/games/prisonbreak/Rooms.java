@@ -17,32 +17,32 @@ public class Rooms implements RoomsInterface, Serializable {
     public void initRooms(GameDescription game) {
         Room mainCell17 = new Room(MAIN_CELL, "Cella n.ro 17", "Ti trovi nella tua cella 17," +
                 " al momento sei da solo" + " visto che sei l’ultimo arrivato.");
-        mainCell17.setLook("La cella e' poco accogliente... l’unica via di uscita si trova a est," +
-                " al momento aperta visto che e' l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
+        mainCell17.setLook("La cella è poco accogliente... l’unica via di uscita si trova a est," +
+                " al momento aperta visto che è l’ora d’aria e tutti i detenuti devono raggiungere il giardino!");
 
         Room corridorNorth = new Room(CORRIDOR_NORTH, "Corridoio nord",
                 "Ti trovi nel corridoio del carcere che si estende da sud verso nord.");
         corridorNorth.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest le" +
-                " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
+                " altre celle in cui non è possibile entrare poiche' sono chiuse.");
 
         Room corridor = new Room(CORRIDOR, "Corridoio", "Ti trovi nel corridoio del carcere che si" +
                 " estende da sud verso nord.");
         corridor.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest le" +
-                " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
+                " altre celle in cui non è possibile entrare poiche' sono chiuse.");
 
         Room corridorSouth = new Room(CORRIDOR_SOUTH, "Corridoio sud",
                 "Ti trovi nel corridoio del carcere che si estende da sud verso nord.");
         corridorSouth.setLook("Si sentono tanti rumori e urla dei detenuti, a ovest la porta della tua cella aperta e" +
-                " altre celle in cui non e' possibile entrare poiche' sono chiuse.");
+                " altre celle in cui non è possibile entrare poiche' sono chiuse.");
 
         Room ladders = new Room(LADDERS, "Scalinata", "Ti trovi presso una scalinata, l’unica cosa" +
-                " che puoi fare e' andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
+                " che puoi fare è andare al piano di sotto oppure andare verso sud percorrendo il corridoio.");
         ladders.setLook("Puoi vedere i detenuti che si dirigono verso il giardino. Puoi scendere a est oppure camminare" +
                 " nel corridoio a sud!");
 
         Room lobby = new Room(LOBBY, "Atrio", "Ti trovi in un grosso atrio di ingresso dove puoi " +
                 "intravedere a est il giardino.");
-        lobby.setLook("Il luogo e' affollato di guardie che controllano la situazione. Puoi salire tramite " +
+        lobby.setLook("Il luogo è affollato di guardie che controllano la situazione. Puoi salire tramite " +
                 "la scalinata al piano superiore oppure andare nel giardino a est. L’atrio si estende ancora " +
                 "verso sud.");
 
@@ -67,8 +67,8 @@ public class Rooms implements RoomsInterface, Serializable {
 
         Room wall = new Room(WALL, "Muro prigione", "Avvicinandoti alle mura le guardie ti danno " +
                 "l’ordine di indietreggiare: rappresenti un potenziale pericolo. Non penso sia un’idea geniale " +
-                "fuggire da qui, la zona e' troppo controllata.");
-        wall.setLook("Non c'e' nulla di particolare tranne che un grosso muro in mattoni! Vai a ovest per tornare " +
+                "fuggire da qui, la zona è troppo controllata.");
+        wall.setLook("Non c'è nulla di particolare tranne che un grosso muro in mattoni! Vai a ovest per tornare " +
                 "indietro!");
 
         Room bench = new Room(BENCH, "Panchine", "Tutte le panchine sono occupati da un gruppo " +
@@ -76,7 +76,7 @@ public class Rooms implements RoomsInterface, Serializable {
         bench.setLook("Non noti nulla di particolare in loro e nelle panchine, tranne in una panchina, dove a terra " +
                 "puoi notare un oggetto di metallo simile ad una vite. Vai a nord per tornare indietro!");
 
-        Room infirmary = new Room(INFIRMARY, "Infermeria", "E' una classica infermeria e ti trovi" +
+        Room infirmary = new Room(INFIRMARY, "Infermeria", "È una classica infermeria e ti trovi" +
                 " sdraiato sul tuo letto. Decidi di alzarti senza far rumore!");
         infirmary.setLook("Sembra non esserci nessuno oltre a te nella stanza, riesci solo ad udire delle " +
                 "voci nel corridoio. A nord vedi una finestra che si affaccia sul cortile.");
@@ -95,9 +95,9 @@ public class Rooms implements RoomsInterface, Serializable {
                 "che sia troppo tardi!");
 
         Room passageNorth = new Room(PASSAGE_NORTH, "Passaggio segreto Nord",
-                "Sembra che sei arrivato gia' in un vicolo cieco, vedi solo un enorme soffitto " +
+                "Sembra che sei arrivato già in un vicolo cieco, vedi solo un enorme soffitto " +
                         "e una piccola grata posta in alto!");
-        passageNorth.setLook("Non c'e' nient'altro di particolare. Vai a sud per poter tornare indietro!");
+        passageNorth.setLook("Non c'è nient'altro di particolare. Vai a sud per poter tornare indietro!");
 
         Room generator = new Room(GENERATOR, "Stanza con generatore", "Sembra che il passaggio" +
                 " finisca qui, sei in una piccola stanza tutta buia.");
@@ -138,20 +138,20 @@ public class Rooms implements RoomsInterface, Serializable {
                 " che lui possiede.");
 
         Room gym = new Room(GYM, "Palestra", "Ti trovi nella palestra del carcere, " +
-                "e' molto grande e non e' tenuta in ottimo stato, alcuni detenuti si stanno allenando.");
+                "è molto grande e non è tenuta in ottimo stato, alcuni detenuti si stanno allenando.");
         gym.setLook("Intorno a te vedi tanti attrezzi per poterti allenare e aumentare la tua forza.");
 
         Room outIsolation = new Room(OUT_ISOLATION, "Fuori cella isolamento",
-                "Sei di fronte all'entrata dell'isolamento dove e' collocata la cella di tuo fratello. " +
-                        "Essendo in un carcere di massima sicurezza, la porta e' controllata da un paio di guardie.");
+                "Sei di fronte all'entrata dell'isolamento dove è collocata la cella di tuo fratello. " +
+                        "Essendo in un carcere di massima sicurezza, la porta è controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
                 "puo' essere aperta solo tramite un PIN segreto. La porta è situata a est a ovest invece una cella" +
                 " di un altro detenuto!");
 
         Room doorIsolation = new Room(DOOR_ISOLATION, "Porta isolamento",
-                "Sei di fronte ad una porta blindata che come gia' ti sembrava e' possibile " +
+                "Sei di fronte ad una porta blindata che come già ti sembrava è possibile " +
                         "aprire tramite un PIN segreto.");
-        doorIsolation.setLook("Il pin e' conosciuto solo dalle guardie e quindi ti e' impossibile reperirlo!" +
+        doorIsolation.setLook("Il pin è conosciuto solo dalle guardie e quindi ti è impossibile reperirlo!" +
                 " A meno che non vuoi iniziare a sparare numeri a caso devi trovare assolutamente un’altra soluzione" +
                 " prima che le luci si accendano e le guardie tornino!");
         doorIsolation.setLocked(true);
@@ -168,16 +168,16 @@ public class Rooms implements RoomsInterface, Serializable {
         isolationCorridorNorth.setLook("Non noti nient’altro di particolare!");
 
         Room isolationCorridorNorthNorth = new Room(ISOLATION_CORRIDOR_NORTH_NORTH, "Corridoio nord isolamento",
-                "La speranza e' l’ultima a morire ma penso proprio che tuo fratello non si trovi in questo" +
+                "La speranza è l’ultima a morire ma penso proprio che tuo fratello non si trovi in questo" +
                         " corridoio! ");
         isolationCorridorNorthNorth
-                .setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
+                .setLook("Puoi solo osservare altre celle di detenuti in cui non è possibile entrare.");
 
         Room isolationCorridorNorthNorthNorth = new Room(ISOLATION_CORRIDOR_NORTH_NORTH_NORTH,
                 "Corridoio nord isolamento", "Il corridoio termina" +
                 " con una grossa parete di fronte e te, hai visto tutte le celle ma di tuo fratello nemmeno l’ombra, " +
                 "te l’avevo detto io!!!");
-        isolationCorridorNorthNorthNorth.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
+        isolationCorridorNorthNorthNorth.setLook("Non c'è nulla, puoi solo ritornare indietro!!!");
 
         Room isolationCorridorEast = new Room(ISOLATION_CORRIDOR_EAST, "Corridoio est isolamento",
                 "Prosegui nel corridoio a est, ci sono tante celle chiuse di prigionieri in isolamento. " +
@@ -185,16 +185,16 @@ public class Rooms implements RoomsInterface, Serializable {
         isolationCorridorEast.setLook("Non noti nient’altro di particolare!");
 
         Room isolationCorridorEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST, "Corridoio est isolamento",
-                "La speranza e' l’ultima a morire ma penso proprio che tuo fratello non si trovi " +
+                "La speranza è l’ultima a morire ma penso proprio che tuo fratello non si trovi " +
                         "in questo corridoio! ");
         isolationCorridorEastEast
-                .setLook("Puoi solo osservare altre celle di detenuti in cui non e' possibile entrare.");
+                .setLook("Puoi solo osservare altre celle di detenuti in cui non è possibile entrare.");
 
         Room isolationCorridorEastEastEast = new Room(ISOLATION_CORRIDOR_EAST_EAST_EAST,
                 "Corridoio est isolamento",
                 "Il corridoio termina con una grossa parete di fronte e te, hai visto tutte le celle, " +
                         "ma di tuo fratello nemmeno l’ombra, te l’avevo detto io!!!");
-        isolationCorridorEastEastEast.setLook("Non c'e' nulla, puoi solo ritornare indietro!!!");
+        isolationCorridorEastEastEast.setLook("Non c'è nulla, puoi solo ritornare indietro!!!");
 
         Room isolationCorridorSouth = new Room(ISOLATION_CORRIDOR_SOUTH, "Corridoio sud isolamento",
                 "Prosegui nel corridoio a sud, ci sono tante celle chiuse di prigionieri in isolamento." +
@@ -204,7 +204,7 @@ public class Rooms implements RoomsInterface, Serializable {
         Room isolationCorridorSouthSouth = new Room(ISOLATION_CORRIDOR_SOUTH_SOUTH, "Corridoio sud isolamento",
                 "Il mormorio si fa sempre piu' forte ma non hai ancora trovato la cella di tuo fratello.");
         isolationCorridorSouthSouth
-                .setLook("Puoi osservare le celle degli altri prigionieri in cui non e' possibile entrare!");
+                .setLook("Puoi osservare le celle degli altri prigionieri in cui non è possibile entrare!");
 
         Room isolationCorridorSouthSouthSouth = new Room(ISOLATION_CORRIDOR_SOUTH_SOUTH_SOUTH,
                 "Corridoio sud isolamento", "Il corridoio termina con " +
@@ -213,7 +213,7 @@ public class Rooms implements RoomsInterface, Serializable {
                 .setLook("Avvicinandoti a questa senti la voce di tuo fratello, hai trovato la sua cella!!!");
 
         Room brotherCell = new Room(BROTHER_CELL, "Cella fratello",
-                "Sei vicino alla cella di tuo fratello, l’aspetto della cella e' ripugnante.");
+                "Sei vicino alla cella di tuo fratello, l’aspetto della cella è ripugnante.");
         brotherCell.setLook("Di fronte a te, attraverso le sbarre, c'è tuo fratello con un’aria contenta di vederti," +
                 " ma allo stesso tempo sorpresa! Parla con lui e spiegali tutto il piano!");
 
@@ -222,7 +222,7 @@ public class Rooms implements RoomsInterface, Serializable {
                 " sul muro riuscite a scavalcare con molta attenzione il filo spinato presente. Fate tutti un grande" +
                 " salto fuori dalla prigione e scappate per 100 metri verso nord. Li trovate ad aspettarvi un " +
                 "elicottero guidato da vostro padre, che sapeva tutto del vostro piano segreto e l’ora esatta in cui " +
-                "dovevate attuarlo! Salite tutti sull’elicottero e' fuggite tutti insieme verso il Messico cosicché" +
+                "dovevate attuarlo! Salite tutti sull’elicottero è fuggite tutti insieme verso il Messico cosicché" +
                 " nessuno potrà piu' ritrovarvi!\n\n" +
                 "COMPLIMENTI HAI VINTO!");
         endGame.setLook("");
@@ -230,7 +230,7 @@ public class Rooms implements RoomsInterface, Serializable {
 
         Room frontBench = new Room(FRONTBENCH, "Di fronte alle panchine",
                 "Ti avvicini alla panchina, ma vieni subito fermato da un gruppo di neri che con aria" +
-                        " minacciosa ti chiedono di allontanarti perche' la panchina e' la loro. Cosa scegli di fare?");
+                        " minacciosa ti chiedono di allontanarti perche' la panchina è la loro. Cosa scegli di fare?");
         frontBench.setLook("Vedi il gruppo di neri che ti fissa aspettando una tua mossa, non credo sia l’idea " +
                 "migliore restare lì impalato. Scegli se affrontarli oppure scappare!!!");
 
@@ -239,27 +239,27 @@ public class Rooms implements RoomsInterface, Serializable {
                         "Meglio non svegliarlo. Shhhhhhh!");
         grateCell.setLook("Meglio non perdere tempo qui! Vai a ovest per tornare indietro!");
 
-        Room cell18 = new Room(OTHER_CELL, "Cella n.ro 18", "La cella e' controllata da un " +
+        Room cell18 = new Room(OTHER_CELL, "Cella n.ro 18", "La cella è controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         cell18.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nel corridoio del carcere!");
 
-        Room cell19 = new Room(OTHER_CELL, "Cella n.ro 19", "La cella e' controllata da un " +
+        Room cell19 = new Room(OTHER_CELL, "Cella n.ro 19", "La cella è controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         cell19.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nel corridoio del carcere!");
 
-        Room cell20 = new Room(OTHER_CELL, "Cella n.ro 20", "La cella e' controllata da un " +
+        Room cell20 = new Room(OTHER_CELL, "Cella n.ro 20", "La cella è controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         cell20.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");
 
-        Room cell21 = new Room(OTHER_CELL, "Cella n.ro 21", "La cella e' controllata da un " +
+        Room cell21 = new Room(OTHER_CELL, "Cella n.ro 21", "La cella è controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         cell21.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");
 
-        Room cell22 = new Room(OTHER_CELL, "Cella n.ro 22", "La cella e' controllata da un " +
+        Room cell22 = new Room(OTHER_CELL, "Cella n.ro 22", "La cella è controllata da un " +
                 "poliziotto e poi non mi sembra il caso di intrufolarsi in una cella di un detenuto. Rischieresti " +
                 "di mandare a rotoli il piano!!!");
         cell22.setLook("Meglio non perdere tempo qui! Vai a nord o a sud per proseguire nell'atrio del carcere!");

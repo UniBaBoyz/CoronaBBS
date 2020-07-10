@@ -56,7 +56,7 @@ public class ManageSignUp {
                 switch (response) {
                     case INVALID_PASSWORD:
                         JOptionPane.showMessageDialog(view, "La Password non è valida,\n" +
-                                        "La password deve rispettare le seguenti proprieta':\n" +
+                                        "La password deve rispettare le seguenti proprietà:\n" +
                                         "- Contenere almeno un carattere maiuscolo\n" +
                                         "- Contenere almeno un carattere maiuscolo\n" +
                                         "- Contenere almeno un numero\n" +
@@ -64,11 +64,11 @@ public class ManageSignUp {
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case EXISTING_USERNAME:
-                        JOptionPane.showMessageDialog(view, "Il nome utente e' stato gia' preso",
+                        JOptionPane.showMessageDialog(view, "Il nome utente è stato già preso",
                                 "Errore", JOptionPane.ERROR_MESSAGE);
                         break;
                     case CORRECT_REGISTRATION:
-                        JOptionPane.showMessageDialog(view, "L'iscrizione e' avvenuta con successo!",
+                        JOptionPane.showMessageDialog(view, "L'iscrizione è avvenuta con successo!",
                                 "Registrazione", JOptionPane.INFORMATION_MESSAGE);
                         disposeWindow();
                         break;

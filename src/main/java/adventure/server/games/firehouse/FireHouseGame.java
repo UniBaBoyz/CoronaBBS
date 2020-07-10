@@ -115,13 +115,13 @@ public class FireHouseGame extends GameDescription {
         } catch (NotAccessibleRoomException e) {
             response.append("Non si può entrare qui\n");
         } catch (InventoryFullException e) {
-            response.append("Il tuo inventario e' pieno\n");
+            response.append("Il tuo inventario è pieno\n");
         } catch (InventoryEmptyException e) {
-            response.append("Mi sono sbagliato, il tuo inventario e' vuoto\n");
+            response.append("Mi sono sbagliato, il tuo inventario è vuoto\n");
         } catch (ObjectException e) {
             response.append("Mi dispiace ma non capisco\n");
         } catch (Exception e) {
-            response.append("E' successo qualcosa di spiacevole\n");
+            response.append("È successo qualcosa di spiacevole\n");
         }
 
         return response.toString();

@@ -438,7 +438,7 @@ class AdvancedVerbs implements Serializable {
                     "sarebbe veramente stupido) e vanno via con un'aria di vendetta.\nOra sei solo vicino" +
                     " alla panchina.");
             game.getCurrentRoom().setDescription("Sei solo vicino alla panchina!");
-            game.getCurrentRoom().setLook("E' una grossa panchina in legno un po' malandata, " +
+            game.getCurrentRoom().setLook("È una grossa panchina in legno un po' malandata, " +
                     "ci sei solo tu nelle vicinanze.");
             game.getRoom(BENCH).setDescription("Dopo aver usato il bisturi, il giardino si è svuotato, ci sei " +
                     "solo tu qui.");
