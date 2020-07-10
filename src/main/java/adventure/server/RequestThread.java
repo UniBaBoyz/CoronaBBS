@@ -30,13 +30,13 @@ import static adventure.utils.Utils.*;
 public class RequestThread extends Thread {
     private final Socket socket;
     private final Connection connectionDb;
-    BufferedReader in; // Used to communicate with the client
-    PrintWriter out; // Used to communicate with the client
-    boolean exit = false;
+    private BufferedReader in; // Used to communicate with the client
+    private PrintWriter out; // Used to communicate with the client
     private GameDescription game = null;
+    private int gameType;
     private Parser parser;
     private String username;
-    private int gameType;
+    boolean exit = false;
 
     public RequestThread(Socket socket, Connection connDb) {
         this.socket = socket;
