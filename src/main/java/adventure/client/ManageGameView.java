@@ -107,6 +107,8 @@ public class ManageGameView {
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (inputSave == JOptionPane.YES_OPTION) {
                 out.println(SAVE_GAME);
+            } else {
+                out.println(NO_SAVE_GAME);
             }
             disposeWindow();
         } else {

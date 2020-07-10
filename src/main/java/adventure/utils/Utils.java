@@ -25,6 +25,7 @@ public class Utils {
     public final static String FIRE_HOUSE = "#FIRE_HOUSE";
     public final static String EXIT = "#EXIT";
     public final static String SAVE_GAME = "̄#SAVE_GAME";
+    public final static String NO_SAVE_GAME = "#NO_SAVE_GAME";
     public final static String EXISTING_GAME = "#EXISTING_GAME";
     public final static String YES_CREATE = "#YES_CREATE";
     public final static String NO_CREATE = "#NO_CREATE";
