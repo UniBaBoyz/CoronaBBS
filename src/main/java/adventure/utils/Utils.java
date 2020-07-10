@@ -7,7 +7,9 @@ public class Utils {
     public final static String DATABASE_PATH = "jdbc:h2:./database/coronaDB";
     public final static String SEPARATOR_CHARACTER_STRING = ";";
     public final static String SEPARATOR_CHARACTER_DATE = "-";
+    public final static String USERNAME_REGEX = "^.{4,30}$";
     public final static String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,40}$";
+    public final static String RESIDENCE_REGEX = "^[a-zA-z]{2,50}$";
     public final static String REGISTRATION = "#REGISTRATION";
     public final static String CORRECT_REGISTRATION = "#OK_REGISTRATION";
     public final static String LOGIN = "#LOGIN";
