@@ -39,7 +39,7 @@ public class ServerMainClass {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
+            conn = DriverManager.getConnection("jdbc:h2:./database/coronaDB");
             createUser = conn.createStatement();
             createUser.executeUpdate(USER);
             createUser.close();

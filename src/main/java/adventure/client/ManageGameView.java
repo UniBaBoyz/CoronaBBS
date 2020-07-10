@@ -76,7 +76,6 @@ public class ManageGameView {
         view.setJButtonWest("Ovest");
         view.getJButtonWest().setToolTipText("Clicca qui per andare ad Ovest");
         view.setJLabelScore("Score");
-        view.getJToutputArea().setToolTipText("Qui apparirà la storia");
         view.getJTextAreaScore().setToolTipText("Qui c'è il tuo punteggio attuale");
     }
 

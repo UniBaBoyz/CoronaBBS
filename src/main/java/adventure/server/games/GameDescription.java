@@ -39,7 +39,7 @@ public abstract class GameDescription implements Serializable {
     }
 
     public static GameDescription loadGame(String username, int gameType) throws IOException, ClassNotFoundException, SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
+        conn = DriverManager.getConnection("jdbc:h2:./database/coronaDB");
         GameDescription game = null;
         PreparedStatement preparedStatement;
         ResultSet result;
@@ -66,7 +66,7 @@ public abstract class GameDescription implements Serializable {
     }
 
     public static boolean existingGame(String username, int gameType) throws SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
+        conn = DriverManager.getConnection("jdbc:h2:./database/coronaDB");
         String findGame = "select * from game natural join user_game where username = ? and game_type = ?";
         PreparedStatement findExistingGame;
         ResultSet existingGame;
@@ -270,7 +270,7 @@ public abstract class GameDescription implements Serializable {
     }
 
     private void connect() throws SQLException {
-        conn = DriverManager.getConnection("jdbc:h2:./database/prisonBreak");
+        conn = DriverManager.getConnection("jdbc:h2:./database/coronaDB");
     }
 
     public void saveGame(String username, int gameType) throws SQLException, IOException {
