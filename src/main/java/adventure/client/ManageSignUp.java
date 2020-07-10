@@ -55,7 +55,7 @@ public class ManageSignUp {
             if (response != null) {
                 switch (response) {
                     case INVALID_PASSWORD:
-                        JOptionPane.showMessageDialog(view, "La Password non e' valida,\n" +
+                        JOptionPane.showMessageDialog(view, "La Password non è valida,\n" +
                                         "La password deve rispettare le seguenti proprieta':\n" +
                                         "- Contenere almeno un carattere maiuscolo\n" +
                                         "- Contenere almeno un carattere maiuscolo\n" +

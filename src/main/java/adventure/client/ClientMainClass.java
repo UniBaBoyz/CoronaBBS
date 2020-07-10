@@ -7,6 +7,7 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author Corona-Extra
@@ -33,8 +34,9 @@ public class ClientMainClass {
             PrintWriter out;
 
             if (socket != null) {
-                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+                out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(),
+                        StandardCharsets.UTF_8)),
                         true);
             } else {
                 throw new IOException();
