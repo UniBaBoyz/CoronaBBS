@@ -6,7 +6,7 @@ La struttura della repository si presenta nel seguente modo:
 |    |-- workflows
 |    |      |-- maven.yml
 |-- database
-|    |-- coronaDB.db
+|    |-- coronaDB.mv.db
 |–– doc
 |    |–– Documentazione.md
 |    |-- img
