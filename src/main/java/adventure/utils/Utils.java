@@ -4,6 +4,7 @@ package adventure.utils;
  * @author Corona-Extra
  */
 public class Utils {
+    public final static String DATABASE_PATH = "jdbc:h2:./database/coronaDB";
     public final static String SEPARATOR_CHARACTER_STRING = ";";
     public final static String SEPARATOR_CHARACTER_DATE = "-";
     public final static String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,40}$";

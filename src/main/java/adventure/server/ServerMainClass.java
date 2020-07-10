@@ -8,6 +8,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import static adventure.utils.Utils.DATABASE_PATH;
+
 /**
  * @author Corona-Extra
  */
@@ -39,7 +41,7 @@ public class ServerMainClass {
         }
 
         try {
-            conn = DriverManager.getConnection("jdbc:h2:./database/coronaDB");
+            conn = DriverManager.getConnection(DATABASE_PATH);
             createUser = conn.createStatement();
             createUser.executeUpdate(USER);
             createUser.close();
