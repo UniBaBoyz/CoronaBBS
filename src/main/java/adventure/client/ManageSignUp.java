@@ -165,6 +165,14 @@ public class ManageSignUp {
                     Integer.parseInt(view.getJComboBoxMonth().getItemAt(view.getJComboBoxMonth().getSelectedIndex())),
                     Integer.parseInt(view.getJComboBoxYear().getItemAt(view.getJComboBoxYear().getSelectedIndex())))) {
                 JOptionPane.showMessageDialog(view, "La data non è valida", "Errore", JOptionPane.ERROR_MESSAGE);
+            } else if (!view.getJTUsernameField().getText().matches(USERNAME_REGEX)) {
+                JOptionPane.showMessageDialog(view, "Il nome utente non è valido\n" +
+                                "Il nome utente deve contenere minimo 4 caratteri e massimo 30",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            } else if (!view.getJTResidenceField().getText().matches(RESIDENCE_REGEX)) {
+                JOptionPane.showMessageDialog(view, "La residenza non è valida\n" +
+                        "La residenza deve contenere minimo 2 e massimo 50 e non può contenere numeri",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
             } else {
                 out.println(REGISTRATION);
                 out.println(createResponse());

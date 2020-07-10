@@ -61,6 +61,15 @@ Se l'utente inserisce un username che è già stato preso, allora il client most
 
 ![Registration User Wrong](img/RegistrationErrorUserWrong.png)
 
+Se l'utente inserisce un username che contiene meno di 4 caratteri o più di 30 caratteri allora l'username
+allora il client mostrerà la seguente schermata:
+
+![Registration Username Wrong](img/RegistrationErrorUsernameWrong.png)
+
+Se la residenza inserita non è compresa tra 2 e 50 caratteri e contiene almeno una cifra, allora apparirà il seguente messaggio di errore:
+
+![Registration Residence Wrong](img/RegistrationErrorResidenceWrong.png)
+
 Anche in questo caso l'utente potrà premere la `X` che mostrerà una finestra per confermare l'uscita dalla registrazione, in caso positivo verrà mostrata di nuovo la schermata di Login
 
 ![Registration Exit](img/RegistrationExit.png)
