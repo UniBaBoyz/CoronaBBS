@@ -334,7 +334,7 @@ public class Objects implements ObjectsInterface, Serializable {
     private void initObjectsCorridor(GameDescription game) {
         TokenObject railing = new TokenObject(RAILING, "Ringhiera",
                 new HashSet<>(Arrays.asList("Ringhiera", "Scorrimano")),
-                "Sei troppo giovane per camminare appoggiato ad una ringhiera e troppo giovane " +
+                "Sei troppo vecchio per camminare appoggiato ad una ringhiera e troppo giovane " +
                         "per buttarti, ti prego non farlo!!!");
         game.getRoom(CORRIDOR_NORTH).setObject(railing);
         game.getRoom(CORRIDOR).setObject(railing);

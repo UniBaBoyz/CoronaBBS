@@ -145,7 +145,7 @@ public class Rooms implements RoomsInterface, Serializable {
                 "Sei di fronte all'entrata dell'isolamento dove è collocata la cella di tuo fratello. " +
                         "Essendo in un carcere di massima sicurezza, la porta è controllata da un paio di guardie.");
         outIsolation.setLook("Puoi notare da lontano che non si tratta di una semplice porta ma di una porta che " +
-                "puo' essere aperta solo tramite un PIN segreto. La porta è situata a est a ovest invece una cella" +
+                "puo' essere aperta solo tramite un PIN segreto. La porta è situata a est. A ovest invece c'è una cella" +
                 " di un altro detenuto!");
 
         Room doorIsolation = new Room(DOOR_ISOLATION, "Porta isolamento",
