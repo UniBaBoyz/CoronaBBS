@@ -163,7 +163,7 @@ class AdvancedVerbs implements Serializable {
         } else if (game.getCurrentRoom().getId() == ON_LADDER) {
             game.setCurrentRoom(game.getCurrentRoom().getNorth());
             movement.setMove(true);
-        } else if (game.getCurrentRoom().getId() == DOOR_ISOLATION) {
+        } else if (game.getCurrentRoom().getId() == DOOR_ISOLATION && game.getObject(COMBINATION).isUsed()) {
             game.setCurrentRoom(game.getCurrentRoom().getEast());
             movement.setMove(true);
         } else {

@@ -161,7 +161,8 @@ public class RequestThread extends Thread {
                         communicateWithTheClient(command);
                     } else {
                         if (in.readLine().equals(OK_EXIT)) {
-                            if (in.readLine().equals(SAVE_GAME)) {
+                            command = in.readLine();
+                            if (command.equals(SAVE_GAME)) {
                                 saveGame();
                             }
                             out.println("Addio!");
