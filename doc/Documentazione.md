@@ -112,7 +112,7 @@ Per una corretta modulazione del sistema sono stati creati diversi package:
 
 ### 4.1 Architettura Client/Server
 
-Abbiamo deciso di sviluppare la nostra applicazione con architettura Client/Server in modo da mettere a disposizione il servizio CoronaBBS su rete, nel nostro caso, il Server ha la responsabilità della logica di gestione dei dati (i dati sono salvati su un database) e della logica applicativa, infatti è il server che gestisce le varie operazioni che il client vuole fare. Il client ha la responsabilità della logica di presentazione; infatti il client nel nostro sistema ha il compito di mostrare le diverse finestre e inviare messaggi al server per la gestione delle risposte.
+Abbiamo deciso di sviluppare la nostra applicazione con architettura Client/Server in modo da mettere a disposizione il servizio CoronaBBS su rete. Nel nostro caso, il Server ha la responsabilità della logica di gestione dei dati (i dati sono salvati su un database) e della logica applicativa; infatti è il server che gestisce le varie operazioni che il client vuole fare. Il client ha la responsabilità della logica di presentazione; infatti il client nel nostro sistema ha il compito di mostrare le diverse finestre e inviare messaggi al server per la gestione delle risposte.
 
 Abbiamo deciso di dividere in questo modo le responsabilità tra Client e Server in quanto la gestione dei messaggi non richiede molta banda. Inoltre il Client può essere eseguito anche su computer datati in quanto non ha responsabilità sulla logica applicativa.
 
@@ -127,7 +127,7 @@ Abbiamo deciso di utilizzare il database in modo da non essere legati agli svant
 
 ### 4.3 GameDescription e nextMove()
 
-Abbiamo deciso di utilizzare la classe GameDescription in modo da rendere tutti i giochi simili, infatti tutti i giochi devono implementare il metodo *nextMove()* che prende in input una tripla Verbo - Oggetto - Aggettivo e in base a questo capisce che operazione dovrà fare, il metodo *nextMove()* restituisce una stringa relativa al comando, è stato fatto questo in modo da rendere il *nextMove()* indipendente dal Client su cui verrà mostrato il messaggio.
+Abbiamo deciso di utilizzare la classe GameDescription in modo da rendere tutti i giochi simili, infatti tutti i giochi devono implementare il metodo *nextMove()* che prende in input una tripla, Verbo - Oggetto - Aggettivo, e in base a questo, il sistema comprende quale operazione dovrà effettuare. Il metodo *nextMove()* restituisce una stringa relativa al comando in modo tale da rendere il metodo indipendente dal Client su cui verrà mostrato il messaggio.
 
 ## 5 Manuale Utente
 
