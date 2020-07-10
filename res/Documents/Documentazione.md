@@ -27,16 +27,16 @@ L'applicazione è stata realizzata dal gruppo di lavoro **Corona-Extra** compost
 
 ## 1. Introduzione
 
-L'applicazione CoronaBBS si basa su un modello di sistema BBS (Bulletin Board System). Esso consente di iniziare una partita ad uno due giochi:
+L'applicazione CoronaBBS si basa su un modello di sistema BBS (Bulletin Board System). Esso consente di iniziare una partita ad uno dei due giochi:
 
-- Fire House;
-- Prison Break.
+- Prison Break;
+- Fire House.
 
 Entrambi sono giochi d'avventura testuali giocabili tramite interfaccia grafica basata su Java e avviabile su terminali Windows, Linux e Mac OS.
 L'applicazione utilizza un'architettura client/server.
 Per poter giocare ad uno dei due giochi, è obbligatorio registrarsi e effettuare, successivamente, il login. Dopodichè, il sistema offre la possibilità di iniziare una nuova partita o caricarne una già salvata sul database memorizzato sul server.
 Il server contiene un database, il quale memorizza le credenziali di ogni utente e le partite salvate di ognuno dei giochi disponibili, associate ad ogni utente.
-Ogni client ha la possibilità di memorizzare 1 partita per gioco disponibile: se è già presente una partita salvata, il sistema mostra un messaggio di errore, il quale avvisa che la partita già salvata potrà essere sovrascritta dalla partita attuale.
+Ogni client ha la possibilità di memorizzare una partita per gioco disponibile: se è già presente una partita salvata, il sistema mostra un messaggio di errore, il quale avvisa che la partita già salvata potrà essere sovrascritta dalla partita attuale.
 L'applicazione è estendibile attraverso l'inserimento di nuovi giochi da offrire all'utente.
 
 ## 2. Requisiti
@@ -48,7 +48,7 @@ ID     | TITOLO | DESCRIZIONE
 `RF1`  | Registrarsi |  L'utente deve essere in grado di registrarsi inserendo username, password, data di nascita e residenza
 `RF2`  | Accedere  |  L'utente deve essere in grado di accedere al sistema inserendo username e password corretti
 `RF3`  | Avviare un gioco disponibile | L'utente deve essere in grado di scegliere uno tra i giochi disponibili sul server e avviarlo
-`RF4`  | Caricare una partita già esistente | L'utente deve essere in grado di caricare una partita già esistente sul database
+`RF4`  | Caricare una partita già esistente | L'utente deve essere in grado di caricare una partita già esistente nel database
 `RF5`  | Salvare una partita |  L'utente deve essere in grado, in qualunque punto della partita, di salvare una partita quando desidera chiudere il gioco
 `RF6`  | Sovrascrivere una partita già esistente | L'utente deve essere in grado di sovrascrivere una partita già esistente sul database
 `RF8`  | Aprire l'inventario | L'utente deve essere in grado di guardare quali oggetti sono presenti nell'inventario
@@ -78,8 +78,7 @@ ID     | TITOLO | DESCRIZIONE
 | `RNF11` | Scalabilità | Il programma prevede l'esecuzione da parte di più utenti contemporaneamente |
 | `RNF12` | Sicurezza | Il sistema gestisce informazioni riservate e le memorizza in maniera cryptata, in un database |
 | `RNF13` | Robustezza | Il programma è capace di gestire le situazioni in cui si manifestano errori o eccezioni dovuti a mosse e/o comandi non validi |
-| `RNF14` | Usabilità | Il sistema, durante la partita, accetta frasi in lingua italiana |
-| `RNF15` | Utilizzo | ![pegi16](../Img/pegi-16.png)|
+| `RNF14` | Utilizzo | ![pegi16](../Img/pegi-16.png)|
 
 ### 3 Divisione In Package e Classi Implementate
 
@@ -91,7 +90,7 @@ Per una corretta modulazione del sistema sono stati creati diversi package:
   - GameView e ManagageGameView, le quali si occupano della gestione dell'interfaccia con l'utente riguardante i comandi dell'avventura testuale durante il gioco;
   - Login e ManageLogin, le quali si occupano della gestione dell'interfaccia con l'utente riguardante il login iniziale per accedere ad uno dei giochi presenti nel database presente sul server;
   - SignUp e ManageSignUp, le quali si occupano della gestione dell'interfaccia con l'utente riguardante la registrazione sul database, memorizzato sul server, necessaria al successivo login;
-    - GameChooserView e ManageGameChooser, le quali si occupano della gestione dell'interfaccia con l'utente riguardante la scelta del gioco da avviare tra quelli presenti nel database.
+  - GameChooserView e ManageGameChooser, le quali si occupano della gestione dell'interfaccia con l'utente riguardante la scelta del gioco da avviare tra quelli presenti nel database.
 
 - Il package *exceptions* contiene le varie eccezioni che potrebbero essere chiamate durante il gioco, tra cui:
   - InputExceptions, le quali sono eccezioni chiamate con la comparsa di errori di tipo lessicali, sintattici o di altro tipo riguardante l'input inviato dall'utente;
