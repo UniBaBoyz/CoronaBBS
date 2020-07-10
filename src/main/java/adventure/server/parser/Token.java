@@ -8,8 +8,8 @@ import java.util.Set;
  * @author Corona-Extra
  */
 public class Token implements Serializable {
-    private TokenType type;
-    private Set<String> alias = new HashSet<>();
+    private final TokenType type;
+    private final Set<String> alias = new HashSet<>();
 
     public Token(TokenType type) {
         this.type = type;
